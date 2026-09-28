@@ -1,0 +1,8 @@
+The following packages should be updated for best compatibility with the installed expo version:
+  expo@57.0.24 - expected version: ~57.0.25
+  expo-linking@57.0.10 - expected version: ~57.0.11
+  expo-router@57.0.22 - expected version: ~57.0.23
+Your project may not work correctly until you install the expected versions of the packages.
+› Installing 3 SDK 57.0.0 compatible native modules using npm
+> npm install
+Stopped compatible patch installation after repeated official npm registry ECONNRESET responses; restored package.json Expo range to match unchanged lockfile and installed 57.0.24. No partial upgrade retained.

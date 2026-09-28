@@ -1,0 +1,17 @@
+Picked up JAVA_TOOL_OPTIONS: -Djdk.net.unixdomain.tmpdir=D:/Files/EDUCATION/NammaCrew/.tools/java-sockets
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] ------------------------< in.nammacrew:backend >------------------------
+[INFO] Building NammaCrew 0.1.0-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- spotless:2.44.3:apply (default-cli) @ backend ---
+[INFO] clean file: D:\Files\EDUCATION\NammaCrew\backend\src\test\java\in\nammacrew\FoundationIT.java
+[INFO] Spotless.Java is keeping 10 files clean - 1 were changed to be clean, 0 were already clean, 9 were skipped because caching determined they were already clean
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  11.272 s
+[INFO] Finished at: 2026-09-28T15:32:53+05:30
+[INFO] ------------------------------------------------------------------------

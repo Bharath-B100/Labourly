@@ -1,0 +1,16 @@
+WARNING: The SDK Manager CLI tool (sdkmanager) is deprecated. Use Android CLI instead.
+The 'android' binary can also be found in the cmdline-tools directory, and 'android sdk' is the replacement for 'sdkmanager'.
+To learn more about the Android CLI and how to use it, see the documentation (https://d.android.com/tools/agents/android-cli)
+
+Installed packages:
+  Path                                                    | Version | Description                                    | Location                                               
+  -------                                                 | ------- | -------                                        | -------                                                
+  build-tools;35.0.0                                      | 35.0.0  | Android SDK Build-Tools 35                     | build-tools\35.0.0                                     
+  build-tools;36.1.0                                      | 36.1.0  | Android SDK Build-Tools 36.1                   | build-tools\36.1.0                                     
+  emulator                                                | 36.2.12 | Android Emulator                               | emulator                                               
+  extras;google;Android_Emulator_Hypervisor_Driver        | 2.2.0   | Android Emulator hypervisor driver (installer) | extras\google\Android_Emulator_Hypervisor_Driver       
+  platform-tools                                          | 36.0.0  | Android SDK Platform-Tools                     | platform-tools                                         
+  platforms;android-36                                    | 2       | Android SDK Platform 36                        | platforms\android-36                                   
+  sources;android-36                                      | 1       | Sources for Android 36                         | sources\android-36                                     
+  system-images;android-36.1;google_apis_playstore;x86_64 | 3       | Google Play Intel x86_64 Atom System Image     | system-images\android-36.1\google_apis_playstore\x86_64
+

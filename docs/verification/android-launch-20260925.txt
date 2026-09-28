@@ -1,0 +1,7 @@
+Starting: Intent { cmp=in.nammacrew.mobile/.MainActivity }
+Status: ok
+LaunchState: COLD
+Activity: in.nammacrew.mobile/.MainActivity
+TotalTime: 5750
+WaitTime: 5817
+Complete

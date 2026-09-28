@@ -1,0 +1,5 @@
+Performing Streamed Install
+adb.exe: failed to install mobile/android/app/build/outputs/apk/debug/app-debug.apk: Error: device is still booting.
+
+Performing Streamed Install
+Success

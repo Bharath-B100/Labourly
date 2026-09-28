@@ -1,0 +1,16 @@
+Starting: Intent { act=android.intent.action.VIEW dat=nammacrew:///... pkg=in.nammacrew.mobile }
+Warning: Activity not started, intent has been delivered to currently running top-most instance.
+Status: ok
+LaunchState: UNKNOWN (0)
+Activity: in.nammacrew.mobile/.MainActivity
+TotalTime: 0
+WaitTime: 80
+Complete
+Starting: Intent { act=android.intent.action.VIEW dat=nammacrew:///... pkg=in.nammacrew.mobile }
+Warning: Activity not started, intent has been delivered to currently running top-most instance.
+Status: ok
+LaunchState: UNKNOWN (0)
+Activity: in.nammacrew.mobile/.MainActivity
+TotalTime: 0
+WaitTime: 304
+Complete

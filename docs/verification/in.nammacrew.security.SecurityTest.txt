@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: in.nammacrew.security.SecurityTest
+-------------------------------------------------------------------------------
+Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 18.10 s -- in in.nammacrew.security.SecurityTest

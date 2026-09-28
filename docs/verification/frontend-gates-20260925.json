@@ -1,0 +1,57 @@
+[
+  {
+    "project": "mobile",
+    "gate": "test",
+    "exit": 1
+  },
+  {
+    "project": "mobile",
+    "gate": "typecheck",
+    "exit": 0
+  },
+  {
+    "project": "mobile",
+    "gate": "lint",
+    "exit": 0
+  },
+  {
+    "project": "mobile",
+    "gate": "format:check",
+    "exit": 1
+  },
+  {
+    "project": "mobile",
+    "gate": "audit",
+    "exit": 1
+  },
+  {
+    "project": "admin",
+    "gate": "test",
+    "exit": 0
+  },
+  {
+    "project": "admin",
+    "gate": "typecheck",
+    "exit": 0
+  },
+  {
+    "project": "admin",
+    "gate": "lint",
+    "exit": 0
+  },
+  {
+    "project": "admin",
+    "gate": "format:check",
+    "exit": 0
+  },
+  {
+    "project": "admin",
+    "gate": "build",
+    "exit": 0
+  },
+  {
+    "project": "admin",
+    "gate": "audit",
+    "exit": 1
+  }
+]

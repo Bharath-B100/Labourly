@@ -1,0 +1,3 @@
+Preserved runtime sockets at C:\Users\BHARATH RAJ B\AppData\Local\Docker\run.nammacrew-backup-20260928
+Preserved runtime sockets at C:\Users\BHARATH RAJ B\AppData\Local\docker-secrets-engine.nammacrew-backup-20260928
+PASS: Docker engine responded with server version 29.5.3 after preserving and recreating runtime socket directories.

@@ -1,0 +1,19 @@
+
+FullName      : D:\Files\EDUCATION\NammaCrew\mobile\android\app\build\outputs\apk\debug\app-debug.apk
+Name          : app-debug.apk
+Length        : 78215283
+LastWriteTime : 28-09-2026 04:42:43 PM
+
+
+Algorithm : SHA256
+Hash      : 5EEC5754444C5E52837AC27A544EB3E922637405CFC1DF91B9DF8D5512BECFF7
+Path      : D:\Files\EDUCATION\NammaCrew\mobile\android\app\build\outputs\apk\debug\app-debug.apk
+
+Verifies
+Verified using v1 scheme (JAR signing): false
+Verified using v2 scheme (APK Signature Scheme v2): true
+Verified using v3 scheme (APK Signature Scheme v3): false
+Verified using v3.1 scheme (APK Signature Scheme v3.1): false
+Verified using v4 scheme (APK Signature Scheme v4): false
+Verified for SourceStamp: false
+Number of signers: 1

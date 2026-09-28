@@ -1,0 +1,4 @@
+clang++.exe links libc++: True
+CLANG_~1.EXE links libc++: True
+clang++.exe with -no-canonical-prefixes links libc++: True
+CLANG_~1.EXE with -no-canonical-prefixes links libc++: False

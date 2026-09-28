@@ -1,0 +1,248 @@
+Picked up JAVA_TOOL_OPTIONS: -Djdk.net.unixdomain.tmpdir=D:/Files/EDUCATION/NammaCrew/.tools/java-sockets
+openjdk version "21.0.12.1" 2026-08-18 LTS
+OpenJDK Runtime Environment Microsoft-14941484 (build 21.0.12.1+1-LTS)
+OpenJDK 64-Bit Server VM Microsoft-14941484 (build 21.0.12.1+1-LTS, mixed mode, sharing)
+Picked up JAVA_TOOL_OPTIONS: -Djdk.net.unixdomain.tmpdir=D:/Files/EDUCATION/NammaCrew/.tools/java-sockets
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] ------------------------< in.nammacrew:backend >------------------------
+[INFO] Building NammaCrew 0.1.0-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- clean:3.4.1:clean (default-clean) @ backend ---
+[INFO] Deleting D:\Files\EDUCATION\NammaCrew\backend\target
+[INFO] 
+[INFO] --- enforcer:3.6.2:enforce (require-java-21) @ backend ---
+[INFO] Rule 0: org.apache.maven.enforcer.rules.version.RequireJavaVersion passed
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ backend ---
+[INFO] Copying 1 resource from src\main\resources to target\classes
+[INFO] Copying 2 resources from src\main\resources to target\classes
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ backend ---
+[INFO] Recompiling the module because of changed source code.
+[INFO] Compiling 7 source files with javac [debug parameters release 21] to target\classes
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ backend ---
+[INFO] skip non existing resourceDirectory D:\Files\EDUCATION\NammaCrew\backend\src\test\resources
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ backend ---
+[INFO] Recompiling the module because of changed dependency.
+[INFO] Compiling 3 source files with javac [debug parameters release 21] to target\test-classes
+[INFO] 
+[INFO] --- surefire:3.5.6:test (default-test) @ backend ---
+[INFO] Using auto detected provider org.apache.maven.surefire.junitplatform.JUnitPlatformProvider
+[INFO] 
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+Picked up JAVA_TOOL_OPTIONS: -Djdk.net.unixdomain.tmpdir=D:/Files/EDUCATION/NammaCrew/.tools/java-sockets
+[INFO] Running in.nammacrew.booking.BookingStateTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.048 s -- in in.nammacrew.booking.BookingStateTest
+[INFO] Running in.nammacrew.security.SecurityTest
+10:58:03.765 [main] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [in.nammacrew.security.SecurityTest]: SecurityTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+10:58:04.008 [main] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration in.nammacrew.NammaCrewApplication for test class in.nammacrew.security.SecurityTest
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::               (v3.5.16)
+
+2026-09-25T10:58:04.551+05:30  INFO 18812 --- [nammacrew] [           main] in.nammacrew.security.SecurityTest       : Starting SecurityTest using Java 21.0.12.1 with PID 18812 (started by BHARATH RAJ B in D:\Files\EDUCATION\NammaCrew\backend)
+2026-09-25T10:58:04.552+05:30  INFO 18812 --- [nammacrew] [           main] in.nammacrew.security.SecurityTest       : No active profile set, falling back to 1 default profile: "default"
+2026-09-25T10:58:07.163+05:30  INFO 18812 --- [nammacrew] [           main] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name noBootstrapUsers
+2026-09-25T10:58:10.020+05:30  INFO 18812 --- [nammacrew] [           main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-09-25T10:58:10.021+05:30  INFO 18812 --- [nammacrew] [           main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-09-25T10:58:10.024+05:30  INFO 18812 --- [nammacrew] [           main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 3 ms
+2026-09-25T10:58:10.090+05:30  INFO 18812 --- [nammacrew] [           main] in.nammacrew.security.SecurityTest       : Started SecurityTest in 5.935 seconds (process running for 7.892)
+Mockito is currently self-attaching to enable the inline-mock-maker. This will no longer work in future releases of the JDK. Please add Mockito as an agent to your build as described in Mockito's documentation: https://javadoc.io/doc/org.mockito/mockito-core/latest/org.mockito/org/mockito/Mockito.html#0.3
+WARNING: A Java agent has been loaded dynamically (C:\Users\BHARATH RAJ B\.m2\repository\net\bytebuddy\byte-buddy-agent\1.17.8\byte-buddy-agent-1.17.8.jar)
+WARNING: If a serviceability tool is in use, please run with -XX:+EnableDynamicAgentLoading to hide this warning
+WARNING: If a serviceability tool is not in use, please run with -Djdk.instrument.traceUsage for more information
+WARNING: Dynamic loading of agents will be disallowed by default in a future release
+OpenJDK 64-Bit Server VM warning: Sharing is only supported for boot loader classes because bootstrap classpath has been appended
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 8.560 s -- in in.nammacrew.security.SecurityTest
+[INFO] 
+[INFO] Results:
+[INFO] 
+[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0
+[INFO] 
+[INFO] 
+[INFO] --- jar:3.4.2:jar (default-jar) @ backend ---
+[INFO] Building jar: D:\Files\EDUCATION\NammaCrew\backend\target\backend-0.1.0-SNAPSHOT.jar
+[INFO] 
+[INFO] --- spring-boot:3.5.16:repackage (repackage) @ backend ---
+[INFO] Replacing main artifact D:\Files\EDUCATION\NammaCrew\backend\target\backend-0.1.0-SNAPSHOT.jar with repackaged archive, adding nested dependencies in BOOT-INF/.
+[INFO] The original artifact has been renamed to D:\Files\EDUCATION\NammaCrew\backend\target\backend-0.1.0-SNAPSHOT.jar.original
+[INFO] 
+[INFO] --- failsafe:3.5.6:integration-test (default) @ backend ---
+[INFO] Using auto detected provider org.apache.maven.surefire.junitplatform.JUnitPlatformProvider
+[INFO] 
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+Picked up JAVA_TOOL_OPTIONS: -Djdk.net.unixdomain.tmpdir=D:/Files/EDUCATION/NammaCrew/.tools/java-sockets
+[INFO] Running in.nammacrew.FoundationIT
+10:58:23.818 [main] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [in.nammacrew.FoundationIT]: FoundationIT does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+10:58:23.931 [main] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration in.nammacrew.NammaCrewApplication for test class in.nammacrew.FoundationIT
+10:58:24.084 [main] INFO org.testcontainers.images.PullPolicy -- Image pull policy will be performed by: DefaultPullPolicy()
+10:58:24.092 [main] INFO org.testcontainers.utility.ImageNameSubstitutor -- Image name substitution will be performed by: DefaultImageNameSubstitutor (composite of 'ConfigurationFileImageNameSubstitutor' and 'PrefixingImageNameSubstitutor')
+10:58:24.189 [main] INFO org.testcontainers.DockerClientFactory -- Testcontainers version: 1.21.4
+10:58:24.531 [main] INFO org.testcontainers.dockerclient.DockerClientProviderStrategy -- Loaded org.testcontainers.dockerclient.NpipeSocketClientProviderStrategy from ~/.testcontainers.properties, will try it first
+10:58:24.882 [main] INFO org.testcontainers.dockerclient.DockerClientProviderStrategy -- Found Docker environment with local Npipe socket (npipe:////./pipe/docker_engine)
+10:58:24.883 [main] INFO org.testcontainers.DockerClientFactory -- Docker host IP address is localhost
+10:58:24.904 [main] INFO org.testcontainers.DockerClientFactory -- Connected to docker: 
+  Server Version: 29.5.3
+  API Version: 1.54
+  Operating System: Docker Desktop
+  Total Memory: 7776 MB
+  Labels: 
+    com.docker.desktop.address=npipe://\\.\pipe\docker_cli
+10:58:25.029 [main] INFO tc.testcontainers/ryuk:0.12.0 -- Creating container for image: testcontainers/ryuk:0.12.0
+10:58:25.476 [main] INFO tc.testcontainers/ryuk:0.12.0 -- Container testcontainers/ryuk:0.12.0 is starting: 5d5601dcd887d7c41b50e8692279d66fd0a62b7fca637a478546742a04f8b3d9
+10:58:26.069 [main] INFO tc.testcontainers/ryuk:0.12.0 -- Container testcontainers/ryuk:0.12.0 started in PT1.0401211S
+10:58:26.101 [main] INFO org.testcontainers.utility.RyukResourceReaper -- Ryuk started - will monitor and terminate Testcontainers containers on JVM exit
+10:58:26.101 [main] INFO org.testcontainers.DockerClientFactory -- Checking the system...
+10:58:26.102 [main] INFO org.testcontainers.DockerClientFactory -- ?? Docker server version should be at least 1.6.0
+10:58:26.103 [main] INFO tc.postgis/postgis:17-3.5 -- Creating container for image: postgis/postgis:17-3.5
+10:58:26.210 [main] INFO tc.postgis/postgis:17-3.5 -- Container postgis/postgis:17-3.5 is starting: ed6b923bfa8b9fa5bd1ee3dec6c3885658c324a1769c71599e21ccdad179d73e
+10:58:28.827 [main] INFO tc.postgis/postgis:17-3.5 -- Container postgis/postgis:17-3.5 started in PT2.7248766S
+10:58:28.828 [main] INFO tc.postgis/postgis:17-3.5 -- Container is started (JDBC URL: jdbc:postgresql://localhost:49407/test?loggerLevel=OFF)
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::               (v3.5.16)
+
+2026-09-25T10:58:29.938+05:30  INFO 24464 --- [nammacrew] [           main] in.nammacrew.FoundationIT                : Starting FoundationIT using Java 21.0.12.1 with PID 24464 (started by BHARATH RAJ B in D:\Files\EDUCATION\NammaCrew\backend)
+2026-09-25T10:58:29.946+05:30  INFO 24464 --- [nammacrew] [           main] in.nammacrew.FoundationIT                : No active profile set, falling back to 1 default profile: "default"
+2026-09-25T10:58:34.041+05:30  INFO 24464 --- [nammacrew] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-09-25T10:58:34.231+05:30  INFO 24464 --- [nammacrew] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 160 ms. Found 1 JPA repository interface.
+2026-09-25T10:58:36.649+05:30  INFO 24464 --- [nammacrew] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-09-25T10:58:37.102+05:30  INFO 24464 --- [nammacrew] [           main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@62410e1f
+2026-09-25T10:58:37.109+05:30  INFO 24464 --- [nammacrew] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-09-25T10:58:37.193+05:30  INFO 24464 --- [nammacrew] [           main] org.flywaydb.core.FlywayExecutor         : Database: jdbc:postgresql://localhost:49407/test?loggerLevel=OFF (PostgreSQL 17.5)
+2026-09-25T10:58:37.413+05:30  INFO 24464 --- [nammacrew] [           main] o.f.c.i.s.JdbcTableSchemaHistory         : Schema history table "public"."flyway_schema_history" does not exist yet
+2026-09-25T10:58:37.430+05:30  INFO 24464 --- [nammacrew] [           main] o.f.core.internal.command.DbValidate     : Successfully validated 2 migrations (execution time 00:00.166s)
+2026-09-25T10:58:37.537+05:30  INFO 24464 --- [nammacrew] [           main] o.f.c.i.s.JdbcTableSchemaHistory         : Creating Schema History table "public"."flyway_schema_history" ...
+2026-09-25T10:58:37.780+05:30  INFO 24464 --- [nammacrew] [           main] o.f.core.internal.command.DbMigrate      : Current version of schema "public": << Empty Schema >>
+2026-09-25T10:58:37.915+05:30  INFO 24464 --- [nammacrew] [           main] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "1 - initial schema"
+2026-09-25T10:58:37.933+05:30  WARN 24464 --- [nammacrew] [           main] o.f.c.i.s.DefaultSqlScriptExecutor       : DB: extension "postgis" already exists, skipping (SQL State: 42710 - Error Code: 0)
+2026-09-25T10:58:38.211+05:30  INFO 24464 --- [nammacrew] [           main] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "2 - booking invariants"
+2026-09-25T10:58:38.291+05:30  INFO 24464 --- [nammacrew] [           main] o.f.core.internal.command.DbMigrate      : Successfully applied 2 migrations to schema "public", now at version v2 (execution time 00:00.270s)
+2026-09-25T10:58:38.612+05:30  INFO 24464 --- [nammacrew] [           main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-09-25T10:58:38.757+05:30  INFO 24464 --- [nammacrew] [           main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.6.53.Final
+2026-09-25T10:58:38.850+05:30  INFO 24464 --- [nammacrew] [           main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2026-09-25T10:58:39.621+05:30  INFO 24464 --- [nammacrew] [           main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-09-25T10:58:39.820+05:30  INFO 24464 --- [nammacrew] [           main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 17.5
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-09-25T10:58:41.891+05:30  INFO 24464 --- [nammacrew] [           main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-09-25T10:58:41.989+05:30  INFO 24464 --- [nammacrew] [           main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-09-25T10:58:42.872+05:30  INFO 24464 --- [nammacrew] [           main] o.s.d.j.r.query.QueryEnhancerFactory     : Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-09-25T10:58:44.993+05:30  INFO 24464 --- [nammacrew] [           main] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name noBootstrapUsers
+2026-09-25T10:58:47.073+05:30  INFO 24464 --- [nammacrew] [           main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 1 endpoint beneath base path '/actuator'
+2026-09-25T10:58:48.675+05:30  INFO 24464 --- [nammacrew] [           main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-09-25T10:58:48.681+05:30  INFO 24464 --- [nammacrew] [           main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-09-25T10:58:48.682+05:30  INFO 24464 --- [nammacrew] [           main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 1 ms
+2026-09-25T10:58:48.888+05:30  INFO 24464 --- [nammacrew] [           main] in.nammacrew.FoundationIT                : Started FoundationIT in 19.96 seconds (process running for 25.874)
+Mockito is currently self-attaching to enable the inline-mock-maker. This will no longer work in future releases of the JDK. Please add Mockito as an agent to your build as described in Mockito's documentation: https://javadoc.io/doc/org.mockito/mockito-core/latest/org.mockito/org/mockito/Mockito.html#0.3
+WARNING: A Java agent has been loaded dynamically (C:\Users\BHARATH RAJ B\.m2\repository\net\bytebuddy\byte-buddy-agent\1.17.8\byte-buddy-agent-1.17.8.jar)
+WARNING: If a serviceability tool is in use, please run with -XX:+EnableDynamicAgentLoading to hide this warning
+WARNING: If a serviceability tool is not in use, please run with -Djdk.instrument.traceUsage for more information
+WARNING: Dynamic loading of agents will be disallowed by default in a future release
+OpenJDK 64-Bit Server VM warning: Sharing is only supported for boot loader classes because bootstrap classpath has been appended
+2026-09-25T10:58:52.031+05:30  WARN 24464 --- [nammacrew] [           main] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Error: 0, SQLState: 23P01
+2026-09-25T10:58:52.031+05:30 ERROR 24464 --- [nammacrew] [           main] o.h.engine.jdbc.spi.SqlExceptionHelper   : ERROR: conflicting key value violates exclusion constraint "worker_no_overlapping_bookings"
+  Detail: Key (worker_id, tstzrange(starts_at, ends_at, '[)'::text))=(79f3a6b5-27ee-4ccf-945c-2acdb44912fd, ["2030-01-01 16:30:00+05:30","2030-01-01 19:30:00+05:30")) conflicts with existing key (worker_id, tstzrange(starts_at, ends_at, '[)'::text))=(79f3a6b5-27ee-4ccf-945c-2acdb44912fd, ["2030-01-01 14:30:00+05:30","2030-01-01 17:30:00+05:30")).
+  Where: SQL statement "UPDATE booking_workers SET reserved = NEW.status IN ('CONFIRMED','IN_PROGRESS','COMPLETED') WHERE booking_id = NEW.id"
+PL/pgSQL function synchronize_booking_workers() line 3 at SQL statement
+[ERROR] Tests run: 3, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 29.34 s <<< FAILURE! -- in in.nammacrew.FoundationIT
+[ERROR] in.nammacrew.FoundationIT.concurrentConfirmationsHaveExactlyOneWinner -- Time elapsed: 2.178 s <<< ERROR!
+java.util.concurrent.ExecutionException: 
+org.postgresql.util.PSQLException: ERROR: deadlock detected
+  Detail: Process 88 waits for ShareLock on transaction 769; blocked by process 87.
+Process 87 waits for ShareLock on transaction 768; blocked by process 88.
+  Hint: See server log for query details.
+  Where: while checking exclusion constraint on tuple (0,4) in relation "booking_workers"
+SQL statement "UPDATE booking_workers SET reserved = NEW.status IN ('CONFIRMED','IN_PROGRESS','COMPLETED') WHERE booking_id = NEW.id"
+PL/pgSQL function synchronize_booking_workers() line 3 at SQL statement
+	at java.base/java.util.concurrent.FutureTask.report(FutureTask.java:122)
+	at java.base/java.util.concurrent.FutureTask.get(FutureTask.java:205)
+	at in.nammacrew.FoundationIT.concurrentConfirmationsHaveExactlyOneWinner(FoundationIT.java:149)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+Caused by: org.postgresql.util.PSQLException: ERROR: deadlock detected
+  Detail: Process 88 waits for ShareLock on transaction 769; blocked by process 87.
+Process 87 waits for ShareLock on transaction 768; blocked by process 88.
+  Hint: See server log for query details.
+  Where: while checking exclusion constraint on tuple (0,4) in relation "booking_workers"
+SQL statement "UPDATE booking_workers SET reserved = NEW.status IN ('CONFIRMED','IN_PROGRESS','COMPLETED') WHERE booking_id = NEW.id"
+PL/pgSQL function synchronize_booking_workers() line 3 at SQL statement
+	at org.postgresql.core.v3.QueryExecutorImpl.receiveErrorResponse(QueryExecutorImpl.java:2904)
+	at org.postgresql.core.v3.QueryExecutorImpl.processResults(QueryExecutorImpl.java:2589)
+	at org.postgresql.core.v3.QueryExecutorImpl.execute(QueryExecutorImpl.java:431)
+	at org.postgresql.jdbc.PgStatement.executeInternal(PgStatement.java:534)
+	at org.postgresql.jdbc.PgStatement.execute(PgStatement.java:437)
+	at org.postgresql.jdbc.PgPreparedStatement.executeWithFlags(PgPreparedStatement.java:196)
+	at org.postgresql.jdbc.PgPreparedStatement.executeUpdate(PgPreparedStatement.java:157)
+	at in.nammacrew.FoundationIT.confirm(FoundationIT.java:161)
+	at in.nammacrew.FoundationIT.lambda$concurrentConfirmationsHaveExactlyOneWinner$4(FoundationIT.java:148)
+	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:317)
+	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1144)
+	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:642)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+
+[INFO] 
+[INFO] Results:
+[INFO] 
+[ERROR] Errors: 
+[ERROR]   FoundationIT.concurrentConfirmationsHaveExactlyOneWinner:149 � Execution org.postgresql.util.PSQLException: ERROR: deadlock detected
+  Detail: Process 88 waits for ShareLock on transaction 769; blocked by process 87.
+Process 87 waits for ShareLock on transaction 768; blocked by process 88.
+  Hint: See server log for query details.
+  Where: while checking exclusion constraint on tuple (0,4) in relation "booking_workers"
+SQL statement "UPDATE booking_workers SET reserved = NEW.status IN ('CONFIRMED','IN_PROGRESS','COMPLETED') WHERE booking_id = NEW.id"
+PL/pgSQL function synchronize_booking_workers() line 3 at SQL statement
+[INFO] 
+[ERROR] Tests run: 3, Failures: 0, Errors: 1, Skipped: 0
+[INFO] 
+[INFO] 
+[INFO] --- spotless:2.44.3:check (default) @ backend ---
+[INFO] Index file does not exist. Fallback to an empty index
+[INFO] Spotless.Java is keeping 10 files clean - 0 needs changes to be clean, 10 were already clean, 0 were skipped because caching determined they were already clean
+[INFO] 
+[INFO] --- failsafe:3.5.6:verify (default) @ backend ---
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD FAILURE
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  02:10 min
+[INFO] Finished at: 2026-09-25T10:59:03+05:30
+[INFO] ------------------------------------------------------------------------
+[ERROR] Failed to execute goal org.apache.maven.plugins:maven-failsafe-plugin:3.5.6:verify (default) on project backend: 
+[ERROR] 
+[ERROR] See D:\Files\EDUCATION\NammaCrew\backend\target\failsafe-reports for the individual test results.
+[ERROR] See dump files (if any exist) [date].dump, [date]-jvmRun[N].dump and [date].dumpstream.
+[ERROR] -> [Help 1]
+[ERROR] 
+[ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
+[ERROR] Re-run Maven using the -X switch to enable full debug logging.
+[ERROR] 
+[ERROR] For more information about the errors and possible solutions, please read the following articles:
+[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/MojoFailureException
+Exit=1

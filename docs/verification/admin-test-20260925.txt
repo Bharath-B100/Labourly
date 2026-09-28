@@ -1,0 +1,13 @@
+
+> nammacrew-admin@0.1.0 test
+> vitest run
+
+
+ RUN  v4.1.11 D:/Files/EDUCATION/NammaCrew/admin
+
+
+ Test Files  1 passed (1)
+      Tests  2 passed (2)
+   Start at  11:00:21
+   Duration  49.67s (transform 304ms, setup 11.37s, import 159ms, tests 547ms, environment 37.01s)
+

@@ -1,0 +1,7 @@
+curl: (56) Recv failure: Connection was reset
+Warning: Problem (retrying all errors). Retrying in 3 seconds. 3 retries left.
+curl: (56) Recv failure: Connection was reset
+Warning: Problem (retrying all errors). Retrying in 3 seconds. 2 retries left.
+curl: (7) Failed to connect to dl.google.com:443 after 0 ms: Could not connect to server
+Warning: Problem (retrying all errors). Retrying in 3 seconds. 1 retry left.
+curl: (6) Could not resolve host: dl.google.com

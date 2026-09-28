@@ -1,0 +1,5 @@
+appId: in.nammacrew.mobile
+---
+- launchApp
+- assertVisible: 'Foundation in progress'
+- assertVisible: 'Check backend connection'

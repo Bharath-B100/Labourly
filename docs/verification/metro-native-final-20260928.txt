@@ -1,0 +1,9 @@
+Networking has been disabled
+Starting project at D:\Files\EDUCATION\NammaCrew\mobile
+Using src/app as the root directory for Expo Router.
+ WARN  Failed to download the latest version of React Native DevTools. Using a fallback version instead. Connect to the internet or check your network settings.
+Starting Metro Bundler
+
+Waiting on http://localhost:8083
+
+Logs for your project will appear below.

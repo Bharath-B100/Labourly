@@ -1,0 +1,139 @@
+--------- beginning of main
+09-25 10:46:05.903  5752  5752 I Zygote  : Process 5752 created for in.nammacrew.mobile
+09-25 10:46:05.904  5752  5752 I ammacrew.mobile: Late-enabling -Xcheck:jni
+09-25 10:46:06.002  5752  5752 I ammacrew.mobile: Using CollectorTypeCMC GC.
+09-25 10:46:06.002  5752  5752 W ammacrew.mobile: Unexpected CPU variant for x86: x86_64.
+09-25 10:46:06.002  5752  5752 W ammacrew.mobile: Known variants: atom, sandybridge, silvermont, goldmont, goldmont-plus, goldmont-without-sha-xsaves, tremont, kabylake, alderlake, default
+09-25 10:46:06.249  5752  5752 D nativeloader: Load libframework-connectivity-tiramisu-jni.so using APEX ns com_android_tethering for caller /apex/com.android.tethering/javalib/framework-connectivity-t.jar: ok
+09-25 10:46:06.765  5752  5752 D ApplicationLoaders: Returning zygote-cached class loader: /system_ext/framework/androidx.window.extensions.jar
+09-25 10:46:06.766  5752  5752 D ApplicationLoaders: Returning zygote-cached class loader: /system_ext/framework/androidx.window.sidecar.jar
+09-25 10:46:07.291  5752  5752 D nativeloader: Configuring clns-9 for other apk /data/app/~~fzZuFjmt9yd_9M0q9WxZ9Q==/in.nammacrew.mobile-UFqGX2Ilh0qA7plLuRce2Q==/base.apk. target_sdk_version=36, uses_libraries=, library_path=/data/app/~~fzZuFjmt9yd_9M0q9WxZ9Q==/in.nammacrew.mobile-UFqGX2Ilh0qA7plLuRce2Q==/lib/x86_64:/data/app/~~fzZuFjmt9yd_9M0q9WxZ9Q==/in.nammacrew.mobile-UFqGX2Ilh0qA7plLuRce2Q==/base.apk!/lib/x86_64, permitted_path=/data:/mnt/expand:/data/user/0/in.nammacrew.mobile
+09-25 10:46:07.323  5752  5752 V GraphicsEnvironment: Currently set values for:
+09-25 10:46:07.323  5752  5752 V GraphicsEnvironment:   angle_gl_driver_selection_pkgs=[]
+09-25 10:46:07.323  5752  5752 V GraphicsEnvironment:   angle_gl_driver_selection_values=[]
+09-25 10:46:07.323  5752  5752 V GraphicsEnvironment: in.nammacrew.mobile is not listed in per-application setting
+09-25 10:46:07.323  5752  5752 V GraphicsEnvironment: ANGLE allowlist from config: com.dreamgames.royalmatch com.dts.freefiremax com.dxx.firenow com.gramgames.mergedragons com.ludo.king com.mojang.minecraftpe com.my.defense com.nintendo.zaka com.os.airforce com.playrix.fishdomdd.gplay io.teslatech.callbreak jp.konami.prospia net.peakgames.toonblast
+09-25 10:46:07.323  5752  5752 V GraphicsEnvironment: No special selections for ANGLE, returning default driver choice
+09-25 10:46:07.324  5752  5752 V GraphicsEnvironment: Neither updatable production driver nor prerelease driver is supported.
+09-25 10:46:07.429  5752  5752 W SoLoader: Initializing SoLoader: 0
+09-25 10:46:07.432  5752  5752 W SoLoader: Recording new base apk path: /data/app/~~fzZuFjmt9yd_9M0q9WxZ9Q==/in.nammacrew.mobile-UFqGX2Ilh0qA7plLuRce2Q==/base.apk
+09-25 10:46:07.432  5752  5752 W SoLoader: Previously recorded 0 base apk paths.
+09-25 10:46:07.435  5752  5752 I SoLoader: Preparing SO source: DirectorySoSource[root = /vendor/lib64 flags = 2]
+09-25 10:46:07.436  5752  5752 I SoLoader: Preparing SO source: DirectorySoSource[root = /system/lib64 flags = 2]
+09-25 10:46:07.436  5752  5752 I SoLoader: Preparing SO source: DirectApkSoSource[root = [/data/app/~~fzZuFjmt9yd_9M0q9WxZ9Q==/in.nammacrew.mobile-UFqGX2Ilh0qA7plLuRce2Q==/base.apk!/lib/x86_64]]
+09-25 10:46:07.471  5752  5752 I SoLoader: Preparing SO source: ApplicationSoSource[DirectorySoSource[root = /data/app/~~fzZuFjmt9yd_9M0q9WxZ9Q==/in.nammacrew.mobile-UFqGX2Ilh0qA7plLuRce2Q==/lib/x86_64 flags = 0]]
+09-25 10:46:07.471  5752  5752 I SoLoader: init finish: 4 SO sources prepared
+09-25 10:46:07.472  5752  5752 W SoLoader: SoLoader initialized: 8
+09-25 10:46:07.531  5752  5752 D nativeloader: Load /data/app/~~fzZuFjmt9yd_9M0q9WxZ9Q==/in.nammacrew.mobile-UFqGX2Ilh0qA7plLuRce2Q==/base.apk!/lib/x86_64/libc++_shared.so using class loader ns clns-9 (caller=/data/app/~~fzZuFjmt9yd_9M0q9WxZ9Q==/in.nammacrew.mobile-UFqGX2Ilh0qA7plLuRce2Q==/base.apk!classes21.dex): ok
+09-25 10:46:07.559  5752  5752 D nativeloader: Load /data/app/~~fzZuFjmt9yd_9M0q9WxZ9Q==/in.nammacrew.mobile-UFqGX2Ilh0qA7plLuRce2Q==/base.apk!/lib/x86_64/libjsi.so using class loader ns clns-9 (caller=/data/app/~~fzZuFjmt9yd_9M0q9WxZ9Q==/in.nammacrew.mobile-UFqGX2Ilh0qA7plLuRce2Q==/base.apk!classes21.dex): ok
+09-25 10:46:07.569  5752  5752 D nativeloader: Load /data/app/~~fzZuFjmt9yd_9M0q9WxZ9Q==/in.nammacrew.mobile-UFqGX2Ilh0qA7plLuRce2Q==/base.apk!/lib/x86_64/libfbjni.so using class loader ns clns-9 (caller=/data/app/~~fzZuFjmt9yd_9M0q9WxZ9Q==/in.nammacrew.mobile-UFqGX2Ilh0qA7plLuRce2Q==/base.apk!classes21.dex): ok
+09-25 10:46:07.645  5752  5752 D nativeloader: Load /data/app/~~fzZuFjmt9yd_9M0q9WxZ9Q==/in.nammacrew.mobile-UFqGX2Ilh0qA7plLuRce2Q==/base.apk!/lib/x86_64/libreactnative.so using class loader ns clns-9 (caller=/data/app/~~fzZuFjmt9yd_9M0q9WxZ9Q==/in.nammacrew.mobile-UFqGX2Ilh0qA7plLuRce2Q==/base.apk!classes21.dex): ok
+09-25 10:46:07.647  5752  5752 D jni_lib_merge: Entering merged library JNI_OnLoad.
+09-25 10:46:07.647  5752  5752 D jni_lib_merge: Preparing 13 pre-merged libs (including stub)
+09-25 10:46:07.647  5752  5752 D jni_lib_merge: Preparing to register libfabricjni_so.  onload_func: 0x74b062c7b530
+09-25 10:46:07.647  5752  5752 D jni_lib_merge: Preparing to register libreact_devsupportjni_so.  onload_func: 0x74b062ec7110
+09-25 10:46:07.647  5752  5752 D jni_lib_merge: Preparing to register libreact_featureflagsjni_so.  onload_func: 0x74b062ed99a0
+09-25 10:46:07.647  5752  5752 D jni_lib_merge: Preparing to register libreact_newarchdefaults_so.  onload_func: 0x74b062f82560
+09-25 10:46:07.647  5752  5752 D jni_lib_merge: Preparing to register libreact_tracingjni_so.  onload_func: 0x74b063284bb0
+09-25 10:46:07.647  5752  5752 D jni_lib_merge: Preparing to register libreactnativeblob_so.  onload_func: 0x74b063297b00
+09-25 10:46:07.647  5752  5752 D jni_lib_merge: Preparing to register libreactnativejni_so.  onload_func: 0x74b0632bad70
+09-25 10:46:07.647  5752  5752 D jni_lib_merge: Preparing to register libreactnativejni_common_so.  onload_func: 0x74b0632c0860
+09-25 10:46:07.647  5752  5752 D jni_lib_merge: Preparing to register librninstance_so.  onload_func: 0x74b06333d590
+09-25 10:46:07.647  5752  5752 D jni_lib_merge: Preparing to register libturbomodulejsijni_so.  onload_func: 0x74b0634a03b0
+09-25 10:46:07.647  5752  5752 D jni_lib_merge: Preparing to register libuimanagerjni_so.  onload_func: 0x74b0634b6780
+09-25 10:46:07.647  5752  5752 D jni_lib_merge: Preparing to register libyoga_so.  onload_func: 0x74b0634c5780
+09-25 10:46:07.647  5752  5752 D jni_lib_merge: About to register 12 actual methods.
+09-25 10:46:07.678  5752  5752 D nativeloader: Load /data/app/~~fzZuFjmt9yd_9M0q9WxZ9Q==/in.nammacrew.mobile-UFqGX2Ilh0qA7plLuRce2Q==/base.apk!/lib/x86_64/libreact_codegen_rngesturehandler_codegen.so using class loader ns clns-9 (caller=/data/app/~~fzZuFjmt9yd_9M0q9WxZ9Q==/in.nammacrew.mobile-UFqGX2Ilh0qA7plLuRce2Q==/base.apk!classes21.dex): ok
+09-25 10:46:07.698  5752  5752 D nativeloader: Load /data/app/~~fzZuFjmt9yd_9M0q9WxZ9Q==/in.nammacrew.mobile-UFqGX2Ilh0qA7plLuRce2Q==/base.apk!/lib/x86_64/libreact_codegen_rnscreens.so using class loader ns clns-9 (caller=/data/app/~~fzZuFjmt9yd_9M0q9WxZ9Q==/in.nammacrew.mobile-UFqGX2Ilh0qA7plLuRce2Q==/base.apk!classes21.dex): ok
+09-25 10:46:07.698  5752  5752 D jni_lib_merge: Entering merged library JNI_OnLoad.
+09-25 10:46:07.699  5752  5752 D jni_lib_merge: Preparing 13 pre-merged libs (including stub)
+09-25 10:46:07.699  5752  5752 D jni_lib_merge: Preparing to register libfabricjni_so.  onload_func: 0x74b062c7b530
+09-25 10:46:07.699  5752  5752 D jni_lib_merge: Preparing to register libreact_devsupportjni_so.  onload_func: 0x74b062ec7110
+09-25 10:46:07.699  5752  5752 D jni_lib_merge: Preparing to register libreact_featureflagsjni_so.  onload_func: 0x74b062ed99a0
+09-25 10:46:07.699  5752  5752 D jni_lib_merge: Preparing to register libreact_newarchdefaults_so.  onload_func: 0x74b062f82560
+09-25 10:46:07.699  5752  5752 D jni_lib_merge: Preparing to register libreact_tracingjni_so.  onload_func: 0x74b063284bb0
+09-25 10:46:07.699  5752  5752 D jni_lib_merge: Preparing to register libreactnativeblob_so.  onload_func: 0x74b063297b00
+09-25 10:46:07.699  5752  5752 D jni_lib_merge: Preparing to register libreactnativejni_so.  onload_func: 0x74b0632bad70
+09-25 10:46:07.699  5752  5752 D jni_lib_merge: Preparing to register libreactnativejni_common_so.  onload_func: 0x74b0632c0860
+09-25 10:46:07.699  5752  5752 D jni_lib_merge: Preparing to register librninstance_so.  onload_func: 0x74b06333d590
+09-25 10:46:07.699  5752  5752 D jni_lib_merge: Preparing to register libturbomodulejsijni_so.  onload_func: 0x74b0634a03b0
+09-25 10:46:07.699  5752  5752 D jni_lib_merge: Preparing to register libuimanagerjni_so.  onload_func: 0x74b0634b6780
+09-25 10:46:07.699  5752  5752 D jni_lib_merge: Preparing to register libyoga_so.  onload_func: 0x74b0634c5780
+09-25 10:46:07.699  5752  5752 D jni_lib_merge: About to register 12 actual methods.
+09-25 10:46:07.708  5752  5752 D nativeloader: Load /data/app/~~fzZuFjmt9yd_9M0q9WxZ9Q==/in.nammacrew.mobile-UFqGX2Ilh0qA7plLuRce2Q==/base.apk!/lib/x86_64/libreact_codegen_safeareacontext.so using class loader ns clns-9 (caller=/data/app/~~fzZuFjmt9yd_9M0q9WxZ9Q==/in.nammacrew.mobile-UFqGX2Ilh0qA7plLuRce2Q==/base.apk!classes21.dex): ok
+09-25 10:46:07.719  5752  5752 D nativeloader: Load /data/app/~~fzZuFjmt9yd_9M0q9WxZ9Q==/in.nammacrew.mobile-UFqGX2Ilh0qA7plLuRce2Q==/base.apk!/lib/x86_64/libappmodules.so using class loader ns clns-9 (caller=/data/app/~~fzZuFjmt9yd_9M0q9WxZ9Q==/in.nammacrew.mobile-UFqGX2Ilh0qA7plLuRce2Q==/base.apk!classes21.dex): ok
+--------- beginning of system
+09-25 10:46:07.853  5752  5774 I DisplayManager: Choreographer implicitly registered for the refresh rate.
+09-25 10:46:07.908  5752  5774 I GFXSTREAM: [eglDisplay.cpp(297)] Opening libGLESv1_CM_emulation.so
+09-25 10:46:07.908  5752  5774 I GFXSTREAM: [eglDisplay.cpp(297)] Opening libGLESv2_emulation.so
+09-25 10:46:07.944  5752  5774 W HWUI    : Failed to choose config with EGL_SWAP_BEHAVIOR_PRESERVED, retrying without...
+09-25 10:46:07.945  5752  5774 W HWUI    : Failed to initialize 101010-2 format, error = EGL_SUCCESS
+09-25 10:46:07.960  5752  5752 D DesktopExperienceFlags: Toggle override initialized to: false
+09-25 10:46:07.981  5752  5752 D AppCompatDelegate: Checking for metadata for AppLocalesMetadataHolderService : Service not found
+09-25 10:46:07.989  5752  5752 E ashmem  : Pinning is deprecated since Android Q. Please use trim or other methods.
+09-25 10:46:08.305  5752  5752 W unknown:BridgelessReact: ReactHost{0}.startSurface(surfaceId = 0): Schedule
+09-25 10:46:08.305  5752  5752 W unknown:BridgelessReact: ReactHost{0}.attachSurface(surfaceId = 0)
+09-25 10:46:08.306  5752  5781 W unknown:BridgelessReact: ReactHost{0}.getOrCreateReactInstanceTask()
+09-25 10:46:08.307  5752  5781 W unknown:BridgelessReact: ReactHost{0}.getOrCreateReactInstanceTask(): Start
+09-25 10:46:08.307  5752  5781 W unknown:BridgelessReact: ReactHost{0}.getJSBundleLoader()
+09-25 10:46:08.307  5752  5781 W unknown:BridgelessReact: ReactHost{0}.isMetroRunning()
+09-25 10:46:08.309  5752  5752 D CompatChangeReporter: Compat change id reported: 377864165; UID 10219; state: ENABLED
+09-25 10:46:08.309  5752  5752 D DesktopModeFlags: Toggle override initialized to: OVERRIDE_UNSET
+09-25 10:46:08.336  5752  5752 I ammacrew.mobile: hiddenapi: Accessing hidden method Landroid/view/ViewGroup;->makeOptionalFitsSystemWindows()V (runtime_flags=0, domain=platform, api=unsupported) from Landroidx/appcompat/widget/ViewUtils; (domain=app, TargetSdkVersion=36) using reflection: allowed
+09-25 10:46:08.346  5752  5752 W WindowOnBackDispatcher: OnBackInvokedCallback is not enabled for the application.
+09-25 10:46:08.346  5752  5752 W WindowOnBackDispatcher: Set 'android:enableOnBackInvokedCallback="true"' in the application manifest.
+09-25 10:46:08.356  5752  5752 W unknown:BridgelessReact: ReactHost{0}.onHostResume(activity)
+09-25 10:46:08.356  5752  5752 W unknown:ReactNative: Packager connection already open, nooping.
+09-25 10:46:08.383  5752  5752 W HWUI    : Unknown dataspace 0
+09-25 10:46:08.456  5752  5752 D VRI[MainActivity]: WindowInsets changed: 1080x2400 statusBars:[0,63,0,0] navigationBars:[0,0,0,63] mandatorySystemGestures:[0,63,0,84] 
+09-25 10:46:08.468  5752  5752 D WindowOnBackDispatcher: setTopOnBackInvokedCallback (unwrapped): android.view.ViewRootImpl$$ExternalSyntheticLambda12@a94ef2f
+09-25 10:46:08.475  5752  5782 W unknown:BridgelessReact: ReactHost{0}.isMetroRunning(): Async result = true
+09-25 10:46:08.476  5752  5781 W unknown:BridgelessReact: ReactHost{0}.loadJSBundleFromMetro()
+09-25 10:46:08.643  5752  5752 D WindowOnBackDispatcher: setTopOnBackInvokedCallback (unwrapped): android.view.ViewRootImpl$$ExternalSyntheticLambda12@97b271e
+09-25 10:46:08.645  5752  5752 I HWUI    : Using FreeType backend (prop=Auto)
+09-25 10:46:08.723  5752  5752 W unknown:BridgelessReact: ReactHost{0}.raiseSoftException(onWindowFocusChange(hasFocus = "true")): Tried to access onWindowFocusChange while context is not ready
+09-25 10:46:08.727  5752  5752 E unknown:ReactHost: Unhandled SoftException
+09-25 10:46:08.727  5752  5752 E unknown:ReactHost: com.facebook.react.bridge.ReactNoCrashSoftException: raiseSoftException(onWindowFocusChange(hasFocus = "true")): Tried to access onWindowFocusChange while context is not ready
+09-25 10:46:08.727  5752  5752 E unknown:ReactHost: 	at com.facebook.react.runtime.ReactHostImpl.raiseSoftException(ReactHostImpl.kt:919)
+09-25 10:46:08.727  5752  5752 E unknown:ReactHost: 	at com.facebook.react.runtime.ReactHostImpl.raiseSoftException$default(ReactHostImpl.kt:910)
+09-25 10:46:08.727  5752  5752 E unknown:ReactHost: 	at com.facebook.react.runtime.ReactHostImpl.onWindowFocusChange(ReactHostImpl.kt:682)
+09-25 10:46:08.727  5752  5752 E unknown:ReactHost: 	at com.facebook.react.ReactDelegate.onWindowFocusChanged(ReactDelegate.kt:229)
+09-25 10:46:08.727  5752  5752 E unknown:ReactHost: 	at com.facebook.react.ReactActivityDelegate.onWindowFocusChanged(ReactActivityDelegate.java:235)
+09-25 10:46:08.727  5752  5752 E unknown:ReactHost: 	at expo.modules.ReactActivityDelegateWrapper$onWindowFocusChanged$1.invokeSuspend(ReactActivityDelegateWrapper.kt:320)
+09-25 10:46:08.727  5752  5752 E unknown:ReactHost: 	at expo.modules.ReactActivityDelegateWrapper$onWindowFocusChanged$1.invoke(Unknown Source:8)
+09-25 10:46:08.727  5752  5752 E unknown:ReactHost: 	at expo.modules.ReactActivityDelegateWrapper$onWindowFocusChanged$1.invoke(Unknown Source:4)
+09-25 10:46:08.727  5752  5752 E unknown:ReactHost: 	at expo.modules.ReactActivityDelegateWrapper$launchLifecycleScopeWithLock$1.invokeSuspend(ReactActivityDelegateWrapper.kt:452)
+09-25 10:46:08.727  5752  5752 E unknown:ReactHost: 	at kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:34)
+09-25 10:46:08.727  5752  5752 E unknown:ReactHost: 	at kotlinx.coroutines.internal.DispatchedContinuationKt.resumeCancellableWith(DispatchedContinuation.kt:375)
+09-25 10:46:08.727  5752  5752 E unknown:ReactHost: 	at kotlinx.coroutines.intrinsics.CancellableKt.startCoroutineCancellable(Cancellable.kt:26)
+09-25 10:46:08.727  5752  5752 E unknown:ReactHost: 	at kotlinx.coroutines.CoroutineStart.invoke(CoroutineStart.kt:358)
+09-25 10:46:08.727  5752  5752 E unknown:ReactHost: 	at kotlinx.coroutines.AbstractCoroutine.start(AbstractCoroutine.kt:134)
+09-25 10:46:08.727  5752  5752 E unknown:ReactHost: 	at kotlinx.coroutines.BuildersKt__Builders_commonKt.launch(Builders.common.kt:53)
+09-25 10:46:08.727  5752  5752 E unknown:ReactHost: 	at kotlinx.coroutines.BuildersKt.launch(Unknown Source:1)
+09-25 10:46:08.727  5752  5752 E unknown:ReactHost: 	at kotlinx.coroutines.BuildersKt__Builders_commonKt.launch$default(Builders.common.kt:44)
+09-25 10:46:08.727  5752  5752 E unknown:ReactHost: 	at kotlinx.coroutines.BuildersKt.launch$default(Unknown Source:1)
+09-25 10:46:08.727  5752  5752 E unknown:ReactHost: 	at expo.modules.ReactActivityDelegateWrapper.launchLifecycleScopeWithLock(ReactActivityDelegateWrapper.kt:450)
+09-25 10:46:08.727  5752  5752 E unknown:ReactHost: 	at expo.modules.ReactActivityDelegateWrapper.launchLifecycleScopeWithLock$default(ReactActivityDelegateWrapper.kt:446)
+09-25 10:46:08.727  5752  5752 E unknown:ReactHost: 	at expo.modules.ReactActivityDelegateWrapper.onWindowFocusChanged(ReactActivityDelegateWrapper.kt:318)
+09-25 10:46:08.727  5752  5752 E unknown:ReactHost: 	at com.facebook.react.ReactActivity.onWindowFocusChanged(ReactActivity.java:161)
+09-25 10:46:08.727  5752  5752 E unknown:ReactHost: 	at androidx.appcompat.view.WindowCallbackWrapper.onWindowFocusChanged(WindowCallbackWrapper.java:124)
+09-25 10:46:08.727  5752  5752 E unknown:ReactHost: 	at com.android.internal.policy.DecorView.onWindowFocusChanged(DecorView.java:1797)
+09-25 10:46:08.727  5752  5752 E unknown:ReactHost: 	at android.view.View.dispatchWindowFocusChanged(View.java:17124)
+09-25 10:46:08.727  5752  5752 E unknown:ReactHost: 	at android.view.ViewGroup.dispatchWindowFocusChanged(ViewGroup.java:1529)
+09-25 10:46:08.727  5752  5752 E unknown:ReactHost: 	at android.view.ViewRootImpl.dispatchFocusEvent(ViewRootImpl.java:4962)
+09-25 10:46:08.727  5752  5752 E unknown:ReactHost: 	at android.view.ViewRootImpl.handleWindowFocusChanged(ViewRootImpl.java:4866)
+09-25 10:46:08.727  5752  5752 E unknown:ReactHost: 	at android.view.ViewRootImpl.-$$Nest$mhandleWindowFocusChanged(Unknown Source:0)
+09-25 10:46:08.727  5752  5752 E unknown:ReactHost: 	at android.view.ViewRootImpl$ViewRootHandler.handleMessageImpl(ViewRootImpl.java:7118)
+09-25 10:46:08.727  5752  5752 E unknown:ReactHost: 	at android.view.ViewRootImpl$ViewRootHandler.handleMessage(ViewRootImpl.java:7026)
+09-25 10:46:08.727  5752  5752 E unknown:ReactHost: 	at android.os.Handler.dispatchMessage(Handler.java:132)
+09-25 10:46:08.727  5752  5752 E unknown:ReactHost: 	at android.os.Looper.dispatchMessage(Looper.java:333)
+09-25 10:46:08.727  5752  5752 E unknown:ReactHost: 	at android.os.Looper.loopOnce(Looper.java:263)
+09-25 10:46:08.727  5752  5752 E unknown:ReactHost: 	at android.os.Looper.loop(Looper.java:367)
+09-25 10:46:08.727  5752  5752 E unknown:ReactHost: 	at android.app.ActivityThread.main(ActivityThread.java:9282)
+09-25 10:46:08.727  5752  5752 E unknown:ReactHost: 	at java.lang.reflect.Method.invoke(Native Method)
+09-25 10:46:08.727  5752  5752 E unknown:ReactHost: 	at com.android.internal.os.RuntimeInit$MethodAndArgsCaller.run(RuntimeInit.java:566)
+09-25 10:46:08.727  5752  5752 E unknown:ReactHost: 	at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:929)
+09-25 10:46:08.739  5752  5752 D InsetsController: hide(ime())
+09-25 10:46:08.739  5752  5752 I ImeTracker: in.nammacrew.mobile:81fd6ff7: onCancelled at PHASE_CLIENT_ALREADY_HIDDEN
+09-25 10:46:09.363  5752  5759 I ammacrew.mobile: Compiler allocated 5087KB to compile void android.view.ViewRootImpl.performTraversals()
+09-25 10:46:13.838  5752  5798 D ProfileInstaller: Installing profile for in.nammacrew.mobile

@@ -1,0 +1,26 @@
+The following packages should be updated for best compatibility with the installed expo version:
+› Installing 3 SDK 57.0.0 compatible native modules using npm
+  expo@57.0.24 - expected version: ~57.0.25
+  expo-linking@57.0.10 - expected version: ~57.0.11
+  expo-router@57.0.22 - expected version: ~57.0.23
+Your project may not work correctly until you install the expected versions of the packages.
+> npm install
+
+added 50 packages, removed 3 packages, and changed 6 packages in 13s
+
+222 packages are looking for funding
+  run `npm fund` for details
+› Running npx expo install under the updated expo version
+> expo install --fix
+The following packages should be updated for best compatibility with the installed expo version:
+  expo-linking@57.0.10 - expected version: ~57.0.11
+  expo-router@57.0.22 - expected version: ~57.0.23
+Your project may not work correctly until you install the expected versions of the packages.
+› Installing 2 SDK 57.0.0 compatible native modules using npm
+> npm install
+
+changed 4 packages in 11s
+
+222 packages are looking for funding
+  run `npm fund` for details
+Exit=0

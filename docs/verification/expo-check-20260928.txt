@@ -1,0 +1,7 @@
+The following packages should be updated for best compatibility with the installed expo version:
+  expo@57.0.24 - expected version: ~57.0.25
+  expo-linking@57.0.10 - expected version: ~57.0.11
+  expo-router@57.0.22 - expected version: ~57.0.23
+Your project may not work correctly until you install the expected versions of the packages.
+Found outdated dependencies
+Exit=1

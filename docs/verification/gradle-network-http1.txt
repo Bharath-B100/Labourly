@@ -1,0 +1,17 @@
+  % Total    % Received % Xferd  Average Speed  Time    Time    Time   Current
+                                 Dload  Upload  Total   Spent   Left   Speed
+
+  0      0   0      0   0      0      0      0                              0
+  0    169   0      0   0      0      0      0                              0
+  0    169   0      0   0      0      0      0                              0
+curl: (35) Recv failure: Connection was reset
+HTTP/1.1 307 Temporary Redirect
+Date: Tue, 22 Sep 2026 09:08:34 GMT
+Content-Type: text/html; charset=UTF-8
+Content-Length: 169
+Connection: keep-alive
+Location: https://github.com/gradle/gradle-distributions/releases/download/v9.3.1/gradle-9.3.1-bin.zip
+Strict-Transport-Security: max-age=31536000; includeSubDomains; preload
+Server: cloudflare
+CF-RAY: a3f02a769cee2b4a-MAA
+

@@ -1,0 +1,26 @@
+
+> mobile@1.0.0 test
+> jest --runInBand
+
+PASS src/__tests__/api.test.ts
+FAIL src/__tests__/foundation.test.tsx (25.848 s)
+  ● initializes with truthful unfinished features
+
+    thrown: "Exceeded timeout of 5000 ms for a test.
+    Add a timeout value to this test to increase the timeout, if this is a long-running test. See https://jestjs.io/docs/api#testname-fn-timeout."
+
+       8 |     jest.requireActual<typeof import('react-native')>('react-native').View,
+       9 | }));
+    > 10 | test('initializes with truthful unfinished features', async () => {
+         | ^
+      11 |   const client = new QueryClient({
+      12 |     defaultOptions: { queries: { gcTime: 0 } },
+      13 |   });
+
+      at Object.test (src/__tests__/foundation.test.tsx:10:1)
+
+Test Suites: 1 failed, 1 passed, 2 total
+Tests:       1 failed, 5 passed, 6 total
+Snapshots:   0 total
+Time:        30.298 s, estimated 56 s
+Ran all test suites.
