@@ -1,0 +1,32 @@
+› Installing 3 other packages using npm
+› Using ~57.0.26 instead of ~57.0.26 for expo, ~57.0.20 instead of ~57.0.20 for expo-constants, and ~57.0.24 instead of ~57.0.24 for expo-router because these versions was explicitly provided. Packages excluded from dependency validation should be listed in expo.install.exclude in package.json. Learn more: https://docs.expo.dev/more/expo-cli/#configuring-dependency-validation
+> npm install
+
+added 46 packages, changed 3 packages, and audited 1165 packages in 2m
+
+222 packages are looking for funding
+  run `npm fund` for details
+
+3 moderate severity vulnerabilities
+
+To address all issues (including breaking changes), run:
+  npm audit fix --force
+
+Run `npm audit` for details.
+› Running npx expo install under the updated expo version
+> expo install expo-constants@~57.0.20 expo-router@~57.0.24
+› Installing 2 other packages using npm
+› Using ~57.0.20 instead of ~57.0.20 for expo-constants and ~57.0.24 instead of ~57.0.24 for expo-router because these versions was explicitly provided. Packages excluded from dependency validation should be listed in expo.install.exclude in package.json. Learn more: https://docs.expo.dev/more/expo-cli/#configuring-dependency-validation
+> npm install
+
+changed 2 packages, and audited 1165 packages in 2m
+
+222 packages are looking for funding
+  run `npm fund` for details
+
+3 moderate severity vulnerabilities
+
+To address all issues (including breaking changes), run:
+  npm audit fix --force
+
+Run `npm audit` for details.

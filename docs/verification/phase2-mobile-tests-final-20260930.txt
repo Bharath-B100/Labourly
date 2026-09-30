@@ -1,0 +1,36 @@
+PASS src/__tests__/onboarding.test.tsx (20.05 s)
+  √ phone and OTP validation reject invalid input (89 ms)
+  √ login validates phone and requests the correct OTP endpoint (4578 ms)
+  √ incorrect OTP stays on verification and displays the server failure (47 ms)
+  √ successful OTP stores credentials through the session service (42 ms)
+  √ role selection persists on server before reloading identity (151 ms)
+  √ customer onboarding requires name and location, reviews and completes (275 ms)
+  √ worker resumes the server draft step and completes trade, skills and availability (333 ms)
+  √ reopening onboarding replaces cached progress with the authoritative server draft (65 ms)
+  √ worker team fields and review prerequisites are validated (4 ms)
+
+PASS src/__tests__/foundation.test.tsx
+  √ welcome renders and Get Started opens login (374 ms)
+  √ role guards fail closed (9 ms)
+  √ routes new and partial accounts to onboarding; completed accounts to correct home (2 ms)
+
+PASS src/__tests__/session.test.ts
+  √ simultaneous 401s share one rotation and all original requests retry once (26 ms)
+  √ delayed old-token 401 reuses completed rotation without rotating again (6 ms)
+  √ failed refresh rejects every waiter and clears secure session (4 ms)
+  √ refresh endpoint cannot recursively refresh and a second 401 ends the retry (4 ms)
+  √ logout during rotation cannot restore credentials (15 ms)
+  √ an old request cannot be replayed under a newly signed-in identity (4 ms)
+  √ session restoration uses authoritative backend fields and logout revokes server session (14 ms)
+  √ offline restoration fails closed while preserving credentials for retry (4 ms)
+
+PASS src/__tests__/api.test.ts
+  √ ends a stalled health request after ten seconds (29 ms)
+  √ preserves caller cancellation before the timeout (13 ms)
+  √ cleans up the timeout after a successful response (6 ms)
+
+Test Suites: 4 passed, 4 total
+Tests:       23 passed, 23 total
+Snapshots:   0 total
+Time:        28.613 s
+Ran all test suites.

@@ -1,0 +1,27 @@
+src/__tests__/api.test.ts 91ms (unchanged)
+src/__tests__/foundation.test.tsx 16ms
+src/api/client.ts 28ms
+src/api/http.ts 16ms
+src/app/_layout.tsx 15ms
+src/app/(customer)/_layout.tsx 2ms (unchanged)
+src/app/(customer)/bookings.tsx 1ms (unchanged)
+src/app/(customer)/discover.tsx 1ms
+src/app/(worker)/_layout.tsx 2ms (unchanged)
+src/app/(worker)/opportunities.tsx 1ms
+src/app/(worker)/schedule.tsx 1ms (unchanged)
+src/app/auth/_layout.tsx 3ms
+src/app/auth/login.tsx 8ms
+src/app/auth/onboarding.tsx 1ms
+src/app/auth/verify.tsx 10ms
+src/app/index.tsx 7ms
+src/app/profile.tsx 2ms
+src/auth/credentials.ts 7ms
+src/auth/session.ts 14ms
+src/auth/validation.ts 3ms
+src/components/RoleHome.tsx 4ms
+src/components/ui.tsx 4ms (unchanged)
+src/onboarding/profile.ts 11ms
+src/onboarding/ProfileEditor.tsx 31ms
+app.json 17ms
+package.json 2ms (unchanged)
+metro.config.js 6ms (unchanged)

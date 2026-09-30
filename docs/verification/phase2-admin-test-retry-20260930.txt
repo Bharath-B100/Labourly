@@ -1,0 +1,9 @@
+
+ RUN  v4.1.11 D:/Files/EDUCATION/NammaCrew/admin
+
+
+ Test Files  1 passed (1)
+      Tests  2 passed (2)
+   Start at  09:46:26
+   Duration  27.82s (transform 458ms, setup 13.62s, import 543ms, tests 1.30s, environment 11.84s)
+

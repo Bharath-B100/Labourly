@@ -1,0 +1,35 @@
+PASS src/__tests__/onboarding.test.tsx (15.806 s)
+  √ phone and OTP validation reject invalid input (82 ms)
+  √ login validates phone and requests the correct OTP endpoint (4518 ms)
+  √ incorrect OTP stays on verification and displays the server failure (43 ms)
+  √ successful OTP stores credentials through the session service (43 ms)
+  √ role selection persists on server before reloading identity (180 ms)
+  √ customer onboarding requires name and location, reviews and completes (231 ms)
+  √ worker resumes the server draft step and completes trade, skills and availability (343 ms)
+  √ worker team fields and review prerequisites are validated (2 ms)
+
+PASS src/__tests__/foundation.test.tsx
+  √ welcome renders and Get Started opens login (378 ms)
+  √ role guards fail closed (2 ms)
+  √ routes new and partial accounts to onboarding; completed accounts to correct home (2 ms)
+
+PASS src/__tests__/api.test.ts
+  √ ends a stalled health request after ten seconds (31 ms)
+  √ preserves caller cancellation before the timeout (12 ms)
+  √ cleans up the timeout after a successful response (7 ms)
+
+PASS src/__tests__/session.test.ts
+  √ simultaneous 401s share one rotation and all original requests retry once (24 ms)
+  √ delayed old-token 401 reuses completed rotation without rotating again (6 ms)
+  √ failed refresh rejects every waiter and clears secure session (6 ms)
+  √ refresh endpoint cannot recursively refresh and a second 401 ends the retry (5 ms)
+  √ logout during rotation cannot restore credentials (28 ms)
+  √ an old request cannot be replayed under a newly signed-in identity (4 ms)
+  √ session restoration uses authoritative backend fields and logout revokes server session (15 ms)
+  √ offline restoration fails closed while preserving credentials for retry (3 ms)
+
+Test Suites: 4 passed, 4 total
+Tests:       22 passed, 22 total
+Snapshots:   0 total
+Time:        24.049 s, estimated 65 s
+Ran all test suites.

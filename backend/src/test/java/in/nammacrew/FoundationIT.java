@@ -28,9 +28,13 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 import org.testcontainers.utility.DockerImageName;
 
 @SpringBootTest
+@org.springframework.test.context.ActiveProfiles("test")
 @AutoConfigureMockMvc
 @Testcontainers
 class FoundationIT {
+  @org.springframework.test.context.bean.override.mockito.MockitoBean
+  in.nammacrew.auth.OtpProvider otpProvider;
+
   @Container
   static final PostgreSQLContainer<?> DB =
       new PostgreSQLContainer<>(
@@ -107,7 +111,7 @@ class FoundationIT {
         .andExpect(jsonPath("$.components").doesNotExist());
     assertNotNull(sql.queryForObject("SELECT postgis_version()", String.class));
     assertEquals(
-        3,
+        5,
         sql.queryForObject(
             "SELECT count(*) FROM flyway_schema_history WHERE success AND version IS NOT NULL",
             Integer.class));

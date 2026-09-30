@@ -1,0 +1,30 @@
+[
+  {
+    "gate": "test",
+    "exitCode": 0
+  },
+  {
+    "gate": "typecheck",
+    "exitCode": 0
+  },
+  {
+    "gate": "lint",
+    "exitCode": 0
+  },
+  {
+    "gate": "format:check",
+    "exitCode": 0
+  },
+  {
+    "gate": "expo install --check",
+    "exitCode": 0
+  },
+  {
+    "gate": "Expo Doctor",
+    "exitCode": 0
+  },
+  {
+    "gate": "npm audit",
+    "exitCode": 1
+  }
+]

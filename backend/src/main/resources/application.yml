@@ -1,6 +1,9 @@
 spring:
   application:
     name: nammacrew
+  jackson:
+    deserialization:
+      fail-on-unknown-properties: true
   datasource:
     url: ${DB_URL:jdbc:postgresql://localhost:5432/nammacrew}
     username: ${DB_USERNAME}
@@ -30,3 +33,5 @@ springdoc:
     enabled: ${OPENAPI_ENABLED:false}
   swagger-ui:
     enabled: ${OPENAPI_ENABLED:false}
+jwt:
+  secret: ${JWT_SECRET:}

@@ -1,6 +1,7 @@
 package in.nammacrew.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import in.nammacrew.auth.JwtAuthenticationFilter;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Map;
@@ -12,6 +13,8 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
@@ -25,17 +28,28 @@ public class SecurityConfig {
   }
 
   @Bean
-  SecurityFilterChain security(HttpSecurity http, ObjectMapper mapper) throws Exception {
-    return http.sessionManagement(s -> s.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+  PasswordEncoder passwordEncoder() {
+    return new BCryptPasswordEncoder();
+  }
+
+  @Bean
+  SecurityFilterChain security(
+      HttpSecurity http, ObjectMapper mapper, JwtAuthenticationFilter jwtFilter) throws Exception {
+    return http.csrf(c -> c.disable())
+        .sessionManagement(s -> s.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
         .authorizeHttpRequests(
             a ->
-                a.requestMatchers("/actuator/health")
+                a.requestMatchers("/actuator/health", "/api/v1/auth/**")
                     .permitAll()
                     .requestMatchers(
                         "/api/v1/admin/**", "/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html")
                     .hasRole("ADMIN")
                     .anyRequest()
                     .authenticated())
+        .addFilterBefore(
+            jwtFilter,
+            org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
+                .class)
         .exceptionHandling(
             e ->
                 e.authenticationEntryPoint(

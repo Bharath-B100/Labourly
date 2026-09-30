@@ -1,57 +1,58 @@
 import { fireEvent, render, screen } from '@testing-library/react-native';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import Welcome from '../app/index';
-import { hasRole } from '../auth/session';
-
+import { hasRole, homeRoute, useSession, type Session } from '../auth/session';
+const mockPush = jest.fn();
+jest.mock('expo-router', () => ({
+  useRouter: () => ({ push: mockPush }),
+  Redirect: () => null,
+}));
+jest.mock('expo-secure-store', () => ({
+  getItemAsync: jest.fn(),
+  setItemAsync: jest.fn(),
+  deleteItemAsync: jest.fn(),
+}));
 jest.mock('react-native-safe-area-context', () => ({
   SafeAreaView:
     jest.requireActual<typeof import('react-native')>('react-native').View,
 }));
-test('initializes with truthful unfinished features', async () => {
-  const client = new QueryClient({
-    defaultOptions: { queries: { gcTime: 0 } },
-  });
-  try {
-    await render(
-      <QueryClientProvider client={client}>
-        <Welcome />
-      </QueryClientProvider>,
-    );
-    expect(screen.getByText('Foundation in progress')).toBeTruthy();
-    expect(
-      screen.getByRole('button', { name: 'Check backend connection' }),
-    ).toBeTruthy();
-  } finally {
-    client.clear();
-  }
+const base: Session = {
+  userId: 'synthetic',
+  phone: '+919000000001',
+  fullName: 'Test',
+  roles: [],
+  onboardingState: 'NOT_STARTED',
+  onboardingStep: null,
+};
+beforeEach(() => {
+  useSession.setState({ session: null, isLoading: false, error: null });
+  mockPush.mockClear();
 });
-
-test('handles backend network failure', async () => {
-  const originalFetch = global.fetch;
-  global.fetch = jest.fn().mockRejectedValue(new Error('offline'));
-  const client = new QueryClient({
-    defaultOptions: { queries: { retry: false, gcTime: 0 } },
-  });
-  try {
-    await render(
-      <QueryClientProvider client={client}>
-        <Welcome />
-      </QueryClientProvider>,
-    );
-    expect(screen.getByText('Foundation in progress')).toBeTruthy();
-    await fireEvent.press(screen.getByText('Check backend connection'));
-    expect(await screen.findByText(/Unable to reach/)).toBeTruthy();
-  } finally {
-    global.fetch = originalFetch;
-    client.clear();
-  }
+test('welcome renders and Get Started opens login', async () => {
+  await render(<Welcome />);
+  expect(screen.getByText('Ready to build?')).toBeTruthy();
+  await fireEvent.press(screen.getByRole('button', { name: 'Get Started' }));
+  expect(mockPush).toHaveBeenCalledWith('/auth/login');
 });
-test('fails closed for unauthenticated and wrong-role sessions', () => {
+test('role guards fail closed', () => {
   expect(hasRole(null, 'WORKER')).toBe(false);
-  expect(hasRole({ userId: 'synthetic', roles: ['CUSTOMER'] }, 'WORKER')).toBe(
-    false,
-  );
-  expect(hasRole({ userId: 'synthetic', roles: ['WORKER'] }, 'WORKER')).toBe(
-    true,
-  );
+  expect(hasRole({ ...base, roles: ['CUSTOMER'] }, 'WORKER')).toBe(false);
+  expect(hasRole({ ...base, roles: ['WORKER'] }, 'WORKER')).toBe(true);
+});
+test('routes new and partial accounts to onboarding; completed accounts to correct home', () => {
+  expect(homeRoute(null)).toBe('/');
+  expect(homeRoute(base)).toBe('/auth/onboarding');
+  expect(
+    homeRoute({
+      ...base,
+      roles: ['WORKER'],
+      onboardingState: 'IN_PROGRESS',
+      onboardingStep: '2',
+    }),
+  ).toBe('/auth/onboarding');
+  expect(
+    homeRoute({ ...base, roles: ['CUSTOMER'], onboardingState: 'COMPLETED' }),
+  ).toBe('/(customer)/discover');
+  expect(
+    homeRoute({ ...base, roles: ['WORKER'], onboardingState: 'COMPLETED' }),
+  ).toBe('/(worker)/opportunities');
 });

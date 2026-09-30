@@ -1,0 +1,8 @@
+
+> mobile@1.0.0 typecheck
+> tsc --noEmit
+
+src/__tests__/foundation.test.tsx(32,7): error TS2345: Argument of type '{ userId: string; roles: "CUSTOMER"[]; onboardingState: "COMPLETED"; }' is not assignable to parameter of type 'Session'.
+  Type '{ userId: string; roles: "CUSTOMER"[]; onboardingState: "COMPLETED"; }' is missing the following properties from type 'Session': phone, fullName, onboardingStep
+src/__tests__/foundation.test.tsx(42,7): error TS2345: Argument of type '{ userId: string; roles: "WORKER"[]; onboardingState: "COMPLETED"; }' is not assignable to parameter of type 'Session'.
+  Type '{ userId: string; roles: "WORKER"[]; onboardingState: "COMPLETED"; }' is missing the following properties from type 'Session': phone, fullName, onboardingStep

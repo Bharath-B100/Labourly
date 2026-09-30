@@ -20,13 +20,17 @@ export function Screen({ children }: PropsWithChildren) {
 export function Action({
   label,
   onPress,
+  disabled = false,
 }: {
   label: string;
   onPress: () => void;
+  disabled?: boolean;
 }) {
   return (
     <Pressable
       accessibilityRole="button"
+      accessibilityState={{ disabled }}
+      disabled={disabled}
       onPress={onPress}
       className="min-h-12 justify-center rounded-xl bg-teal-800 px-5 py-3"
     >

@@ -1,0 +1,30 @@
+
+> mobile@1.0.0 test
+> jest --runInBand --detectOpenHandles
+
+FAIL src/__tests__/onboarding.test.tsx (34.039 s)
+  ● login validates phone and requests the correct OTP endpoint
+
+    thrown: "Exceeded timeout of 5000 ms for a test.
+    Add a timeout value to this test to increase the timeout, if this is a long-running test. See https://jestjs.io/docs/api#testname-fn-timeout."
+
+      113 |     expect(() => validateOtp(code)).toThrow();
+      114 | });
+    > 115 | test('login validates phone and requests the correct OTP endpoint', async () => {
+          | ^
+      116 |   await show(<LoginScreen />);
+      117 |   await fill('Phone number', '123');
+      118 |   await press('Send code');
+
+      at Object.test (src/__tests__/onboarding.test.tsx:115:1)
+
+PASS src/__tests__/session.test.ts
+PASS src/__tests__/foundation.test.tsx
+PASS src/__tests__/api.test.ts
+
+Test Suites: 1 failed, 3 passed, 4 total
+Tests:       1 failed, 21 passed, 22 total
+Snapshots:   0 total
+Time:        44.195 s, estimated 45 s
+Ran all test suites.
+Exit=1

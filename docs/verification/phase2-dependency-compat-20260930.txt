@@ -1,0 +1,1 @@
+PASS: patched xcode dependency produces 10,000 unique valid project IDs.

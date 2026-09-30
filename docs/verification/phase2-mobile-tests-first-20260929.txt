@@ -1,0 +1,6 @@
+
+> mobile@1.0.0 test
+> jest --runInBand
+
+Exit=-1
+Interrupted during initial file discovery; no test result claimed. Retried with roots limited to app source.

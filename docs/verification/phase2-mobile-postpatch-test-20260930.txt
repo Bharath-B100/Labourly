@@ -1,0 +1,14 @@
+
+> mobile@1.0.0 test
+> jest --runInBand
+
+PASS src/__tests__/onboarding.test.tsx (7.106 s)
+PASS src/__tests__/foundation.test.tsx
+PASS src/__tests__/api.test.ts
+PASS src/__tests__/session.test.ts
+
+Test Suites: 4 passed, 4 total
+Tests:       23 passed, 23 total
+Snapshots:   0 total
+Time:        10.619 s, estimated 26 s
+Ran all test suites.

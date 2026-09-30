@@ -1,4 +1,4 @@
-import { Placeholder } from '../../components/ui';
-export default function Discover() {
-  return <Placeholder title="Find workers" />;
+import RoleHome from '../../components/RoleHome';
+export default function CustomerHome() {
+  return <RoleHome role="Customer" />;
 }

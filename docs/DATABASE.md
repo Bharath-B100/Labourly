@@ -50,4 +50,26 @@ Testcontainers tests cover overlap, adjacent intervals, cancellation, immutable 
 
 Availability is declarative in Phase 1, not a prerequisite for confirmation. Future application services must enforce active accounts, profile/role consistency, verified skills, availability, request ownership, sufficient headcount, requirement dates, review authorization and customer cancellation policy. No booking HTTP endpoint is exposed until those checks exist. Add idempotency keys before accepting network retries for booking creation. Teams require a defined membership-consent policy. Real identity verification requires a separate privacy and retention design.
 
-Migrations seed only three role codes. Integration tests insert and remove synthetic people in a disposable database; no realistic identity documents or payments are used.
+Phase 1 migrations seed three role codes; Phase 2 additionally seeds the initial trades and trade skills. Integration tests insert and remove synthetic people in a disposable database; no realistic identity documents or payments are used.
+
+## Phase 2 authentication and onboarding (V4 → V5)
+
+V1–V4 checksums are preserved (verification/phase2-migration-checksums-20260930.json). V4 introduces OTP challenges, refresh credentials, onboarding state and initial profile fields. V5 is a forward security/completeness correction; never rewrite applied migrations.
+
+| Table/change | Enforced relationship or rule |
+| --- | --- |
+| otp_challenges | E.164 phone; attempts between zero and maximum; maximum 1–10; expiry after creation; updated timestamp trigger |
+| auth_sessions | User FK; fixed expiry; revocation; unique session/user pair; user index; timestamps |
+| refresh_tokens | Hash only, unique lookup; composite session/user FK; expiry check; session index; update trigger |
+| onboarding_drafts | One per user; CUSTOMER/WORKER role; step 0–3; JSON object; timestamps and update trigger |
+| customer_profiles | Nine customer types including OTHER; structured location JSON object |
+| worker_profiles | Optional HTTPS photo URL validated by service; primary trade FK; availability enum; conditional team fields |
+| trade_skills | Backend-managed skills; unique code and skill/trade pair; active flag and timestamps |
+| worker_subskills | Composite FKs enforce skill belongs to trade and worker has that trade |
+
+V4 refresh credentials are revoked during V5 migration; reauthentication is required. Existing profile values become resumable drafts. Earlier completion flags did not certify the new required fields, so existing CUSTOMER/WORKER accounts return to IN_PROGRESS step 0. No booking records are removed. The schema permits legacy TEAM rows with both team fields absent; the profile service requires them before new completion. Team onboarding metadata is not a team-membership workflow.
+
+The service persists the full draft and step transactionally. Completion validates prior fields/review, saves profile/location/skill relationships, and marks the user COMPLETED. Phone advisory locks protect OTP issuance/verification; session row locks serialize refresh rotation and replay revocation. Refresh failures that revoke a family and incorrect OTP attempts commit their security state.
+
+MigrationIT tests empty V1–V4 then V5, and upgrades a synthetic V3 database through V4/V5 while retaining its user. AuthenticationIT exercises real PostgreSQL persistence. FoundationIT retains booking overlap and repeated concurrent-confirmation checks. Current execution results, rather than schema presence, determine status in PHASE_2_REPORT.md.
+

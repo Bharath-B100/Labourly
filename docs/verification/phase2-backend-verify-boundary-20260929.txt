@@ -1,0 +1,288 @@
+Picked up JAVA_TOOL_OPTIONS: -Djdk.net.unixdomain.tmpdir=D:/Files/EDUCATION/NammaCrew/.tools/java-sockets
+[INFO] Scanning for projects...
+[INFO] 
+[INFO] ------------------------< in.nammacrew:backend >------------------------
+[INFO] Building NammaCrew 0.1.0-SNAPSHOT
+[INFO]   from pom.xml
+[INFO] --------------------------------[ jar ]---------------------------------
+[INFO] 
+[INFO] --- spotless:2.44.3:apply (default-cli) @ backend ---
+[INFO] clean file: D:\Files\EDUCATION\NammaCrew\backend\src\main\java\in\nammacrew\auth\AuthService.java
+[INFO] Spotless.Java is keeping 42 files clean - 1 were changed to be clean, 0 were already clean, 41 were skipped because caching determined they were already clean
+[INFO] 
+[INFO] --- enforcer:3.6.2:enforce (require-java-21) @ backend ---
+[INFO] Rule 0: org.apache.maven.enforcer.rules.version.RequireJavaVersion passed
+[INFO] 
+[INFO] --- resources:3.3.1:resources (default-resources) @ backend ---
+[INFO] Copying 1 resource from src\main\resources to target\classes
+[INFO] Copying 5 resources from src\main\resources to target\classes
+[INFO] 
+[INFO] --- compiler:3.14.1:compile (default-compile) @ backend ---
+[INFO] Recompiling the module because of changed source code.
+[INFO] Compiling 37 source files with javac [debug parameters release 21] to target\classes
+[INFO] 
+[INFO] --- resources:3.3.1:testResources (default-testResources) @ backend ---
+[INFO] skip non existing resourceDirectory D:\Files\EDUCATION\NammaCrew\backend\src\test\resources
+[INFO] 
+[INFO] --- compiler:3.14.1:testCompile (default-testCompile) @ backend ---
+[INFO] Recompiling the module because of changed dependency.
+[INFO] Compiling 5 source files with javac [debug parameters release 21] to target\test-classes
+[WARNING] /D:/Files/EDUCATION/NammaCrew/backend/src/test/java/in/nammacrew/security/SecurityTest.java:[20,4] org.springframework.boot.test.mock.mockito.MockBean in org.springframework.boot.test.mock.mockito has been deprecated and marked for removal
+[INFO] 
+[INFO] --- surefire:3.5.6:test (default-test) @ backend ---
+[INFO] Using auto detected provider org.apache.maven.surefire.junitplatform.JUnitPlatformProvider
+[INFO] 
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+Picked up JAVA_TOOL_OPTIONS: -Djdk.net.unixdomain.tmpdir=D:/Files/EDUCATION/NammaCrew/.tools/java-sockets
+[INFO] Running in.nammacrew.booking.BookingStateTest
+[INFO] Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.053 s -- in in.nammacrew.booking.BookingStateTest
+[INFO] Running in.nammacrew.security.SecurityTest
+17:52:31.763 [main] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [in.nammacrew.security.SecurityTest]: SecurityTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+17:52:31.961 [main] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration in.nammacrew.NammaCrewApplication for test class in.nammacrew.security.SecurityTest
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::               (v3.5.16)
+
+2026-09-29T17:52:32.396+05:30  INFO 1996 --- [nammacrew] [           main] in.nammacrew.security.SecurityTest       : Starting SecurityTest using Java 21.0.12.1 with PID 1996 (started by BHARATH RAJ B in D:\Files\EDUCATION\NammaCrew\backend)
+2026-09-29T17:52:32.396+05:30  INFO 1996 --- [nammacrew] [           main] in.nammacrew.security.SecurityTest       : No active profile set, falling back to 1 default profile: "default"
+Mockito is currently self-attaching to enable the inline-mock-maker. This will no longer work in future releases of the JDK. Please add Mockito as an agent to your build as described in Mockito's documentation: https://javadoc.io/doc/org.mockito/mockito-core/latest/org.mockito/org/mockito/Mockito.html#0.3
+WARNING: A Java agent has been loaded dynamically (C:\Users\BHARATH RAJ B\.m2\repository\net\bytebuddy\byte-buddy-agent\1.17.8\byte-buddy-agent-1.17.8.jar)
+WARNING: If a serviceability tool is in use, please run with -XX:+EnableDynamicAgentLoading to hide this warning
+WARNING: If a serviceability tool is not in use, please run with -Djdk.instrument.traceUsage for more information
+WARNING: Dynamic loading of agents will be disallowed by default in a future release
+OpenJDK 64-Bit Server VM warning: Sharing is only supported for boot loader classes because bootstrap classpath has been appended
+2026-09-29T17:52:37.561+05:30  INFO 1996 --- [nammacrew] [           main] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name noBootstrapUsers
+2026-09-29T17:52:39.690+05:30  INFO 1996 --- [nammacrew] [           main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-09-29T17:52:39.692+05:30  INFO 1996 --- [nammacrew] [           main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-09-29T17:52:39.699+05:30  INFO 1996 --- [nammacrew] [           main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 6 ms
+2026-09-29T17:52:39.806+05:30  INFO 1996 --- [nammacrew] [           main] in.nammacrew.security.SecurityTest       : Started SecurityTest in 7.778 seconds (process running for 8.86)
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 8.557 s -- in in.nammacrew.security.SecurityTest
+[INFO] 
+[INFO] Results:
+[INFO] 
+[INFO] Tests run: 4, Failures: 0, Errors: 0, Skipped: 0
+[INFO] 
+[INFO] 
+[INFO] --- jar:3.4.2:jar (default-jar) @ backend ---
+[INFO] Building jar: D:\Files\EDUCATION\NammaCrew\backend\target\backend-0.1.0-SNAPSHOT.jar
+[INFO] 
+[INFO] --- spring-boot:3.5.16:repackage (repackage) @ backend ---
+[INFO] Replacing main artifact D:\Files\EDUCATION\NammaCrew\backend\target\backend-0.1.0-SNAPSHOT.jar with repackaged archive, adding nested dependencies in BOOT-INF/.
+[INFO] The original artifact has been renamed to D:\Files\EDUCATION\NammaCrew\backend\target\backend-0.1.0-SNAPSHOT.jar.original
+[INFO] 
+[INFO] --- failsafe:3.5.6:integration-test (default) @ backend ---
+[INFO] Using auto detected provider org.apache.maven.surefire.junitplatform.JUnitPlatformProvider
+[INFO] 
+[INFO] -------------------------------------------------------
+[INFO]  T E S T S
+[INFO] -------------------------------------------------------
+Picked up JAVA_TOOL_OPTIONS: -Djdk.net.unixdomain.tmpdir=D:/Files/EDUCATION/NammaCrew/.tools/java-sockets
+[INFO] Running in.nammacrew.auth.AuthenticationIT
+17:52:45.399 [main] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration in.nammacrew.NammaCrewApplication for test class in.nammacrew.auth.AuthenticationIT
+17:52:45.525 [main] INFO org.testcontainers.images.PullPolicy -- Image pull policy will be performed by: DefaultPullPolicy()
+17:52:45.527 [main] INFO org.testcontainers.utility.ImageNameSubstitutor -- Image name substitution will be performed by: DefaultImageNameSubstitutor (composite of 'ConfigurationFileImageNameSubstitutor' and 'PrefixingImageNameSubstitutor')
+17:52:45.583 [main] INFO org.testcontainers.DockerClientFactory -- Testcontainers version: 1.21.4
+17:52:45.770 [main] INFO org.testcontainers.dockerclient.DockerClientProviderStrategy -- Loaded org.testcontainers.dockerclient.NpipeSocketClientProviderStrategy from ~/.testcontainers.properties, will try it first
+17:52:46.091 [main] INFO org.testcontainers.dockerclient.DockerClientProviderStrategy -- Found Docker environment with local Npipe socket (npipe:////./pipe/docker_engine)
+17:52:46.092 [main] INFO org.testcontainers.DockerClientFactory -- Docker host IP address is localhost
+17:52:46.118 [main] INFO org.testcontainers.DockerClientFactory -- Connected to docker: 
+  Server Version: 29.5.3
+  API Version: 1.54
+  Operating System: Docker Desktop
+  Total Memory: 7776 MB
+  Labels: 
+    com.docker.desktop.address=npipe://\\.\pipe\docker_cli
+17:52:46.222 [main] INFO tc.testcontainers/ryuk:0.12.0 -- Creating container for image: testcontainers/ryuk:0.12.0
+17:52:46.576 [main] INFO tc.testcontainers/ryuk:0.12.0 -- Container testcontainers/ryuk:0.12.0 is starting: b45b76cc80e67e3372df3543478ea2b826339f483e2365ddc904d146b8bf2992
+17:52:47.033 [main] INFO tc.testcontainers/ryuk:0.12.0 -- Container testcontainers/ryuk:0.12.0 started in PT0.8116074S
+17:52:47.044 [main] INFO org.testcontainers.utility.RyukResourceReaper -- Ryuk started - will monitor and terminate Testcontainers containers on JVM exit
+17:52:47.044 [main] INFO org.testcontainers.DockerClientFactory -- Checking the system...
+17:52:47.045 [main] INFO org.testcontainers.DockerClientFactory -- ?? Docker server version should be at least 1.6.0
+17:52:47.045 [main] INFO tc.postgis/postgis:17-3.5 -- Creating container for image: postgis/postgis:17-3.5
+17:52:47.122 [main] INFO tc.postgis/postgis:17-3.5 -- Container postgis/postgis:17-3.5 is starting: b8730b1624b945776d24cb39eb0d6c926f3e6eedb62d637b5bc0808372ac6126
+17:52:49.656 [main] INFO tc.postgis/postgis:17-3.5 -- Container postgis/postgis:17-3.5 started in PT2.6109107S
+17:52:49.657 [main] INFO tc.postgis/postgis:17-3.5 -- Container is started (JDBC URL: jdbc:postgresql://localhost:54942/test?loggerLevel=OFF)
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::               (v3.5.16)
+
+2026-09-29T17:52:50.592+05:30  INFO 6084 --- [nammacrew] [           main] in.nammacrew.auth.AuthenticationIT       : Starting AuthenticationIT using Java 21.0.12.1 with PID 6084 (started by BHARATH RAJ B in D:\Files\EDUCATION\NammaCrew\backend)
+2026-09-29T17:52:50.594+05:30  INFO 6084 --- [nammacrew] [           main] in.nammacrew.auth.AuthenticationIT       : The following 1 profile is active: "test"
+2026-09-29T17:52:53.694+05:30  INFO 6084 --- [nammacrew] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-09-29T17:52:53.948+05:30  INFO 6084 --- [nammacrew] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 214 ms. Found 8 JPA repository interfaces.
+2026-09-29T17:52:56.006+05:30  INFO 6084 --- [nammacrew] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-09-29T17:52:56.329+05:30  INFO 6084 --- [nammacrew] [           main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@7cf66cf9
+2026-09-29T17:52:56.332+05:30  INFO 6084 --- [nammacrew] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-09-29T17:52:56.410+05:30  INFO 6084 --- [nammacrew] [           main] org.flywaydb.core.FlywayExecutor         : Database: jdbc:postgresql://localhost:54942/test?loggerLevel=OFF (PostgreSQL 17.5)
+2026-09-29T17:52:56.511+05:30  INFO 6084 --- [nammacrew] [           main] o.f.c.i.s.JdbcTableSchemaHistory         : Schema history table "public"."flyway_schema_history" does not exist yet
+2026-09-29T17:52:56.528+05:30  INFO 6084 --- [nammacrew] [           main] o.f.core.internal.command.DbValidate     : Successfully validated 5 migrations (execution time 00:00.063s)
+2026-09-29T17:52:56.636+05:30  INFO 6084 --- [nammacrew] [           main] o.f.c.i.s.JdbcTableSchemaHistory         : Creating Schema History table "public"."flyway_schema_history" ...
+2026-09-29T17:52:56.761+05:30  INFO 6084 --- [nammacrew] [           main] o.f.core.internal.command.DbMigrate      : Current version of schema "public": << Empty Schema >>
+2026-09-29T17:52:56.896+05:30  INFO 6084 --- [nammacrew] [           main] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "1 - initial schema"
+2026-09-29T17:52:56.914+05:30  WARN 6084 --- [nammacrew] [           main] o.f.c.i.s.DefaultSqlScriptExecutor       : DB: extension "postgis" already exists, skipping (SQL State: 42710 - Error Code: 0)
+2026-09-29T17:52:57.110+05:30  INFO 6084 --- [nammacrew] [           main] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "2 - booking invariants"
+2026-09-29T17:52:57.151+05:30  INFO 6084 --- [nammacrew] [           main] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "3 - serialize worker reservations"
+2026-09-29T17:52:57.183+05:30  INFO 6084 --- [nammacrew] [           main] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "4 - authentication and onboarding"
+2026-09-29T17:52:57.239+05:30  INFO 6084 --- [nammacrew] [           main] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "5 - secure sessions and complete onboarding"
+2026-09-29T17:52:57.332+05:30  INFO 6084 --- [nammacrew] [           main] o.f.core.internal.command.DbMigrate      : Successfully applied 5 migrations to schema "public", now at version v5 (execution time 00:00.318s)
+2026-09-29T17:52:57.555+05:30  INFO 6084 --- [nammacrew] [           main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-09-29T17:52:57.664+05:30  INFO 6084 --- [nammacrew] [           main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.6.53.Final
+2026-09-29T17:52:57.745+05:30  INFO 6084 --- [nammacrew] [           main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2026-09-29T17:52:58.292+05:30  INFO 6084 --- [nammacrew] [           main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-09-29T17:52:58.460+05:30  INFO 6084 --- [nammacrew] [           main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 17.5
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-09-29T17:53:00.572+05:30  INFO 6084 --- [nammacrew] [           main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-09-29T17:53:00.666+05:30  INFO 6084 --- [nammacrew] [           main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-09-29T17:53:01.733+05:30  INFO 6084 --- [nammacrew] [           main] o.s.d.j.r.query.QueryEnhancerFactory     : Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-09-29T17:53:03.947+05:30  INFO 6084 --- [nammacrew] [           main] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name noBootstrapUsers
+2026-09-29T17:53:05.183+05:30  INFO 6084 --- [nammacrew] [           main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 1 endpoint beneath base path '/actuator'
+2026-09-29T17:53:06.194+05:30  INFO 6084 --- [nammacrew] [           main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-09-29T17:53:06.194+05:30  INFO 6084 --- [nammacrew] [           main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-09-29T17:53:06.197+05:30  INFO 6084 --- [nammacrew] [           main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 3 ms
+2026-09-29T17:53:06.378+05:30  INFO 6084 --- [nammacrew] [           main] in.nammacrew.auth.AuthenticationIT       : Started AuthenticationIT in 16.648 seconds (process running for 21.996)
+Mockito is currently self-attaching to enable the inline-mock-maker. This will no longer work in future releases of the JDK. Please add Mockito as an agent to your build as described in Mockito's documentation: https://javadoc.io/doc/org.mockito/mockito-core/latest/org.mockito/org/mockito/Mockito.html#0.3
+WARNING: A Java agent has been loaded dynamically (C:\Users\BHARATH RAJ B\.m2\repository\net\bytebuddy\byte-buddy-agent\1.17.8\byte-buddy-agent-1.17.8.jar)
+WARNING: If a serviceability tool is in use, please run with -XX:+EnableDynamicAgentLoading to hide this warning
+WARNING: If a serviceability tool is not in use, please run with -Djdk.instrument.traceUsage for more information
+WARNING: Dynamic loading of agents will be disallowed by default in a future release
+OpenJDK 64-Bit Server VM warning: Sharing is only supported for boot loader classes because bootstrap classpath has been appended
+[INFO] Tests run: 14, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 30.42 s -- in in.nammacrew.auth.AuthenticationIT
+[INFO] Running in.nammacrew.auth.MigrationIT
+2026-09-29T17:53:15.570+05:30  INFO 6084 --- [nammacrew] [           main] tc.postgis/postgis:17-3.5                : Creating container for image: postgis/postgis:17-3.5
+2026-09-29T17:53:15.675+05:30  INFO 6084 --- [nammacrew] [           main] tc.postgis/postgis:17-3.5                : Container postgis/postgis:17-3.5 is starting: bd318d6a03d1f7d12764a7eabfdcdd976315df07d484f1f13b1c3598ac912067
+2026-09-29T17:53:17.859+05:30  INFO 6084 --- [nammacrew] [           main] tc.postgis/postgis:17-3.5                : Container postgis/postgis:17-3.5 started in PT2.2897894S
+2026-09-29T17:53:17.861+05:30  INFO 6084 --- [nammacrew] [           main] tc.postgis/postgis:17-3.5                : Container is started (JDBC URL: jdbc:postgresql://localhost:63060/test?loggerLevel=OFF)
+2026-09-29T17:53:17.919+05:30  INFO 6084 --- [nammacrew] [           main] org.flywaydb.core.FlywayExecutor         : Database: jdbc:postgresql://localhost:63060/test?loggerLevel=OFF (PostgreSQL 17.5)
+2026-09-29T17:53:17.946+05:30  INFO 6084 --- [nammacrew] [           main] o.f.core.internal.database.base.Schema   : Creating schema "upgrade_e39f907715cd4b30a6f7e72b8a314282" ...
+2026-09-29T17:53:17.954+05:30  INFO 6084 --- [nammacrew] [           main] o.f.c.i.s.JdbcTableSchemaHistory         : Creating Schema History table "upgrade_e39f907715cd4b30a6f7e72b8a314282"."flyway_schema_history" ...
+2026-09-29T17:53:18.024+05:30  INFO 6084 --- [nammacrew] [           main] o.f.core.internal.command.DbMigrate      : Current version of schema "upgrade_e39f907715cd4b30a6f7e72b8a314282": null
+2026-09-29T17:53:18.052+05:30  INFO 6084 --- [nammacrew] [           main] o.f.core.internal.command.DbMigrate      : Migrating schema "upgrade_e39f907715cd4b30a6f7e72b8a314282" to version "1 - initial schema"
+2026-09-29T17:53:18.055+05:30  WARN 6084 --- [nammacrew] [           main] o.f.c.i.s.DefaultSqlScriptExecutor       : DB: extension "postgis" already exists, skipping (SQL State: 42710 - Error Code: 0)
+2026-09-29T17:53:18.192+05:30  INFO 6084 --- [nammacrew] [           main] o.f.core.internal.command.DbMigrate      : Migrating schema "upgrade_e39f907715cd4b30a6f7e72b8a314282" to version "2 - booking invariants"
+2026-09-29T17:53:18.233+05:30  INFO 6084 --- [nammacrew] [           main] o.f.core.internal.command.DbMigrate      : Migrating schema "upgrade_e39f907715cd4b30a6f7e72b8a314282" to version "3 - serialize worker reservations"
+2026-09-29T17:53:18.252+05:30  INFO 6084 --- [nammacrew] [           main] o.f.core.internal.command.DbMigrate      : Successfully applied 3 migrations to schema "upgrade_e39f907715cd4b30a6f7e72b8a314282", now at version v3 (execution time 00:00.150s)
+2026-09-29T17:53:18.312+05:30  INFO 6084 --- [nammacrew] [           main] org.flywaydb.core.FlywayExecutor         : Database: jdbc:postgresql://localhost:63060/test?loggerLevel=OFF (PostgreSQL 17.5)
+2026-09-29T17:53:18.338+05:30  INFO 6084 --- [nammacrew] [           main] o.f.core.internal.command.DbValidate     : Successfully validated 6 migrations (execution time 00:00.014s)
+2026-09-29T17:53:18.369+05:30  INFO 6084 --- [nammacrew] [           main] o.f.core.internal.command.DbMigrate      : Current version of schema "upgrade_e39f907715cd4b30a6f7e72b8a314282": 3
+2026-09-29T17:53:18.376+05:30  INFO 6084 --- [nammacrew] [           main] o.f.core.internal.command.DbMigrate      : Migrating schema "upgrade_e39f907715cd4b30a6f7e72b8a314282" to version "4 - authentication and onboarding"
+2026-09-29T17:53:18.404+05:30  INFO 6084 --- [nammacrew] [           main] o.f.core.internal.command.DbMigrate      : Successfully applied 1 migration to schema "upgrade_e39f907715cd4b30a6f7e72b8a314282", now at version v4 (execution time 00:00.017s)
+2026-09-29T17:53:18.531+05:30  INFO 6084 --- [nammacrew] [           main] org.flywaydb.core.FlywayExecutor         : Database: jdbc:postgresql://localhost:63060/test?loggerLevel=OFF (PostgreSQL 17.5)
+2026-09-29T17:53:18.559+05:30  INFO 6084 --- [nammacrew] [           main] o.f.core.internal.command.DbValidate     : Successfully validated 6 migrations (execution time 00:00.015s)
+2026-09-29T17:53:18.590+05:30  INFO 6084 --- [nammacrew] [           main] o.f.core.internal.command.DbMigrate      : Current version of schema "upgrade_e39f907715cd4b30a6f7e72b8a314282": 4
+2026-09-29T17:53:18.606+05:30  INFO 6084 --- [nammacrew] [           main] o.f.core.internal.command.DbMigrate      : Migrating schema "upgrade_e39f907715cd4b30a6f7e72b8a314282" to version "5 - secure sessions and complete onboarding"
+2026-09-29T17:53:18.707+05:30  INFO 6084 --- [nammacrew] [           main] o.f.core.internal.command.DbMigrate      : Successfully applied 1 migration to schema "upgrade_e39f907715cd4b30a6f7e72b8a314282", now at version v5 (execution time 00:00.089s)
+2026-09-29T17:53:18.756+05:30  INFO 6084 --- [nammacrew] [           main] org.flywaydb.core.FlywayExecutor         : Database: jdbc:postgresql://localhost:63060/test?loggerLevel=OFF (PostgreSQL 17.5)
+2026-09-29T17:53:18.777+05:30  INFO 6084 --- [nammacrew] [           main] o.f.core.internal.database.base.Schema   : Creating schema "empty_e884eb329a5b4e6aa31ef71f7b28c0e2" ...
+2026-09-29T17:53:18.784+05:30  INFO 6084 --- [nammacrew] [           main] o.f.c.i.s.JdbcTableSchemaHistory         : Creating Schema History table "empty_e884eb329a5b4e6aa31ef71f7b28c0e2"."flyway_schema_history" ...
+2026-09-29T17:53:18.838+05:30  INFO 6084 --- [nammacrew] [           main] o.f.core.internal.command.DbMigrate      : Current version of schema "empty_e884eb329a5b4e6aa31ef71f7b28c0e2": null
+2026-09-29T17:53:18.852+05:30  INFO 6084 --- [nammacrew] [           main] o.f.core.internal.command.DbMigrate      : Migrating schema "empty_e884eb329a5b4e6aa31ef71f7b28c0e2" to version "1 - initial schema"
+2026-09-29T17:53:18.855+05:30  WARN 6084 --- [nammacrew] [           main] o.f.c.i.s.DefaultSqlScriptExecutor       : DB: extension "postgis" already exists, skipping (SQL State: 42710 - Error Code: 0)
+2026-09-29T17:53:18.856+05:30  WARN 6084 --- [nammacrew] [           main] o.f.c.i.s.DefaultSqlScriptExecutor       : DB: extension "btree_gist" already exists, skipping (SQL State: 42710 - Error Code: 0)
+2026-09-29T17:53:18.957+05:30  INFO 6084 --- [nammacrew] [           main] o.f.core.internal.command.DbMigrate      : Migrating schema "empty_e884eb329a5b4e6aa31ef71f7b28c0e2" to version "2 - booking invariants"
+2026-09-29T17:53:18.986+05:30  INFO 6084 --- [nammacrew] [           main] o.f.core.internal.command.DbMigrate      : Migrating schema "empty_e884eb329a5b4e6aa31ef71f7b28c0e2" to version "3 - serialize worker reservations"
+2026-09-29T17:53:19.027+05:30  INFO 6084 --- [nammacrew] [           main] o.f.core.internal.command.DbMigrate      : Migrating schema "empty_e884eb329a5b4e6aa31ef71f7b28c0e2" to version "4 - authentication and onboarding"
+2026-09-29T17:53:19.067+05:30  INFO 6084 --- [nammacrew] [           main] o.f.core.internal.command.DbMigrate      : Successfully applied 4 migrations to schema "empty_e884eb329a5b4e6aa31ef71f7b28c0e2", now at version v4 (execution time 00:00.131s)
+2026-09-29T17:53:19.183+05:30  INFO 6084 --- [nammacrew] [           main] org.flywaydb.core.FlywayExecutor         : Database: jdbc:postgresql://localhost:63060/test?loggerLevel=OFF (PostgreSQL 17.5)
+2026-09-29T17:53:19.211+05:30  INFO 6084 --- [nammacrew] [           main] o.f.core.internal.command.DbValidate     : Successfully validated 6 migrations (execution time 00:00.015s)
+2026-09-29T17:53:19.245+05:30  INFO 6084 --- [nammacrew] [           main] o.f.core.internal.command.DbMigrate      : Current version of schema "empty_e884eb329a5b4e6aa31ef71f7b28c0e2": 4
+2026-09-29T17:53:19.258+05:30  INFO 6084 --- [nammacrew] [           main] o.f.core.internal.command.DbMigrate      : Migrating schema "empty_e884eb329a5b4e6aa31ef71f7b28c0e2" to version "5 - secure sessions and complete onboarding"
+2026-09-29T17:53:19.351+05:30  INFO 6084 --- [nammacrew] [           main] o.f.core.internal.command.DbMigrate      : Successfully applied 1 migration to schema "empty_e884eb329a5b4e6aa31ef71f7b28c0e2", now at version v5 (execution time 00:00.084s)
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 4.309 s -- in in.nammacrew.auth.MigrationIT
+[INFO] Running in.nammacrew.FoundationIT
+2026-09-29T17:53:19.898+05:30  INFO 6084 --- [nammacrew] [           main] t.c.s.AnnotationConfigContextLoaderUtils : Could not detect default configuration classes for test class [in.nammacrew.FoundationIT]: FoundationIT does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+2026-09-29T17:53:19.923+05:30  INFO 6084 --- [nammacrew] [           main] .b.t.c.SpringBootTestContextBootstrapper : Found @SpringBootConfiguration in.nammacrew.NammaCrewApplication for test class in.nammacrew.FoundationIT
+2026-09-29T17:53:19.928+05:30  INFO 6084 --- [nammacrew] [           main] tc.postgis/postgis:17-3.5                : Creating container for image: postgis/postgis:17-3.5
+2026-09-29T17:53:19.995+05:30  INFO 6084 --- [nammacrew] [           main] tc.postgis/postgis:17-3.5                : Container postgis/postgis:17-3.5 is starting: ba67b97a3263470c4b1d9d0ab21bf105afb283ba9ada9a37b0613502e987c468
+2026-09-29T17:53:21.855+05:30  INFO 6084 --- [nammacrew] [           main] tc.postgis/postgis:17-3.5                : Container postgis/postgis:17-3.5 started in PT1.926961S
+2026-09-29T17:53:21.856+05:30  INFO 6084 --- [nammacrew] [           main] tc.postgis/postgis:17-3.5                : Container is started (JDBC URL: jdbc:postgresql://localhost:50799/test?loggerLevel=OFF)
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::               (v3.5.16)
+
+2026-09-29T17:53:21.932+05:30  INFO 6084 --- [nammacrew] [           main] in.nammacrew.FoundationIT                : Starting FoundationIT using Java 21.0.12.1 with PID 6084 (started by BHARATH RAJ B in D:\Files\EDUCATION\NammaCrew\backend)
+2026-09-29T17:53:21.932+05:30  INFO 6084 --- [nammacrew] [           main] in.nammacrew.FoundationIT                : The following 1 profile is active: "test"
+2026-09-29T17:53:22.878+05:30  INFO 6084 --- [nammacrew] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-09-29T17:53:23.045+05:30  INFO 6084 --- [nammacrew] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 160 ms. Found 8 JPA repository interfaces.
+2026-09-29T17:53:26.610+05:30  INFO 6084 --- [nammacrew] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Starting...
+2026-09-29T17:53:26.886+05:30  INFO 6084 --- [nammacrew] [           main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-2 - Added connection org.postgresql.jdbc.PgConnection@a84c987
+2026-09-29T17:53:26.887+05:30  INFO 6084 --- [nammacrew] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Start completed.
+2026-09-29T17:53:26.907+05:30  INFO 6084 --- [nammacrew] [           main] org.flywaydb.core.FlywayExecutor         : Database: jdbc:postgresql://localhost:50799/test?loggerLevel=OFF (PostgreSQL 17.5)
+2026-09-29T17:53:27.044+05:30  INFO 6084 --- [nammacrew] [           main] o.f.c.i.s.JdbcTableSchemaHistory         : Schema history table "public"."flyway_schema_history" does not exist yet
+2026-09-29T17:53:27.053+05:30  INFO 6084 --- [nammacrew] [           main] o.f.core.internal.command.DbValidate     : Successfully validated 5 migrations (execution time 00:00.079s)
+2026-09-29T17:53:27.233+05:30  INFO 6084 --- [nammacrew] [           main] o.f.c.i.s.JdbcTableSchemaHistory         : Creating Schema History table "public"."flyway_schema_history" ...
+2026-09-29T17:53:27.343+05:30  INFO 6084 --- [nammacrew] [           main] o.f.core.internal.command.DbMigrate      : Current version of schema "public": << Empty Schema >>
+2026-09-29T17:53:27.473+05:30  INFO 6084 --- [nammacrew] [           main] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "1 - initial schema"
+2026-09-29T17:53:27.478+05:30  WARN 6084 --- [nammacrew] [           main] o.f.c.i.s.DefaultSqlScriptExecutor       : DB: extension "postgis" already exists, skipping (SQL State: 42710 - Error Code: 0)
+2026-09-29T17:53:27.789+05:30  INFO 6084 --- [nammacrew] [           main] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "2 - booking invariants"
+2026-09-29T17:53:27.850+05:30  INFO 6084 --- [nammacrew] [           main] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "3 - serialize worker reservations"
+2026-09-29T17:53:27.894+05:30  INFO 6084 --- [nammacrew] [           main] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "4 - authentication and onboarding"
+2026-09-29T17:53:27.961+05:30  INFO 6084 --- [nammacrew] [           main] o.f.core.internal.command.DbMigrate      : Migrating schema "public" to version "5 - secure sessions and complete onboarding"
+2026-09-29T17:53:28.062+05:30  INFO 6084 --- [nammacrew] [           main] o.f.core.internal.command.DbMigrate      : Successfully applied 5 migrations to schema "public", now at version v5 (execution time 00:00.388s)
+2026-09-29T17:53:28.253+05:30  INFO 6084 --- [nammacrew] [           main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-09-29T17:53:28.259+05:30  INFO 6084 --- [nammacrew] [           main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2026-09-29T17:53:28.367+05:30  INFO 6084 --- [nammacrew] [           main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-09-29T17:53:28.414+05:30  INFO 6084 --- [nammacrew] [           main] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-2)']
+	Database driver: undefined/unknown
+	Database version: 17.5
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-09-29T17:53:29.067+05:30  INFO 6084 --- [nammacrew] [           main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-09-29T17:53:29.118+05:30  INFO 6084 --- [nammacrew] [           main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-09-29T17:53:30.075+05:30  INFO 6084 --- [nammacrew] [           main] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name noBootstrapUsers
+2026-09-29T17:53:30.375+05:30  INFO 6084 --- [nammacrew] [           main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 1 endpoint beneath base path '/actuator'
+2026-09-29T17:53:30.884+05:30  INFO 6084 --- [nammacrew] [           main] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-09-29T17:53:30.886+05:30  INFO 6084 --- [nammacrew] [           main] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-09-29T17:53:30.888+05:30  INFO 6084 --- [nammacrew] [           main] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 2 ms
+2026-09-29T17:53:31.039+05:30  INFO 6084 --- [nammacrew] [           main] in.nammacrew.FoundationIT                : Started FoundationIT in 9.152 seconds (process running for 46.659)
+2026-09-29T17:53:32.581+05:30  WARN 6084 --- [nammacrew] [           main] o.h.engine.jdbc.spi.SqlExceptionHelper   : SQL Error: 0, SQLState: 23P01
+2026-09-29T17:53:32.583+05:30 ERROR 6084 --- [nammacrew] [           main] o.h.engine.jdbc.spi.SqlExceptionHelper   : ERROR: conflicting key value violates exclusion constraint "worker_no_overlapping_bookings"
+  Detail: Key (worker_id, tstzrange(starts_at, ends_at, '[)'::text))=(7767e407-9c2d-4d21-8927-6b182c250902, ["2030-01-01 16:30:00+05:30","2030-01-01 19:30:00+05:30")) conflicts with existing key (worker_id, tstzrange(starts_at, ends_at, '[)'::text))=(7767e407-9c2d-4d21-8927-6b182c250902, ["2030-01-01 14:30:00+05:30","2030-01-01 17:30:00+05:30")).
+  Where: SQL statement "UPDATE booking_workers SET reserved = NEW.status IN ('CONFIRMED','IN_PROGRESS','COMPLETED') WHERE booking_id = NEW.id"
+PL/pgSQL function synchronize_booking_workers() line 8 at SQL statement
+[INFO] Tests run: 12, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 13.61 s -- in in.nammacrew.FoundationIT
+[INFO] 
+[INFO] Results:
+[INFO] 
+[INFO] Tests run: 28, Failures: 0, Errors: 0, Skipped: 0
+[INFO] 
+[INFO] 
+[INFO] --- spotless:2.44.3:check (default) @ backend ---
+[INFO] Spotless.Java is keeping 42 files clean - 0 needs changes to be clean, 0 were already clean, 42 were skipped because caching determined they were already clean
+[INFO] 
+[INFO] --- failsafe:3.5.6:verify (default) @ backend ---
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  01:26 min
+[INFO] Finished at: 2026-09-29T17:53:34+05:30
+[INFO] ------------------------------------------------------------------------
+Exit=0

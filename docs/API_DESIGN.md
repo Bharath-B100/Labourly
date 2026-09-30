@@ -1,26 +1,44 @@
-# API design
+# API design — Phase 2
 
-## Available now
+Implementation contract reviewed 30 September 2026. See PHASE_2_REPORT.md for execution evidence and outstanding checks. No marketplace or operational admin API is exposed.
 
-`GET /actuator/health` returns `200 {"status":"UP"}` when the application and database are healthy, or a non-success status when unhealthy. Component details are hidden. No marketplace controller or administrative data endpoint is implemented.
+## Authentication
 
-All other requests require authentication. Authentication itself is intentionally not provisioned. `/api/v1/admin/**`, `/v3/api-docs/**`, and Swagger UI require ADMIN. `OPENAPI_ENABLED=true` enables generation, not public access. A later identity integration must issue verified roles and enforce ownership; no client-side role flag is trusted.
+| Method / path | Request | Success |
+| --- | --- | --- |
+| GET /actuator/health | None | 200 with status UP when backend/database are healthy; details hidden |
+| POST /api/v1/auth/otp/request | {phone}, E.164 | 204, no OTP returned |
+| POST /api/v1/auth/otp/verify | {phone, code}, six digits | 200 {accessToken, refreshToken} |
+| POST /api/v1/auth/refresh | {refreshToken} | 200 replacement credential pair |
+| POST /api/v1/auth/logout | {refreshToken} | 204, session revoked |
 
-## Conventions for future endpoints
+OTP lifetime is five minutes, maximum verification attempts three, request interval 60 seconds including after verification. Failed attempts persist. Phone transaction locks serialize requests/verification. Codes are logged only under dev without prod/production. Production SMS is unconfigured and requests fail closed with 503. No paid provider is enabled.
 
-- Prefix business endpoints with `/api/v1`; use plural resource names.
-- Return typed resource JSON directly. Collections use `{items, page, size, total}` with bounded page sizes.
-- `201` + Location for creation, `200` for reads/updates, `204` for empty success.
-- Use UUID identifiers and ISO 8601 instants with an explicit offset; store UTC.
-- Validate request DTOs using Bean Validation and cross-field rules. Never bind JPA entities directly.
-- Use `400` for malformed/invalid input, `401` for missing authentication, `403` for denied permission, `404` for absent or concealed resources, `409` for state/availability conflicts.
-- Use RFC 9457 `application/problem+json` with `type`, `title`, `status`, and safe optional `detail`. Never return SQL errors, credentials, internal exception messages or stack traces.
-- Booking writes need transactional ownership checks and idempotency handling before exposure.
+Access tokens use symmetric HS256, issuer nammacrew, user UUID subject, session UUID sid, issue time, expiry (15 minutes by default), and random JWT ID. Every authenticated request checks the current database session, account status and roles. Outside dev/test, JWT_SECRET must contain a base64 key of at least 32 cryptographically random bytes. Development without a supplied key generates an ephemeral key at startup.
 
-Example authentication error actually supported by the security filter:
+Refresh credentials contain 32 random bytes encoded as URL-safe base64. Only SHA-256 hashes are persisted. Session lifetime is 30 days; rotation does not extend it. Rotation locks the session family. Reuse of an old token revokes the family; logout also invalidates associated access tokens. Credential DTO string representations are redacted. Clients must serialize concurrent refresh attempts and retry a protected request at most once.
 
-```json
-{ "type": "about:blank", "title": "Authentication required", "status": 401 }
-```
+## Identity and onboarding
 
-Planned resources are users/me, worker profiles, categories, requirements, booking requests, bookings and admin verification reviews. These names are design guidance, not available APIs. JWT/OTP provider, refresh-token policy, admin MFA, CORS allowlist and rate limits require design and implementation during the next approved phase. CSRF remains enabled in Phase 1; do not disable it casually when introducing cookie authentication.
+All routes below require a Bearer access token. Ownership comes exclusively from authenticated identity. Unknown JSON fields, including client-supplied ownership IDs, are rejected.
+
+| Method / path | Contract |
+| --- | --- |
+| GET /api/v1/users/me | Current id, phone, fullName, roles, onboardingState, onboardingStep |
+| POST /api/v1/users/me/roles | {role}; initial CUSTOMER or WORKER only; no ADMIN or role switching |
+| GET /api/v1/onboarding/catalogue | Backend-managed customer types, active trades and skills |
+| GET /api/v1/onboarding or /api/v1/profile | Current {role, state, step, data} draft |
+| PUT /api/v1/onboarding | {step, data} full snapshot; advance at most one step, validate prerequisites |
+| POST /api/v1/onboarding/complete | Complete after valid review; returns current user |
+| POST /api/v1/profile/customer | Full completed profile edit; CUSTOMER required |
+| POST /api/v1/profile/worker | Full completed profile edit; WORKER required |
+
+Profile data: fullName, customerType, optional companyName, workerType, optional profilePhotoUrl, tradeId, skillIds, experienceYears, state, district, city, postalCode, availability, conditional teamName/teamSize. Irrelevant fields may be null. Authenticated phone is read-only, not accepted as a profile field.
+
+Customer types: HOMEOWNER, ARCHITECT, INTERIOR_DESIGNER, CONTRACTOR, BUILDER, COMPANY (Construction Company), SITE_ENGINEER, PROJECT_MANAGER, OTHER. Customer steps: details 0, location 1, review 2. Worker steps: details 0, trade/skills 1, location/availability 2, review 3. Initial trades: Carpenter, Electrician, Plumber. Skills must belong to the selected active trade. Worker type: INDIVIDUAL or TEAM; teams need a name and size 2–1000. Experience: 0–80 years. Availability: AVAILABLE, BUSY, UNAVAILABLE. Postal code: six digits. Optional photos use an HTTPS URL; upload/storage is not implemented.
+
+## Errors and boundaries
+
+RFC 9457 errors: 400 invalid input, 401 missing/invalid/expired authentication, 403 denied role/account, 409 invalid state, 429 OTP limits, 503 unavailable production OTP delivery. Credentials, SQL errors and stack traces are not response details. Admin routes, OpenAPI and Swagger require ADMIN even when documentation generation is enabled.
+
+Mobile stores credentials in Expo SecureStore, shares one in-flight refresh, prevents recursive refresh, and loads identity/progress from the server. HTTP authentication uses bearer headers, not cookies; CSRF is disabled for this model. A future cookie-based design must revisit CSRF. Discovery, booking HTTP workflows and operational admin features remain outside Phase 2.

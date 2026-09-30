@@ -1,0 +1,22 @@
+[
+  {
+    "File": "V1__initial_schema.sql",
+    "Unchanged": true,
+    "SHA256": "6749E643969CFC6E1E2561FB9E43453D83ED20F3BA939C59C8C950557461BBEE"
+  },
+  {
+    "File": "V2__booking_invariants.sql",
+    "Unchanged": true,
+    "SHA256": "C5FEEAE8160BE0D8082DB35AE31AD37FCA23E657F1E6044DD1B6D9C59CDAB79B"
+  },
+  {
+    "File": "V3__serialize_worker_reservations.sql",
+    "Unchanged": true,
+    "SHA256": "6A9D9B354352692C3B3DA9D464FC9E950312C0A85932142D8F4122308094DDDF"
+  },
+  {
+    "File": "V4__authentication_and_onboarding.sql",
+    "Unchanged": true,
+    "SHA256": "5FDAFB0E7FEBEB0055ABDCF93EC470EBECACB56FA2D4FBCBE9EE5FB5123D7D76"
+  }
+]

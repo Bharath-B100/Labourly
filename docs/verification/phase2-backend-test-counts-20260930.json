@@ -1,0 +1,44 @@
+[
+  {
+    "Suite": "in.nammacrew.booking.BookingStateTest",
+    "Tests": 1,
+    "Failures": 0,
+    "Errors": 0,
+    "Skipped": 0
+  },
+  {
+    "Suite": "in.nammacrew.security.SecurityTest",
+    "Tests": 3,
+    "Failures": 0,
+    "Errors": 0,
+    "Skipped": 0
+  },
+  {
+    "Suite": "in.nammacrew.auth.AuthenticationIT",
+    "Tests": 14,
+    "Failures": 0,
+    "Errors": 0,
+    "Skipped": 0
+  },
+  {
+    "Suite": "in.nammacrew.auth.MigrationIT",
+    "Tests": 2,
+    "Failures": 0,
+    "Errors": 0,
+    "Skipped": 0
+  },
+  {
+    "Suite": "in.nammacrew.auth.ProductionAuthIT",
+    "Tests": 1,
+    "Failures": 0,
+    "Errors": 0,
+    "Skipped": 0
+  },
+  {
+    "Suite": "in.nammacrew.FoundationIT",
+    "Tests": 12,
+    "Failures": 0,
+    "Errors": 0,
+    "Skipped": 0
+  }
+]

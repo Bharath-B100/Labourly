@@ -1,0 +1,49 @@
+
+> mobile@1.0.0 test
+> jest --runInBand --runTestsByPath src/__tests__/onboarding.test.tsx -t login validates
+
+  console.info
+    LOGIN_DIAG before render 1790685103289
+
+      at Object.info (src/__tests__/onboarding.test.tsx:116:11)
+
+  console.info
+    LOGIN_DIAG after render 1790685104068
+
+      at Object.info (src/__tests__/onboarding.test.tsx:118:11)
+
+  console.info
+    LOGIN_DIAG before press 1790685104077
+
+      at Object.info (src/__tests__/onboarding.test.tsx:120:11)
+
+  console.info
+    LOGIN_DIAG after press 1790685104081
+
+      at Object.info (src/__tests__/onboarding.test.tsx:122:11)
+
+  console.info
+    LOGIN_DIAG before press 1790685104142
+
+      at Object.info (src/__tests__/onboarding.test.tsx:129:11)
+
+  console.info
+    LOGIN_DIAG after press 1790685104144
+
+      at Object.info (src/__tests__/onboarding.test.tsx:131:11)
+
+PASS src/__tests__/onboarding.test.tsx
+  √ login validates phone and requests the correct OTP endpoint (861 ms)
+  ○ skipped phone and OTP validation reject invalid input
+  ○ skipped incorrect OTP stays on verification and displays the server failure
+  ○ skipped successful OTP stores credentials through the session service
+  ○ skipped role selection persists on server before reloading identity
+  ○ skipped customer onboarding requires name and location, reviews and completes
+  ○ skipped worker resumes the server draft step and completes trade, skills and availability
+  ○ skipped worker team fields and review prerequisites are validated
+
+Test Suites: 1 passed, 1 total
+Tests:       7 skipped, 1 passed, 8 total
+Snapshots:   0 total
+Time:        4.349 s, estimated 35 s
+Ran all test suites within paths "src/__tests__/onboarding.test.tsx".
