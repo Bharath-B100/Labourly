@@ -9,7 +9,16 @@ export default function WorkerLayout() {
         options={{
           title: 'Opportunities',
           tabBarIcon: ({ color }) => (
-            <Ionicons name="briefcase" size={24} color={color} />
+            <Ionicons name="search" size={24} color={color} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="schedule"
+        options={{
+          title: 'My Quotes',
+          tabBarIcon: ({ color }) => (
+            <Ionicons name="send" size={24} color={color} />
           ),
         }}
       />
@@ -22,7 +31,6 @@ export default function WorkerLayout() {
           ),
         }}
       />
-      <Tabs.Screen name="schedule" options={{ href: null }} />
       <Tabs.Screen
         name="opportunity/[id]"
         options={{ href: null, title: 'Opportunity Details' }}

@@ -32,6 +32,15 @@ export default function CustomerLayout() {
         }}
       />
       <Tabs.Screen
+        name="bookings"
+        options={{
+          title: 'Bookings',
+          tabBarIcon: ({ color }) => (
+            <Ionicons name="briefcase" size={24} color={color} />
+          ),
+        }}
+      />
+      <Tabs.Screen
         name="profile"
         options={{
           title: 'Profile',
@@ -40,7 +49,6 @@ export default function CustomerLayout() {
           ),
         }}
       />
-      <Tabs.Screen name="bookings" options={{ href: null }} />
       <Tabs.Screen
         name="worker/[id]"
         options={{ href: null, title: 'Worker Details' }}
@@ -48,6 +56,10 @@ export default function CustomerLayout() {
       <Tabs.Screen
         name="requirement/[id]"
         options={{ href: null, title: 'Requirement Details' }}
+      />
+      <Tabs.Screen
+        name="requirement/quotes"
+        options={{ href: null, title: 'Quotes Received' }}
       />
     </Tabs>
   );

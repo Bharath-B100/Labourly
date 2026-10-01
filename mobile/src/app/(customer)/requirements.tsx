@@ -9,12 +9,13 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { getMyRequirements, RequirementView } from '../../api/marketplace';
 import { RequirementCard } from '../../components/RequirementCard';
-import { useFocusEffect } from 'expo-router';
+import { useFocusEffect, useRouter } from 'expo-router';
 
 export default function RequirementsScreen() {
   const [requirements, setRequirements] = useState<RequirementView[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const router = useRouter();
 
   const fetchReqs = async () => {
     try {
@@ -67,7 +68,23 @@ export default function RequirementsScreen() {
           </View>
         ) : (
           requirements.map((req) => (
-            <RequirementCard key={req.id} requirement={req} />
+            <View key={req.id} className="mb-1">
+              <RequirementCard requirement={req} />
+              {req.status === 'OPEN' && (
+                <Pressable
+                  onPress={() =>
+                    router.push(
+                      `/requirement/quotes?id=${req.id}` as any,
+                    )
+                  }
+                  className="bg-teal-700 mx-1 py-2.5 rounded-b-xl items-center -mt-1"
+                >
+                  <Text className="text-white font-semibold text-sm">
+                    View Quotes
+                  </Text>
+                </Pressable>
+              )}
+            </View>
           ))
         )}
       </ScrollView>
