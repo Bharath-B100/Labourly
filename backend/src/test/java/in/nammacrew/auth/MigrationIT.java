@@ -35,7 +35,7 @@ class MigrationIT {
   void emptyDatabaseAppliesV1ThroughV4ThenForwardCorrection() {
     String schema = "empty_" + UUID.randomUUID().toString().replace("-", "");
     assertEquals("4", migrate(schema, "4").info().current().getVersion().toString());
-    assertEquals("6", migrate(schema, null).info().current().getVersion().toString());
+    assertEquals("7", migrate(schema, null).info().current().getVersion().toString());
   }
 
   @Test
@@ -85,7 +85,7 @@ class MigrationIT {
         insert.setObject(1, id);
         insert.executeUpdate();
       }
-      assertEquals("6", migrate(schema, null).info().current().getVersion().toString());
+      assertEquals("7", migrate(schema, null).info().current().getVersion().toString());
       try (var rs =
           st.executeQuery(
               "SELECT id,display_name,onboarding_state FROM users WHERE phone='+919199999997'")) {

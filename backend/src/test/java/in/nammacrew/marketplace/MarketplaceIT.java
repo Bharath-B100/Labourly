@@ -42,7 +42,7 @@ class MarketplaceIT {
         "INSERT INTO users(id, phone, display_name, status) VALUES (?, '+919999999991', 'W1', 'ACTIVE')",
         w1);
     sql.update(
-        "INSERT INTO worker_profiles(user_id, primary_trade_id, visibility_enabled) VALUES (?, ?, true)",
+        "INSERT INTO worker_profiles(user_id, primary_trade_id, visibility_enabled, availability_status) VALUES (?, ?, true, 'AVAILABLE')",
         w1,
         tradeId);
 
@@ -52,7 +52,7 @@ class MarketplaceIT {
         "INSERT INTO users(id, phone, display_name, status) VALUES (?, '+919999999992', 'W2', 'ACTIVE')",
         w2);
     sql.update(
-        "INSERT INTO worker_profiles(user_id, primary_trade_id, visibility_enabled) VALUES (?, ?, true)",
+        "INSERT INTO worker_profiles(user_id, primary_trade_id, visibility_enabled, availability_status) VALUES (?, ?, true, 'AVAILABLE')",
         w2,
         tradeId);
     sql.update(

@@ -25,7 +25,9 @@ public class RequirementController {
   }
 
   @PostMapping
-  public UUID postRequirement(@RequestBody MarketplaceDTOs.RequirementForm form, org.springframework.security.core.Authentication auth) {
+  public UUID postRequirement(
+      @RequestBody MarketplaceDTOs.RequirementForm form,
+      org.springframework.security.core.Authentication auth) {
     UUID customerId = UUID.fromString(auth.getName());
     return service.postRequirement(customerId, form);
   }

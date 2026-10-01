@@ -35,7 +35,8 @@ public class MarketplaceController {
   }
 
   @GetMapping("/workers/{id}")
-  public MarketplaceDTOs.WorkerCard getWorker(@org.springframework.web.bind.annotation.PathVariable UUID id) {
+  public MarketplaceDTOs.WorkerCard getWorker(
+      @org.springframework.web.bind.annotation.PathVariable UUID id) {
     return discovery.getWorkerDetails(id);
   }
 

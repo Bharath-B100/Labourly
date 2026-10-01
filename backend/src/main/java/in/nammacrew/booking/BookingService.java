@@ -17,6 +17,15 @@ public class BookingService {
   @Transactional
   @PreAuthorize("hasRole('ADMIN')")
   public void transition(UUID id, BookingState next) {
+    transitionInternal(id, next);
+  }
+
+  /**
+   * Unsecured transition for internal service-to-service calls (e.g. QuotationService accepting a
+   * quote). Callers must ensure authorization has already been enforced at the calling layer.
+   */
+  @Transactional
+  public void transitionInternal(UUID id, BookingState next) {
     Booking booking =
         bookings
             .findForUpdate(id)
