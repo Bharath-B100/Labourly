@@ -50,6 +50,7 @@ class AuthenticationIT {
     r.add("spring.datasource.url", DB::getJdbcUrl);
     r.add("spring.datasource.username", DB::getUsername);
     r.add("spring.datasource.password", DB::getPassword);
+    r.add("spring.datasource.driver-class-name", () -> "org.postgresql.Driver");
   }
 
   static class TestClock extends Clock {

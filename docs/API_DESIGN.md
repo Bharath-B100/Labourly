@@ -1,6 +1,6 @@
-# API design — Phase 2
+# API design — Phase 2 & 3
 
-Implementation contract reviewed 30 September 2026. See PHASE_2_REPORT.md for execution evidence and outstanding checks. No marketplace or operational admin API is exposed.
+Implementation contract updated for Phase 3 (Marketplace Discovery & Matching). See PHASE_2_REPORT.md and PHASE_3_REPORT.md for execution evidence. No operational admin API is exposed yet.
 
 ## Authentication
 
@@ -36,6 +36,22 @@ All routes below require a Bearer access token. Ownership comes exclusively from
 Profile data: fullName, customerType, optional companyName, workerType, optional profilePhotoUrl, tradeId, skillIds, experienceYears, state, district, city, postalCode, availability, conditional teamName/teamSize. Irrelevant fields may be null. Authenticated phone is read-only, not accepted as a profile field.
 
 Customer types: HOMEOWNER, ARCHITECT, INTERIOR_DESIGNER, CONTRACTOR, BUILDER, COMPANY (Construction Company), SITE_ENGINEER, PROJECT_MANAGER, OTHER. Customer steps: details 0, location 1, review 2. Worker steps: details 0, trade/skills 1, location/availability 2, review 3. Initial trades: Carpenter, Electrician, Plumber. Skills must belong to the selected active trade. Worker type: INDIVIDUAL or TEAM; teams need a name and size 2–1000. Experience: 0–80 years. Availability: AVAILABLE, BUSY, UNAVAILABLE. Postal code: six digits. Optional photos use an HTTPS URL; upload/storage is not implemented.
+
+## Marketplace (Phase 3)
+
+| Method / path | Request | Success |
+| --- | --- | --- |
+| GET /api/v1/requirements | `page`, `size` | 200 Paginated requirements list for CUSTOMER |
+| POST /api/v1/requirements | RequirementForm | 200 {id} for created requirement |
+| GET /api/v1/requirements/{id} | | 200 RequirementView (CUSTOMER or WORKER) |
+| GET /api/v1/requirements/{id}/matches | | 200 List of matched workers |
+| PUT /api/v1/requirements/{id}/status | `status` string | 204 Status updated |
+| GET /api/v1/marketplace/search | `tradeId`, `lat`, `lng`, `radiusKm`, `page`, `size` | 200 Paginated list of workers |
+| GET /api/v1/opportunities | `page`, `size` | 200 Paginated opportunities for WORKER |
+| GET /api/v1/opportunities/{id} | | 200 RequirementView |
+| PUT /api/v1/availability | `status` string | 204 Worker availability updated |
+
+Worker search results only include VERIFIED workers (e.g. APPROVED status) by default to prevent falsely displaying unverified workers.
 
 ## Errors and boundaries
 

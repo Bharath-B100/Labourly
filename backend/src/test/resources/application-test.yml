@@ -1,0 +1,6 @@
+spring:
+  datasource:
+    url: jdbc:tc:postgis:17-3.5:///nammacrew
+    username: test
+    password: test
+    driver-class-name: org.testcontainers.jdbc.ContainerDatabaseDriver

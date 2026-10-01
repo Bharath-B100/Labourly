@@ -39,6 +39,7 @@ class ProductionAuthIT {
     r.add("spring.datasource.url", DB::getJdbcUrl);
     r.add("spring.datasource.username", DB::getUsername);
     r.add("spring.datasource.password", DB::getPassword);
+    r.add("spring.datasource.driver-class-name", () -> "org.postgresql.Driver");
     String key =
         Base64.getEncoder()
             .encodeToString(io.jsonwebtoken.Jwts.SIG.HS256.key().build().getEncoded());

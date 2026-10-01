@@ -45,6 +45,7 @@ class FoundationIT {
     r.add("spring.datasource.url", DB::getJdbcUrl);
     r.add("spring.datasource.username", DB::getUsername);
     r.add("spring.datasource.password", DB::getPassword);
+    r.add("spring.datasource.driver-class-name", () -> "org.postgresql.Driver");
   }
 
   @Autowired JdbcTemplate sql;
@@ -71,7 +72,7 @@ class FoundationIT {
         "INSERT INTO labour_categories(id,code,name) VALUES (?,'TEST','Synthetic category')",
         category);
     sql.update(
-        "INSERT INTO labour_requirements(id,customer_id,category_id,description,worker_count,starts_at,ends_at,city,state_code) VALUES (?,?,?,'Synthetic requirement',1,'2030-01-01T09:00Z','2030-01-01T17:00Z','Test city','KA')",
+        "INSERT INTO labour_requirements(id,customer_id,category_id,title,description,worker_count,starts_at,ends_at,city,state_code) VALUES (?,?,?,'Test Requirement','Synthetic requirement',1,'2030-01-01T09:00Z','2030-01-01T17:00Z','Test city','KA')",
         requirement,
         customer,
         category);
@@ -96,7 +97,7 @@ class FoundationIT {
     // Retain the accepted request; next booking uses another requirement.
     UUID next = UUID.randomUUID();
     sql.update(
-        "INSERT INTO labour_requirements(id,customer_id,category_id,description,worker_count,starts_at,ends_at,city,state_code) SELECT ?,customer_id,category_id,description,worker_count,starts_at,ends_at,city,state_code FROM labour_requirements WHERE id=?",
+        "INSERT INTO labour_requirements(id,customer_id,category_id,title,description,worker_count,starts_at,ends_at,city,state_code) SELECT ?,customer_id,category_id,title,description,worker_count,starts_at,ends_at,city,state_code FROM labour_requirements WHERE id=?",
         next,
         requirement);
     requirement = next;
@@ -111,7 +112,7 @@ class FoundationIT {
         .andExpect(jsonPath("$.components").doesNotExist());
     assertNotNull(sql.queryForObject("SELECT postgis_version()", String.class));
     assertEquals(
-        5,
+        6,
         sql.queryForObject(
             "SELECT count(*) FROM flyway_schema_history WHERE success AND version IS NOT NULL",
             Integer.class));

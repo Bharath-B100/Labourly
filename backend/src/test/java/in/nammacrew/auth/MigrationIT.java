@@ -35,7 +35,7 @@ class MigrationIT {
   void emptyDatabaseAppliesV1ThroughV4ThenForwardCorrection() {
     String schema = "empty_" + UUID.randomUUID().toString().replace("-", "");
     assertEquals("4", migrate(schema, "4").info().current().getVersion().toString());
-    assertEquals("5", migrate(schema, null).info().current().getVersion().toString());
+    assertEquals("6", migrate(schema, null).info().current().getVersion().toString());
   }
 
   @Test
@@ -68,6 +68,32 @@ class MigrationIT {
           () ->
               st.execute(
                   "INSERT INTO otp_challenges(phone,code_hash,attempts,max_attempts,expires_at) VALUES ('+919199999998','hash',4,3,now()+interval '5 minutes')"));
+    }
+  }
+
+  @Test
+  void existingPhaseTwoDataSurvivesUpgradeToV6() throws Exception {
+    String schema = "upgrade_" + UUID.randomUUID().toString().replace("-", "");
+    migrate(schema, "5");
+    UUID id = UUID.randomUUID();
+    try (var c = DriverManager.getConnection(DB.getJdbcUrl(), DB.getUsername(), DB.getPassword());
+        var st = c.createStatement()) {
+      st.execute("SET search_path TO " + schema + ",public");
+      try (var insert =
+          c.prepareStatement(
+              "INSERT INTO users(id,phone,display_name,status,onboarding_state) VALUES (?,'+919199999997','Existing Phase Two','ACTIVE','COMPLETED')")) {
+        insert.setObject(1, id);
+        insert.executeUpdate();
+      }
+      assertEquals("6", migrate(schema, null).info().current().getVersion().toString());
+      try (var rs =
+          st.executeQuery(
+              "SELECT id,display_name,onboarding_state FROM users WHERE phone='+919199999997'")) {
+        assertTrue(rs.next());
+        assertEquals(id, rs.getObject(1, UUID.class));
+        assertEquals("Existing Phase Two", rs.getString(2));
+        assertEquals("COMPLETED", rs.getString(3));
+      }
     }
   }
 }
