@@ -75,4 +75,9 @@ npm run format:check
 npm audit
 ```
 
-Admin remains a public Phase 1 shell with no administrative data or operational API calls. Phase 3 features are not authorized. No deployment, paid service, new license acceptance, privileged system change, security exception or stable tag is implied by local verification. Do not force incompatible dependency overrides. An audit connection reset means unknown current vulnerability counts, not a clean audit.
+Admin remains a public Phase 1 shell with no administrative data or operational API calls. Current authorization covers Phase 4 validation only; Phase 5 is not authorized. No deployment, paid service, new license acceptance, privileged system change, security exception or stable tag is implied by local verification. Do not force incompatible dependency overrides. An audit connection reset means unknown current vulnerability counts, not a clean audit.
+
+
+## Phase 4 development fixtures
+
+Development data seeding is disabled by default. Only an isolated dev profile without prod/production plus explicit `--nammacrew.dev.seed=true` enables it. Use a fresh disposable database. Existing seed identities cause a refusal; the seeder no longer deletes existing users or booking history. Native validation must still authenticate through the real OTP/session API; fixture profile data is not a fabricated authenticated session. Current Phase 4 acceptance evidence belongs in PHASE_4_REPORT.md.

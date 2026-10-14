@@ -47,13 +47,23 @@ public class QuotationController {
 
   @PostMapping("/quotes/{id}/reject")
   @PreAuthorize("hasRole('CUSTOMER')")
+  @ResponseStatus(HttpStatus.NO_CONTENT)
   public void rejectQuote(Authentication auth, @PathVariable UUID id) {
     quotations.rejectQuote(UUID.fromString(auth.getName()), id);
   }
 
   @PostMapping("/quotes/{id}/withdraw")
   @PreAuthorize("hasRole('WORKER')")
+  @ResponseStatus(HttpStatus.NO_CONTENT)
   public void withdrawQuote(Authentication auth, @PathVariable UUID id) {
     quotations.withdrawQuote(UUID.fromString(auth.getName()), id);
+  }
+
+  @PutMapping("/quotes/{id}")
+  @PreAuthorize("hasRole('WORKER')")
+  @ResponseStatus(HttpStatus.NO_CONTENT)
+  public void editQuote(
+      Authentication auth, @PathVariable UUID id, @RequestBody SubmitQuoteRequest req) {
+    quotations.editQuote(UUID.fromString(auth.getName()), id, req);
   }
 }

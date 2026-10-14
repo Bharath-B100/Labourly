@@ -35,7 +35,7 @@ class MigrationIT {
   void emptyDatabaseAppliesV1ThroughV4ThenForwardCorrection() {
     String schema = "empty_" + UUID.randomUUID().toString().replace("-", "");
     assertEquals("4", migrate(schema, "4").info().current().getVersion().toString());
-    assertEquals("7", migrate(schema, null).info().current().getVersion().toString());
+    assertEquals("12", migrate(schema, null).info().current().getVersion().toString());
   }
 
   @Test
@@ -85,7 +85,7 @@ class MigrationIT {
         insert.setObject(1, id);
         insert.executeUpdate();
       }
-      assertEquals("7", migrate(schema, null).info().current().getVersion().toString());
+      assertEquals("12", migrate(schema, null).info().current().getVersion().toString());
       try (var rs =
           st.executeQuery(
               "SELECT id,display_name,onboarding_state FROM users WHERE phone='+919199999997'")) {
@@ -94,6 +94,18 @@ class MigrationIT {
         assertEquals("Existing Phase Two", rs.getString(2));
         assertEquals("COMPLETED", rs.getString(3));
       }
+    }
+  }
+
+  @Test
+  void existingPhaseThreeDataSurvivesUpgradeToV8() throws Exception {
+    String schema = "upgrade_" + UUID.randomUUID().toString().replace("-", "");
+    migrate(schema, "6");
+    UUID id = UUID.randomUUID();
+    try (var c = DriverManager.getConnection(DB.getJdbcUrl(), DB.getUsername(), DB.getPassword());
+        var st = c.createStatement()) {
+      st.execute("SET search_path TO " + schema + ",public");
+      assertEquals("12", migrate(schema, null).info().current().getVersion().toString());
     }
   }
 }

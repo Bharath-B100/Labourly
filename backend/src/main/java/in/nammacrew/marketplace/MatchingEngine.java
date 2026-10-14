@@ -19,13 +19,22 @@ public class MatchingEngine {
     this.sql = sql;
   }
 
-  public List<MatchedWorker> findMatches(UUID requirementId) {
+  public List<MatchedWorker> findMatches(UUID requirementId, UUID customerId) {
+    return findMatches(requirementId, customerId, false);
+  }
+
+  public List<MatchedWorker> findOpportunityMatches(UUID requirementId, UUID customerId) {
+    return findMatches(requirementId, customerId, true);
+  }
+
+  private List<MatchedWorker> findMatches(
+      UUID requirementId, UUID customerId, boolean opportunitiesOnly) {
     String query =
         """
             WITH req AS (
-                SELECT id, category_id, site_location, starts_at, ends_at
+                SELECT id, category_id, site_location, starts_at, ends_at, location_state_id, location_city_id
                 FROM labour_requirements
-                WHERE id = ?
+                WHERE id = ? AND customer_id = ? AND status IN ('DRAFT','OPEN')
             )
             SELECT w.user_id, u.display_name, w.profile_photo_url, w.worker_type, c.name as trade_name,
                    w.experience_years, w.team_size, w.availability_status,
@@ -36,15 +45,27 @@ public class MatchingEngine {
             FROM worker_profiles w
             JOIN users u ON w.user_id = u.id
             JOIN labour_categories c ON w.primary_trade_id = c.id
-            JOIN worker_service_locations l ON w.user_id = l.worker_id
+            LEFT JOIN LATERAL (SELECT * FROM worker_service_locations wl WHERE wl.worker_id=w.user_id ORDER BY wl.id LIMIT 1) l ON true
             CROSS JOIN req
             WHERE w.visibility_enabled = true
               AND u.status = 'ACTIVE'
+              AND u.onboarding_state = 'COMPLETED'
               AND w.primary_trade_id = req.category_id
-              AND ST_DWithin(l.center, req.site_location, COALESCE(l.radius_km, 30) * 1000)
-            ORDER BY distance_km ASC
+              AND %s
+              %s
+            ORDER BY (w.availability_status='AVAILABLE') DESC, distance_km ASC NULLS LAST, w.user_id
             LIMIT 50
-        """;
+        """
+            .formatted(
+                ServiceCoverage.geographic(
+                    "w.user_id",
+                    "req.site_location",
+                    "req.location_state_id",
+                    "req.location_city_id"),
+                opportunitiesOnly
+                    ? " AND w.availability_status='AVAILABLE' AND req.starts_at>now() AND "
+                        + ServiceCoverage.freeSchedule("w.user_id", "req.starts_at", "req.ends_at")
+                    : "");
 
     return sql.query(
         query,
@@ -56,7 +77,7 @@ public class MatchingEngine {
                   : List.of();
 
           Integer teamSize = rs.getObject("team_size", Integer.class);
-          Double distance = rs.getDouble("distance_km");
+          Double distance = rs.getObject("distance_km", Double.class);
 
           WorkerCard card =
               new WorkerCard(
@@ -76,19 +97,23 @@ public class MatchingEngine {
 
           List<MatchReason> reasons = new ArrayList<>();
           reasons.add(new MatchReason("TRADE_MATCH", "Matches the exact trade requirement."));
-          reasons.add(
-              new MatchReason("LOCATION_MATCH", String.format("Located %.1f km away.", distance)));
+          reasons.add(new MatchReason("COVERAGE_MATCH", "Serves this job location."));
+          if (distance != null)
+            reasons.add(
+                new MatchReason(
+                    "LOCATION_MATCH", String.format("Home/base is %.1f km away.", distance)));
           if ("AVAILABLE".equals(card.availability())) {
             reasons.add(new MatchReason("AVAILABILITY_MATCH", "Currently available."));
           }
 
           int score = 50; // base score for trade match
-          if (distance < 10) score += 30;
-          else if (distance < 30) score += 10;
+          if (distance != null && distance < 10) score += 30;
+          else if (distance != null && distance < 30) score += 10;
           if ("AVAILABLE".equals(card.availability())) score += 20;
 
           return new MatchedWorker(card, reasons, score);
         },
-        requirementId);
+        requirementId,
+        customerId);
   }
 }

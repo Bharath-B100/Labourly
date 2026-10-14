@@ -1,72 +1,109 @@
 import { View, Text, Image, Pressable } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
+import { glassSurface, GlassRim, palette } from './theme';
 import type { WorkerCard as WorkerCardType } from '../api/marketplace';
 
 export function WorkerCard({ worker }: { worker: WorkerCardType }) {
   const router = useRouter();
-
-  const handlePress = () => {
-    router.push(`/worker/${worker.id}`);
-  };
-
   return (
     <Pressable
-      onPress={handlePress}
-      className="bg-white p-4 rounded-xl shadow-sm border border-slate-100 flex-row gap-4 mb-4"
+      accessibilityRole="button"
+      accessibilityLabel={`View ${worker.name}, ${worker.trade}`}
+      onPress={() => router.push(`/worker/${worker.id}`)}
+      className="active:opacity-80"
+      style={[
+        glassSurface,
+        {
+          padding: 14,
+          marginBottom: 12,
+          flexDirection: 'row',
+          alignItems: 'center',
+          gap: 12,
+        },
+      ]}
     >
-      <View className="w-16 h-16 rounded-full bg-slate-200 overflow-hidden">
+      <GlassRim />
+      <View
+        style={{
+          width: 60,
+          height: 60,
+          borderRadius: 30,
+          overflow: 'hidden',
+          backgroundColor: 'rgba(247,201,72,0.55)',
+          borderWidth: 1,
+          borderColor: 'white',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+      >
         {worker.profilePhotoUrl ? (
           <Image
             source={{ uri: worker.profilePhotoUrl }}
-            className="w-full h-full"
+            style={{ width: 60, height: 60 }}
           />
         ) : (
-          <View className="flex-1 items-center justify-center bg-teal-100">
-            <Text className="text-teal-800 text-lg font-bold">
-              {worker.name.charAt(0)}
-            </Text>
-          </View>
+          <Text
+            style={{ fontSize: 25, fontWeight: '700', color: palette.teal }}
+          >
+            {worker.name.charAt(0)}
+          </Text>
         )}
       </View>
-      <View className="flex-1">
-        <View className="flex-row justify-between items-start">
-          <Text className="text-lg font-bold text-slate-900">
-            {worker.name}
+      <View style={{ flex: 1, gap: 3 }}>
+        <Text style={{ fontSize: 18, fontWeight: '700', color: palette.ink }}>
+          {worker.name}
+        </Text>
+        <View
+          style={{
+            flexDirection: 'row',
+            gap: 6,
+            flexWrap: 'wrap',
+            alignItems: 'center',
+          }}
+        >
+          <Text style={{ color: palette.teal, fontSize: 14 }}>
+            {worker.trade}
           </Text>
-          <View
-            className={`px-2 py-1 rounded-full ${worker.verificationStatus === 'APPROVED' ? 'bg-green-100' : 'bg-slate-100'}`}
-          >
-            <Text
-              className={`text-xs font-medium ${worker.verificationStatus === 'APPROVED' ? 'text-green-700' : 'text-slate-600'}`}
-            >
-              {worker.verificationStatus === 'APPROVED'
-                ? 'VERIFIED'
-                : worker.verificationStatus}
-            </Text>
-          </View>
-        </View>
-        <Text className="text-slate-600 mt-1">
-          {worker.trade} • {worker.experienceYears}y exp
-        </Text>
-        <Text className="text-slate-500 mt-1 text-sm">
-          {worker.city}, {worker.state}
-        </Text>
-        <View className="flex-row gap-2 mt-2">
           {worker.availability === 'AVAILABLE' && (
-            <View className="bg-teal-50 px-2 py-1 rounded border border-teal-200">
-              <Text className="text-teal-700 text-xs font-medium">
-                Available Now
-              </Text>
-            </View>
-          )}
-          {worker.workerType === 'TEAM' && (
-            <View className="bg-blue-50 px-2 py-1 rounded border border-blue-200">
-              <Text className="text-blue-700 text-xs font-medium">
-                Team: {worker.teamSize}
-              </Text>
-            </View>
+            <Text
+              style={{
+                fontSize: 11,
+                color: palette.teal,
+                backgroundColor: 'rgba(178,227,206,0.5)',
+                paddingHorizontal: 8,
+                paddingVertical: 3,
+                borderRadius: 12,
+              }}
+            >
+              Available
+            </Text>
           )}
         </View>
+        <Text style={{ fontSize: 12, color: palette.muted }}>
+          {worker.skills?.length
+            ? worker.skills.slice(0, 2).join(' • ')
+            : `${worker.city}, ${worker.state}`}
+        </Text>
+        {worker.workerType === 'TEAM' && (
+          <Text style={{ fontSize: 11, color: palette.teal }}>
+            Team: {worker.teamSize}
+          </Text>
+        )}
+      </View>
+      <View
+        style={[
+          glassSurface,
+          {
+            width: 38,
+            height: 38,
+            borderRadius: 19,
+            alignItems: 'center',
+            justifyContent: 'center',
+          },
+        ]}
+      >
+        <Ionicons name="chevron-forward" size={22} color={palette.teal} />
       </View>
     </Pressable>
   );

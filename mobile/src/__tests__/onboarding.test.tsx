@@ -38,6 +38,7 @@ jest.mock('expo-secure-store', () => ({
 jest.mock('react-native-safe-area-context', () => ({
   SafeAreaView:
     jest.requireActual<typeof import('react-native')>('react-native').View,
+  useSafeAreaInsets: () => ({ top: 0, bottom: 0, left: 0, right: 0 }),
 }));
 const user: Session = {
   userId: 'test-id',
@@ -159,8 +160,8 @@ test('successful OTP stores credentials through the session service', async () =
 });
 test('role selection persists on server before reloading identity', async () => {
   await show(<ProfileEditor />);
-  await screen.findByText('What brings you here?');
-  await press('I am a worker');
+  await screen.findByRole('header', { name: "Let's build your profile." });
+  await press("I'm here to find work");
   await waitFor(() =>
     expect(apiJson).toHaveBeenCalledWith(
       '/api/v1/users/me/roles',
@@ -181,6 +182,7 @@ test('customer onboarding requires name and location, reviews and completes', as
     expect(screen.getByText(/Enter your full name/)).toBeTruthy(),
   );
   await fill('Full name', 'Test Customer');
+  await fireEvent.press(screen.getByRole('button', { name: /Customer type:/ }));
   await fireEvent.press(screen.getByRole('radio', { name: 'Other' }));
   await press('Save and continue');
   await screen.findByText('Your location');
@@ -207,8 +209,9 @@ test('worker resumes the server draft step and completes trade, skills and avail
   };
   await show(<ProfileEditor />);
   await screen.findByText('Your trade and skills');
+  await fireEvent.press(screen.getByRole('button', { name: /Primary trade:/ }));
   await fireEvent.press(screen.getByRole('radio', { name: 'Carpenter' }));
-  await fireEvent.press(screen.getByRole('radio', { name: 'Furniture' }));
+  await fireEvent.press(screen.getByRole('checkbox', { name: 'Furniture' }));
   await fill('Years of experience', '5');
   await press('Save and continue');
   await screen.findByText('Location and availability');

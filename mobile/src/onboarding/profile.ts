@@ -35,7 +35,7 @@ export const emptyProfile: ProfileData = {
   fullName: '',
   customerType: '',
   companyName: '',
-  workerType: '',
+  workerType: 'INDIVIDUAL',
   profilePhotoUrl: '',
   tradeId: null,
   skillIds: [],
@@ -44,7 +44,7 @@ export const emptyProfile: ProfileData = {
   district: '',
   city: '',
   postalCode: '',
-  availability: '',
+  availability: 'AVAILABLE',
   teamName: '',
   teamSize: null,
 };

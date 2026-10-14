@@ -3,3 +3,8 @@ dist/
 .expo/
 coverage/
 package-lock.json
+
+# Imported design references and immutable audit evidence (UTF-16 originals retained).
+.stitch/
+npm_audit_mobile.json
+npm_audit_mobile_utf8.json

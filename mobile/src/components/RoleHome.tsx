@@ -11,18 +11,19 @@ export default function RoleHome({ role }: { role: 'Customer' | 'Worker' }) {
   const [error, setError] = useState<string | null>(null);
   return (
     <Screen>
-      <Text accessibilityRole="header" className="text-3xl font-bold">
+      <Text accessibilityRole="header" className="text-ink text-3xl font-bold">
         {role} Home
       </Text>
-      <Text>Welcome, {session?.fullName}</Text>
-      <Text>{session?.phone}</Text>
+      <Text className="text-ink">Welcome, {session?.fullName}</Text>
+      <Text className="text-ink">{session?.phone}</Text>
       <EmptyState
         title="Your profile is ready"
-        description="Marketplace discovery and booking flows are planned for a later phase."
+        description="Manage your profile and use the tabs below to explore jobs, quotes and bookings."
       />
       <Action label="Edit profile" onPress={() => router.push('/profile')} />
       <Action
         label="Sign out"
+        variant="secondary"
         onPress={() => {
           void useSession
             .getState()
@@ -38,7 +39,11 @@ export default function RoleHome({ role }: { role: 'Customer' | 'Worker' }) {
             );
         }}
       />
-      {error && <Text accessibilityRole="alert">{error}</Text>}
+      {error && (
+        <Text className="text-ink" accessibilityRole="alert">
+          {error}
+        </Text>
+      )}
     </Screen>
   );
 }

@@ -1,10 +1,12 @@
+import { glassSurface, GlassRim } from '../components/theme';
+import ServiceAreas from '../location/ServiceAreas';
 import { useState } from 'react';
-import { Image, Pressable, Text, TextInput, View } from 'react-native';
+import { Image, Pressable, Text, View } from 'react-native';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { useRouter } from 'expo-router';
 import { apiJson } from '../api/client';
 import { useSession } from '../auth/session';
-import { Action, Loading, Screen } from '../components/ui';
+import { Action, Input, Loading, Screen, Select } from '../components/ui';
 import {
   hydrateProfile,
   validateStep,
@@ -17,21 +19,24 @@ import {
 function Choice({
   label,
   selected,
+  multiple = false,
   onPress,
 }: {
   label: string;
   selected: boolean;
+  multiple?: boolean;
   onPress: () => void;
 }) {
   return (
     <Pressable
-      accessibilityRole="radio"
+      accessibilityRole={multiple ? 'checkbox' : 'radio'}
       accessibilityLabel={label}
       accessibilityState={{ checked: selected }}
       onPress={onPress}
-      className={`min-h-12 rounded-lg border p-3 ${selected ? 'border-teal-800 bg-teal-50' : 'border-slate-300 bg-white'}`}
+      style={({ pressed }) => ({ opacity: pressed ? 0.75 : 1 })}
+      className={`min-h-12 rounded-xl border p-3 ${selected ? 'border-white bg-surface' : 'border-outline bg-surface'}`}
     >
-      <Text>
+      <Text className="text-base text-ink">
         {selected ? '✓ ' : ''}
         {label}
       </Text>
@@ -52,18 +57,14 @@ function Field({
   maxLength?: number;
 }) {
   return (
-    <View className="gap-2">
-      <Text>{label}</Text>
-      <TextInput
-        accessibilityLabel={label}
-        value={value}
-        onChangeText={onChange}
-        keyboardType={numeric ? 'number-pad' : 'default'}
-        maxLength={maxLength}
-        autoCapitalize={numeric ? 'none' : 'sentences'}
-        className="rounded-lg border border-slate-300 bg-white p-3 text-base"
-      />
-    </View>
+    <Input
+      label={label}
+      value={value}
+      onChangeText={onChange}
+      keyboardType={numeric ? 'number-pad' : 'default'}
+      maxLength={maxLength}
+      autoCapitalize={numeric ? 'none' : 'sentences'}
+    />
   );
 }
 export default function ProfileEditor({
@@ -94,7 +95,7 @@ export default function ProfileEditor({
   if (query.isError)
     return (
       <Screen>
-        <Text accessibilityRole="alert">
+        <Text accessibilityRole="alert" className="text-red-700">
           Unable to load your saved profile. {query.error.message}
         </Text>
         <Action
@@ -126,10 +127,21 @@ function ProfileForm({
   const session = useSession((state) => state.session);
   const router = useRouter();
   const [data, setData] = useState<ProfileData>(() =>
-    hydrateProfile(initial.data),
+    hydrateProfile({
+      ...initial.data,
+      fullName: initial.data.fullName || session?.fullName || '',
+    }),
   );
-  const [step, setStep] = useState(editing ? 0 : initial.step);
+  const initialDataStr = JSON.stringify(
+    hydrateProfile({
+      ...initial.data,
+      fullName: initial.data.fullName || session?.fullName || '',
+    }),
+  );
+  const isDirty = JSON.stringify(data) !== initialDataStr;
   const role = initial.role;
+  const last = role === 'CUSTOMER' ? 2 : 3;
+  const [step, setStep] = useState(editing ? last : initial.step);
   const [notice, setNotice] = useState<string | null>(null);
   function field<K extends keyof ProfileData>(key: K, value: ProfileData[K]) {
     setNotice(null);
@@ -176,33 +188,39 @@ function ProfileForm({
       setNotice('Progress saved.');
       if (finish) {
         await useSession.getState().loadSession();
-        router.replace('/');
+        if (!editing) {
+          router.replace('/');
+        }
       }
     },
   });
   if (!role)
     return (
       <Screen>
-        <Text accessibilityRole="header" className="text-3xl font-bold">
-          What brings you here?
+        <Text
+          accessibilityRole="header"
+          className="text-3xl font-bold text-ink"
+        >
+          Let&apos;s build your profile.
         </Text>
-        <Text>Verified phone: {session?.phone}</Text>
+        <Text className="text-muted">Verified phone: {session?.phone}</Text>
         <Action
-          label="I need workers"
+          label="I'm here to hire talent"
           disabled={selection.isPending}
           onPress={() => selection.mutate('CUSTOMER')}
         />
         <Action
-          label="I am a worker"
+          label="I'm here to find work"
           disabled={selection.isPending}
           onPress={() => selection.mutate('WORKER')}
         />
         {selection.isError && (
-          <Text accessibilityRole="alert">{selection.error.message}</Text>
+          <Text accessibilityRole="alert" className="text-red-700">
+            {selection.error.message}
+          </Text>
         )}
       </Screen>
     );
-  const last = role === 'CUSTOMER' ? 2 : 3;
   const trade = catalogue.trades.find((item) => item.id === data.tradeId);
   const locationStep = role === 'CUSTOMER' ? 1 : 2;
   const titles =
@@ -214,224 +232,421 @@ function ProfileForm({
           'Location and availability',
           'Review your profile',
         ];
+
+  const uiTitles = editing ? titles : ['Phone verified', ...titles];
+  const uiStep = editing ? step : step + 1;
+  const uiLast = editing ? last : last + 1;
   return (
     <Screen>
-      <Text accessibilityRole="header" className="text-2xl font-bold">
-        {editing ? 'Edit profile' : titles[step]}
-      </Text>
-      <Text>
-        Step {step + 1} of {last + 1} · Verified phone: {session?.phone}
-      </Text>
-      {step === 0 && (
-        <View className="gap-4">
-          <Field
-            label="Full name"
-            value={data.fullName}
-            onChange={(v) => field('fullName', v)}
-            maxLength={120}
-          />
-          {role === 'CUSTOMER' ? (
-            <>
-              <Text>Customer type</Text>
-              {catalogue.customerTypes.map((type) => (
-                <Choice
-                  key={type.code}
-                  label={type.name}
-                  selected={data.customerType === type.code}
-                  onPress={() => field('customerType', type.code)}
-                />
-              ))}
-              <Field
-                label="Company or business name (optional)"
-                value={data.companyName}
-                onChange={(v) => field('companyName', v)}
-                maxLength={180}
-              />
-            </>
-          ) : (
-            <>
-              <Text>Worker type</Text>
-              <Choice
-                label="Individual"
-                selected={data.workerType === 'INDIVIDUAL'}
-                onPress={() => {
-                  field('workerType', 'INDIVIDUAL');
-                  field('teamName', '');
-                  field('teamSize', null);
-                }}
-              />
-              <Choice
-                label="Team"
-                selected={data.workerType === 'TEAM'}
-                onPress={() => field('workerType', 'TEAM')}
-              />
-              {data.workerType === 'TEAM' && (
-                <>
-                  <Field
-                    label="Team name"
-                    value={data.teamName}
-                    onChange={(v) => field('teamName', v)}
-                    maxLength={120}
-                  />
-                  <Field
-                    label="Team size"
-                    numeric
-                    value={data.teamSize?.toString() ?? ''}
-                    onChange={(v) => field('teamSize', v ? Number(v) : null)}
-                    maxLength={4}
-                  />
-                </>
-              )}
-              <Field
-                label="Profile photo HTTPS link (optional)"
-                value={data.profilePhotoUrl}
-                onChange={(v) => field('profilePhotoUrl', v)}
-                maxLength={2048}
-              />
-            </>
-          )}
+      <View style={{ gap: 6 }}>
+        <Text
+          accessibilityRole="header"
+          className="text-3xl font-bold text-ink"
+        >
+          {editing ? 'My profile' : titles[step]}
+        </Text>
+        <Text className="text-base text-muted">
+          {editing
+            ? 'Your details, all in one place.'
+            : 'Let’s get your profile ready.'}
+        </Text>
+      </View>
+      {editing && (
+        <View
+          style={{
+            ...glassSurface,
+            backgroundColor: 'rgba(247,201,72,0.12)',
+            borderRadius: 24,
+            padding: 20,
+            flexDirection: 'row',
+            alignItems: 'center',
+            gap: 16,
+          }}
+        >
+          <View
+            style={{
+              width: 64,
+              height: 64,
+              borderRadius: 32,
+              backgroundColor: '#F7C948',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
+          >
+            <Text style={{ color: '#145C58', fontSize: 24, fontWeight: '700' }}>
+              {(
+                data.fullName.trim() ||
+                session?.fullName ||
+                (role === 'CUSTOMER' ? 'Customer' : 'Worker')
+              )
+                .split(' ')
+                .filter(Boolean)
+                .slice(0, 2)
+                .map((word) => word.charAt(0))
+                .join('')
+                .toUpperCase()}
+            </Text>
+          </View>
+          <View style={{ flex: 1, gap: 5 }}>
+            <Text style={{ color: '#145C58', fontSize: 19, fontWeight: '700' }}>
+              {data.fullName.trim() ||
+                session?.fullName ||
+                (role === 'CUSTOMER' ? 'Customer account' : 'Worker account')}
+            </Text>
+            <Text style={{ color: '#466E68', fontSize: 14 }}>
+              {session?.phone}
+            </Text>
+            <Text style={{ color: '#466E68', fontSize: 12 }}>
+              ✓ Phone verified · {role === 'CUSTOMER' ? 'Customer' : 'Worker'}
+            </Text>
+          </View>
         </View>
       )}
-      {role === 'WORKER' && step === 1 && (
-        <View className="gap-4">
-          <Text>Primary trade</Text>
-          {catalogue.trades.map((item) => (
-            <Choice
-              key={item.id}
-              label={item.name}
-              selected={data.tradeId === item.id}
-              onPress={() => {
-                field('tradeId', item.id);
+      <View
+        style={{ gap: 10 }}
+        accessibilityLabel={`Step ${uiStep + 1} of ${uiLast + 1}`}
+      >
+        <View
+          style={{
+            flexDirection: 'row',
+            gap: 6,
+            paddingHorizontal: 48,
+            alignItems: 'center',
+          }}
+        >
+          {uiTitles.map((title, index) => (
+            <View
+              key={title}
+              style={{
+                flex: 1,
+                flexDirection: 'row',
+                alignItems: 'center',
+                gap: 5,
+              }}
+            >
+              <View
+                style={{
+                  width: 18,
+                  height: 18,
+                  borderRadius: 9,
+                  borderWidth: 2,
+                  borderColor: index <= uiStep ? '#FFFFFF' : '#A9D2C3',
+                  backgroundColor:
+                    index <= uiStep ? '#F7C948' : 'rgba(255,255,255,0.35)',
+                  boxShadow:
+                    index <= uiStep ? '0 0 7px rgba(247,201,72,0.65)' : 'none',
+                }}
+              />
+              {index < uiTitles.length - 1 && (
+                <View
+                  style={{
+                    flex: 1,
+                    height: 3,
+                    borderRadius: 3,
+                    backgroundColor: index < uiStep ? '#F7C948' : '#B4D9CB',
+                  }}
+                />
+              )}
+            </View>
+          ))}
+        </View>
+        <Text className="text-sm text-muted text-center">
+          {uiStep + 1} of {uiLast + 1} · {uiTitles[uiStep]}
+        </Text>
+      </View>
+      <View
+        style={{
+          ...glassSurface,
+          borderWidth: 1,
+          borderColor: 'rgba(255,255,255,0.96)',
+          borderRadius: 20,
+          padding: 18,
+          gap: 14,
+        }}
+      >
+        <GlassRim />
+        <View style={{ gap: 5 }}>
+          <Text className="text-lg font-bold text-ink">
+            {step === last
+              ? editing
+                ? 'Profile summary'
+                : 'Review details'
+              : step === 0
+                ? 'Personal information'
+                : step === locationStep
+                  ? 'Address details'
+                  : 'Skills & experience'}
+          </Text>
+          <Text className="text-sm leading-5 text-muted">
+            {step === 0
+              ? 'Help people know who they’re working with.'
+              : step === last
+                ? editing
+                  ? 'Your information currently visible on your profile.'
+                  : 'Check your information before saving.'
+                : 'Keep your information accurate and up to date.'}
+          </Text>
+        </View>
+        {step === 0 && (
+          <View className="gap-4">
+            <Field
+              label="Full name"
+              value={data.fullName}
+              onChange={(v) => field('fullName', v)}
+              maxLength={120}
+            />
+            {role === 'CUSTOMER' ? (
+              <>
+                <Select
+                  label="Customer type"
+                  value={data.customerType}
+                  placeholder="Choose your customer type"
+                  options={catalogue.customerTypes.map((type) => ({
+                    value: type.code,
+                    label: type.name,
+                  }))}
+                  onChange={(value) => field('customerType', value)}
+                />
+                <Field
+                  label="Company or business name (optional)"
+                  value={data.companyName}
+                  onChange={(v) => field('companyName', v)}
+                  maxLength={180}
+                />
+              </>
+            ) : (
+              <>
+                <Text className="text-muted font-semibold text-sm">
+                  Worker type
+                </Text>
+                <Choice
+                  label="Individual"
+                  selected={data.workerType === 'INDIVIDUAL'}
+                  onPress={() => {
+                    field('workerType', 'INDIVIDUAL');
+                    field('teamName', '');
+                    field('teamSize', null);
+                  }}
+                />
+                <Choice
+                  label="Team"
+                  selected={data.workerType === 'TEAM'}
+                  onPress={() => field('workerType', 'TEAM')}
+                />
+                {data.workerType === 'TEAM' && (
+                  <>
+                    <Field
+                      label="Team name"
+                      value={data.teamName}
+                      onChange={(v) => field('teamName', v)}
+                      maxLength={120}
+                    />
+                    <Field
+                      label="Team size"
+                      numeric
+                      value={data.teamSize?.toString() ?? ''}
+                      onChange={(v) => field('teamSize', v ? Number(v) : null)}
+                      maxLength={4}
+                    />
+                  </>
+                )}
+                <Field
+                  label="Profile photo HTTPS link (optional)"
+                  value={data.profilePhotoUrl}
+                  onChange={(v) => field('profilePhotoUrl', v)}
+                  maxLength={2048}
+                />
+              </>
+            )}
+          </View>
+        )}
+        {role === 'WORKER' && step === 1 && (
+          <View className="gap-4">
+            <Select
+              label="Primary trade"
+              value={data.tradeId ?? ''}
+              searchable
+              options={catalogue.trades.map((item) => ({
+                value: item.id,
+                label: item.name,
+              }))}
+              onChange={(value) => {
+                field('tradeId', value);
                 field('skillIds', []);
               }}
             />
-          ))}
-          <Text>Skills and sub-skills</Text>
-          {trade?.skills.map((skill) => (
-            <Choice
-              key={skill.id}
-              label={skill.name}
-              selected={data.skillIds.includes(skill.id)}
-              onPress={() =>
-                field(
-                  'skillIds',
-                  data.skillIds.includes(skill.id)
-                    ? data.skillIds.filter((id) => id !== skill.id)
-                    : [...data.skillIds, skill.id],
-                )
-              }
+            <Text className="text-muted font-semibold text-sm">
+              Skills and sub-skills
+            </Text>
+            {trade?.skills.map((skill) => (
+              <Choice
+                key={skill.id}
+                multiple
+                label={skill.name}
+                selected={data.skillIds.includes(skill.id)}
+                onPress={() =>
+                  field(
+                    'skillIds',
+                    data.skillIds.includes(skill.id)
+                      ? data.skillIds.filter((id) => id !== skill.id)
+                      : [...data.skillIds, skill.id],
+                  )
+                }
+              />
+            ))}
+            <Field
+              label="Years of experience"
+              numeric
+              value={data.experienceYears?.toString() ?? ''}
+              onChange={(v) => field('experienceYears', v ? Number(v) : null)}
+              maxLength={2}
             />
-          ))}
-          <Field
-            label="Years of experience"
-            numeric
-            value={data.experienceYears?.toString() ?? ''}
-            onChange={(v) => field('experienceYears', v ? Number(v) : null)}
-            maxLength={2}
-          />
-        </View>
-      )}
-      {step === locationStep && (
-        <View className="gap-4">
-          <Field
-            label="State code (for example KA)"
-            value={data.state}
-            onChange={(v) => field('state', v.toUpperCase())}
-            maxLength={8}
-          />
-          <Field
-            label="District"
-            value={data.district}
-            onChange={(v) => field('district', v)}
-            maxLength={100}
-          />
-          <Field
-            label="City"
-            value={data.city}
-            onChange={(v) => field('city', v)}
-            maxLength={100}
-          />
-          <Field
-            label="Postal code"
-            numeric
-            value={data.postalCode}
-            onChange={(v) => field('postalCode', v)}
-            maxLength={6}
-          />
-          {role === 'WORKER' && (
-            <>
-              <Text>Availability</Text>
-              {(['AVAILABLE', 'BUSY', 'UNAVAILABLE'] as const).map((item) => (
-                <Choice
-                  key={item}
-                  label={
-                    item === 'AVAILABLE'
-                      ? 'Available'
-                      : item === 'BUSY'
-                        ? 'Busy'
-                        : 'Unavailable'
-                  }
-                  selected={data.availability === item}
-                  onPress={() => field('availability', item)}
-                />
-              ))}
-            </>
-          )}
-        </View>
-      )}
-      {step === last && (
-        <View className="gap-3">
-          <Text className="text-xl font-bold">{data.fullName}</Text>
-          <Text>{session?.phone}</Text>
-          <Text>
-            {role === 'CUSTOMER'
-              ? catalogue.customerTypes.find(
-                  (item) => item.code === data.customerType,
-                )?.name
-              : data.workerType}
-          </Text>
-          {role === 'CUSTOMER' && !!data.companyName && (
-            <Text>{data.companyName}</Text>
-          )}
-          {role === 'WORKER' && (
-            <>
-              <Text>
-                {trade?.name} · {data.experienceYears} years
-              </Text>
-              <Text>
-                {trade?.skills
-                  .filter((s) => data.skillIds.includes(s.id))
-                  .map((s) => s.name)
-                  .join(', ')}
-              </Text>
-              <Text>{data.availability}</Text>
-              {data.workerType === 'TEAM' && (
-                <Text>
-                  {data.teamName} · {data.teamSize} people
+          </View>
+        )}
+        {step === locationStep && (
+          <View className="gap-4">
+            <Field
+              label="State code (for example KA)"
+              value={data.state}
+              onChange={(v) => field('state', v.toUpperCase())}
+              maxLength={8}
+            />
+            <Field
+              label="District"
+              value={data.district}
+              onChange={(v) => field('district', v)}
+              maxLength={100}
+            />
+            <Field
+              label="City"
+              value={data.city}
+              onChange={(v) => field('city', v)}
+              maxLength={100}
+            />
+            <Field
+              label="Postal code"
+              numeric
+              value={data.postalCode}
+              onChange={(v) => field('postalCode', v)}
+              maxLength={6}
+            />
+            {role === 'WORKER' && (
+              <>
+                <Text className="text-muted font-semibold text-sm">
+                  Availability
                 </Text>
-              )}
-              {!!data.profilePhotoUrl && (
-                <Image
-                  accessibilityLabel="Profile photo preview"
-                  source={{ uri: data.profilePhotoUrl }}
-                  style={{ width: 96, height: 96 }}
-                />
-              )}
-            </>
-          )}
-          <Text>
-            {data.city}, {data.district}, {data.state} {data.postalCode}
-          </Text>
-          <Text>Review these details before completing your profile.</Text>
-        </View>
-      )}
+                {(['AVAILABLE', 'BUSY', 'UNAVAILABLE'] as const).map((item) => (
+                  <Choice
+                    key={item}
+                    label={
+                      item === 'AVAILABLE'
+                        ? 'Available'
+                        : item === 'BUSY'
+                          ? 'Busy'
+                          : 'Unavailable'
+                    }
+                    selected={data.availability === item}
+                    onPress={() => field('availability', item)}
+                  />
+                ))}
+              </>
+            )}
+          </View>
+        )}
+        {step === last && (
+          <View className="gap-3">
+            <Text className="text-xl font-bold text-ink">{data.fullName}</Text>
+            <Text className="text-muted">{session?.phone}</Text>
+            <Text className="text-muted">
+              {role === 'CUSTOMER'
+                ? catalogue.customerTypes.find(
+                    (item) => item.code === data.customerType,
+                  )?.name
+                : data.workerType}
+            </Text>
+            {role === 'CUSTOMER' && !!data.companyName && (
+              <Text className="text-muted">{data.companyName}</Text>
+            )}
+            {role === 'WORKER' && (
+              <>
+                <Text className="text-muted">
+                  {trade?.name} · {data.experienceYears} years
+                </Text>
+                <Text className="text-muted">
+                  {trade?.skills
+                    .filter((s) => data.skillIds.includes(s.id))
+                    .map((s) => s.name)
+                    .join(', ')}
+                </Text>
+                <Text className="text-muted">{data.availability}</Text>
+                {data.workerType === 'TEAM' && (
+                  <Text className="text-muted">
+                    {data.teamName} · {data.teamSize} people
+                  </Text>
+                )}
+                {!!data.profilePhotoUrl && (
+                  <Image
+                    accessibilityLabel="Profile photo preview"
+                    source={{ uri: data.profilePhotoUrl }}
+                    style={{ width: 96, height: 96 }}
+                  />
+                )}
+              </>
+            )}
+            <Text className="text-muted">
+              {data.city}, {data.district}, {data.state} {data.postalCode}
+            </Text>
+            {!editing && (
+              <Text className="text-muted">
+                Don&apos;t lose your progress. Save your profile now to avoid
+                losing your work and start connecting with people.
+              </Text>
+            )}
+            {editing && isDirty && (
+              <Text className="text-muted font-bold">
+                You have unsaved changes. Tap &quot;Save profile&quot; below to
+                apply them.
+              </Text>
+            )}
+          </View>
+        )}
+      </View>
       {save.isError && (
-        <Text accessibilityRole="alert">{save.error.message}</Text>
+        <Text accessibilityRole="alert" className="text-red-700">
+          {save.error.message}
+        </Text>
       )}
-      {notice && <Text accessibilityLiveRegion="polite">{notice}</Text>}
+      {notice && (
+        <Text accessibilityLiveRegion="polite" className="text-green-700">
+          {notice}
+        </Text>
+      )}
+      {(!editing || step < last || isDirty) && (
+        <Action
+          label={
+            save.isPending
+              ? 'Saving…'
+              : step === last
+                ? editing
+                  ? 'Save profile'
+                  : 'Complete profile'
+                : 'Save and continue'
+          }
+          loading={save.isPending}
+          onPress={() =>
+            save.mutate({
+              next: Math.min(last, step + 1),
+              finish: step === last,
+            })
+          }
+        />
+      )}
       {step > 0 && (
         <Action
-          label="Back"
+          label={editing && step === last ? 'Edit details' : 'Back'}
+          variant={
+            editing && step === last && !isDirty ? 'primary' : 'secondary'
+          }
           disabled={save.isPending}
           onPress={() => {
             setStep((old) => old - 1);
@@ -439,30 +654,24 @@ function ProfileForm({
           }}
         />
       )}
-      <Action
-        label={
-          save.isPending
-            ? 'Saving…'
-            : step === last
-              ? editing
-                ? 'Save profile'
-                : 'Complete profile'
-              : 'Save and continue'
-        }
-        disabled={save.isPending}
-        onPress={() =>
-          save.mutate({ next: Math.min(last, step + 1), finish: step === last })
-        }
-      />
-      {step < last && (
+      {!editing && step < last && (
         <Action
           label="Save progress"
+          variant="secondary"
           disabled={save.isPending}
           onPress={() => save.mutate({ next: step })}
         />
       )}
+      {editing && role === 'WORKER' && (
+        <ServiceAreas
+          home={[data.city, data.district, data.state]
+            .filter(Boolean)
+            .join(', ')}
+        />
+      )}
       <Action
         label="Sign out"
+        variant="quiet"
         disabled={save.isPending}
         onPress={() => {
           void useSession

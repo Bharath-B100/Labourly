@@ -1,4 +1,4 @@
-import { apiJson, apiFetch } from './client';
+import { apiJson } from './client';
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 
@@ -16,6 +16,8 @@ export interface QuoteView {
   workerNote?: string;
   status: string;
   createdAt: string;
+  bookingId?: string | null;
+  bookingStatus?: string | null;
 }
 
 export interface BookingView {
@@ -30,6 +32,10 @@ export interface BookingView {
   startsAt: string;
   endsAt: string;
   status: string;
+  cancelReason?: string | null;
+  cancelledByName?: string | null;
+  cancelledByRole?: 'CUSTOMER' | 'WORKER' | null;
+  cancelledAt?: string | null;
 }
 
 export interface SubmitQuotePayload {
@@ -46,20 +52,18 @@ export interface SubmitQuotePayload {
 export async function submitQuote(
   requirementId: string,
   payload: SubmitQuotePayload,
-): Promise<{ quoteId: string }> {
-  return apiJson<{ quoteId: string }>(
-    `/api/v1/requirements/${requirementId}/quotes`,
-    { method: 'POST', body: JSON.stringify(payload) },
-  );
+): Promise<string> {
+  return apiJson<string>(`/api/v1/requirements/${requirementId}/quotes`, {
+    method: 'POST',
+    body: JSON.stringify(payload),
+  });
 }
 
 /** Customer: list quotes received for a requirement */
 export async function getRequirementQuotes(
   requirementId: string,
 ): Promise<QuoteView[]> {
-  return apiJson<QuoteView[]>(
-    `/api/v1/requirements/${requirementId}/quotes`,
-  );
+  return apiJson<QuoteView[]>(`/api/v1/requirements/${requirementId}/quotes`);
 }
 
 /** Worker: list my submitted quotes */
@@ -68,20 +72,31 @@ export async function getMyQuotes(): Promise<QuoteView[]> {
 }
 
 /** Customer: accept a quote */
-export async function acceptQuote(quoteId: string): Promise<{ bookingId: string }> {
-  return apiJson<{ bookingId: string }>(`/api/v1/quotes/${quoteId}/accept`, {
+export async function acceptQuote(quoteId: string): Promise<string> {
+  return apiJson<string>(`/api/v1/quotes/${quoteId}/accept`, {
     method: 'POST',
   });
 }
 
 /** Customer: reject a quote */
 export async function rejectQuote(quoteId: string): Promise<void> {
-  await apiFetch(`/api/v1/quotes/${quoteId}/reject`, { method: 'POST' });
+  await apiJson<void>(`/api/v1/quotes/${quoteId}/reject`, { method: 'POST' });
 }
 
 /** Worker: withdraw a quote */
 export async function withdrawQuote(quoteId: string): Promise<void> {
-  await apiFetch(`/api/v1/quotes/${quoteId}/withdraw`, { method: 'POST' });
+  await apiJson<void>(`/api/v1/quotes/${quoteId}/withdraw`, { method: 'POST' });
+}
+
+/** Worker: edit a quote */
+export async function editQuote(
+  quoteId: string,
+  payload: SubmitQuotePayload,
+): Promise<void> {
+  await apiJson<void>(`/api/v1/quotes/${quoteId}`, {
+    method: 'PUT',
+    body: JSON.stringify(payload),
+  });
 }
 
 // ── Booking endpoints ─────────────────────────────────────────────────────────
@@ -89,4 +104,22 @@ export async function withdrawQuote(quoteId: string): Promise<void> {
 /** Customer or Worker: list my bookings */
 export async function getMyBookings(): Promise<BookingView[]> {
   return apiJson<BookingView[]>('/api/v1/bookings/me');
+}
+
+/** Customer or Worker: get booking details */
+export async function getBookingDetails(
+  bookingId: string,
+): Promise<BookingView> {
+  return apiJson<BookingView>(`/api/v1/bookings/${bookingId}`);
+}
+
+/** Customer or Worker: cancel a booking */
+export async function cancelBooking(
+  bookingId: string,
+  reason?: string,
+): Promise<void> {
+  await apiJson<void>(`/api/v1/bookings/${bookingId}/cancel`, {
+    method: 'POST',
+    body: JSON.stringify({ reason }),
+  });
 }

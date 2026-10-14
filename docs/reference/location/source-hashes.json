@@ -1,0 +1,22 @@
+[
+  {
+    "path": ".tools/geonames/admin1CodesASCII.txt",
+    "sha256": "1da92a6323a5fec3176f3f743bf4cf4040fd56a876da55e46fbca23c863aa60a"
+  },
+  {
+    "path": ".tools/geonames/admin2Codes.txt",
+    "sha256": "4920594123aab0628998b8160899ceacd23c3494079e300057b53cb5ed349195"
+  },
+  {
+    "path": ".tools/geonames/cities15000.txt",
+    "sha256": "a80fca58b74b9e1c3b17cbb979d603d0aaa47d8c7155c6af56782376fbb809d1"
+  },
+  {
+    "path": "mobile/src/location/india-cities.json",
+    "sha256": "1c0b2e9430051aa44343ca199825aeac00cdad4a2cadbc57748e382fef4bc377"
+  },
+  {
+    "path": "docs/reference/location/lgd-states.html",
+    "sha256": "6bb27389199cc9b6f194b577cf0b0837126618a86876237f60a90c948884977e"
+  }
+]

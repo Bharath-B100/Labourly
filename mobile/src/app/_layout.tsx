@@ -1,14 +1,23 @@
 import '../../global.css';
+import { StatusBar } from 'expo-status-bar';
 import { Stack, type ErrorBoundaryProps } from 'expo-router';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
+import {
+  DraftNavigationGuard,
+  type DraftExitGuard,
+} from '../navigation/DraftNavigationGuard';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { hasRole, useSession } from '../auth/session';
+import { useLoginTransition } from '../auth/loginTransition';
+import { observeNotificationAccount } from '../notifications/session';
+import { LoginTransition } from '../components/LoginTransition';
 import { Action, EmptyState, Loading, Screen } from '../components/ui';
 
 export function ErrorBoundary({ retry }: ErrorBoundaryProps) {
   return (
     <SafeAreaProvider>
+      <StatusBar style="dark" />
       <Screen>
         <EmptyState
           title="Something went wrong"
@@ -21,6 +30,7 @@ export function ErrorBoundary({ retry }: ErrorBoundaryProps) {
 }
 
 export default function RootLayout() {
+  const draftGuard: DraftExitGuard = useRef(null);
   const [client] = useState(
     () =>
       new QueryClient({
@@ -29,6 +39,8 @@ export default function RootLayout() {
   );
 
   const { session, loadSession, isLoading, error, logout } = useSession();
+  const transition = useLoginTransition();
+  useEffect(() => observeNotificationAccount(client), [client]);
 
   useEffect(() => {
     loadSession();
@@ -37,6 +49,7 @@ export default function RootLayout() {
   if (isLoading) {
     return (
       <SafeAreaProvider>
+        <StatusBar style="dark" />
         <Screen>
           <Loading />
         </Screen>
@@ -46,6 +59,7 @@ export default function RootLayout() {
   if (error)
     return (
       <SafeAreaProvider>
+        <StatusBar style="dark" />
         <Screen>
           <EmptyState title="Connection unavailable" description={error} />
           <Action
@@ -56,6 +70,7 @@ export default function RootLayout() {
           />
           <Action
             label="Sign out"
+            variant="secondary"
             onPress={() => {
               void logout().catch(() =>
                 useSession.setState({
@@ -72,23 +87,64 @@ export default function RootLayout() {
 
   return (
     <SafeAreaProvider>
+      <StatusBar style="dark" />
       <QueryClientProvider client={client}>
-        <Stack>
-          <Stack.Screen name="index" options={{ title: 'NammaCrew' }} />
-          <Stack.Protected guard={!session || !completed}>
-            <Stack.Screen name="auth" options={{ headerShown: false }} />
-          </Stack.Protected>
-          <Stack.Protected guard={!!completed}>
-            <Stack.Screen name="profile" options={{ title: 'Edit profile' }} />
-          </Stack.Protected>
-          <Stack.Protected guard={!!completed && hasRole(session, 'CUSTOMER')}>
-            <Stack.Screen name="(customer)" options={{ headerShown: false }} />
-          </Stack.Protected>
-          <Stack.Protected guard={!!completed && hasRole(session, 'WORKER')}>
-            <Stack.Screen name="(worker)" options={{ headerShown: false }} />
-          </Stack.Protected>
-        </Stack>
+        <DraftNavigationGuard.Provider value={draftGuard}>
+          <Stack
+            screenOptions={{
+              headerStyle: { backgroundColor: '#F7F9F5' },
+              headerTintColor: '#145C58',
+              headerShadowVisible: false,
+              contentStyle: { backgroundColor: '#F7F9F5' },
+            }}
+            UNSTABLE_router={(original) => ({
+              getStateForAction(state, action, options) {
+                const next = original.getStateForAction(state, action, options);
+                if (
+                  next &&
+                  next.routes[next.index ?? 0]?.key !==
+                    state.routes[state.index ?? 0]?.key &&
+                  draftGuard.current?.(action)
+                )
+                  return state;
+                return next;
+              },
+            })}
+          >
+            <Stack.Screen name="index" options={{ headerShown: false }} />
+            <Stack.Protected guard={!session || !completed}>
+              <Stack.Screen name="auth" options={{ headerShown: false }} />
+            </Stack.Protected>
+            <Stack.Protected guard={!!completed}>
+              <Stack.Screen
+                name="profile"
+                options={{ title: 'Edit profile' }}
+              />
+              <Stack.Screen
+                name="notifications"
+                options={{ headerShown: false }}
+              />
+            </Stack.Protected>
+            <Stack.Protected
+              guard={!!completed && hasRole(session, 'CUSTOMER')}
+            >
+              <Stack.Screen
+                name="(customer)"
+                options={{ headerShown: false }}
+              />
+            </Stack.Protected>
+            <Stack.Protected guard={!!completed && hasRole(session, 'WORKER')}>
+              <Stack.Screen name="(worker)" options={{ headerShown: false }} />
+            </Stack.Protected>
+          </Stack>
+        </DraftNavigationGuard.Provider>
       </QueryClientProvider>
+      {transition.isActive && (
+        <LoginTransition
+          isReadyToSettle={transition.isReadyToSettle}
+          onComplete={transition.finishTransition}
+        />
+      )}
     </SafeAreaProvider>
   );
 }

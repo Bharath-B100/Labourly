@@ -73,3 +73,9 @@ The service persists the full draft and step transactionally. Completion validat
 
 MigrationIT tests empty V1–V4 then V5, and upgrades a synthetic V3 database through V4/V5 while retaining its user. AuthenticationIT exercises real PostgreSQL persistence. FoundationIT retains booking overlap and repeated concurrent-confirmation checks. Current execution results, rather than schema presence, determine status in PHASE_2_REPORT.md.
 
+
+## Phase 4 (V7–V9)
+
+V7 adds quotations and quotation-originated bookings; V8 adds cancellation audit columns. V9 is a forward correction preserving V1–V8: one accepted quote per requirement, one booking per quote, positive amount/duration/note bounds, immutable finalized quote data and booking commercial terms, and complete/immutable cancellation audit values. Existing Phase 1 booking transitions and worker overlap exclusion remain active. Service cancellation is restricted to CONFIRMED bookings with a reason; the existing status trigger releases reservations.
+
+Integration tests use disposable PostGIS databases. Cleanup truncates synthetic users and dependent tables without disabling triggers or session_replication_role. Unexpected SQL exceptions in concurrency tests are failures, not accepted losing outcomes. Before applying V9 to a non-disposable database, inspect any historical zero-price quotes, duplicate accepted quotes/bookings or incomplete cancellation audit values: constraints intentionally reject invalid legacy data instead of silently rewriting it.

@@ -47,7 +47,41 @@ public class MarketplaceDTOs {
       String district,
       String stateCode,
       Double lat,
-      Double lng) {}
+      Double lng,
+      String locationSource,
+      String locationStateId,
+      String locationCityId) {
+    public RequirementForm(
+        String title,
+        String description,
+        UUID tradeId,
+        List<UUID> skillIds,
+        int workerCount,
+        Instant startsAt,
+        Instant endsAt,
+        String city,
+        String district,
+        String stateCode,
+        Double lat,
+        Double lng) {
+      this(
+          title,
+          description,
+          tradeId,
+          skillIds,
+          workerCount,
+          startsAt,
+          endsAt,
+          city,
+          district,
+          stateCode,
+          lat,
+          lng,
+          null,
+          null,
+          null);
+    }
+  }
 
   public record Paginated<T>(List<T> items, int total, int page, int size) {}
 

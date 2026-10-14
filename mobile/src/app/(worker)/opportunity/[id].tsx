@@ -1,3 +1,5 @@
+import { GlassBackdrop } from '../../../components/theme';
+import { Action } from '../../../components/ui';
 import {
   View,
   Text,
@@ -13,7 +15,12 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { apiJson } from '../../../api/client';
 import { RequirementView } from '../../../api/marketplace';
-import { submitQuote, getMyQuotes, withdrawQuote } from '../../../api/quotations';
+import {
+  submitQuote,
+  getMyQuotes,
+  withdrawQuote,
+  editQuote,
+} from '../../../api/quotations';
 
 const PRICING_OPTIONS = [
   { value: 'FIXED_TOTAL', label: 'Fixed Total' },
@@ -42,25 +49,28 @@ export default function OpportunityDetailsScreen() {
   const [submitting, setSubmitting] = useState(false);
 
   useEffect(() => {
+    let mounted = true;
     const fetchData = async () => {
       try {
-        setLoading(true);
+        if (mounted) setLoading(true);
         const [req, myQuotes] = await Promise.all([
           apiJson<RequirementView>(`/api/v1/requirements/${id}`),
           getMyQuotes(),
         ]);
-        setRequirement(req);
+        if (mounted) setRequirement(req);
         const existing = myQuotes.find((q) => q.requirementId === id);
         if (existing) {
-          setMyQuoteId(existing.id);
-          setMyQuoteStatus(existing.status);
-          setAmount(String(existing.amount));
-          setPricing(existing.pricingBasis as PricingBasis);
-          setDurationDays(String(existing.durationDays));
-          setNote(existing.workerNote ?? '');
+          if (mounted) {
+            setMyQuoteId(existing.status === 'WITHDRAWN' ? null : existing.id);
+            setMyQuoteStatus(existing.status);
+            setAmount(String(existing.amount));
+            setPricing(existing.pricingBasis as PricingBasis);
+            setDurationDays(String(existing.durationDays));
+            setNote(existing.workerNote ?? '');
+          }
         } else {
           // Pre-fill start date from requirement
-          if (req.startsAt) {
+          if (req.startsAt && mounted) {
             const days = Math.max(
               1,
               Math.round(
@@ -73,40 +83,69 @@ export default function OpportunityDetailsScreen() {
           }
         }
       } catch (e: any) {
-        setError(e.message || 'Failed to load details');
+        if (mounted) setError(e.message || 'Failed to load details');
       } finally {
-        setLoading(false);
+        if (mounted) setLoading(false);
       }
     };
     fetchData();
+    return () => {
+      mounted = false;
+    };
   }, [id]);
 
   const handleSubmit = async () => {
-    const amt = parseFloat(amount);
-    const days = parseInt(durationDays, 10);
-    if (!amt || amt <= 0) {
+    const amt = Number(amount);
+    const days = Number(durationDays);
+    if (
+      !/^\d+(\.\d{1,2})?$/.test(amount.trim()) ||
+      !Number.isFinite(amt) ||
+      amt <= 0 ||
+      amt > 9999999999.99
+    ) {
       Alert.alert('Validation', 'Enter a valid amount');
       return;
     }
-    if (!days || days <= 0) {
+    if (
+      !/^\d+$/.test(durationDays.trim()) ||
+      !Number.isInteger(days) ||
+      days <= 0 ||
+      days > 3650
+    ) {
       Alert.alert('Validation', 'Enter a valid duration in days');
       return;
     }
+    setSubmitting(true);
     try {
-      setSubmitting(true);
-      await submitQuote(id, {
+      const payload = {
         amount: amt,
         pricingBasis: pricing,
         startsAt: requirement?.startsAt ?? new Date().toISOString(),
         durationDays: days,
         workerNote: note.trim() || undefined,
-      });
-      Alert.alert('✅ Quote Sent', 'Your quote has been submitted successfully.');
+      };
+
+      if (myQuoteId) {
+        await editQuote(myQuoteId, payload);
+      } else {
+        await submitQuote(id, payload);
+      }
+      setSubmitting(false);
+      if (myQuoteId) {
+        Alert.alert(
+          '✅ Quote Updated',
+          'Your quote has been updated successfully.',
+        );
+      } else {
+        Alert.alert(
+          '✅ Quote Sent',
+          'Your quote has been submitted successfully.',
+        );
+      }
       router.back();
     } catch (e: any) {
-      Alert.alert('Error', e.message ?? 'Failed to submit quote');
-    } finally {
       setSubmitting(false);
+      Alert.alert('Error', e.message ?? 'Failed to submit quote');
     }
   };
 
@@ -118,16 +157,17 @@ export default function OpportunityDetailsScreen() {
         text: 'Withdraw',
         style: 'destructive',
         onPress: async () => {
+          setSubmitting(true);
           try {
-            setSubmitting(true);
             await withdrawQuote(myQuoteId);
+            setSubmitting(false);
             setMyQuoteId(null);
             setMyQuoteStatus(null);
             Alert.alert('Withdrawn', 'Your quote has been withdrawn.');
+            router.back();
           } catch (e: any) {
-            Alert.alert('Error', e.message ?? 'Failed to withdraw');
-          } finally {
             setSubmitting(false);
+            Alert.alert('Error', e.message ?? 'Failed to withdraw');
           }
         },
       },
@@ -136,16 +176,16 @@ export default function OpportunityDetailsScreen() {
 
   if (loading) {
     return (
-      <SafeAreaView className="flex-1 bg-slate-50 items-center justify-center">
-        <ActivityIndicator size="large" color="#115e59" />
+      <SafeAreaView className="flex-1 bg-canvas items-center justify-center">
+        <ActivityIndicator size="large" color="#145C58" />
       </SafeAreaView>
     );
   }
 
   if (error || !requirement) {
     return (
-      <SafeAreaView className="flex-1 bg-slate-50 items-center justify-center p-6">
-        <Text className="text-red-500 text-center">{error || 'Not found'}</Text>
+      <SafeAreaView className="flex-1 bg-canvas items-center justify-center p-6">
+        <Text className="text-red-700 text-center">{error || 'Not found'}</Text>
       </SafeAreaView>
     );
   }
@@ -162,41 +202,44 @@ export default function OpportunityDetailsScreen() {
   });
 
   const alreadyActioned =
-    myQuoteStatus && myQuoteStatus !== 'SUBMITTED' && myQuoteStatus !== 'WITHDRAWN';
+    myQuoteStatus &&
+    myQuoteStatus !== 'SUBMITTED' &&
+    myQuoteStatus !== 'WITHDRAWN';
 
   return (
-    <SafeAreaView className="flex-1 bg-slate-50">
-      <View className="px-4 pt-4 pb-2 bg-white border-b border-slate-200 shadow-sm z-10">
-        <Text className="text-xl font-bold text-slate-900">Job Details</Text>
+    <SafeAreaView className="flex-1 bg-canvas">
+      <GlassBackdrop />
+      <View className="px-4 pt-4 pb-2 bg-surface border-b border-outline shadow-sm z-10">
+        <Text className="text-xl font-bold text-ink">Job Details</Text>
       </View>
 
       <ScrollView className="flex-1 p-4" keyboardShouldPersistTaps="handled">
         {/* Requirement card */}
-        <View className="bg-white rounded-2xl border border-slate-200 p-4 mb-4 shadow-sm">
-          <Text className="text-slate-900 font-bold text-lg mb-1">
+        <View className="bg-surface rounded-2xl border border-outline p-4 mb-4 shadow-sm">
+          <Text className="text-ink font-bold text-lg mb-1">
             {requirement.title}
           </Text>
-          <Text className="text-teal-700 text-sm font-medium mb-3">
+          <Text className="text-accent text-sm font-medium mb-3">
             {requirement.trade}
           </Text>
-          <Text className="text-slate-600 mb-4">{requirement.description}</Text>
+          <Text className="text-muted mb-4">{requirement.description}</Text>
 
           <View className="flex-row flex-wrap gap-x-4 gap-y-1">
             <View className="flex-row items-center">
-              <Ionicons name="location-outline" size={14} color="#64748b" />
-              <Text className="text-slate-600 text-sm ml-1">
+              <Ionicons name="location-outline" size={14} color="#466E68" />
+              <Text className="text-muted text-sm ml-1">
                 {requirement.city}, {requirement.district}
               </Text>
             </View>
             <View className="flex-row items-center">
-              <Ionicons name="people-outline" size={14} color="#64748b" />
-              <Text className="text-slate-600 text-sm ml-1">
+              <Ionicons name="people-outline" size={14} color="#466E68" />
+              <Text className="text-muted text-sm ml-1">
                 {requirement.workerCount} workers
               </Text>
             </View>
             <View className="flex-row items-center">
-              <Ionicons name="calendar-outline" size={14} color="#64748b" />
-              <Text className="text-slate-600 text-sm ml-1">
+              <Ionicons name="calendar-outline" size={14} color="#466E68" />
+              <Text className="text-muted text-sm ml-1">
                 {starts} – {ends}
               </Text>
             </View>
@@ -208,10 +251,10 @@ export default function OpportunityDetailsScreen() {
           <View
             className={`rounded-xl p-3 mb-4 border ${
               myQuoteStatus === 'ACCEPTED'
-                ? 'bg-green-50 border-green-200'
+                ? 'bg-green-400/10 border-green-400/30'
                 : myQuoteStatus === 'REJECTED'
-                  ? 'bg-red-50 border-red-200'
-                  : 'bg-blue-50 border-blue-200'
+                  ? 'bg-red-400/10 border-red-400/30'
+                  : 'bg-tinted border-outline'
             }`}
           >
             <Text
@@ -220,7 +263,7 @@ export default function OpportunityDetailsScreen() {
                   ? 'text-green-700'
                   : myQuoteStatus === 'REJECTED'
                     ? 'text-red-700'
-                    : 'text-blue-700'
+                    : 'text-accent'
               }`}
             >
               {myQuoteStatus === 'ACCEPTED'
@@ -234,42 +277,54 @@ export default function OpportunityDetailsScreen() {
 
         {/* Quote form (only if not yet submitted / can resubmit) */}
         {!alreadyActioned && (
-          <View className="bg-white rounded-2xl border border-slate-200 p-4 shadow-sm">
-            <Text className="text-slate-900 font-bold text-base mb-4">
+          <View className="bg-surface rounded-2xl border border-outline p-4 shadow-sm">
+            <Text className="text-ink font-bold text-base mb-4">
               {myQuoteId ? 'Your Quote' : 'Submit Your Quote'}
             </Text>
 
             {/* Amount */}
-            <Text className="text-slate-700 font-semibold mb-1">
-              Amount (₹) *
-            </Text>
+            <Text className="text-ink font-semibold mb-1">Amount (₹) *</Text>
             <TextInput
-              className="border border-slate-300 rounded-xl px-3 py-2.5 text-slate-900 mb-4"
+              placeholderTextColor="#466E68"
+              testID="amount-input"
+              accessibilityLabel="Quote amount in rupees"
+              className="border border-outline rounded-xl px-3 py-2.5 text-ink mb-4"
               placeholder="e.g. 2500"
               keyboardType="numeric"
               value={amount}
-              onChangeText={setAmount}
-              editable={!myQuoteId}
+              onChangeText={(t) => {
+                setAmount(t);
+              }}
             />
 
             {/* Pricing basis */}
-            <Text className="text-slate-700 font-semibold mb-2">
-              Pricing Basis *
-            </Text>
+            <Text className="text-ink font-semibold mb-2">Pricing Basis *</Text>
             <View className="flex-row gap-2 mb-4">
               {PRICING_OPTIONS.map((opt) => (
                 <Pressable
                   key={opt.value}
-                  onPress={() => !myQuoteId && setPricing(opt.value)}
+                  accessibilityRole="radio"
+                  accessibilityLabel={opt.label}
+                  accessibilityState={{
+                    checked: pricing === opt.value,
+                    disabled: submitting,
+                  }}
+                  disabled={submitting}
+                  style={({ pressed }) => ({
+                    minHeight: 48,
+                    justifyContent: 'center',
+                    opacity: pressed ? 0.75 : 1,
+                  })}
+                  onPress={() => setPricing(opt.value)}
                   className={`flex-1 py-2 rounded-xl border items-center ${
                     pricing === opt.value
-                      ? 'bg-teal-700 border-teal-700'
-                      : 'bg-white border-slate-300'
+                      ? 'bg-tinted border-outline'
+                      : 'bg-surface border-outline'
                   }`}
                 >
                   <Text
                     className={`text-xs font-semibold ${
-                      pricing === opt.value ? 'text-white' : 'text-slate-600'
+                      pricing === opt.value ? 'text-ink' : 'text-muted'
                     }`}
                   >
                     {opt.label}
@@ -279,59 +334,55 @@ export default function OpportunityDetailsScreen() {
             </View>
 
             {/* Duration */}
-            <Text className="text-slate-700 font-semibold mb-1">
+            <Text className="text-ink font-semibold mb-1">
               Duration (days) *
             </Text>
             <TextInput
-              className="border border-slate-300 rounded-xl px-3 py-2.5 text-slate-900 mb-4"
+              placeholderTextColor="#466E68"
+              className="border border-outline rounded-xl px-3 py-2.5 text-ink mb-4"
+              accessibilityLabel="Duration in days"
               placeholder="e.g. 5"
               keyboardType="numeric"
               value={durationDays}
               onChangeText={setDurationDays}
-              editable={!myQuoteId}
             />
 
             {/* Note */}
-            <Text className="text-slate-700 font-semibold mb-1">
+            <Text className="text-ink font-semibold mb-1">
               Note to customer (optional)
             </Text>
             <TextInput
-              className="border border-slate-300 rounded-xl px-3 py-2.5 text-slate-900 mb-5 h-20"
+              placeholderTextColor="#466E68"
+              className="border border-outline rounded-xl px-3 py-2.5 text-ink mb-5 h-20"
+              accessibilityLabel="Note to customer"
               placeholder="Any relevant experience, equipment, or clarifications..."
               multiline
               value={note}
               onChangeText={setNote}
-              editable={!myQuoteId}
               textAlignVertical="top"
             />
 
             {/* Action buttons */}
             {!myQuoteId ? (
-              <Pressable
+              <Action
+                label="Send Quote"
+                loading={submitting}
                 onPress={handleSubmit}
-                disabled={submitting}
-                className="bg-teal-700 py-3.5 rounded-xl items-center"
-              >
-                {submitting ? (
-                  <ActivityIndicator color="#fff" />
-                ) : (
-                  <Text className="text-white font-bold text-base">
-                    Send Quote
-                  </Text>
-                )}
-              </Pressable>
+              />
             ) : (
-              <Pressable
-                onPress={handleWithdraw}
-                disabled={submitting}
-                className="bg-red-50 py-3.5 rounded-xl items-center border border-red-200"
-              >
-                {submitting ? (
-                  <ActivityIndicator color="#ef4444" />
-                ) : (
-                  <Text className="text-red-600 font-bold">Withdraw Quote</Text>
-                )}
-              </Pressable>
+              <View className="gap-3">
+                <Action
+                  label="Update Quote"
+                  loading={submitting}
+                  onPress={handleSubmit}
+                />
+                <Action
+                  label="Withdraw"
+                  variant="danger"
+                  disabled={submitting}
+                  onPress={handleWithdraw}
+                />
+              </View>
             )}
           </View>
         )}

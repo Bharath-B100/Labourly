@@ -96,7 +96,7 @@ public class AuthService {
     if (challenge.getAttempts() >= challenge.getMaxAttempts())
       throw new AuthFailure(429, "Maximum verification attempts reached. Request a new code.");
     challenge.incrementAttempts();
-    if (!encoder.matches(code, challenge.getCodeHash()))
+    if (!otpProvider.verifyOtp(code, challenge.getCodeHash(), encoder))
       throw new AuthFailure(400, "Code is invalid, expired or already used.");
     challenge.setVerified(true);
     var user = users.findByPhone(phone).orElseGet(() -> users.save(new User(phone)));

@@ -28,5 +28,7 @@ public interface QuotationDTOs {
       // Joined fields
       String workerName,
       String primaryTrade,
-      String requirementTitle) {}
+      String requirementTitle,
+      UUID bookingId,
+      String bookingStatus) {}
 }

@@ -1,22 +1,18 @@
+import { GlassBackdrop } from '../../components/theme';
+import { Action } from '../../components/ui';
 import { useState, useCallback } from 'react';
-import {
-  View,
-  Text,
-  ScrollView,
-  ActivityIndicator,
-  Pressable,
-  Alert,
-} from 'react-native';
+import { View, Text, ScrollView, ActivityIndicator, Alert } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { useFocusEffect } from 'expo-router';
 import { getMyQuotes, withdrawQuote, QuoteView } from '../../api/quotations';
+import { NotificationBell } from '../../components/NotificationBell';
 
 const STATUS_COLOR: Record<string, string> = {
-  SUBMITTED: '#3b82f6',
-  ACCEPTED: '#10b981',
-  REJECTED: '#ef4444',
-  WITHDRAWN: '#6b7280',
+  SUBMITTED: '#315CAB',
+  ACCEPTED: '#16734A',
+  REJECTED: '#B42340',
+  WITHDRAWN: '#466E68',
 };
 
 const PRICING_LABEL: Record<string, string> = {
@@ -32,7 +28,7 @@ function QuoteCard({
   quote: QuoteView;
   onWithdraw: (id: string) => void;
 }) {
-  const color = STATUS_COLOR[quote.status] ?? '#6b7280';
+  const color = STATUS_COLOR[quote.status] ?? '#466E68';
   const starts = new Date(quote.startsAt).toLocaleDateString('en-IN', {
     day: 'numeric',
     month: 'short',
@@ -40,10 +36,10 @@ function QuoteCard({
   });
 
   return (
-    <View className="bg-white rounded-2xl border border-slate-200 p-4 mb-3 shadow-sm">
+    <View className="bg-surface rounded-2xl border border-outline p-4 mb-3 shadow-sm">
       <View className="flex-row items-start justify-between mb-1">
         <Text
-          className="text-slate-900 font-semibold text-base flex-1 mr-2"
+          className="text-ink font-semibold text-base flex-1 mr-2"
           numberOfLines={2}
         >
           {quote.requirementTitle}
@@ -53,47 +49,61 @@ function QuoteCard({
           className="px-2.5 py-0.5 rounded-full border"
         >
           <Text style={{ color }} className="text-xs font-bold">
-            {quote.status}
+            Quote: {quote.status}
           </Text>
         </View>
       </View>
 
-      <Text className="text-slate-500 text-xs mb-3">
+      <Text className="text-muted text-xs mb-3">
         Submitted {new Date(quote.createdAt).toLocaleDateString('en-IN')}
       </Text>
 
       <View className="flex-row gap-4 mb-2">
         <View className="flex-row items-center">
-          <Ionicons name="cash-outline" size={14} color="#0d9488" />
-          <Text className="text-teal-700 font-semibold text-sm ml-1">
+          <Ionicons name="cash-outline" size={14} color="#145C58" />
+          <Text className="text-accent font-semibold text-sm ml-1">
             ₹{Number(quote.amount).toLocaleString('en-IN')}
             {PRICING_LABEL[quote.pricingBasis]}
           </Text>
         </View>
         <View className="flex-row items-center">
-          <Ionicons name="calendar-outline" size={14} color="#64748b" />
-          <Text className="text-slate-600 text-sm ml-1">
+          <Ionicons name="calendar-outline" size={14} color="#466E68" />
+          <Text className="text-muted text-sm ml-1">
             {starts} · {quote.durationDays}d
           </Text>
         </View>
       </View>
 
       {quote.status === 'SUBMITTED' && (
-        <Pressable
+        <Action
+          label="Withdraw Quote"
+          variant="danger"
           onPress={() => onWithdraw(quote.id)}
-          className="mt-2 bg-red-50 py-2 rounded-xl items-center border border-red-200"
-        >
-          <Text className="text-red-600 font-semibold text-sm">
-            Withdraw Quote
-          </Text>
-        </Pressable>
+        />
       )}
 
       {quote.status === 'ACCEPTED' && (
-        <View className="mt-2 bg-green-50 py-2 rounded-xl items-center border border-green-200">
-          <Text className="text-green-700 font-semibold text-sm">
-            ✅ Hired — check Schedule
+        <View className="mt-2 bg-surface p-3 rounded-xl border border-outline">
+          <Text className="text-ink font-semibold text-sm">
+            {quote.bookingStatus === 'CANCELLED'
+              ? 'Booking cancelled'
+              : quote.bookingStatus === 'CONFIRMED'
+                ? 'Booking confirmed — check My Bookings'
+                : quote.bookingStatus === 'IN_PROGRESS'
+                  ? 'Booking in progress'
+                  : quote.bookingStatus === 'COMPLETED'
+                    ? 'Booking completed'
+                    : 'Quotation accepted — booking status unavailable'}
           </Text>
+          <Text className="text-muted text-sm">
+            Booking status: {quote.bookingStatus ?? 'Unavailable'}
+          </Text>
+          {quote.bookingStatus === 'CANCELLED' && (
+            <Text className="text-muted text-sm">
+              The quotation remains accepted in your history. This booking is no
+              longer active.
+            </Text>
+          )}
         </View>
       )}
     </View>
@@ -117,7 +127,11 @@ export default function MyQuotesScreen() {
     }
   };
 
-  useFocusEffect(useCallback(() => { fetchQuotes(); }, []));
+  useFocusEffect(
+    useCallback(() => {
+      fetchQuotes();
+    }, []),
+  );
 
   const handleWithdraw = (quoteId: string) => {
     Alert.alert('Withdraw Quote', 'Remove this quote?', [
@@ -138,34 +152,47 @@ export default function MyQuotesScreen() {
   };
 
   return (
-    <SafeAreaView className="flex-1 bg-slate-50">
-      <View className="px-4 pt-4 pb-2 bg-white border-b border-slate-200 shadow-sm z-10">
-        <Text className="text-xl font-bold text-slate-900">My Quotes</Text>
-        <Text className="text-slate-500 text-sm mt-0.5">
-          Quotes you've submitted to customers
-        </Text>
+    <SafeAreaView className="flex-1 bg-canvas">
+      <GlassBackdrop />
+      <View
+        style={{
+          flexDirection: 'row',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          paddingHorizontal: 16,
+          paddingTop: 16,
+          paddingBottom: 10,
+          backgroundColor: '#FFFFFF',
+          borderBottomWidth: 1,
+          borderBottomColor: 'rgba(20, 92, 88, 0.1)',
+        }}
+      >
+        <View>
+          <Text style={{ fontSize: 20, fontWeight: '800', color: '#104C49' }}>
+            My Quotes
+          </Text>
+          <Text style={{ fontSize: 13, color: '#466E68', marginTop: 2 }}>
+            Quotes you&apos;ve submitted to customers
+          </Text>
+        </View>
+        <NotificationBell />
       </View>
 
       <ScrollView className="flex-1 p-4">
         {error ? (
           <View className="items-center mt-8">
-            <Text className="text-red-500 text-center mb-4">{error}</Text>
-            <Pressable
-              onPress={fetchQuotes}
-              className="bg-teal-800 px-4 py-2 rounded-lg"
-            >
-              <Text className="text-white font-bold">Retry</Text>
-            </Pressable>
+            <Text className="text-red-700 text-center mb-4">{error}</Text>
+            <Action label="Retry" variant="secondary" onPress={fetchQuotes} />
           </View>
         ) : loading ? (
-          <ActivityIndicator className="mt-8" size="large" color="#115e59" />
+          <ActivityIndicator className="mt-8" size="large" color="#145C58" />
         ) : quotes.length === 0 ? (
-          <View className="items-center mt-8 p-6 bg-white rounded-xl border border-slate-200">
-            <Ionicons name="send-outline" size={40} color="#94a3b8" />
-            <Text className="text-slate-800 text-lg font-semibold mt-3 mb-1">
+          <View className="items-center mt-8 p-6 bg-surface rounded-xl border border-outline">
+            <Ionicons name="send-outline" size={40} color="#466E68" />
+            <Text className="text-ink text-lg font-semibold mt-3 mb-1">
               No quotes yet
             </Text>
-            <Text className="text-slate-500 text-center text-sm">
+            <Text className="text-muted text-center text-sm">
               Browse opportunities and submit quotes to get hired.
             </Text>
           </View>

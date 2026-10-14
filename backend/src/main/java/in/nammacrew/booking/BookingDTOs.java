@@ -16,5 +16,9 @@ public interface BookingDTOs {
       String pricingBasis,
       Instant startsAt,
       Instant endsAt,
-      String status) {}
+      String status,
+      String cancelReason,
+      String cancelledByName,
+      String cancelledByRole,
+      Instant cancelledAt) {}
 }

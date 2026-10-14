@@ -58,3 +58,22 @@ Worker search results only include VERIFIED workers (e.g. APPROVED status) by de
 RFC 9457 errors: 400 invalid input, 401 missing/invalid/expired authentication, 403 denied role/account, 409 invalid state, 429 OTP limits, 503 unavailable production OTP delivery. Credentials, SQL errors and stack traces are not response details. Admin routes, OpenAPI and Swagger require ADMIN even when documentation generation is enabled.
 
 Mobile stores credentials in Expo SecureStore, shares one in-flight refresh, prevents recursive refresh, and loads identity/progress from the server. HTTP authentication uses bearer headers, not cookies; CSRF is disabled for this model. A future cookie-based design must revisit CSRF. Discovery, booking HTTP workflows and operational admin features remain outside Phase 2.
+
+## Phase 4 quotation and booking contract
+
+| Method / path | Role / ownership | Result |
+| --- | --- | --- |
+| POST /api/v1/requirements/{id}/quotes | WORKER; active completed profile in required trade; requirement OPEN | 201 UUID JSON string |
+| GET /api/v1/requirements/{id}/quotes | Owning CUSTOMER | Quote list with worker name/trade and requirement title |
+| GET /api/v1/quotes/me | WORKER | Own quotes |
+| PUT /api/v1/quotes/{id} | Owning WORKER; SUBMITTED and requirement OPEN | 204 |
+| POST /api/v1/quotes/{id}/withdraw | Owning WORKER; SUBMITTED | 204 |
+| POST /api/v1/quotes/{id}/reject | Owning CUSTOMER; SUBMITTED | 204 |
+| POST /api/v1/quotes/{id}/accept | Owning CUSTOMER | 200 booking UUID JSON string; repeat returns same booking |
+| GET /api/v1/bookings/me | CUSTOMER/WORKER | Own quotation-originated bookings |
+| GET /api/v1/bookings/{id} | Booking participant | Booking details |
+| POST /api/v1/bookings/{id}/cancel | Booking participant; CONFIRMED | 204; required {reason}, trimmed length 1–2000 |
+
+Quote input: positive amount up to 9999999999.99 with at most two decimal places; pricingBasis FIXED_TOTAL, PER_DAY or PER_WORKER_PER_DAY; non-null startsAt; durationDays 1–3650; optional workerNote at most 2000 characters. Amount is the quoted rate for the pricing basis, not a processed payment or calculated settlement. Each accepted quote assigns its quoting worker; no team roster is generated.
+
+All quote writes lock the requirement before the quote. Acceptance atomically accepts one quote, rejects other submitted quotes, closes the requirement, copies commercial terms into a pending booking, assigns the worker, then confirms through existing exclusion/transition safeguards. Overlap failure rolls back the entire acceptance. Wrong ownership returns a concealed 404; invalid fields 400; stale state/overlap 409. Mobile mutation helpers propagate non-success responses; 204 is an empty success, and generated IDs are strings rather than invented response objects.

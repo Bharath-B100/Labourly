@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>State Level CLR Report</title>
+    <!-- Google Font: Source Sans Pro -->
+    <!-- jQuery -->
+    <script src="/dilrmpold/static/js/jquery.min.js"></script>
+    <link rel="stylesheet" href="/dilrmpold/static/css/all.min-1.css">
+    <link rel="stylesheet" href="/dilrmpold/static/css/choice.min.css.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="/dilrmpold/static/css/all.min.css">
+    <link rel="stylesheet" href="/dilrmpold/static/css/dilrmp.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="/dilrmpold/static/css/adminlte.css">
+    <link rel="stylesheet" href="/dilrmpold/static/css/topnav.css">
+    <!-- Link Swiper's CSS -->
+    <!-- <link rel="stylesheet" th:href="@{/static/css/bundle.min.css"} /> -->
+    <!-- Datatable CSS -->
+    <link rel="stylesheet" href="/dilrmpold/static/css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" href="/dilrmpold/static/css/responsive.bootstrap4.min.css">
+    <link rel="stylesheet" href="/dilrmpold/static/css/buttons.bootstrap4.min.css">
+    <link rel="stylesheet" href="/dilrmpold/static/css/adminlte.css">
+    <!-- Google tag (gtag.js) -->
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-7CP1M8V5CH"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'G-7CP1M8V5CH');
+    </script>
+    <meta charset="UTF-8">
+    
+    <style>
+        body{background-color:#F9F9FC;font-family: 'Roboto', sans-serif;font-size:14px;}
+        .table-bordered th, .table-bordered td {
+            border: 1px solid #16aec6;
+        }
+        .table-bordered {
+            border: 2px solid #16aec6;;
+        }
+
+        .table thead th {
+            text-align: center;
+            vertical-align: inherit;
+            border-bottom: 1px solid #16aec6;
+        }
+
+
+
+    </style>
+
+</head>
+
+<body class="hold-transition sidebar-mini">
+
+    <div class="navbar-upper">
+        <div class="navbar-upper1">
+
+        </div>
+        <div class="navbar-upper2 navbar-upper1">
+           
+
+                <a href="https://amritmahotsav.nic.in/" target="_blank"> <img class="aazadi" src="/dilrmpold/static/images/Item.png" alt="Aazadi"></a>
+                <a href="https://www.g20.in/en/" target="_blank"><img class="g20" src="/dilrmpold/static/images/Item (1).png" alt="G20 Logo"></a>
+         
+           <img src="/dilrmpold/static/images/Vector.png" alt="browser">
+            <!-- <div> -->
+            <select class="selectpicker" data-width="fit" id="locale">
+                <option href="?lang=en" value="En" data-content='English'>English</option>
+                <option href="?lang=hi" value="Hi" data-content='Hindi'>Hindi</option>
+            </select>
+            <!-- </div> -->
+        </div>
+    </div>
+    <div class="wrapper">
+        <section>
+    <div class="navbar-down">
+      
+        <nav class="navbar navbar-expand-lg navbar-light">
+          <div class="navbar-down1">
+            <img style="padding-left: 25px;padding-right: 15px;" class="homeImg" src="/dilrmpold/static/images/emblum.png" alt="">          
+              <div>
+                <p>Government of India (भारत सरकार)</p>
+                <p>Ministry of Rural Development (ग्रामीण विकास मंत्रालय)</p>
+                <p>Department of Land Resources (भूमि संसाधन विभाग)</p>
+                <p>Digital India Land Records Modernization Programme-MIS 3.0</p>
+              </div>           
+          </div>
+         
+          
+          <div class="collapse navbar-collapse navs" id="navbarSupportedContent"style="width: 30%;">
+            <ul class="navbar-nav right-nav">
+              <div style="display: flex; align-items: center;">
+                <div style="margin-right: 40px; text-align: center;">
+                  <!-- Content inside the small div -->
+                  <a class="nav-link" href="https://dilrmp.gov.in/" target="_blank" style="color: blue;">
+                    <h7 style="color: blue;">Link to</h7>
+                    <h6 style="color: blue;">New MIS 4.0</h6>
+                    <h6 style="margin: 0;">(From 15.10.2024)</h6>
+                  </a>
+                </div>
+                <div style="height: 100%;"></div>
+              </div>
+              <li class="nav-item active">
+                <div>
+                  <a class="nav-link" href="/dilrmpold/">
+                    <img class="homeImg" src="/dilrmpold/static/images/material-symbols_home.png" alt="">
+                  </a>
+                </div>
+                HOME<span class="sr-only">(current)</span></a>
+              </li>           
+             
+              
+               <li class="nav-item active">
+               <div>
+                  <a class="nav-link" href="https://dilrmp.gov.in/bhoomisammannew/" target="_blank">
+                    <img src="/dilrmpold/static/images/material-symbols_dashboard.png" alt="">
+                </div>
+                DASHBOARD</a>
+              </li>
+                 <li class="nav-item active">
+
+                <div>
+                  <a class="nav-link" href="/dilrmpold/userProfile/document" target="_blank">
+                    <img src="/dilrmpold/static/images/jam_document.png" alt="">
+                </div>
+                Report</a>
+              </li>
+              <li class="nav-item active">
+
+                <div>
+                    <a class="nav-link" href="/dilrmpold/userProfile/pdfdocument" target="_blank">
+                        <img src="/dilrmpold/static/images/jam_document.png" alt="">
+                </div>
+                Documents</a>
+            </li>
+              <li class="nav-item active">
+                <div>
+                  <a class="nav-link" id="myBtn" href="/dilrmpold/loginPage">
+                    <img src="/dilrmpold/static/images/material-symbols_login-sharp.png" alt="">
+                </div>
+                LOGIN</a>
+              </li>
+              
+              <li class="nav-item active">
+
+                <div>
+                  <a class="nav-link" href="/dilrmpold/userProfile/contact-us">
+                    <img src="/dilrmpold/static/images/bxs_contact.png" alt="">
+                </div>
+                CONTACT</a>
+              </li>
+
+            </ul>
+          </div>
+
+        </nav>
+
+
+     
+
+    </div>
+    
+    
+  </section>
+
+
+        <div class="content-wrapper" style="box-shadow: rgba(9, 30, 66, 0.25) 0px 4px 8px -2px, rgba(9, 30, 66, 0.08) 0px 0px 0px 1px; margin-left:0px;">
+    <!-- Content Header (Page header) -->
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+
+                    <div class="card card-info">
+                        <div class="card-header">
+                            <div class="row">
+                                <div class="col-sm-10">
+                                    <h3 class="card-title" style="font-size: 24px; font-family: auto; text-shadow: 2px 2px 4px #090a0a;  letter-spacing: 2px;">State List</h3>
+                                </div>
+                                <div class="col-sm-2">
+                                    <a href="/dilrmpold/master/report/pdf/dashboardState">
+                                        <img src="/dilrmpold/images/pdf.png" alt="PDF Icon" class="btn-img"  width="40" height="40"
+                                             style="box-shadow: rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em, rgba(0, 0, 0, 0.25) 0px 0.125em 0.5em, rgba(255, 255, 255, 0.1) 0px 0px 0px 1px inset;"/>
+                                    </a>
+                                    <a href="/dilrmpold/master/report/excel/dashboardState">
+                                        <img src="/dilrmpold/images/excel.png" alt="EXCEL Icon" class="btn-img"  width="40" height="40"
+                                             style="box-shadow: rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em, rgba(0, 0, 0, 0.25) 0px 0.125em 0.5em, rgba(255, 255, 255, 0.1) 0px 0px 0px 1px inset;"/>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="card-body">
+                                <div class="table-responsive text-nowrap">
+                                    <table  id="example2" class="table table-bordered table-striped " >
+                                        <thead class="card-info" style="background-color: #91c9d2;">
+                           <tr>
+                               <th rowspan="1">S.No</th>
+                               <th rowspan="1">State/ UT Name</th>
+                               <th rowspan="1">State LGD Code</th>
+                               <th rowspan="1">State/ UT</th>
+                           </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr>
+                                            <td>1</td>
+                                            <td><span>ANDAMAN &amp; NICOBAR ISLANDS</span></td>
+                                            <td><span>35</span></td>
+                                            <td><span>UT</span></td>
+                                        
+                                        <tr>
+                                            <td>2</td>
+                                            <td><span>ANDHRA PRADESH</span></td>
+                                            <td><span>28</span></td>
+                                            <td><span>STATE</span></td>
+                                        
+                                        <tr>
+                                            <td>3</td>
+                                            <td><span>ARUNACHAL PRADESH</span></td>
+                                            <td><span>12</span></td>
+                                            <td><span>STATE</span></td>
+                                        
+                                        <tr>
+                                            <td>4</td>
+                                            <td><span>ASSAM</span></td>
+                                            <td><span>18</span></td>
+                                            <td><span>STATE</span></td>
+                                        
+                                        <tr>
+                                            <td>5</td>
+                                            <td><span>BIHAR</span></td>
+                                            <td><span>10</span></td>
+                                            <td><span>STATE</span></td>
+                                        
+                                        <tr>
+                                            <td>6</td>
+                                            <td><span>CHANDIGARH</span></td>
+                                            <td><span>4</span></td>
+                                            <td><span>UT</span></td>
+                                        
+                                        <tr>
+                                            <td>7</td>
+                                            <td><span>CHHATTISGARH</span></td>
+                                            <td><span>22</span></td>
+                                            <td><span>STATE</span></td>
+                                        
+                                        <tr>
+                                            <td>8</td>
+                                            <td><span>GOA</span></td>
+                                            <td><span>30</span></td>
+                                            <td><span>STATE</span></td>
+                                        
+                                        <tr>
+                                            <td>9</td>
+                                            <td><span>GUJARAT</span></td>
+                                            <td><span>24</span></td>
+                                            <td><span>STATE</span></td>
+                                        
+                                        <tr>
+                                            <td>10</td>
+                                            <td><span>HARYANA</span></td>
+                                            <td><span>6</span></td>
+                                            <td><span>STATE</span></td>
+                                        
+                                        <tr>
+                                            <td>11</td>
+                                            <td><span>HIMACHAL PRADESH</span></td>
+                                            <td><span>2</span></td>
+                                            <td><span>STATE</span></td>
+                                        
+                                        <tr>
+                                            <td>12</td>
+                                            <td><span>JAMMU &amp; KASHMIR</span></td>
+                                            <td><span>1</span></td>
+                                            <td><span>UT</span></td>
+                                        
+                                        <tr>
+                                            <td>13</td>
+                                            <td><span>JHARKHAND</span></td>
+                                            <td><span>20</span></td>
+                                            <td><span>STATE</span></td>
+                                        
+                                        <tr>
+                                            <td>14</td>
+                                            <td><span>KARNATAKA</span></td>
+                                            <td><span>29</span></td>
+                                            <td><span>STATE</span></td>
+                                        
+                                        <tr>
+                                            <td>15</td>
+                                            <td><span>KERALA</span></td>
+                                            <td><span>32</span></td>
+                                            <td><span>STATE</span></td>
+                                        
+                                        <tr>
+                                            <td>16</td>
+                                            <td><span>LADAKH</span></td>
+                                            <td><span>37</span></td>
+                                            <td><span>UT</span></td>
+                                        
+                                        <tr>
+                                            <td>17</td>
+                                            <td><span>LAKSHADWEEP</span></td>
+                                            <td><span>31</span></td>
+                                            <td><span>UT</span></td>
+                                        
+                                        <tr>
+                                            <td>18</td>
+                                            <td><span>MADHYA PRADESH</span></td>
+                                            <td><span>23</span></td>
+                                            <td><span>STATE</span></td>
+                                        
+                                        <tr>
+                                            <td>19</td>
+                                            <td><span>MAHARASHTRA</span></td>
+                                            <td><span>27</span></td>
+                                            <td><span>STATE</span></td>
+                                        
+                                        <tr>
+                                            <td>20</td>
+                                            <td><span>MANIPUR</span></td>
+                                            <td><span>14</span></td>
+                                            <td><span>STATE</span></td>
+                                        
+                                        <tr>
+                                            <td>21</td>
+                                            <td><span>MEGHALAYA</span></td>
+                                            <td><span>17</span></td>
+                                            <td><span>STATE</span></td>
+                                        
+                                        <tr>
+                                            <td>22</td>
+                                            <td><span>MIZORAM</span></td>
+                                            <td><span>15</span></td>
+                                            <td><span>STATE</span></td>
+                                        
+                                        <tr>
+                                            <td>23</td>
+                                            <td><span>NAGALAND</span></td>
+                                            <td><span>13</span></td>
+                                            <td><span>STATE</span></td>
+                                        
+                                        <tr>
+                                            <td>24</td>
+                                            <td><span>NCT OF DELHI</span></td>
+                                            <td><span>7</span></td>
+                                            <td><span>UT</span></td>
+                                        
+                                        <tr>
+                                            <td>25</td>
+                                            <td><span>ODISHA</span></td>
+                                            <td><span>21</span></td>
+                                            <td><span>STATE</span></td>
+                                        
+                                        <tr>
+                                            <td>26</td>
+                                            <td><span>PUDUCHERRY</span></td>
+                                            <td><span>34</span></td>
+                                            <td><span>UT</span></td>
+                                        
+                                        <tr>
+                                            <td>27</td>
+                                            <td><span>PUNJAB</span></td>
+                                            <td><span>3</span></td>
+                                            <td><span>STATE</span></td>
+                                        
+                                        <tr>
+                                            <td>28</td>
+                                            <td><span>RAJASTHAN</span></td>
+                                            <td><span>8</span></td>
+                                            <td><span>STATE</span></td>
+                                        
+                                        <tr>
+                                            <td>29</td>
+                                            <td><span>SIKKIM</span></td>
+                                            <td><span>11</span></td>
+                                            <td><span>STATE</span></td>
+                                        
+                                        <tr>
+                                            <td>30</td>
+                                            <td><span>TAMILNADU</span></td>
+                                            <td><span>33</span></td>
+                                            <td><span>STATE</span></td>
+                                        
+                                        <tr>
+                                            <td>31</td>
+                                            <td><span>TELANGANA</span></td>
+                                            <td><span>36</span></td>
+                                            <td><span>STATE</span></td>
+                                        
+                                        <tr>
+                                            <td>32</td>
+                                            <td><span>THE DADRA AND NAGAR HAVELI AND DAMAN AND DIU</span></td>
+                                            <td><span>38</span></td>
+                                            <td><span>UT</span></td>
+                                        
+                                        <tr>
+                                            <td>33</td>
+                                            <td><span>TRIPURA</span></td>
+                                            <td><span>16</span></td>
+                                            <td><span>STATE</span></td>
+                                        
+                                        <tr>
+                                            <td>34</td>
+                                            <td><span>UTTARAKHAND</span></td>
+                                            <td><span>5</span></td>
+                                            <td><span>STATE</span></td>
+                                        
+                                        <tr>
+                                            <td>35</td>
+                                            <td><span>UTTAR PRADESH</span></td>
+                                            <td><span>9</span></td>
+                                            <td><span>STATE</span></td>
+                                        
+                                        <tr>
+                                            <td>36</td>
+                                            <td><span>WEST BENGAL</span></td>
+                                            <td><span>19</span></td>
+                                            <td><span>STATE</span></td>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                                <script>
+                                    $(document).ready(function () {
+                                        // Check if DataTable is already initialized on the table
+                                        if ($.fn.DataTable.isDataTable('#example2')) {
+                                            // If yes, destroy the existing DataTable instance
+                                            $('#example2').DataTable().destroy();
+                                        }
+
+                                        // Initialize DataTable with your table ID
+                                        $('#example2').DataTable({
+                                            // Add additional options if needed
+                                            paging: true,  // Enable pagination
+                                            lengthMenu: [10, 25, 50, 100],  // Set page length options
+                                            pageLength: 10,  // Default page length
+                                            // Callback function after each draw event
+                                            drawCallback: function (settings) {
+                                                var api = this.api();
+                                                var totalPages = api.page.info().pages;
+                                                var page = api.page.info().page;
+
+                                                // Check if it's the last page
+                                                if (page === totalPages - 1) {
+                                                    $('#example2 tfoot').show();
+                                                } else {
+                                                    $('#example2 tfoot').hide();
+                                                }
+                                            }
+                                        });
+                                    });
+                                </script>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+    </div>
+    <section>   
+            <div class="nationalMarks">
+                <a href="https://www.digitalindia.gov.in/" target="_blank"> <img src="/dilrmpold/static/images/digital-india.png"></a>
+                <a href="https://www.makeinindia.com/home" target="_blank"> <img src="/dilrmpold/static/images/makeinindia.png"></a>
+                <a href="https://www.india.gov.in/" target="_blank"> <img src="/dilrmpold/static/images/india-gov.png"></a>
+                <a href="https://igod.gov.in/" target="_blank"> <img src="/dilrmpold/static/images/goidirectory.png"></a>
+                <a href="https://data.gov.in/" target="_blank"> <img src="/dilrmpold/static/images/data-gov.png"></a>
+                <a href="https://www.mygov.in/" target="_blank"> <img src="/dilrmpold/static/images/mygov.png"></a>
+            </div>
+
+            <div class="footer web-content">
+                <div>
+                    <a href="https://www.nic.in/" target="_blank"> <img src="/dilrmpold/static/images/nic-logo.png"></a>
+                    <h4>Website Content Managed by</h4>
+                    <p> Government of India</p>
+                    <p>Ministry of Rural Development</p>
+                    <p>Department of Land Resources </p>
+                    <p>Designed, Developed and Hosted by</p>
+                    <p>National Informatics Centre( NIC )</p>
+                </div>
+                <div>
+                    <h4>Quick Links</h4>
+<!--                    <a th:href="@{/}" >Home</a>-->
+                    <a href="/dilrmpold/userProfile/about-us" target="_blank"> About Us</a>
+                    <a href="https://dilrmp.gov.in/bhoomisammannew/" target="_blank">Dashboard</a>
+<!--                    <a href="https://dilrmp.gov.in/grading/">Dashboard</a>-->
+                    <a href="/dilrmpold/userProfile/contact-us" target="_blank">Contact Us</a>
+                    <a href="/dilrmpold/State-RoR-Web" target="_blank">State/UT RoR on Web</a>
+                </div>
+                <div>
+                    <h4>DILRMP MIS Programme</h4>
+                    <!-- <a target="_blank"  href="https://dilrmp.gov.in/dilrmp">DILRMP</a> -->
+                    <a target="_blank"  href="https://dolr.gov.in/">DoLR</a>
+                    <a target="_blank"  href="https://larr.dolr.gov.in/">LACRRIS</a>
+                    <a target="_blank"  href="https://ngdrs.gov.in/">NGDRS</a>
+                </div>
+                <div>
+                    <h4>Contact Us for Support</h4>
+                    <p>Department of Land Resources</p>
+                    <p>Ministry of Rural Development</p>
+                    <p>NBO Building,G-Wings, Nirman Bhawan</p>
+                    <p>Maulana Azad Road, New Delhi-110011</p>
+    
+                    <h3>Phone-011-23063224, </h3>
+                    <h3>Email-support-dilrmp[at]gov[dot]in</h3>
+                </div>
+            </div>
+
+            <div class="footer disclamer" style="padding-top: 60px !important;">
+                <div class="container-fluid" style="margin-top:-44px; ">
+                    <div class="container">
+                        <p style="line-height: 18px; text-align: center; font-size: 14px;">
+                            <strong>Disclaimer: </strong>
+                            Data presented in this site has been updated by respective State Governments/UT Administration and
+                            <a href="https://dolr.gov.in/" target="_blank" style="color: blue; text-decoration: underline;">Department of Land Resources</a>
+                            and <a href="https://rural.nic.in/" target="_blank"  style="color: blue; text-decoration: underline;">Ministry of Rural Development(MoRD),</a>.
+                            Government of India. Website hosted and maintained by
+                            <a href="https://www.nic.in/" target="_blank"  style="color: blue; text-decoration: underline;">National Informatics Centre</a>.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+    <!-- Bootstrap 4 -->
+    <script src="/dilrmpold/static/js/bootstrap.min.js"></script>
+    <!-- bs-custom-file-input -->
+    <script src="/dilrmpold/static/js/bs-custom-file-input.min.js"></script>
+    <!-- AdminLTE App -->
+    <script src="/dilrmpold/static/js/adminlte.min.js"></script>
+    <!-- Page specific script select option -->
+    <script type="text/javascript" src="/dilrmpold/static/choices.min.js"></script>
+    <script type="text/javascript" src="/dilrmpold/static/swiper-bundle.min.js"></script>
+    <script src="/dilrmpold/static/js/jquery.dataTables.min.js"></script>
+    <script src="/dilrmpold/static/js/dataTables.bootstrap4.min.js"></script>
+    <script src="/dilrmpold/static/js/dataTables.responsive.min.js"></script>
+    <script src="/dilrmpold/static/js/responsive.bootstrap4.min.js"></script>
+    <script src="/dilrmpold/static/js/dataTables.buttons.js"></script>
+    <script src="/dilrmpold/static/js/buttons.bootstrap4.min.js"></script>
+    <script src="/dilrmpold/static/js/adminlte.min.js"></script>
+</body>
+
+</html>

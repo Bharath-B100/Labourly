@@ -1,0 +1,11 @@
+const fs=require('node:fs');
+const d=JSON.parse(fs.readFileSync('docs/reference/location/canonical-locations-v1.json','utf8'));
+const q=v=>v===null?'NULL':"'"+String(v).replaceAll("'","''")+"'";
+let sql=fs.readFileSync('docs/reference/location/schema-v10.sql','utf8');
+const insert=(table,cols,rows)=>{sql+=`\nINSERT INTO ${table}(${cols}) VALUES\n`+rows.map(r=>'('+r.map(q).join(',')+')').join(',\n')+';\n';};
+insert('location_states','id,country_code,lgd_code,geonames_key,name,application_code,provenance',d.states.map(s=>[s.id,'IN',s.lgdCode,s.geonamesAdmin1Key,s.name,s.applicationStateCode,JSON.stringify(s)]));
+insert('location_districts','id,state_id,name,provenance',d.districts.map(x=>[x.id,x.stateId,x.name,JSON.stringify(x)]));
+insert('location_cities','id,state_id,name,latitude,longitude,district_resolution,provenance',d.cities.map(x=>[x.id,x.stateId,x.name,x.latitude,x.longitude,x.districtResolution,JSON.stringify(x)]));
+insert('location_city_districts','city_id,district_id,state_id',d.cities.flatMap(c=>c.districtIds.map(id=>[c.id,id,c.stateId])));
+fs.writeFileSync('backend/src/main/resources/db/migration/V10__canonical_locations_and_worker_coverage.sql',sql);
+console.log('Generated V10: canonical reference inserts only; no worker coverage backfill.');

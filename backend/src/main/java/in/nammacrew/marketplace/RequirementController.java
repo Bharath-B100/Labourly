@@ -25,6 +25,7 @@ public class RequirementController {
   }
 
   @PostMapping
+  @org.springframework.security.access.prepost.PreAuthorize("hasRole('CUSTOMER')")
   public UUID postRequirement(
       @RequestBody MarketplaceDTOs.RequirementForm form,
       org.springframework.security.core.Authentication auth) {
@@ -33,10 +34,29 @@ public class RequirementController {
   }
 
   @GetMapping("/{id}/matches")
+  @org.springframework.security.access.prepost.PreAuthorize("hasRole('CUSTOMER')")
   public java.util.List<MarketplaceDTOs.MatchedWorker> getMatches(
-      @org.springframework.web.bind.annotation.PathVariable UUID id) {
+      @org.springframework.web.bind.annotation.PathVariable UUID id,
+      org.springframework.security.core.Authentication auth) {
     // Return deterministic matches for a posted requirement.
-    return matchingEngine.findMatches(id);
+    return matchingEngine.findMatches(id, UUID.fromString(auth.getName()));
+  }
+
+  @GetMapping("/{id}/draft")
+  @org.springframework.security.access.prepost.PreAuthorize("hasRole('CUSTOMER')")
+  public java.util.Map<String, Object> getDraft(
+      org.springframework.security.core.Authentication auth,
+      @org.springframework.web.bind.annotation.PathVariable UUID id) {
+    return service.getDraft(UUID.fromString(auth.getName()), id);
+  }
+
+  @org.springframework.web.bind.annotation.PutMapping("/{id}/draft")
+  @org.springframework.security.access.prepost.PreAuthorize("hasRole('CUSTOMER')")
+  public UUID editDraft(
+      org.springframework.security.core.Authentication auth,
+      @org.springframework.web.bind.annotation.PathVariable UUID id,
+      @RequestBody RequirementService.DraftEdit edit) {
+    return service.editDraft(UUID.fromString(auth.getName()), id, edit);
   }
 
   @GetMapping("/me")
@@ -59,7 +79,10 @@ public class RequirementController {
 
   @GetMapping("/{id}")
   public MarketplaceDTOs.RequirementView getRequirement(
-      @org.springframework.web.bind.annotation.PathVariable UUID id) {
-    return service.getRequirementById(id);
+      @org.springframework.web.bind.annotation.PathVariable UUID id,
+      org.springframework.security.core.Authentication auth) {
+    boolean isCustomer =
+        auth.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_CUSTOMER"));
+    return service.getRequirementById(id, UUID.fromString(auth.getName()), isCustomer);
   }
 }

@@ -29,12 +29,23 @@ public class MarketplaceDiscoveryService {
       Double radiusKm,
       int page,
       int size) {
+    return searchWorkers(tradeId, availability, lat, lng, radiusKm, page, size, null);
+  }
+
+  public Paginated<WorkerCard> searchWorkers(
+      UUID tradeId,
+      String availability,
+      Double lat,
+      Double lng,
+      Double radiusKm,
+      int page,
+      int size,
+      String cityId) {
     int limit = size > 0 && size <= 100 ? size : 20;
     int offset = page >= 0 ? page * limit : 0;
 
     List<Object> args = new java.util.ArrayList<>();
-    StringBuilder where =
-        new StringBuilder(" WHERE w.visibility_enabled = true AND u.status = 'ACTIVE'");
+    StringBuilder where = new StringBuilder(" WHERE " + ServiceCoverage.profile("w", "u"));
 
     if (tradeId != null) {
       where.append(" AND w.primary_trade_id = ?");
@@ -50,12 +61,32 @@ public class MarketplaceDiscoveryService {
       where.append(" AND w.availability_status = 'AVAILABLE'");
     }
 
-    if (lat != null && lng != null && radiusKm != null && radiusKm > 0) {
+    if (lat != null || lng != null || cityId != null) {
+      if (lat == null
+          || lng == null
+          || !Double.isFinite(lat)
+          || !Double.isFinite(lng)
+          || Math.abs(lat) > 90
+          || Math.abs(lng) > 180)
+        throw new in.nammacrew.auth.AuthFailure(400, "Invalid search coordinates.");
+      String stateId = null;
+      if (cityId != null) {
+        var cities = sql.queryForList("SELECT * FROM location_cities WHERE id=?", cityId);
+        if (cities.isEmpty()
+            || Math.abs(((Number) cities.get(0).get("latitude")).doubleValue() - lat) > 0.000001
+            || Math.abs(((Number) cities.get(0).get("longitude")).doubleValue() - lng) > 0.000001)
+          throw new in.nammacrew.auth.AuthFailure(400, "Search city and coordinates disagree.");
+        stateId = (String) cities.get(0).get("state_id");
+      }
       where.append(
-          " AND l.center IS NOT NULL AND ST_DWithin(l.center, ST_SetSRID(ST_MakePoint(?, ?), 4326), ? * 1000)");
+          " AND EXISTS(SELECT 1 FROM (SELECT ST_SetSRID(ST_MakePoint(?,?),4326)::geography point,?::varchar state_id,?::varchar city_id) target WHERE "
+              + ServiceCoverage.geographic(
+                  "w.user_id", "target.point", "target.state_id", "target.city_id")
+              + ")");
       args.add(lng);
       args.add(lat);
-      args.add(radiusKm);
+      args.add(stateId);
+      args.add(cityId);
     }
 
     String countQuery =
@@ -122,7 +153,20 @@ public class MarketplaceDiscoveryService {
   }
 
   @Transactional(readOnly = true)
-  public WorkerCard getWorkerDetails(UUID workerId) {
+  public WorkerCard getWorkerDetails(UUID workerId, UUID callerId, boolean isCustomer) {
+    String accessCheck =
+        """
+        AND (
+            w.user_id = ?
+            OR (w.visibility_enabled = true AND u.status = 'ACTIVE' AND u.onboarding_state = 'COMPLETED')
+            OR EXISTS (
+                SELECT 1 FROM quotations q
+                JOIN labour_requirements r ON q.requirement_id = r.id
+                WHERE q.worker_id = w.user_id AND r.customer_id = ?
+            )
+        )
+        """;
+
     String query =
         """
             SELECT w.user_id, u.display_name, w.profile_photo_url, w.worker_type, c.name as trade_name,
@@ -135,11 +179,13 @@ public class MarketplaceDiscoveryService {
             JOIN labour_categories c ON w.primary_trade_id = c.id
             LEFT JOIN worker_service_locations l ON w.user_id = l.worker_id
             WHERE w.user_id = ?
-            """;
+            """
+            + accessCheck;
     try {
-      return sql.queryForObject(query, this::mapWorkerCard, workerId);
+      return sql.queryForObject(
+          query, this::mapWorkerCard, workerId, callerId, isCustomer ? callerId : null);
     } catch (org.springframework.dao.EmptyResultDataAccessException e) {
-      throw new IllegalArgumentException("Worker not found");
+      throw new in.nammacrew.auth.AuthFailure(404, "Worker not found or access denied");
     }
   }
 
@@ -153,23 +199,30 @@ public class MarketplaceDiscoveryService {
     String query =
         """
             WITH w AS (
-                SELECT user_id, primary_trade_id
+                SELECT user_id, primary_trade_id, availability_status
                 FROM worker_profiles
                 WHERE user_id = ?
-            ), wl AS (
-                SELECT center, radius_km FROM worker_service_locations WHERE worker_id = ?
             )
             SELECT r.id, r.title, r.description, c.name as trade, r.worker_count, r.starts_at, r.ends_at, r.city, r.district, r.state_code, r.status, r.created_at,
                    (SELECT string_agg(ts.name, ',') FROM requirement_skills rs JOIN trade_skills ts ON rs.skill_id = ts.id WHERE rs.requirement_id = r.id) as skills
             FROM labour_requirements r
             JOIN labour_categories c ON r.category_id = c.id
             CROSS JOIN w
-            CROSS JOIN wl
+            JOIN users u ON u.id=w.user_id
+            JOIN worker_profiles wp ON wp.user_id=w.user_id
             WHERE r.status = 'OPEN'
               AND r.category_id = w.primary_trade_id
-              AND ST_DWithin(wl.center, r.site_location, COALESCE(wl.radius_km, 30) * 1000)
+              AND %s
+              AND %s
+              AND %s
+              AND w.availability_status = 'AVAILABLE'
             ORDER BY r.created_at DESC LIMIT ? OFFSET ?
-            """;
+        """
+            .formatted(
+                ServiceCoverage.geographic(
+                    "w.user_id", "r.site_location", "r.location_state_id", "r.location_city_id"),
+                ServiceCoverage.profile("wp", "u"),
+                ServiceCoverage.freeSchedule("w.user_id", "r.starts_at", "r.ends_at"));
 
     var items =
         sql.query(
@@ -193,7 +246,6 @@ public class MarketplaceDiscoveryService {
                   rs.getString("status"),
                   rs.getTimestamp("created_at").toInstant());
             },
-            workerId,
             workerId,
             limit,
             offset);

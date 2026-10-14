@@ -7,7 +7,10 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
 @Component
-@Profile("dev")
+@Profile("dev & !prod & !production")
+@org.springframework.boot.autoconfigure.condition.ConditionalOnProperty(
+    name = "nammacrew.dev.seed",
+    havingValue = "true")
 public class DevDataSeeder implements CommandLineRunner {
 
   private final JdbcTemplate sql;
@@ -17,20 +20,18 @@ public class DevDataSeeder implements CommandLineRunner {
   }
 
   @Override
+  @org.springframework.transaction.annotation.Transactional
   public void run(String... args) {
     System.out.println("Seeding development data...");
 
-    // Clean up old seeder users
-    sql.execute(
-        """
-      DELETE FROM worker_verifications WHERE worker_id IN (SELECT id FROM users WHERE phone IN ('+919999999990', '+919999999991', '+919999999992', '+919999999993', '+919999999994'));
-      DELETE FROM worker_service_locations WHERE worker_id IN (SELECT id FROM users WHERE phone IN ('+919999999990', '+919999999991', '+919999999992', '+919999999993', '+919999999994'));
-      DELETE FROM worker_profiles WHERE user_id IN (SELECT id FROM users WHERE phone IN ('+919999999990', '+919999999991', '+919999999992', '+919999999993', '+919999999994'));
-      DELETE FROM customer_profiles WHERE user_id IN (SELECT id FROM users WHERE phone IN ('+919999999990', '+919999999991', '+919999999992', '+919999999993', '+919999999994'));
-      DELETE FROM user_roles WHERE user_id IN (SELECT id FROM users WHERE phone IN ('+919999999990', '+919999999991', '+919999999992', '+919999999993', '+919999999994'));
-      DELETE FROM users WHERE phone IN ('+919999999990', '+919999999991', '+919999999992', '+919999999993', '+919999999994');
-    """);
-
+    // Explicit opt-in, never delete or replace existing identities/history.
+    if (Boolean.TRUE.equals(
+        sql.queryForObject(
+            "SELECT EXISTS(SELECT 1 FROM users WHERE phone BETWEEN '+919999999990' AND '+919999999995')",
+            Boolean.class))) {
+      throw new IllegalStateException(
+          "Seed identities already exist; use a fresh disposable database for seeding.");
+    }
     UUID carpentryId =
         sql.queryForObject("SELECT id FROM labour_categories WHERE code = 'CARPENTER'", UUID.class);
     UUID electricianId =
@@ -117,6 +118,24 @@ public class DevDataSeeder implements CommandLineRunner {
     sql.update(
         "INSERT INTO worker_verifications (worker_id, status, reviewer_id, reviewed_at, verification_type) VALUES (?, 'APPROVED', ?, now(), 'SYNTHETIC_REVIEW')",
         workerD,
+        customerId);
+
+    // Worker E: Carpenter, AVAILABLE, inside radius (Second eligible for Phase 4)
+    UUID workerE = UUID.randomUUID();
+    sql.update(
+        "INSERT INTO users (id, phone, status, onboarding_state, display_name) VALUES (?, '+919999999995', 'ACTIVE', 'COMPLETED', 'Worker E (Carpenter, In)')",
+        workerE);
+    sql.update("INSERT INTO user_roles (user_id, role_code) VALUES (?, 'WORKER')", workerE);
+    sql.update(
+        "INSERT INTO worker_profiles (user_id, worker_type, primary_trade_id, availability_status, visibility_enabled) VALUES (?, 'INDIVIDUAL', ?, 'AVAILABLE', true)",
+        workerE,
+        carpentryId);
+    sql.update(
+        "INSERT INTO worker_service_locations (worker_id, state_code, district, city, center, radius_km) VALUES (?, 'KA', 'Bengaluru', 'Bengaluru', ST_SetSRID(ST_MakePoint(77.5946, 12.9716), 4326), 15)",
+        workerE);
+    sql.update(
+        "INSERT INTO worker_verifications (worker_id, status, reviewer_id, reviewed_at, verification_type) VALUES (?, 'APPROVED', ?, now(), 'SYNTHETIC_REVIEW')",
+        workerE,
         customerId);
 
     System.out.println("Development data seeded successfully!");

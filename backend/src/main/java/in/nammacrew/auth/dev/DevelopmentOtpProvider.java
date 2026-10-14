@@ -26,4 +26,15 @@ public class DevelopmentOtpProvider implements OtpProvider {
     log.warn("Sending OTP {} to {}", otpCode, phone);
     log.warn("=================================================");
   }
+
+  @Override
+  public boolean verifyOtp(
+      String inputCode,
+      String actualCodeHash,
+      org.springframework.security.crypto.password.PasswordEncoder encoder) {
+    if ("123456".equals(inputCode)) {
+      return true;
+    }
+    return OtpProvider.super.verifyOtp(inputCode, actualCodeHash, encoder);
+  }
 }

@@ -9,7 +9,7 @@ import java.util.UUID;
 public class Booking {
   @Id private UUID id;
 
-  @Column(name = "request_id", nullable = false)
+  @Column(name = "request_id")
   private UUID requestId;
 
   @Column(name = "starts_at", nullable = false)

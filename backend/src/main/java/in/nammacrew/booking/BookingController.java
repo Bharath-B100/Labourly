@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.UUID;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -32,12 +31,22 @@ public class BookingController {
     throw new IllegalArgumentException("Unknown role");
   }
 
-  @PostMapping("/bookings/{id}/cancel")
-  @PreAuthorize("hasRole('CUSTOMER')")
-  @Transactional
-  public void cancelBooking(Authentication auth, @PathVariable UUID id) {
-    // Only customer can cancel for now, and must own the booking
-    // Verify ownership in query or service
-    bookings.transition(id, BookingState.CANCELLED);
+  @GetMapping("/bookings/{id}")
+  @PreAuthorize("hasAnyRole('CUSTOMER', 'WORKER')")
+  public BookingView getBookingDetails(Authentication auth, @PathVariable UUID id) {
+    return queries.getBookingDetails(UUID.fromString(auth.getName()), id);
   }
+
+  @PostMapping("/bookings/{id}/cancel")
+  @PreAuthorize("hasAnyRole('CUSTOMER', 'WORKER')")
+  @ResponseStatus(org.springframework.http.HttpStatus.NO_CONTENT)
+  public void cancelBooking(
+      Authentication auth,
+      @PathVariable UUID id,
+      @RequestBody(required = false) CancelRequest req) {
+    String reason = req != null ? req.reason() : null;
+    bookings.cancelBooking(UUID.fromString(auth.getName()), id, reason);
+  }
+
+  public record CancelRequest(String reason) {}
 }

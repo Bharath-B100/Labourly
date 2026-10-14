@@ -1,82 +1,163 @@
-import { useState, useCallback } from 'react';
 import {
-  View,
-  Text,
-  ScrollView,
-  ActivityIndicator,
-  Pressable,
-} from 'react-native';
+  GlassBackdrop,
+  PageHeading,
+  GlassCard,
+  glassSurface,
+  palette,
+} from '../../components/theme';
+import { Action } from '../../components/ui';
+import { useState, useCallback } from 'react';
+import { View, Text, ScrollView, ActivityIndicator } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
-import { useFocusEffect } from 'expo-router';
+import { useFocusEffect, useRouter } from 'expo-router';
 import { getMyBookings, BookingView } from '../../api/quotations';
 
 const STATUS_COLOR: Record<string, string> = {
   PENDING: '#f59e0b',
-  CONFIRMED: '#3b82f6',
-  IN_PROGRESS: '#8b5cf6',
-  COMPLETED: '#10b981',
-  CANCELLED: '#ef4444',
+  CONFIRMED: '#145C58',
+  IN_PROGRESS: '#6C40A8',
+  COMPLETED: '#16734A',
+  CANCELLED: '#B42340',
 };
 
 const PRICING_LABEL: Record<string, string> = {
-  FIXED_TOTAL: 'Fixed',
+  FIXED_TOTAL: 'Fixed total',
   PER_DAY: '/day',
   PER_WORKER_PER_DAY: '/worker/day',
 };
 
 function BookingCard({ booking }: { booking: BookingView }) {
-  const color = STATUS_COLOR[booking.status] ?? '#6b7280';
-  const starts = new Date(booking.startsAt).toLocaleDateString('en-IN', {
-    day: 'numeric',
-    month: 'short',
-    year: 'numeric',
-  });
-  const ends = new Date(booking.endsAt).toLocaleDateString('en-IN', {
-    day: 'numeric',
-    month: 'short',
-  });
-  const pricing = PRICING_LABEL[booking.pricingBasis] ?? '';
-
+  const router = useRouter();
+  const date = (value: string) =>
+    new Date(value).toLocaleDateString('en-IN', {
+      day: '2-digit',
+      month: 'short',
+    });
+  const color = STATUS_COLOR[booking.status] ?? palette.teal;
   return (
-    <View className="bg-white rounded-2xl border border-slate-200 p-4 mb-3 shadow-sm">
-      <View className="flex-row items-start justify-between mb-2">
-        <Text
-          className="text-slate-900 font-semibold text-base flex-1 mr-2"
-          numberOfLines={2}
-        >
-          {booking.requirementTitle}
-        </Text>
+    <GlassCard style={{ marginBottom: 18, padding: 16, gap: 12 }}>
+      <View style={{ flexDirection: 'row', alignItems: 'center', gap: 14 }}>
         <View
-          style={{ backgroundColor: color + '22', borderColor: color }}
-          className="px-2 py-0.5 rounded-full border"
+          style={[
+            glassSurface,
+            {
+              width: 60,
+              height: 60,
+              borderRadius: 30,
+              backgroundColor: 'rgba(247,201,72,0.25)',
+              alignItems: 'center',
+              justifyContent: 'center',
+            },
+          ]}
         >
-          <Text style={{ color }} className="text-xs font-bold">
+          <Ionicons name="briefcase-outline" size={29} color={palette.teal} />
+        </View>
+        <View style={{ flex: 1, gap: 6 }}>
+          <Text style={{ fontSize: 20, fontWeight: '700', color: palette.ink }}>
+            {booking.requirementTitle}
+          </Text>
+          <Text
+            style={{
+              alignSelf: 'flex-start',
+              backgroundColor: color + '18',
+              color,
+              paddingVertical: 4,
+              paddingHorizontal: 12,
+              borderRadius: 16,
+              fontSize: 12,
+            }}
+          >
             {booking.status}
           </Text>
         </View>
       </View>
-
-      <View className="flex-row items-center mb-1">
-        <Ionicons name="person-outline" size={14} color="#64748b" />
-        <Text className="text-slate-600 text-sm ml-1">{booking.workerName}</Text>
-      </View>
-
-      <View className="flex-row items-center mb-1">
-        <Ionicons name="calendar-outline" size={14} color="#64748b" />
-        <Text className="text-slate-600 text-sm ml-1">
-          {starts} – {ends}
+      <View
+        style={[
+          glassSurface,
+          {
+            borderRadius: 20,
+            padding: 12,
+            flexDirection: 'row',
+            alignItems: 'center',
+            gap: 10,
+            boxShadow: 'none',
+          },
+        ]}
+      >
+        <View
+          style={{
+            width: 40,
+            height: 40,
+            borderRadius: 20,
+            backgroundColor: '#DCEEE7',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+        >
+          <Text
+            style={{ color: palette.teal, fontWeight: '700', fontSize: 18 }}
+          >
+            {booking.workerName?.charAt(0)}
+          </Text>
+        </View>
+        <Text
+          style={{
+            flex: 1,
+            color: palette.teal,
+            fontWeight: '600',
+            fontSize: 15,
+          }}
+        >
+          {booking.workerName}
         </Text>
+        <View
+          style={{
+            flex: 1,
+            borderLeftWidth: 1,
+            borderColor: '#B7D9CE',
+            paddingLeft: 10,
+            gap: 5,
+          }}
+        >
+          <Ionicons name="calendar-outline" size={21} color={palette.teal} />
+          <Text style={{ fontSize: 12, color: palette.teal }}>
+            {date(booking.startsAt)} – {date(booking.endsAt)}
+          </Text>
+        </View>
       </View>
-
-      <View className="flex-row items-center">
-        <Ionicons name="cash-outline" size={14} color="#0d9488" />
-        <Text className="text-teal-700 font-semibold text-sm ml-1">
-          ₹{Number(booking.amount).toLocaleString('en-IN')}
-          <Text className="font-normal text-slate-500">{pricing}</Text>
-        </Text>
+      <View
+        style={[
+          glassSurface,
+          { padding: 12, borderRadius: 20, boxShadow: 'none', gap: 5 },
+        ]}
+      >
+        <Text style={{ fontSize: 12, color: palette.teal }}>Quoted amount</Text>
+        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 18 }}>
+          <Text
+            style={{ fontSize: 26, fontWeight: '700', color: palette.teal }}
+          >
+            ₹{Number(booking.amount).toLocaleString('en-IN')}
+          </Text>
+          <Text
+            style={{
+              fontSize: 13,
+              color: palette.teal,
+              borderLeftWidth: 1,
+              borderColor: '#B7D9CE',
+              paddingLeft: 18,
+            }}
+          >
+            {PRICING_LABEL[booking.pricingBasis] ?? booking.pricingBasis}
+          </Text>
+        </View>
       </View>
-    </View>
+      <Action
+        label="View booking"
+        variant="secondary"
+        onPress={() => router.push(`/(customer)/booking/${booking.id}`)}
+      />
+    </GlassCard>
   );
 }
 
@@ -85,7 +166,7 @@ export default function BookingsScreen() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
 
-  const fetch = async () => {
+  const loadData = async () => {
     try {
       setLoading(true);
       setError('');
@@ -97,34 +178,58 @@ export default function BookingsScreen() {
     }
   };
 
-  useFocusEffect(useCallback(() => { fetch(); }, []));
+  useFocusEffect(
+    useCallback(() => {
+      let mounted = true;
+      const fetchData = async () => {
+        try {
+          if (mounted) {
+            setLoading(true);
+            setError('');
+          }
+          const data = await getMyBookings();
+          if (mounted) setBookings(data);
+        } catch (e: any) {
+          if (mounted) setError(e.message ?? 'Failed to load bookings');
+        } finally {
+          if (mounted) setLoading(false);
+        }
+      };
+      fetchData();
+      return () => {
+        mounted = false;
+      };
+    }, []),
+  );
 
   return (
-    <SafeAreaView className="flex-1 bg-slate-50">
-      <View className="px-4 pt-4 pb-2 bg-white border-b border-slate-200 shadow-sm z-10">
-        <Text className="text-xl font-bold text-slate-900">My Bookings</Text>
-      </View>
+    <SafeAreaView className="flex-1 bg-canvas">
+      <GlassBackdrop />
+      <PageHeading title="My bookings" subtitle="Your work, organised." />
 
-      <ScrollView className="flex-1 p-4">
+      <ScrollView
+        className="flex-1"
+        contentContainerStyle={{ padding: 20, paddingBottom: 32 }}
+      >
+        {!loading && !error && bookings.length > 0 && (
+          <Text style={{ fontSize: 14, color: palette.teal, marginBottom: 16 }}>
+            {bookings.length} bookings
+          </Text>
+        )}
         {error ? (
           <View className="items-center mt-8">
-            <Text className="text-red-500 text-center mb-4">{error}</Text>
-            <Pressable
-              onPress={fetch}
-              className="bg-teal-800 px-4 py-2 rounded-lg"
-            >
-              <Text className="text-white font-bold">Retry</Text>
-            </Pressable>
+            <Text className="text-red-700 text-center mb-4">{error}</Text>
+            <Action label="Retry" variant="secondary" onPress={loadData} />
           </View>
         ) : loading ? (
-          <ActivityIndicator className="mt-8" size="large" color="#115e59" />
+          <ActivityIndicator className="mt-8" size="large" color="#145C58" />
         ) : bookings.length === 0 ? (
-          <View className="items-center mt-8 p-6 bg-white rounded-xl border border-slate-200">
-            <Ionicons name="briefcase-outline" size={40} color="#94a3b8" />
-            <Text className="text-slate-800 text-lg font-semibold mt-3 mb-1">
+          <View className="items-center mt-8 p-6 bg-surface rounded-xl border border-outline">
+            <Ionicons name="briefcase-outline" size={40} color="#466E68" />
+            <Text className="text-ink text-lg font-semibold mt-3 mb-1">
               No bookings yet
             </Text>
-            <Text className="text-slate-500 text-center text-sm">
+            <Text className="text-muted text-center text-sm">
               Accepted quotations will appear here as confirmed bookings.
             </Text>
           </View>

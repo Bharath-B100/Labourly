@@ -26,7 +26,16 @@
     "plugins": [
       "expo-router",
       "expo-secure-store",
-      "expo-font"
+      "expo-font",
+      [
+        "expo-location",
+        {
+          "isAndroidBackgroundLocationEnabled": false,
+          "isAndroidForegroundServiceEnabled": false,
+          "locationWhenInUsePermission": "Allow NammaCrew to use your location to find workers near you.",
+          "isIosBackgroundLocationEnabled": false
+        }
+      ]
     ],
     "scheme": "nammacrew"
   }

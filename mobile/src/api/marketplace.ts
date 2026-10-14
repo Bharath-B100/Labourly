@@ -75,6 +75,9 @@ export interface RequirementFormPayload {
   stateCode: string;
   lat: number;
   lng: number;
+  locationSource: 'GPS' | 'CITY_CENTRE';
+  locationStateId: string | null;
+  locationCityId: string | null;
 }
 
 export async function searchWorkers(params: {
@@ -83,10 +86,12 @@ export async function searchWorkers(params: {
   lat?: number;
   lng?: number;
   radiusKm?: number;
+  cityId?: string;
   page?: number;
   size?: number;
 }): Promise<Paginated<WorkerCard>> {
   const query = new URLSearchParams();
+  if (params.cityId) query.append('cityId', params.cityId);
   if (params.tradeId) query.append('tradeId', params.tradeId);
   if (params.availability) query.append('availability', params.availability);
   if (params.lat !== undefined) query.append('lat', String(params.lat));
@@ -128,6 +133,10 @@ export async function getMyRequirements(
   return apiJson<Paginated<RequirementView>>(
     `/api/v1/requirements/me?page=${page}&size=${size}`,
   );
+}
+
+export async function getRequirement(id: string): Promise<RequirementView> {
+  return apiJson<RequirementView>(`/api/v1/requirements/${id}`);
 }
 
 export async function getRequirementMatches(
