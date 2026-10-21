@@ -1,0 +1,985 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Labourly - iOS Worker Profile Screen Specification & Mockup</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --safety-yellow: #FFCC25;
+      --charcoal-black: #202326;
+      --pure-white: #FFFFFF;
+      --concrete-grey: #E5E7EB;
+      --bg-canvas: #0F1113;
+      --card-bg: #1A1D20;
+      --border-color: #2D3136;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background-color: var(--bg-canvas);
+      color: #E2E8F0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 40px 20px 60px;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 32px;
+      max-width: 760px;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      border-radius: 9999px;
+      background-color: rgba(255, 204, 37, 0.12);
+      border: 1px solid rgba(255, 204, 37, 0.35);
+      color: var(--safety-yellow);
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      margin-bottom: 14px;
+    }
+
+    h1 {
+      font-size: 32px;
+      font-weight: 800;
+      color: #FFFFFF;
+      letter-spacing: -0.5px;
+      margin-bottom: 10px;
+    }
+
+    .subtitle {
+      font-size: 16px;
+      color: #94A3B8;
+      line-height: 1.5;
+    }
+
+    /* Palette Bar */
+    .palette-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 16px;
+      margin-bottom: 36px;
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 16px 24px;
+    }
+
+    .palette-chip {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: #121417;
+      border: 1px solid #282C31;
+      padding: 8px 14px;
+      border-radius: 10px;
+    }
+
+    .color-swatch {
+      width: 28px;
+      height: 28px;
+      border-radius: 6px;
+      box-shadow: inset 0 0 0 1px rgba(0,0,0,0.15);
+    }
+
+    .color-info {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .color-name {
+      font-size: 11px;
+      font-weight: 600;
+      color: #94A3B8;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+    }
+
+    .color-hex {
+      font-size: 14px;
+      font-weight: 700;
+      font-family: monospace;
+      color: #F8FAFC;
+    }
+
+    /* Presentation Layout */
+    .showcase-grid {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 40px;
+      max-width: 1100px;
+      width: 100%;
+    }
+
+    .device-card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 24px;
+      padding: 24px;
+      box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.6);
+    }
+
+    .device-card-header {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .device-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: #FFFFFF;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .device-tag {
+      font-size: 11px;
+      padding: 3px 8px;
+      border-radius: 6px;
+      font-weight: 600;
+      background: #23272D;
+      color: #94A3B8;
+    }
+
+    /* iPhone Frame */
+    .iphone-frame {
+      width: 390px;
+      height: 844px;
+      background-color: var(--pure-white);
+      border-radius: 50px;
+      position: relative;
+      box-shadow: 
+        0 0 0 4px #26292E,
+        0 0 0 9px #16181B,
+        0 30px 60px rgba(0, 0, 0, 0.8);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Dynamic Island & Status Bar */
+    .status-bar {
+      height: 48px;
+      padding: 12px 28px 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: var(--charcoal-black);
+      font-weight: 600;
+      font-size: 14px;
+      z-index: 20;
+      background: transparent;
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+    }
+
+    .time-slot {
+      font-weight: 700;
+      letter-spacing: -0.2px;
+    }
+
+    .status-icons {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+    }
+
+    .status-icon-svg {
+      fill: var(--charcoal-black);
+    }
+
+    /* Screen Scrollable Body */
+    .screen-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+      position: relative;
+      scrollbar-width: none;
+      padding-bottom: 84px;
+    }
+
+    .screen-content::-webkit-scrollbar {
+      display: none;
+    }
+
+    /* Hero Photo Banner */
+    .hero-banner-container {
+      position: relative;
+      width: 100%;
+      height: 240px;
+      background: linear-gradient(180deg, #E2E8F0 0%, #CBD5E1 100%);
+      overflow: hidden;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+    }
+
+    .banner-vector-mason {
+      width: 100%;
+      height: 100%;
+    }
+
+    .banner-nav-overlay {
+      position: absolute;
+      top: 52px;
+      left: 18px;
+      right: 18px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 10;
+    }
+
+    .banner-right-btns {
+      display: flex;
+      gap: 10px;
+    }
+
+    .circle-icon-btn {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background-color: var(--pure-white);
+      border: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+      transition: transform 0.15s ease;
+    }
+
+    .circle-icon-btn:hover {
+      transform: scale(1.06);
+    }
+
+    .banner-icon {
+      width: 18px;
+      height: 18px;
+      stroke: var(--charcoal-black);
+      fill: none;
+      stroke-width: 2.2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    /* Profile Details Section */
+    .details-section {
+      padding: 16px 20px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    /* Identity Row */
+    .identity-row {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .name-badge-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .worker-name {
+      font-size: 24px;
+      font-weight: 800;
+      color: var(--charcoal-black);
+      letter-spacing: -0.5px;
+    }
+
+    .verified-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      background-color: var(--safety-yellow);
+      color: var(--charcoal-black);
+      padding: 3px 8px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.2px;
+    }
+
+    .verified-icon {
+      width: 12px;
+      height: 12px;
+      stroke: var(--charcoal-black);
+      fill: none;
+      stroke-width: 2.5;
+    }
+
+    .rating-row {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--charcoal-black);
+    }
+
+    .star-icon {
+      color: var(--safety-yellow);
+      font-size: 15px;
+    }
+
+    .experience-text {
+      font-size: 14px;
+      font-weight: 600;
+      color: #64748B;
+    }
+
+    /* Pricing Card */
+    .pricing-card {
+      background-color: var(--concrete-grey);
+      border-radius: 16px;
+      padding: 14px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .pricing-text {
+      font-size: 17px;
+      font-weight: 800;
+      color: var(--charcoal-black);
+      letter-spacing: -0.3px;
+    }
+
+    /* Skills Grid */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+    }
+
+    .skill-tile {
+      background-color: var(--concrete-grey);
+      border-radius: 14px;
+      aspect-ratio: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 8px 4px;
+      cursor: pointer;
+      transition: background-color 0.15s ease;
+    }
+
+    .skill-tile:hover {
+      background-color: #DDE0E5;
+    }
+
+    .skill-icon-svg {
+      width: 24px;
+      height: 24px;
+      stroke: var(--charcoal-black);
+      fill: none;
+      stroke-width: 2;
+    }
+
+    .skill-name {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--charcoal-black);
+      text-align: center;
+      line-height: 1.1;
+    }
+
+    /* Metadata Rows */
+    .meta-row {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .meta-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--charcoal-black);
+    }
+
+    .pills-container {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .meta-pill {
+      padding: 6px 14px;
+      border-radius: 9999px;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .availability-pill {
+      background-color: var(--safety-yellow);
+      color: var(--charcoal-black);
+    }
+
+    .language-pill {
+      background-color: var(--concrete-grey);
+      color: var(--charcoal-black);
+    }
+
+    /* Reviews Section */
+    .reviews-section {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .reviews-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .reviews-title {
+      font-size: 16px;
+      font-weight: 800;
+      color: var(--charcoal-black);
+    }
+
+    .see-all-link {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--charcoal-black);
+      text-decoration: underline;
+      cursor: pointer;
+    }
+
+    .review-card {
+      background-color: #F8FAFC;
+      border: 1px solid var(--concrete-grey);
+      border-radius: 14px;
+      padding: 12px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .reviewer-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .reviewer-name {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--charcoal-black);
+    }
+
+    .reviewer-rating {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--charcoal-black);
+      display: flex;
+      align-items: center;
+      gap: 3px;
+    }
+
+    .review-text {
+      font-size: 12px;
+      color: #475569;
+      line-height: 1.4;
+    }
+
+    /* Sticky Footer Bar */
+    .sticky-footer {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 80px;
+      background-color: var(--pure-white);
+      border-top: 1px solid var(--concrete-grey);
+      display: flex;
+      align-items: center;
+      padding: 0 20px 8px;
+      gap: 12px;
+      z-index: 30;
+    }
+
+    .call-btn {
+      width: 100px;
+      height: 52px;
+      border-radius: 9999px;
+      background-color: transparent;
+      border: 2px solid var(--charcoal-black);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      font-size: 15px;
+      font-weight: 800;
+      color: var(--charcoal-black);
+      cursor: pointer;
+      transition: background-color 0.15s ease;
+    }
+
+    .call-btn:hover {
+      background-color: #F3F4F6;
+    }
+
+    .hire-btn {
+      flex: 1;
+      height: 52px;
+      border-radius: 9999px;
+      background-color: var(--safety-yellow);
+      border: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      font-weight: 800;
+      color: var(--charcoal-black);
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(255, 204, 37, 0.3);
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .hire-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 16px rgba(255, 204, 37, 0.4);
+    }
+
+    .hire-btn:active, .call-btn:active {
+      transform: scale(0.98);
+    }
+
+    /* Image Preview Container */
+    .image-preview-container {
+      width: 390px;
+      height: 844px;
+      border-radius: 50px;
+      overflow: hidden;
+      box-shadow: 
+        0 0 0 4px #26292E,
+        0 0 0 9px #16181B,
+        0 30px 60px rgba(0, 0, 0, 0.8);
+      position: relative;
+      background: #FFFFFF;
+    }
+
+    .image-preview-container img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    /* Specs Table */
+    .specs-card {
+      margin-top: 40px;
+      max-width: 900px;
+      width: 100%;
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 20px;
+      padding: 28px;
+    }
+
+    .specs-card h2 {
+      font-size: 20px;
+      font-weight: 700;
+      color: #FFFFFF;
+      margin-bottom: 20px;
+    }
+
+    .spec-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+    }
+
+    .spec-table th, .spec-table td {
+      padding: 12px 16px;
+      text-align: left;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .spec-table th {
+      color: #94A3B8;
+      font-weight: 600;
+      text-transform: uppercase;
+      font-size: 12px;
+      letter-spacing: 0.5px;
+    }
+
+    .spec-table td {
+      color: #F1F5F9;
+    }
+
+    .spec-highlight {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-family: monospace;
+      font-size: 13px;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="badge">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M12 2L1 21h22L12 2zm0 3.99L19.53 19H4.47L12 5.99zM11 10h2v4h-2zm0 6h2v2h-2z"/>
+      </svg>
+      Labourly Mobile OS Design System
+    </div>
+    <h1>iOS Worker Profile Screen Design</h1>
+    <p class="subtitle">Skilled professional profile screen strictly utilizing the 4-color palette, Pure White canvas (#FFFFFF), Concrete Grey skills & pricing (#E5E7EB), and vibrant Safety Yellow accents (#FFCC25).</p>
+  </header>
+
+  <!-- Color Palette -->
+  <div class="palette-container">
+    <div class="palette-chip">
+      <div class="color-swatch" style="background-color: var(--safety-yellow);"></div>
+      <div class="color-info">
+        <span class="color-name">Safety Yellow</span>
+        <span class="color-hex">#FFCC25</span>
+      </div>
+    </div>
+    <div class="palette-chip">
+      <div class="color-swatch" style="background-color: var(--charcoal-black);"></div>
+      <div class="color-info">
+        <span class="color-name">Charcoal Black</span>
+        <span class="color-hex">#202326</span>
+      </div>
+    </div>
+    <div class="palette-chip">
+      <div class="color-swatch" style="background-color: var(--pure-white); border: 1px solid #333;"></div>
+      <div class="color-info">
+        <span class="color-name">Pure White</span>
+        <span class="color-hex">#FFFFFF</span>
+      </div>
+    </div>
+    <div class="palette-chip">
+      <div class="color-swatch" style="background-color: var(--concrete-grey);"></div>
+      <div class="color-info">
+        <span class="color-name">Concrete Grey</span>
+        <span class="color-hex">#E5E7EB</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Showcase Cards -->
+  <div class="showcase-grid">
+
+    <!-- Card 1: High Fidelity AI Generated Render -->
+    <div class="device-card">
+      <div class="device-card-header">
+        <div class="device-title">
+          <span>High-Res Master Render</span>
+        </div>
+        <span class="device-tag">AI Visual Artifact (8K Spec)</span>
+      </div>
+
+      <div class="image-preview-container">
+        <img src="../Labourly_iOS_Worker_Profile.jpg" alt="Labourly iOS Mobile Worker Profile Screen Render">
+      </div>
+    </div>
+
+    <!-- Card 2: Interactive Vector & Component Implementation -->
+    <div class="device-card">
+      <div class="device-card-header">
+        <div class="device-title">
+          <span>Interactive Vector Layout</span>
+        </div>
+        <span class="device-tag">390 x 844 px Native iOS Canvas</span>
+      </div>
+
+      <!-- iPhone Frame -->
+      <div class="iphone-frame">
+        <!-- iOS Status Bar -->
+        <div class="status-bar">
+          <div class="time-slot">9:41</div>
+          <div class="status-icons">
+            <svg class="status-icon-svg" width="17" height="12" viewBox="0 0 17 12">
+              <rect x="0" y="8" width="3" height="4" rx="0.5"/>
+              <rect x="4.5" y="5.5" width="3" height="6.5" rx="0.5"/>
+              <rect x="9" y="3" width="3" height="9" rx="0.5"/>
+              <rect x="13.5" y="0" width="3" height="12" rx="0.5"/>
+            </svg>
+            <svg class="status-icon-svg" width="16" height="12" viewBox="0 0 16 12">
+              <path d="M8 9.5a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3zm-4.2-2.8a6 6 0 0 1 8.4 0 .75.75 0 1 1-1.06 1.06 4.5 4.5 0 0 0-6.28 0 .75.75 0 0 1-1.06-1.06zm-3.18-3.18a10.5 10.5 0 0 1 14.76 0 .75.75 0 1 1-1.06 1.06 9 9 0 0 0-12.64 0 .75.75 0 0 1-1.06-1.06z"/>
+            </svg>
+            <svg class="status-icon-svg" width="25" height="12" viewBox="0 0 25 12">
+              <rect x="0.5" y="0.5" width="21" height="11" rx="3.5" fill="none" stroke="currentColor" stroke-width="1.2"/>
+              <rect x="2" y="2" width="18" height="8" rx="2" fill="currentColor"/>
+              <path d="M23 4.5v3a1 1 0 0 0 1-1v-1a1 1 0 0 0-1-1z" fill="currentColor"/>
+            </svg>
+          </div>
+        </div>
+
+        <!-- Scrollable Screen Content -->
+        <div class="screen-content">
+          <!-- Hero Photo Banner -->
+          <div class="hero-banner-container">
+            <svg class="banner-vector-mason" viewBox="0 0 390 240" fill="none">
+              <!-- Background Sky / Wall -->
+              <rect width="390" height="240" fill="#E2E8F0"/>
+              <!-- Shoulders & Vest -->
+              <path d="M70 240 L105 160 L285 160 L320 240 Z" fill="#202326"/>
+              <!-- Yellow High-Vis Vest -->
+              <polygon points="120,162 140,240 250,240 270,162 230,162 210,240 180,240 160,162" fill="#FFCC25"/>
+              <rect x="135" y="210" width="120" height="12" fill="#FFFFFF"/>
+              <!-- Neck & Head -->
+              <rect x="175" y="125" width="40" height="40" rx="6" fill="#B45309"/>
+              <ellipse cx="195" cy="115" rx="36" ry="40" fill="#B45309"/>
+              <!-- Mustache & Friendly Smile -->
+              <path d="M178 126 Q 195 130 212 126" stroke="#202326" stroke-width="4" stroke-linecap="round"/>
+              <path d="M182 133 Q 195 145 208 133 Z" fill="#FFFFFF"/>
+              <!-- Safety Yellow Hard Hat -->
+              <ellipse cx="195" cy="85" rx="55" ry="14" fill="#FFCC25" stroke="#202326" stroke-width="3"/>
+              <path d="M150 85 C 150 35, 240 35, 240 85 Z" fill="#FFCC25" stroke="#202326" stroke-width="3"/>
+              <path d="M195 40 L 195 84" stroke="#202326" stroke-width="4" stroke-linecap="round"/>
+            </svg>
+
+            <!-- Floating Overlay Buttons -->
+            <div class="banner-nav-overlay">
+              <button class="circle-icon-btn" aria-label="Back">
+                <svg class="banner-icon" viewBox="0 0 24 24">
+                  <polyline points="15 18 9 12 15 6"/>
+                </svg>
+              </button>
+              <div class="banner-right-btns">
+                <button class="circle-icon-btn" aria-label="Favorite">
+                  <svg class="banner-icon" viewBox="0 0 24 24">
+                    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+                  </svg>
+                </button>
+                <button class="circle-icon-btn" aria-label="More options">
+                  <svg class="banner-icon" viewBox="0 0 24 24">
+                    <circle cx="12" cy="12" r="1.5"/>
+                    <circle cx="19" cy="12" r="1.5"/>
+                    <circle cx="5" cy="12" r="1.5"/>
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Profile Details Section -->
+          <div class="details-section">
+            <!-- Identity Row -->
+            <div class="identity-row">
+              <div class="name-badge-row">
+                <h1 class="worker-name">Ramesh Kumar</h1>
+                <span class="verified-badge">
+                  <svg class="verified-icon" viewBox="0 0 24 24">
+                    <polyline points="20 6 9 17 4 12"/>
+                  </svg>
+                  Verified
+                </span>
+              </div>
+              <div class="rating-row">
+                <span class="star-icon">★</span>
+                <span>4.8 (120 reviews)</span>
+              </div>
+              <div class="experience-text">Mason • 8 years experience</div>
+            </div>
+
+            <!-- Pricing Card -->
+            <div class="pricing-card">
+              <span class="pricing-text">₹ 600 / day (₹ 80 / hour)</span>
+            </div>
+
+            <!-- 4 Square Skills Tiles -->
+            <div class="skills-grid">
+              <div class="skill-tile">
+                <svg class="skill-icon-svg" viewBox="0 0 24 24">
+                  <path d="M3 21h18M5 21V7l7-4 7 4v14"/>
+                </svg>
+                <span class="skill-name">Masonry</span>
+              </div>
+              <div class="skill-tile">
+                <svg class="skill-icon-svg" viewBox="0 0 24 24">
+                  <rect x="3" y="4" width="18" height="16" rx="2"/>
+                  <line x1="3" y1="12" x2="21" y2="12"/>
+                  <line x1="12" y1="4" x2="12" y2="12"/>
+                  <line x1="8" y1="12" x2="8" y2="20"/>
+                  <line x1="16" y1="12" x2="16" y2="20"/>
+                </svg>
+                <span class="skill-name">Brick work</span>
+              </div>
+              <div class="skill-tile">
+                <svg class="skill-icon-svg" viewBox="0 0 24 24">
+                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                  <polyline points="14 2 14 8 20 8"/>
+                </svg>
+                <span class="skill-name">Plaster</span>
+              </div>
+              <div class="skill-tile">
+                <svg class="skill-icon-svg" viewBox="0 0 24 24">
+                  <rect x="3" y="3" width="18" height="18" rx="2"/>
+                  <line x1="3" y1="9" x2="21" y2="9"/>
+                  <line x1="3" y1="15" x2="21" y2="15"/>
+                  <line x1="9" y1="3" x2="9" y2="21"/>
+                  <line x1="15" y1="3" x2="15" y2="21"/>
+                </svg>
+                <span class="skill-name">Tile work</span>
+              </div>
+            </div>
+
+            <!-- Availability Row -->
+            <div class="meta-row">
+              <span class="meta-title">Availability</span>
+              <div class="pills-container">
+                <span class="meta-pill availability-pill">Available today</span>
+              </div>
+            </div>
+
+            <!-- Languages Row -->
+            <div class="meta-row">
+              <span class="meta-title">Languages</span>
+              <div class="pills-container">
+                <span class="meta-pill language-pill">Hindi</span>
+                <span class="meta-pill language-pill">English</span>
+                <span class="meta-pill language-pill">Kannada</span>
+              </div>
+            </div>
+
+            <!-- Reviews Section -->
+            <div class="reviews-section">
+              <div class="reviews-header">
+                <span class="reviews-title">Reviews (120)</span>
+                <span class="see-all-link">See all</span>
+              </div>
+              <div class="review-card">
+                <div class="reviewer-row">
+                  <span class="reviewer-name">Amit Sharma</span>
+                  <span class="reviewer-rating">4.8 <span class="star-icon">★</span></span>
+                </div>
+                <p class="review-text">"Very skilled and professional. Completed work on time."</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Sticky Footer Bar -->
+        <div class="sticky-footer">
+          <button class="call-btn">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+            </svg>
+            Call
+          </button>
+          <button class="hire-btn">Hire Now</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Design Tokens & Implementation Specifications -->
+  <div class="specs-card">
+    <h2>Worker Profile Screen Specification & Token Mapping</h2>
+    <table class="spec-table">
+      <thead>
+        <tr>
+          <th>Element</th>
+          <th>Specification Details</th>
+          <th>Applied Color Token</th>
+          <th>Layout / Geometry Tokens</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Screen Canvas</strong></td>
+          <td>Modal / Viewport Canvas</td>
+          <td><span class="spec-highlight" style="background:#FFF; color:#000;">#FFFFFF (Pure White)</span></td>
+          <td>390 x 844 px (Standard iPhone viewport, 50px border-radius)</td>
+        </tr>
+        <tr>
+          <td><strong>Status Bar</strong></td>
+          <td>iOS System Bar</td>
+          <td><span class="spec-highlight" style="background:#202326; color:#FFF;">#202326 (Charcoal Black)</span></td>
+          <td>9:41 Time, Cellular signal, Wi-Fi 6, Battery indicator</td>
+        </tr>
+        <tr>
+          <td><strong>Hero Photo Banner</strong></td>
+          <td>Top Worker Photo with Overlay Actions</td>
+          <td><span class="spec-highlight" style="background:#FFCC25; color:#000;">#FFCC25 Helmet</span> / <span class="spec-highlight" style="background:#FFF; color:#000;">#FFFFFF Buttons</span></td>
+          <td>240px height, 38px circular action buttons (Back, Heart, Menu) with #202326 icons</td>
+        </tr>
+        <tr>
+          <td><strong>Identity & Rating</strong></td>
+          <td>Name + Verified + Rating + Experience</td>
+          <td><span class="spec-highlight" style="background:#202326; color:#FFF;">#202326</span> & <span class="spec-highlight" style="background:#FFCC25; color:#000;">#FFCC25 Badge</span></td>
+          <td>Inter 24px Bold "Ramesh Kumar", #FFCC25 pill badge "Verified", 4.8 (120 reviews)</td>
+        </tr>
+        <tr>
+          <td><strong>Pricing Card</strong></td>
+          <td>Daily & Hourly Rate Banner</td>
+          <td><span class="spec-highlight" style="background:#E5E7EB; color:#000;">#E5E7EB Card</span> / <span class="spec-highlight" style="background:#202326; color:#FFF;">#202326 Text</span></td>
+          <td>16px border radius, bold "₹ 600 / day (₹ 80 / hour)"</td>
+        </tr>
+        <tr>
+          <td><strong>4 Skill Tiles</strong></td>
+          <td>Masonry, Brick work, Plaster, Tile work</td>
+          <td><span class="spec-highlight" style="background:#E5E7EB; color:#000;">#E5E7EB Tile</span> + <span class="spec-highlight" style="background:#202326; color:#FFF;">#202326 Line Icon</span></td>
+          <td>Square 1:1 aspect ratio tiles, 14px radius, 24px crisp line icons & labels</td>
+        </tr>
+        <tr>
+          <td><strong>Availability & Languages</strong></td>
+          <td>Pill Groups</td>
+          <td><span class="spec-highlight" style="background:#FFCC25; color:#000;">#FFCC25 Availability</span> / <span class="spec-highlight" style="background:#E5E7EB; color:#000;">#E5E7EB Languages</span></td>
+          <td>"Available today" in Safety Yellow; Hindi, English, Kannada in Concrete Grey</td>
+        </tr>
+        <tr>
+          <td><strong>Reviews (120) Card</strong></td>
+          <td>Feedback Preview</td>
+          <td><span class="spec-highlight" style="background:#F8FAFC; color:#000;">#F8FAFC Surface</span> + <span class="spec-highlight" style="background:#FFCC25; color:#000;">#FFCC25 Star</span></td>
+          <td>Amit Sharma (4.8 ★), "Very skilled and professional. Completed work on time."</td>
+        </tr>
+        <tr>
+          <td><strong>Sticky Bottom Bar</strong></td>
+          <td>Dual Action Footer</td>
+          <td><span class="spec-highlight" style="background:#202326; color:#FFF;">#202326 Call</span> / <span class="spec-highlight" style="background:#FFCC25; color:#000;">#FFCC25 Hire Now</span></td>
+          <td>80px sticky bar: Outlined #202326 "Call" pill + solid #FFCC25 "Hire Now" button</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+</body>
+</html>

@@ -40,6 +40,43 @@ import org.testcontainers.utility.DockerImageName;
 @Testcontainers
 @Import(AuthenticationIT.Configuration.class)
 class AuthenticationIT {
+  @Test
+  void savedWorkersArePrivateIdempotentAndDoNotGrantProfileAccess() throws Exception {
+    var customer = login("+919100000091");
+    var other = login("+919100000092");
+    var workerToken = login("+919100000093");
+    postJson("/api/v1/users/me/roles", customer, Map.of("role", "CUSTOMER"));
+    postJson("/api/v1/users/me/roles", other, Map.of("role", "CUSTOMER"));
+    postJson("/api/v1/users/me/roles", workerToken, Map.of("role", "WORKER"));
+    for (int step = 1; step <= 3; step++) save(workerToken, step, worker());
+    postJson("/api/v1/onboarding/complete", workerToken, Map.of());
+    UUID workerId = UUID.fromString(getJson("/api/v1/users/me", workerToken).get("id").asText());
+    sql.update("UPDATE worker_profiles SET visibility_enabled=true WHERE user_id=?", workerId);
+    String path = "/api/v1/saved-workers/" + workerId;
+    mvc.perform(put(path)).andExpect(status().isUnauthorized());
+    mvc.perform(put(path).header("Authorization", "Bearer " + workerToken.accessToken()))
+        .andExpect(status().isForbidden());
+    for (int i = 0; i < 2; i++)
+      mvc.perform(put(path).header("Authorization", "Bearer " + customer.accessToken()))
+          .andExpect(status().isOk());
+    assertEquals(1, getJson("/api/v1/saved-workers", customer).size());
+    assertEquals(0, getJson("/api/v1/saved-workers", other).size());
+    mvc.perform(delete(path).header("Authorization", "Bearer " + other.accessToken()))
+        .andExpect(status().isOk());
+    assertTrue(getJson(path, customer).get("saved").asBoolean());
+    sql.update("UPDATE worker_profiles SET visibility_enabled=false WHERE user_id=?", workerId);
+    mvc.perform(
+            get("/api/v1/marketplace/workers/" + workerId)
+                .header("Authorization", "Bearer " + customer.accessToken()))
+        .andExpect(status().isNotFound());
+    mvc.perform(put(path).header("Authorization", "Bearer " + other.accessToken()))
+        .andExpect(status().isNotFound());
+    for (int i = 0; i < 2; i++)
+      mvc.perform(delete(path).header("Authorization", "Bearer " + customer.accessToken()))
+          .andExpect(status().isOk());
+    assertFalse(getJson(path, customer).get("saved").asBoolean());
+  }
+
   @Container
   static final PostgreSQLContainer<?> DB =
       new PostgreSQLContainer<>(
@@ -526,5 +563,55 @@ class AuthenticationIT {
       assertThrows(
           IllegalStateException.class, () -> new JwtTokenProvider("", 15, environment, clock));
     }
+  }
+
+  @Test
+  void explicitProfileReadsAreAuthorizedAndDoNotLeakAnotherUsersData() throws Exception {
+    var t = login("+919100000081");
+    postJson("/api/v1/users/me/roles", t, Map.of("role", "CUSTOMER"));
+    save(t, 1, customer());
+    save(t, 2, customer());
+    postJson("/api/v1/onboarding/complete", t, Map.of());
+    assertEquals("OTHER", getJson("/api/v1/profile/customer", t).at("/data/customerType").asText());
+    mvc.perform(get("/api/v1/profile/worker").header("Authorization", "Bearer " + t.accessToken()))
+        .andExpect(status().isForbidden());
+    mvc.perform(get("/api/v1/profile/customer")).andExpect(status().isUnauthorized());
+    var stranger = login("+919100000082");
+    mvc.perform(
+            get("/api/v1/profile/customer")
+                .header("Authorization", "Bearer " + stranger.accessToken()))
+        .andExpect(status().isForbidden());
+  }
+
+  @Test
+  void dualRoleProfilesRemainIndependentAndOriginalDraftKeepsItsRole() throws Exception {
+    var t = login("+919100000083");
+    postJson("/api/v1/users/me/roles", t, Map.of("role", "CUSTOMER"));
+    save(t, 1, customer());
+    save(t, 2, customer());
+    postJson("/api/v1/onboarding/complete", t, Map.of());
+    UUID id = UUID.fromString(getJson("/api/v1/users/me", t).get("id").asText());
+    // Fixture only, in this test's disposable Testcontainers database. No public role bypass.
+    sql.update("INSERT INTO user_roles(user_id,role_code) VALUES (?, 'WORKER')", id);
+    String before =
+        sql.queryForObject(
+            "SELECT data::text FROM onboarding_drafts WHERE user_id=?", String.class, id);
+    postJson("/api/v1/profile/worker", t, worker());
+    assertEquals(
+        before,
+        sql.queryForObject(
+            "SELECT data::text FROM onboarding_drafts WHERE user_id=?", String.class, id));
+    assertEquals("CUSTOMER", getJson("/api/v1/onboarding", t).get("role").asText());
+    assertEquals("OTHER", getJson("/api/v1/profile/customer", t).at("/data/customerType").asText());
+    assertEquals("TEAM", getJson("/api/v1/profile/worker", t).at("/data/workerType").asText());
+    var update = customer();
+    update.put("customerType", "ARCHITECT");
+    postJson("/api/v1/profile/customer", t, update);
+    assertEquals(
+        "ARCHITECT", getJson("/api/v1/profile/customer", t).at("/data/customerType").asText());
+    assertEquals(
+        "Synthetic Crew", getJson("/api/v1/profile/worker", t).at("/data/teamName").asText());
+    assertTrue(getJson("/api/v1/profile/customer", t).at("/data/workerType").isNull());
+    assertTrue(getJson("/api/v1/profile/worker", t).at("/data/customerType").isNull());
   }
 }

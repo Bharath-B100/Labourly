@@ -1,0 +1,751 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Labourly - iOS Saved Workers Screen Specification & Mockup</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --safety-yellow: #FFCC25;
+      --charcoal-black: #202326;
+      --pure-white: #FFFFFF;
+      --concrete-grey: #E5E7EB;
+      --bg-canvas: #0F1113;
+      --card-bg: #1A1D20;
+      --border-color: #2D3136;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background-color: var(--bg-canvas);
+      color: #E2E8F0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 40px 20px 60px;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 32px;
+      max-width: 760px;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      border-radius: 9999px;
+      background-color: rgba(255, 204, 37, 0.12);
+      border: 1px solid rgba(255, 204, 37, 0.35);
+      color: var(--safety-yellow);
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      margin-bottom: 14px;
+    }
+
+    h1 {
+      font-size: 32px;
+      font-weight: 800;
+      color: #FFFFFF;
+      letter-spacing: -0.5px;
+      margin-bottom: 10px;
+    }
+
+    .subtitle {
+      font-size: 16px;
+      color: #94A3B8;
+      line-height: 1.5;
+    }
+
+    /* Palette Bar */
+    .palette-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 16px;
+      margin-bottom: 36px;
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 16px 24px;
+    }
+
+    .palette-chip {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: #121417;
+      border: 1px solid #282C31;
+      padding: 8px 14px;
+      border-radius: 10px;
+    }
+
+    .color-swatch {
+      width: 28px;
+      height: 28px;
+      border-radius: 6px;
+      box-shadow: inset 0 0 0 1px rgba(0,0,0,0.15);
+    }
+
+    .color-info {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .color-name {
+      font-size: 11px;
+      font-weight: 600;
+      color: #94A3B8;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+    }
+
+    .color-hex {
+      font-size: 14px;
+      font-weight: 700;
+      font-family: monospace;
+      color: #F8FAFC;
+    }
+
+    /* Showcase Layout */
+    .showcase-grid {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 40px;
+      max-width: 1100px;
+      width: 100%;
+    }
+
+    .device-card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 24px;
+      padding: 24px;
+      box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.6);
+    }
+
+    .device-card-header {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .device-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: #FFFFFF;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .device-tag {
+      font-size: 11px;
+      padding: 3px 8px;
+      border-radius: 6px;
+      font-weight: 600;
+      background: #23272D;
+      color: #94A3B8;
+    }
+
+    /* iPhone Frame */
+    .iphone-frame {
+      width: 390px;
+      height: 844px;
+      background-color: var(--concrete-grey);
+      border-radius: 50px;
+      position: relative;
+      box-shadow: 
+        0 0 0 4px #26292E,
+        0 0 0 9px #16181B,
+        0 25px 50px -12px rgba(0, 0, 0, 0.85);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .master-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      border-radius: 46px;
+    }
+
+    /* Interactive Live Screen Canvas */
+    .ios-screen {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      background-color: var(--concrete-grey);
+      position: relative;
+      overflow: hidden;
+      color: var(--charcoal-black);
+    }
+
+    /* Top Bar Header (#FFFFFF) */
+    .top-header-bar {
+      background: var(--pure-white);
+      border-bottom: 1px solid rgba(229, 231, 235, 0.8);
+      z-index: 50;
+    }
+
+    .status-bar {
+      height: 44px;
+      padding: 12px 28px 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--charcoal-black);
+    }
+
+    .status-icons {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .nav-bar {
+      height: 48px;
+      padding: 0 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .back-btn {
+      width: 36px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      color: var(--charcoal-black);
+      font-size: 26px;
+      font-weight: 300;
+    }
+
+    .screen-title {
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--charcoal-black);
+      letter-spacing: -0.3px;
+    }
+
+    /* Scrollable Cards Feed (#E5E7EB Background) */
+    .feed-scroll {
+      flex: 1;
+      overflow-y: auto;
+      padding: 14px 16px 40px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .feed-scroll::-webkit-scrollbar {
+      width: 4px;
+    }
+    .feed-scroll::-webkit-scrollbar-thumb {
+      background: #CBD5E1;
+      border-radius: 4px;
+    }
+
+    /* Worker Card (#FFFFFF) */
+    .worker-card {
+      background: var(--pure-white);
+      border-radius: 18px;
+      padding: 14px;
+      display: flex;
+      gap: 12px;
+      position: relative;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .worker-card:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+    }
+
+    .portrait-box {
+      width: 74px;
+      height: 74px;
+      border-radius: 14px;
+      background: #F1F5F9;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      overflow: hidden;
+      border: 1px solid #E2E8F0;
+    }
+
+    .portrait-svg {
+      width: 100%;
+      height: 100%;
+    }
+
+    .card-info {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .info-top {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      padding-right: 32px;
+    }
+
+    .worker-name {
+      font-size: 16px;
+      font-weight: 800;
+      color: var(--charcoal-black);
+      letter-spacing: -0.2px;
+    }
+
+    .trade-rating-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12.5px;
+    }
+
+    .rating-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+      font-weight: 800;
+      color: var(--charcoal-black);
+    }
+
+    .star-icon {
+      color: var(--safety-yellow);
+      font-size: 13px;
+    }
+
+    .trade-label {
+      color: #64748B;
+      font-weight: 600;
+    }
+
+    .info-bottom {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 6px;
+    }
+
+    .daily-rate {
+      font-size: 14.5px;
+      font-weight: 800;
+      color: var(--charcoal-black);
+    }
+
+    .location-row {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 11.5px;
+      color: #64748B;
+      font-weight: 500;
+    }
+
+    /* Filled Safety Yellow Heart */
+    .heart-btn {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      width: 28px;
+      height: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      color: var(--safety-yellow);
+      transition: transform 0.15s ease;
+    }
+
+    .heart-btn:hover {
+      transform: scale(1.15);
+    }
+
+    .heart-icon-svg {
+      width: 20px;
+      height: 20px;
+      fill: var(--safety-yellow);
+    }
+
+    /* Toast */
+    .toast-overlay {
+      position: absolute;
+      top: 60px;
+      left: 20px;
+      right: 20px;
+      background-color: var(--charcoal-black);
+      color: var(--pure-white);
+      padding: 14px 18px;
+      border-radius: 14px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      z-index: 100;
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(-20px);
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .toast-overlay.show {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateY(0);
+    }
+
+    .toast-icon {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background-color: var(--safety-yellow);
+      color: var(--charcoal-black);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 14px;
+      flex-shrink: 0;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="badge">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+      </svg>
+      Labourly Design System • 4 Colors Strictly
+    </div>
+    <h1>Saved Workers Screen</h1>
+    <p class="subtitle">iOS (390×844px) bookmarked contractor and labourer roster with instant hiring rates and location badges.</p>
+  </header>
+
+  <!-- Palette Bar -->
+  <div class="palette-container">
+    <div class="palette-chip">
+      <div class="color-swatch" style="background-color: #FFCC25;"></div>
+      <div class="color-info">
+        <span class="color-name">Safety Yellow</span>
+        <span class="color-hex">#FFCC25</span>
+      </div>
+    </div>
+    <div class="palette-chip">
+      <div class="color-swatch" style="background-color: #202326;"></div>
+      <div class="color-info">
+        <span class="color-name">Charcoal Black</span>
+        <span class="color-hex">#202326</span>
+      </div>
+    </div>
+    <div class="palette-chip">
+      <div class="color-swatch" style="background-color: #FFFFFF; box-shadow: inset 0 0 0 1px #cbd5e1;"></div>
+      <div class="color-info">
+        <span class="color-name">Pure White</span>
+        <span class="color-hex">#FFFFFF</span>
+      </div>
+    </div>
+    <div class="palette-chip">
+      <div class="color-swatch" style="background-color: #E5E7EB;"></div>
+      <div class="color-info">
+        <span class="color-name">Concrete Grey</span>
+        <span class="color-hex">#E5E7EB</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Showcase Grid -->
+  <div class="showcase-grid">
+
+    <!-- Card 1: Master Visual Render -->
+    <div class="device-card">
+      <div class="device-card-header">
+        <div class="device-title">
+          <span>Master Visual Render</span>
+        </div>
+        <span class="device-tag">8K Mockup</span>
+      </div>
+      <div class="iphone-frame">
+        <img class="master-image" src="../Labourly_iOS_Saved_Workers.jpg" alt="Labourly iOS Saved Workers Screen Render" onerror="this.onerror=null; this.src='../Labourly_iOS_Saved_Workers.png';">
+      </div>
+    </div>
+
+    <!-- Card 2: Interactive Prototype -->
+    <div class="device-card">
+      <div class="device-card-header">
+        <div class="device-title">
+          <span>Interactive Prototype</span>
+        </div>
+        <span class="device-tag">Live Dynamic DOM</span>
+      </div>
+      <div class="iphone-frame">
+        <div class="ios-screen">
+
+          <!-- Confirmation Toast -->
+          <div id="toast" class="toast-overlay">
+            <div class="toast-icon">✓</div>
+            <div>
+              <div style="font-weight: 700; font-size: 13.5px;" id="toastTitle">Worker Profile</div>
+              <div style="font-size: 11.5px; opacity: 0.85;" id="toastSub">Opening profile details...</div>
+            </div>
+          </div>
+
+          <!-- Top Bar Header (#FFFFFF) -->
+          <div class="top-header-bar">
+            <!-- Status Bar -->
+            <div class="status-bar">
+              <span>9:41</span>
+              <div class="status-icons">
+                <svg width="17" height="12" viewBox="0 0 17 12" fill="currentColor">
+                  <rect x="0" y="8" width="3" height="4" rx="0.5"/>
+                  <rect x="4.5" y="5.5" width="3" height="6.5" rx="0.5"/>
+                  <rect x="9" y="3" width="3" height="9" rx="0.5"/>
+                  <rect x="13.5" y="0" width="3" height="12" rx="0.5"/>
+                </svg>
+                <svg width="16" height="12" viewBox="0 0 16 12" fill="currentColor">
+                  <path d="M8 2.8C5.2 2.8 2.7 3.9 1 5.6L0 4.5C2 2.5 4.8 1.2 8 1.2C11.2 1.2 14 2.5 16 4.5L15 5.6C13.3 3.9 10.8 2.8 8 2.8ZM8 6.4C6.3 6.4 4.8 7.1 3.7 8.2L2.7 7.1C4.1 5.7 6 4.8 8 4.8C10 4.8 11.9 5.7 13.3 7.1L12.3 8.2C11.2 7.1 9.7 6.4 8 6.4ZM8 10C7.2 10 6.5 10.3 6 10.8L8 12.8L10 10.8C9.5 10.3 8.8 10 8 10Z"/>
+                </svg>
+                <svg width="25" height="12" viewBox="0 0 25 12" fill="currentColor">
+                  <rect x="0.5" y="0.5" width="21" height="11" rx="3.5" fill="none" stroke="currentColor"/>
+                  <rect x="2" y="2" width="16" height="8" rx="2"/>
+                  <path d="M23 4.5v3c.6-.3 1-.8 1-1.5s-.4-1.2-1-1.5z"/>
+                </svg>
+              </div>
+            </div>
+
+            <!-- Navigation Bar -->
+            <div class="nav-bar">
+              <div class="back-btn" onclick="alert('Back')">‹</div>
+              <div class="screen-title">Saved Workers</div>
+            </div>
+          </div>
+
+          <!-- Feed Scroll (#E5E7EB Background) -->
+          <div class="feed-scroll">
+
+            <!-- Card 1: Ramesh Kumar -->
+            <div class="worker-card" onclick="openWorker('Ramesh Kumar', 'Mason • ₹600/day')">
+              <div class="portrait-box">
+                <svg class="portrait-svg" viewBox="0 0 100 100">
+                  <rect width="100" height="100" fill="#E2E8F0"/>
+                  <circle cx="50" cy="52" r="23" fill="#8D5B4C"/>
+                  <path d="M24 46 C24 22 76 22 76 46 Z" fill="#FFCC25"/>
+                  <rect x="18" y="44" width="64" height="6" rx="3" fill="#FFCC25"/>
+                  <path d="M47 25 h6 v19 h-6 z" fill="#202326"/>
+                  <path d="M18 95 C18 72 82 72 82 95 Z" fill="#202326"/>
+                  <path d="M38 72 L50 95 L62 72 Z" fill="#FFCC25"/>
+                </svg>
+              </div>
+              <div class="card-info">
+                <div class="info-top">
+                  <div class="worker-name">Ramesh Kumar</div>
+                  <div class="trade-rating-row">
+                    <span class="rating-badge"><span class="star-icon">★</span> 4.8</span>
+                    <span style="color: #94A3B8;">•</span>
+                    <span class="trade-label">Mason</span>
+                  </div>
+                </div>
+                <div class="info-bottom">
+                  <span class="daily-rate">₹ 600 / day</span>
+                  <div class="location-row">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                      <circle cx="12" cy="10" r="3"></circle>
+                    </svg>
+                    <span>Bengaluru, Karnataka</span>
+                  </div>
+                </div>
+              </div>
+              <div class="heart-btn" onclick="toggleHeart(event, this, 'Ramesh Kumar')">
+                <svg class="heart-icon-svg" viewBox="0 0 24 24">
+                  <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                </svg>
+              </div>
+            </div>
+
+            <!-- Card 2: Suresh Naik -->
+            <div class="worker-card" onclick="openWorker('Suresh Naik', 'Carpenter • ₹550/day')">
+              <div class="portrait-box">
+                <svg class="portrait-svg" viewBox="0 0 100 100">
+                  <rect width="100" height="100" fill="#E2E8F0"/>
+                  <circle cx="50" cy="52" r="23" fill="#C68642"/>
+                  <path d="M24 46 C24 22 76 22 76 46 Z" fill="#FFCC25"/>
+                  <rect x="18" y="44" width="64" height="6" rx="3" fill="#FFCC25"/>
+                  <path d="M47 25 h6 v19 h-6 z" fill="#202326"/>
+                  <path d="M18 95 C18 72 82 72 82 95 Z" fill="#202326"/>
+                  <path d="M38 72 L50 95 L62 72 Z" fill="#FFCC25"/>
+                </svg>
+              </div>
+              <div class="card-info">
+                <div class="info-top">
+                  <div class="worker-name">Suresh Naik</div>
+                  <div class="trade-rating-row">
+                    <span class="rating-badge"><span class="star-icon">★</span> 4.5</span>
+                    <span style="color: #94A3B8;">•</span>
+                    <span class="trade-label">Carpenter</span>
+                  </div>
+                </div>
+                <div class="info-bottom">
+                  <span class="daily-rate">₹ 550 / day</span>
+                  <div class="location-row">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                      <circle cx="12" cy="10" r="3"></circle>
+                    </svg>
+                    <span>Bengaluru, Karnataka</span>
+                  </div>
+                </div>
+              </div>
+              <div class="heart-btn" onclick="toggleHeart(event, this, 'Suresh Naik')">
+                <svg class="heart-icon-svg" viewBox="0 0 24 24">
+                  <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                </svg>
+              </div>
+            </div>
+
+            <!-- Card 3: Imran Khan -->
+            <div class="worker-card" onclick="openWorker('Imran Khan', 'Electrician • ₹650/day')">
+              <div class="portrait-box">
+                <svg class="portrait-svg" viewBox="0 0 100 100">
+                  <rect width="100" height="100" fill="#E2E8F0"/>
+                  <circle cx="50" cy="52" r="23" fill="#A05A2C"/>
+                  <path d="M24 46 C24 22 76 22 76 46 Z" fill="#FFCC25"/>
+                  <rect x="18" y="44" width="64" height="6" rx="3" fill="#FFCC25"/>
+                  <path d="M47 25 h6 v19 h-6 z" fill="#202326"/>
+                  <path d="M18 95 C18 72 82 72 82 95 Z" fill="#202326"/>
+                  <path d="M38 72 L50 95 L62 72 Z" fill="#FFCC25"/>
+                </svg>
+              </div>
+              <div class="card-info">
+                <div class="info-top">
+                  <div class="worker-name">Imran Khan</div>
+                  <div class="trade-rating-row">
+                    <span class="rating-badge"><span class="star-icon">★</span> 4.7</span>
+                    <span style="color: #94A3B8;">•</span>
+                    <span class="trade-label">Electrician</span>
+                  </div>
+                </div>
+                <div class="info-bottom">
+                  <span class="daily-rate">₹ 650 / day</span>
+                  <div class="location-row">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                      <circle cx="12" cy="10" r="3"></circle>
+                    </svg>
+                    <span>Bengaluru, Karnataka</span>
+                  </div>
+                </div>
+              </div>
+              <div class="heart-btn" onclick="toggleHeart(event, this, 'Imran Khan')">
+                <svg class="heart-icon-svg" viewBox="0 0 24 24">
+                  <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                </svg>
+              </div>
+            </div>
+
+            <!-- Card 4: Vijay Patil -->
+            <div class="worker-card" onclick="openWorker('Vijay Patil', 'Painter • ₹500/day')">
+              <div class="portrait-box">
+                <svg class="portrait-svg" viewBox="0 0 100 100">
+                  <rect width="100" height="100" fill="#E2E8F0"/>
+                  <circle cx="50" cy="52" r="23" fill="#D29A64"/>
+                  <path d="M24 46 C24 22 76 22 76 46 Z" fill="#FFCC25"/>
+                  <rect x="18" y="44" width="64" height="6" rx="3" fill="#FFCC25"/>
+                  <path d="M47 25 h6 v19 h-6 z" fill="#202326"/>
+                  <path d="M18 95 C18 72 82 72 82 95 Z" fill="#202326"/>
+                  <path d="M38 72 L50 95 L62 72 Z" fill="#FFCC25"/>
+                </svg>
+              </div>
+              <div class="card-info">
+                <div class="info-top">
+                  <div class="worker-name">Vijay Patil</div>
+                  <div class="trade-rating-row">
+                    <span class="rating-badge"><span class="star-icon">★</span> 4.6</span>
+                    <span style="color: #94A3B8;">•</span>
+                    <span class="trade-label">Painter</span>
+                  </div>
+                </div>
+                <div class="info-bottom">
+                  <span class="daily-rate">₹ 500 / day</span>
+                  <div class="location-row">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                      <circle cx="12" cy="10" r="3"></circle>
+                    </svg>
+                    <span>Pune, Maharashtra</span>
+                  </div>
+                </div>
+              </div>
+              <div class="heart-btn" onclick="toggleHeart(event, this, 'Vijay Patil')">
+                <svg class="heart-icon-svg" viewBox="0 0 24 24">
+                  <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                </svg>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    function openWorker(name, desc) {
+      const toast = document.getElementById('toast');
+      document.getElementById('toastTitle').textContent = name;
+      document.getElementById('toastSub').textContent = desc;
+      toast.classList.add('show');
+      setTimeout(() => {
+        toast.classList.remove('show');
+      }, 2500);
+    }
+
+    function toggleHeart(event, btn, name) {
+      event.stopPropagation();
+      const svg = btn.querySelector('svg');
+      if (svg.style.fill === 'rgb(229, 231, 235)') {
+        svg.style.fill = '#FFCC25';
+      } else {
+        svg.style.fill = '#E5E7EB';
+      }
+    }
+  </script>
+</body>
+</html>

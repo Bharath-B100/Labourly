@@ -35,7 +35,7 @@ class MigrationIT {
   void emptyDatabaseAppliesV1ThroughV4ThenForwardCorrection() {
     String schema = "empty_" + UUID.randomUUID().toString().replace("-", "");
     assertEquals("4", migrate(schema, "4").info().current().getVersion().toString());
-    assertEquals("12", migrate(schema, null).info().current().getVersion().toString());
+    assertEquals("13", migrate(schema, null).info().current().getVersion().toString());
   }
 
   @Test
@@ -85,7 +85,7 @@ class MigrationIT {
         insert.setObject(1, id);
         insert.executeUpdate();
       }
-      assertEquals("12", migrate(schema, null).info().current().getVersion().toString());
+      assertEquals("13", migrate(schema, null).info().current().getVersion().toString());
       try (var rs =
           st.executeQuery(
               "SELECT id,display_name,onboarding_state FROM users WHERE phone='+919199999997'")) {
@@ -105,7 +105,7 @@ class MigrationIT {
     try (var c = DriverManager.getConnection(DB.getJdbcUrl(), DB.getUsername(), DB.getPassword());
         var st = c.createStatement()) {
       st.execute("SET search_path TO " + schema + ",public");
-      assertEquals("12", migrate(schema, null).info().current().getVersion().toString());
+      assertEquals("13", migrate(schema, null).info().current().getVersion().toString());
     }
   }
 }

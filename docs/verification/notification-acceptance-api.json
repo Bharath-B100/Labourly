@@ -1,0 +1,187 @@
+{
+  "result": "PASS",
+  "requirementId": "73bd9af9-6a3c-43f8-ab23-8eb29e371d91",
+  "bookingId": "d781f971-fa3a-4654-a66c-1d0d345d2033",
+  "actors": {
+    "customer": "e85d8554-4f2c-4694-8d75-58e53dd34309",
+    "winner": "f09544d4-fd38-433d-9d5e-f79d92eb7855",
+    "loser": "ee91d4bd-b6ee-411d-9ddf-3b10e4b32306",
+    "outsider": "004f2720-857c-4a57-aa6f-b97e291f32de"
+  },
+  "requests": [
+    {
+      "actor": "customer",
+      "method": "POST",
+      "path": "/api/v1/requirements",
+      "status": 200
+    },
+    {
+      "actor": "customer",
+      "method": "PATCH",
+      "path": "/api/v1/requirements/73bd9af9-6a3c-43f8-ab23-8eb29e371d91/status?status=OPEN",
+      "status": 200
+    },
+    {
+      "actor": "winner",
+      "method": "GET",
+      "path": "/api/v1/notifications?limit=100&offset=0",
+      "status": 200
+    },
+    {
+      "actor": "loser",
+      "method": "GET",
+      "path": "/api/v1/notifications?limit=100&offset=0",
+      "status": 200
+    },
+    {
+      "actor": "winner",
+      "method": "POST",
+      "path": "/api/v1/requirements/73bd9af9-6a3c-43f8-ab23-8eb29e371d91/quotes",
+      "status": 201
+    },
+    {
+      "actor": "loser",
+      "method": "POST",
+      "path": "/api/v1/requirements/73bd9af9-6a3c-43f8-ab23-8eb29e371d91/quotes",
+      "status": 201
+    },
+    {
+      "actor": "customer",
+      "method": "GET",
+      "path": "/api/v1/notifications?limit=100&offset=0",
+      "status": 200
+    },
+    {
+      "actor": "outsider",
+      "method": "POST",
+      "path": "/api/v1/quotes/0098ff5b-0ee0-4763-858d-9881ddd511a1/accept",
+      "status": 404
+    },
+    {
+      "actor": "customer",
+      "method": "POST",
+      "path": "/api/v1/quotes/0098ff5b-0ee0-4763-858d-9881ddd511a1/accept",
+      "status": 200
+    },
+    {
+      "actor": "customer",
+      "method": "POST",
+      "path": "/api/v1/quotes/0098ff5b-0ee0-4763-858d-9881ddd511a1/accept",
+      "status": 200
+    },
+    {
+      "actor": "winner",
+      "method": "GET",
+      "path": "/api/v1/notifications?limit=100&offset=0",
+      "status": 200
+    },
+    {
+      "actor": "loser",
+      "method": "GET",
+      "path": "/api/v1/notifications?limit=100&offset=0",
+      "status": 200
+    },
+    {
+      "actor": "customer",
+      "method": "POST",
+      "path": "/api/v1/bookings/d781f971-fa3a-4654-a66c-1d0d345d2033/cancel",
+      "status": 204
+    },
+    {
+      "actor": "winner",
+      "method": "GET",
+      "path": "/api/v1/notifications?limit=100&offset=0",
+      "status": 200
+    },
+    {
+      "actor": "winner",
+      "method": "GET",
+      "path": "/api/v1/notifications?limit=100&offset=0",
+      "status": 200
+    },
+    {
+      "actor": "customer",
+      "method": "POST",
+      "path": "/api/v1/bookings/d781f971-fa3a-4654-a66c-1d0d345d2033/cancel",
+      "status": 409
+    },
+    {
+      "actor": "winner",
+      "method": "GET",
+      "path": "/api/v1/notifications?limit=100&offset=0",
+      "status": 200
+    },
+    {
+      "actor": "winner",
+      "method": "GET",
+      "path": "/api/v1/notifications?limit=100&offset=0",
+      "status": 200
+    },
+    {
+      "actor": "outsider",
+      "method": "POST",
+      "path": "/api/v1/notifications/a0388a3e-bc5f-49cf-a1f9-cda3c480d75f/read",
+      "status": 204
+    },
+    {
+      "actor": "winner",
+      "method": "GET",
+      "path": "/api/v1/notifications?limit=100&offset=0",
+      "status": 200
+    },
+    {
+      "actor": "outsider",
+      "method": "GET",
+      "path": "/api/v1/notifications?limit=100&offset=0",
+      "status": 200
+    },
+    {
+      "actor": "winner",
+      "method": "GET",
+      "path": "/api/v1/notifications?limit=1&offset=0",
+      "status": 200
+    },
+    {
+      "actor": "winner",
+      "method": "GET",
+      "path": "/api/v1/notifications?limit=1&offset=1",
+      "status": 200
+    },
+    {
+      "actor": "winner",
+      "method": "POST",
+      "path": "/api/v1/notifications/a0388a3e-bc5f-49cf-a1f9-cda3c480d75f/read",
+      "status": 204
+    },
+    {
+      "actor": "winner",
+      "method": "GET",
+      "path": "/api/v1/notifications/unread-count",
+      "status": 200
+    },
+    {
+      "actor": "winner",
+      "method": "GET",
+      "path": "/api/v1/notifications?limit=100&offset=0",
+      "status": 200
+    },
+    {
+      "actor": "winner",
+      "method": "POST",
+      "path": "/api/v1/notifications/read-all",
+      "status": 204
+    },
+    {
+      "actor": "winner",
+      "method": "GET",
+      "path": "/api/v1/notifications/unread-count",
+      "status": 200
+    },
+    {
+      "actor": null,
+      "method": "GET",
+      "path": "/api/v1/notifications",
+      "status": 401
+    }
+  ]
+}

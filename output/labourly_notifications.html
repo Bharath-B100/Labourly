@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Labourly - iOS Notifications Screen Specification & Mockup</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --safety-yellow: #FFCC25;
+      --charcoal-black: #202326;
+      --pure-white: #FFFFFF;
+      --concrete-grey: #E5E7EB;
+      --bg-canvas: #0F1113;
+      --card-bg: #1A1D20;
+      --border-color: #2D3136;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background-color: var(--bg-canvas);
+      color: #E2E8F0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 40px 20px 60px;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 32px;
+      max-width: 760px;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      border-radius: 9999px;
+      background-color: rgba(255, 204, 37, 0.12);
+      border: 1px solid rgba(255, 204, 37, 0.35);
+      color: var(--safety-yellow);
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      margin-bottom: 14px;
+    }
+
+    h1 {
+      font-size: 32px;
+      font-weight: 800;
+      color: #FFFFFF;
+      letter-spacing: -0.5px;
+      margin-bottom: 10px;
+    }
+
+    .subtitle {
+      font-size: 16px;
+      color: #94A3B8;
+      line-height: 1.5;
+    }
+
+    /* Palette Bar */
+    .palette-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 16px;
+      margin-bottom: 36px;
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 16px 24px;
+    }
+
+    .palette-chip {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: #121417;
+      border: 1px solid #282C31;
+      padding: 8px 14px;
+      border-radius: 10px;
+    }
+
+    .color-swatch {
+      width: 28px;
+      height: 28px;
+      border-radius: 6px;
+      box-shadow: inset 0 0 0 1px rgba(0,0,0,0.15);
+    }
+
+    .color-info {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .color-name {
+      font-size: 11px;
+      font-weight: 600;
+      color: #94A3B8;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+    }
+
+    .color-hex {
+      font-size: 14px;
+      font-weight: 700;
+      font-family: monospace;
+      color: #F8FAFC;
+    }
+
+    /* Showcase Layout */
+    .showcase-grid {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 40px;
+      max-width: 1100px;
+      width: 100%;
+    }
+
+    .device-card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 24px;
+      padding: 24px;
+      box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.6);
+    }
+
+    .device-card-header {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .device-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: #FFFFFF;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .device-tag {
+      font-size: 11px;
+      padding: 3px 8px;
+      border-radius: 6px;
+      font-weight: 600;
+      background: #23272D;
+      color: #94A3B8;
+    }
+
+    /* iPhone Frame */
+    .iphone-frame {
+      width: 390px;
+      height: 844px;
+      background-color: var(--pure-white);
+      border-radius: 50px;
+      position: relative;
+      box-shadow: 
+        0 0 0 4px #26292E,
+        0 0 0 9px #16181B,
+        0 25px 50px -12px rgba(0, 0, 0, 0.85);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .master-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      border-radius: 46px;
+    }
+
+    /* Interactive Live Screen Canvas */
+    .ios-screen {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      background-color: var(--pure-white);
+      position: relative;
+      overflow: hidden;
+      color: var(--charcoal-black);
+    }
+
+    /* Status Bar */
+    .status-bar {
+      height: 44px;
+      padding: 12px 28px 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--charcoal-black);
+      z-index: 20;
+    }
+
+    .status-icons {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* Navigation Header */
+    .nav-bar {
+      height: 48px;
+      padding: 0 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid rgba(229, 231, 235, 0.6);
+    }
+
+    .back-btn {
+      width: 36px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      cursor: pointer;
+      color: var(--charcoal-black);
+    }
+
+    .screen-title {
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--charcoal-black);
+      letter-spacing: -0.3px;
+    }
+
+    /* Scrollable Notifications Feed */
+    .notifications-scroll {
+      flex: 1;
+      overflow-y: auto;
+      padding: 18px 18px 40px;
+      display: flex;
+      flex-direction: column;
+      gap: 22px;
+    }
+
+    .notifications-scroll::-webkit-scrollbar {
+      width: 4px;
+    }
+    .notifications-scroll::-webkit-scrollbar-thumb {
+      background: #CBD5E1;
+      border-radius: 4px;
+    }
+
+    .section-group {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .section-subheader {
+      font-size: 17px;
+      font-weight: 800;
+      color: var(--charcoal-black);
+      letter-spacing: -0.2px;
+      padding-left: 2px;
+    }
+
+    /* Today: Unread Cards (#E5E7EB Background + Yellow Dot) */
+    .unread-card {
+      background-color: var(--concrete-grey);
+      border-radius: 18px;
+      padding: 14px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .unread-card:hover {
+      background-color: #D1D5DB;
+    }
+
+    .notif-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex: 1;
+    }
+
+    .badge-icon-box {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .badge-avatar {
+      background-color: #CBD5E1;
+      overflow: hidden;
+      font-size: 20px;
+    }
+
+    .badge-yellow {
+      background-color: var(--safety-yellow);
+      color: var(--charcoal-black);
+      font-size: 20px;
+      box-shadow: 0 3px 8px rgba(255, 204, 37, 0.4);
+    }
+
+    .badge-grey {
+      background-color: var(--concrete-grey);
+      color: var(--charcoal-black);
+      font-size: 20px;
+    }
+
+    .notif-content {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      flex: 1;
+    }
+
+    .notif-text {
+      font-size: 13.5px;
+      font-weight: 600;
+      color: var(--charcoal-black);
+      line-height: 1.35;
+    }
+
+    .notif-time {
+      font-size: 11.5px;
+      font-weight: 500;
+      color: #64748B;
+    }
+
+    .unread-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background-color: var(--safety-yellow);
+      flex-shrink: 0;
+      box-shadow: 0 0 6px rgba(255, 204, 37, 0.6);
+    }
+
+    /* Earlier: Read Rows (#FFFFFF Background) */
+    .read-row {
+      background-color: var(--pure-white);
+      padding: 12px 2px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      border-bottom: 1px solid rgba(229, 231, 235, 0.7);
+      cursor: pointer;
+    }
+
+    .read-row:hover {
+      background-color: #F8FAFC;
+    }
+
+    /* Toast */
+    .toast-overlay {
+      position: absolute;
+      top: 60px;
+      left: 20px;
+      right: 20px;
+      background-color: var(--charcoal-black);
+      color: var(--pure-white);
+      padding: 14px 18px;
+      border-radius: 14px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      z-index: 100;
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(-20px);
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .toast-overlay.show {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateY(0);
+    }
+
+    .toast-icon {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background-color: var(--safety-yellow);
+      color: var(--charcoal-black);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 14px;
+      flex-shrink: 0;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="badge">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2zm6-6v-5c0-3.07-1.63-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.64 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2zm-2 1H8v-6c0-2.48 1.51-4.5 4-4.5s4 2.02 4 4.5v6z"/>
+      </svg>
+      Labourly Design System • 4 Colors Strictly
+    </div>
+    <h1>Notifications Screen</h1>
+    <p class="subtitle">iOS (390×844px) booking updates, payment confirmations, labour availability alerts, and historical project logs.</p>
+  </header>
+
+  <!-- Palette Bar -->
+  <div class="palette-container">
+    <div class="palette-chip">
+      <div class="color-swatch" style="background-color: #FFCC25;"></div>
+      <div class="color-info">
+        <span class="color-name">Safety Yellow</span>
+        <span class="color-hex">#FFCC25</span>
+      </div>
+    </div>
+    <div class="palette-chip">
+      <div class="color-swatch" style="background-color: #202326;"></div>
+      <div class="color-info">
+        <span class="color-name">Charcoal Black</span>
+        <span class="color-hex">#202326</span>
+      </div>
+    </div>
+    <div class="palette-chip">
+      <div class="color-swatch" style="background-color: #FFFFFF; box-shadow: inset 0 0 0 1px #cbd5e1;"></div>
+      <div class="color-info">
+        <span class="color-name">Pure White</span>
+        <span class="color-hex">#FFFFFF</span>
+      </div>
+    </div>
+    <div class="palette-chip">
+      <div class="color-swatch" style="background-color: #E5E7EB;"></div>
+      <div class="color-info">
+        <span class="color-name">Concrete Grey</span>
+        <span class="color-hex">#E5E7EB</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Showcase Grid -->
+  <div class="showcase-grid">
+
+    <!-- Card 1: Master Visual Render -->
+    <div class="device-card">
+      <div class="device-card-header">
+        <div class="device-title">
+          <span>Master Visual Render</span>
+        </div>
+        <span class="device-tag">8K Mockup</span>
+      </div>
+      <div class="iphone-frame">
+        <img class="master-image" src="../Labourly_iOS_Notifications.jpg" alt="Labourly iOS Notifications Screen Render" onerror="this.onerror=null; this.src='../Labourly_iOS_Notifications.png';">
+      </div>
+    </div>
+
+    <!-- Card 2: Interactive Prototype -->
+    <div class="device-card">
+      <div class="device-card-header">
+        <div class="device-title">
+          <span>Interactive Prototype</span>
+        </div>
+        <span class="device-tag">Live Dynamic DOM</span>
+      </div>
+      <div class="iphone-frame">
+        <div class="ios-screen">
+
+          <!-- Confirmation Toast -->
+          <div id="toast" class="toast-overlay">
+            <div class="toast-icon">✓</div>
+            <div>
+              <div style="font-weight: 700; font-size: 13.5px;" id="toastTitle">Notification Opened</div>
+              <div style="font-size: 11.5px; opacity: 0.85;" id="toastSub">Navigating to details.</div>
+            </div>
+          </div>
+
+          <!-- Status Bar -->
+          <div class="status-bar">
+            <span>9:41</span>
+            <div class="status-icons">
+              <svg width="17" height="12" viewBox="0 0 17 12" fill="currentColor">
+                <rect x="0" y="8" width="3" height="4" rx="0.5"/>
+                <rect x="4.5" y="5.5" width="3" height="6.5" rx="0.5"/>
+                <rect x="9" y="3" width="3" height="9" rx="0.5"/>
+                <rect x="13.5" y="0" width="3" height="12" rx="0.5"/>
+              </svg>
+              <svg width="16" height="12" viewBox="0 0 16 12" fill="currentColor">
+                <path d="M8 2.8C5.2 2.8 2.7 3.9 1 5.6L0 4.5C2 2.5 4.8 1.2 8 1.2C11.2 1.2 14 2.5 16 4.5L15 5.6C13.3 3.9 10.8 2.8 8 2.8ZM8 6.4C6.3 6.4 4.8 7.1 3.7 8.2L2.7 7.1C4.1 5.7 6 4.8 8 4.8C10 4.8 11.9 5.7 13.3 7.1L12.3 8.2C11.2 7.1 9.7 6.4 8 6.4ZM8 10C7.2 10 6.5 10.3 6 10.8L8 12.8L10 10.8C9.5 10.3 8.8 10 8 10Z"/>
+              </svg>
+              <svg width="25" height="12" viewBox="0 0 25 12" fill="currentColor">
+                <rect x="0.5" y="0.5" width="21" height="11" rx="3.5" fill="none" stroke="currentColor"/>
+                <rect x="2" y="2" width="16" height="8" rx="2"/>
+                <path d="M23 4.5v3c.6-.3 1-.8 1-1.5s-.4-1.2-1-1.5z"/>
+              </svg>
+            </div>
+          </div>
+
+          <!-- Navigation Header -->
+          <div class="nav-bar">
+            <div class="back-btn" onclick="alert('Back')">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="15 18 9 12 15 6"></polyline>
+              </svg>
+            </div>
+            <div class="screen-title">Notifications</div>
+            <div style="width: 36px;"></div>
+          </div>
+
+          <!-- Scrollable Notifications Feed -->
+          <div class="notifications-scroll">
+
+            <!-- TODAY SECTION -->
+            <div class="section-group">
+              <div class="section-subheader">Today</div>
+
+              <!-- Unread Card 1: Worker Booking Accepted -->
+              <div class="unread-card" onclick="openNotif('Booking Accepted', 'Ramesh Kumar accepted booking')">
+                <div class="notif-left">
+                  <div class="badge-icon-box badge-avatar">
+                    <span>👷🏾‍♂️</span>
+                  </div>
+                  <div class="notif-content">
+                    <span class="notif-text">Ramesh Kumar accepted your booking request</span>
+                    <span class="notif-time">2 min ago</span>
+                  </div>
+                </div>
+                <div class="unread-dot"></div>
+              </div>
+
+              <!-- Unread Card 2: Payment Successful (#FFCC25 checkmark badge) -->
+              <div class="unread-card" onclick="openNotif('Payment Successful', '₹1,800 paid to contractor')">
+                <div class="notif-left">
+                  <div class="badge-icon-box badge-yellow">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                      <polyline points="20 6 9 17 4 12"></polyline>
+                    </svg>
+                  </div>
+                  <div class="notif-content">
+                    <span class="notif-text">Your payment of ₹1,800 was successful</span>
+                    <span class="notif-time">10 min ago</span>
+                  </div>
+                </div>
+                <div class="unread-dot"></div>
+              </div>
+
+              <!-- Unread Card 3: Hard Hat Badge - New Workers Available -->
+              <div class="unread-card" onclick="openNotif('Labour Alert', 'New masons available in Bengaluru')">
+                <div class="notif-left">
+                  <div class="badge-icon-box badge-yellow">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M12 3a9 9 0 0 0-9 9h18a9 9 0 0 0-9-9zM2 14h20v2H2zM11 6h2v6h-2z"/>
+                    </svg>
+                  </div>
+                  <div class="notif-content">
+                    <span class="notif-text">New workers available in Bengaluru for Mason</span>
+                    <span class="notif-time">1 hour ago</span>
+                  </div>
+                </div>
+                <div class="unread-dot"></div>
+              </div>
+            </div>
+
+            <!-- EARLIER SECTION -->
+            <div class="section-group">
+              <div class="section-subheader">Earlier</div>
+
+              <!-- Read Row 1: Shahid Ansari Message -->
+              <div class="read-row" onclick="openNotif('Message', 'Shahid Ansari sent you a message')">
+                <div class="notif-left">
+                  <div class="badge-icon-box badge-avatar">
+                    <span>👷🏽‍♂️</span>
+                  </div>
+                  <div class="notif-content">
+                    <span class="notif-text">Shahid Ansari sent you a message</span>
+                    <span class="notif-time">5 Apr, 10:30 AM</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Read Row 2: Briefcase Icon - Office Renovation Starts Tomorrow -->
+              <div class="read-row" onclick="openNotif('Project Reminder', 'Office Renovation starts tomorrow')">
+                <div class="notif-left">
+                  <div class="badge-icon-box badge-grey">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                      <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
+                      <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+                    </svg>
+                  </div>
+                  <div class="notif-content">
+                    <span class="notif-text">Your project 'Office Renovation' starts tomorrow</span>
+                    <span class="notif-time">4 Apr, 6:00 PM</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Read Row 3: Verified Icon - New Verified Labourers -->
+              <div class="read-row" onclick="openNotif('Verified Crew', 'New verified labourers near you')">
+                <div class="notif-left">
+                  <div class="badge-icon-box badge-grey">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                      <polyline points="9 12 11 14 15 10"></polyline>
+                    </svg>
+                  </div>
+                  <div class="notif-content">
+                    <span class="notif-text">New verified labourers near you</span>
+                    <span class="notif-time">3 Apr, 11:20 AM</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    function openNotif(title, sub) {
+      const toast = document.getElementById('toast');
+      document.getElementById('toastTitle').textContent = title;
+      document.getElementById('toastSub').textContent = sub;
+      toast.classList.add('show');
+      setTimeout(() => {
+        toast.classList.remove('show');
+      }, 2500);
+    }
+  </script>
+</body>
+</html>

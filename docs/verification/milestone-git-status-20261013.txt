@@ -1,0 +1,327 @@
+ M backend/src/main/java/in/nammacrew/auth/AuthService.java
+ M backend/src/main/java/in/nammacrew/auth/OtpProvider.java
+ M backend/src/main/java/in/nammacrew/auth/dev/DevelopmentOtpProvider.java
+ M backend/src/main/java/in/nammacrew/booking/Booking.java
+ M backend/src/main/java/in/nammacrew/booking/BookingController.java
+ M backend/src/main/java/in/nammacrew/booking/BookingDTOs.java
+ M backend/src/main/java/in/nammacrew/booking/BookingQueryService.java
+ M backend/src/main/java/in/nammacrew/booking/BookingService.java
+ M backend/src/main/java/in/nammacrew/dev/DevDataSeeder.java
+ M backend/src/main/java/in/nammacrew/marketplace/MarketplaceController.java
+ M backend/src/main/java/in/nammacrew/marketplace/MarketplaceDTOs.java
+ M backend/src/main/java/in/nammacrew/marketplace/MarketplaceDiscoveryService.java
+ M backend/src/main/java/in/nammacrew/marketplace/MatchingEngine.java
+ M backend/src/main/java/in/nammacrew/marketplace/QuotationController.java
+ M backend/src/main/java/in/nammacrew/marketplace/QuotationDTOs.java
+ M backend/src/main/java/in/nammacrew/marketplace/QuotationService.java
+ M backend/src/main/java/in/nammacrew/marketplace/RequirementController.java
+ M backend/src/main/java/in/nammacrew/marketplace/RequirementService.java
+ M backend/src/test/java/in/nammacrew/FoundationIT.java
+ M backend/src/test/java/in/nammacrew/auth/MigrationIT.java
+ M backend/src/test/java/in/nammacrew/marketplace/MarketplaceIT.java
+ M backend/src/test/java/in/nammacrew/marketplace/QuotationConcurrencyIT.java
+ M backend/src/test/java/in/nammacrew/marketplace/QuotationIT.java
+ M docs/API_DESIGN.md
+ M docs/DATABASE.md
+ M docs/LOCAL_DEVELOPMENT.md
+ M mobile/app.json
+ M mobile/assets/android-icon-foreground.png
+ M mobile/assets/favicon.png
+ M mobile/assets/icon.png
+ M mobile/assets/splash-icon.png
+ M mobile/metro.config.js
+ M mobile/package-lock.json
+ M mobile/package.json
+ M mobile/src/__tests__/onboarding.test.tsx
+ M mobile/src/api/marketplace.ts
+ M mobile/src/api/quotations.ts
+ M mobile/src/app/(customer)/_layout.tsx
+ M mobile/src/app/(customer)/bookings.tsx
+ M mobile/src/app/(customer)/discover.tsx
+ M mobile/src/app/(customer)/post.tsx
+ M mobile/src/app/(customer)/profile.tsx
+ M mobile/src/app/(customer)/requirement/[id].tsx
+ M mobile/src/app/(customer)/requirement/quotes.tsx
+ M mobile/src/app/(customer)/requirements.tsx
+ M mobile/src/app/(customer)/worker/[id].tsx
+ M mobile/src/app/(worker)/_layout.tsx
+ M mobile/src/app/(worker)/opportunities.tsx
+ M mobile/src/app/(worker)/opportunity/[id].tsx
+ M mobile/src/app/(worker)/profile.tsx
+ M mobile/src/app/(worker)/schedule.tsx
+ M mobile/src/app/_layout.tsx
+ M mobile/src/app/auth/login.tsx
+ M mobile/src/app/auth/verify.tsx
+ M mobile/src/app/index.tsx
+ M mobile/src/components/RequirementCard.tsx
+ M mobile/src/components/RoleHome.tsx
+ M mobile/src/components/WorkerCard.tsx
+ M mobile/src/components/ui.tsx
+ M mobile/src/onboarding/ProfileEditor.tsx
+ M mobile/src/onboarding/profile.ts
+ M mobile/tailwind.config.js
+?? "Luxurious Metallic Gold Hardhat Icon.png"
+?? admin/.stitch/DESIGN.md
+?? admin/.stitch/SITE.md
+?? admin/.stitch/designs/Dashboard.html
+?? admin/.stitch/designs/Dashboard.png
+?? admin/.stitch/metadata.json
+?? admin/.stitch/next-prompt.md
+?? admin/npm_audit_admin.json
+?? admin/npm_audit_admin_utf8.json
+?? admin/public/Dashboard.html
+?? backend/src/main/java/in/nammacrew/marketplace/ServiceCoverage.java
+?? backend/src/main/java/in/nammacrew/marketplace/ServiceCoverageController.java
+?? backend/src/main/resources/db/migration/V10__canonical_locations_and_worker_coverage.sql
+?? backend/src/main/resources/db/migration/V11__draft_requirement_editing.sql
+?? backend/src/main/resources/db/migration/V8__booking_cancellation.sql
+?? backend/src/main/resources/db/migration/V9__quotation_and_booking_history.sql
+?? backend/src/test/java/in/nammacrew/marketplace/CancellationPresentationIT.java
+?? backend/src/test/java/in/nammacrew/marketplace/CanonicalLocationIT.java
+?? backend/src/test/java/in/nammacrew/marketplace/DraftEditingIT.java
+?? backend/src/test/java/in/nammacrew/marketplace/MarketplaceControllerIT.java
+?? backend/src/test/java/in/nammacrew/marketplace/QuotationTestSupport.java
+?? backend/src/test/java/in/nammacrew/marketplace/ServiceCoverageIT.java
+?? docs/BLACK_GOLD_UI.md
+?? docs/DAILY_REPORT_DAY_4.md
+?? docs/DEFECT_10_UNSAVED_CHANGES.md
+?? docs/DEFECT_11_CANCELLATION_CONSISTENCY.md
+?? docs/LOCATION_AUTOFILL_STATUS.md
+?? docs/LOCATION_COVERAGE_IMPLEMENTATION.md
+?? docs/PHASE_4_BACKEND_ACTIVATION.md
+?? docs/PHASE_4_DEPENDENCY_SECURITY_REVIEW.md
+?? docs/PHASE_4_FINAL_AUDIT.md
+?? docs/PHASE_4_GEOGRAPHIC_CORRECTION.md
+?? docs/PHASE_4_NATIVE_READINESS.md
+?? docs/PHASE_4_REPORT.md
+?? docs/UI_UX_REVIEW.md
+?? docs/WHITE_GLASS_UI.md
+?? docs/YELLOW_TEAL_GLASS_UI.md
+?? docs/reference/location/STATE_CROSSWALK.md
+?? docs/reference/location/build-canonical.cjs
+?? docs/reference/location/build-migration.cjs
+?? docs/reference/location/canonical-locations-v1.json
+?? docs/reference/location/lgd-states.html
+?? docs/reference/location/schema-v10.sql
+?? docs/reference/location/source-hashes.json
+?? docs/reference/location/state-crosswalk-v1.json
+?? docs/reference/location/unresolved-districts-v1.json
+?? docs/verification/city-selector-all-tests-20261007.txt
+?? docs/verification/city-selector-lint-20261007.txt
+?? docs/verification/city-selector-native-20261007.png
+?? docs/verification/city-selector-native-20261007.xml
+?? docs/verification/city-selector-tests-20261007.txt
+?? docs/verification/city-selector-typecheck-20261007.txt
+?? docs/verification/defect10-native-back-warning.png
+?? docs/verification/defect10-native-clean-back.png
+?? docs/verification/defect10-native-clean-back.xml
+?? docs/verification/defect10-native-discard.png
+?? docs/verification/defect10-native-final-keep.png
+?? docs/verification/defect10-native-final-reopen.png
+?? docs/verification/defect10-native-final-reopen.xml
+?? docs/verification/defect10-native-final-warning.png
+?? docs/verification/defect10-native-header-warning.png
+?? docs/verification/defect10-native-keep.png
+?? docs/verification/defect10-native-recent-errors.txt
+?? docs/verification/defect10-native-reopen.png
+?? docs/verification/defect10-native-tab-discard.png
+?? docs/verification/defect10-native-tab-warning.png
+?? docs/verification/defect10-persistence.txt
+?? docs/verification/defect10-protected-preservation.json
+?? docs/verification/defect11-native-quotes.png
+?? docs/verification/defect11-native-recent-errors.txt
+?? docs/verification/defect11-native-worker-details.png
+?? docs/verification/defect11-native-worker-details.xml
+?? docs/verification/defect11-preservation.json
+?? docs/verification/final-audit-admin-build.txt
+?? docs/verification/final-audit-admin-format.txt
+?? docs/verification/final-audit-admin-lint.txt
+?? docs/verification/final-audit-admin-tests.txt
+?? docs/verification/final-audit-android-build-local-sdk.txt
+?? docs/verification/final-audit-android-build-retry.txt
+?? docs/verification/final-audit-android-build.txt
+?? docs/verification/final-audit-apk.json
+?? docs/verification/final-audit-backend.txt
+?? docs/verification/final-audit-database.txt
+?? docs/verification/final-audit-environment.json
+?? docs/verification/final-audit-expo-check.txt
+?? docs/verification/final-audit-git-status.txt
+?? docs/verification/final-audit-mobile-dependencies.txt
+?? docs/verification/final-audit-mobile-format.txt
+?? docs/verification/final-audit-mobile-lint.txt
+?? docs/verification/final-audit-mobile-tests.txt
+?? docs/verification/final-audit-mobile-types.txt
+?? docs/verification/final-audit-preservation.json
+?? docs/verification/final-audit-summary.json
+?? docs/verification/geographic-activation-artifact.json
+?? docs/verification/geographic-activation-emulator-health.txt
+?? docs/verification/geographic-activation-preservation.json
+?? docs/verification/geographic-activation-process.json
+?? docs/verification/geographic-activation-startup.txt
+?? docs/verification/geographic-admin-build.txt
+?? docs/verification/geographic-admin-format.txt
+?? docs/verification/geographic-admin-lint.txt
+?? docs/verification/geographic-admin-tests.txt
+?? docs/verification/geographic-backend-counts.json
+?? docs/verification/geographic-backend-final.txt
+?? docs/verification/geographic-backend-verified.txt
+?? docs/verification/geographic-backend.txt
+?? docs/verification/geographic-mobile-final.txt
+?? docs/verification/geographic-mobile-format-final.txt
+?? docs/verification/geographic-mobile-format.txt
+?? docs/verification/geographic-mobile-lint.txt
+?? docs/verification/geographic-mobile-retry.txt
+?? docs/verification/geographic-mobile-tests.txt
+?? docs/verification/geographic-mobile-types.txt
+?? docs/verification/geographic-preservation.json
+?? docs/verification/location-adb-devices-20261007.txt
+?? docs/verification/location-android-build-20261007.txt
+?? docs/verification/location-android-build-retry-20261007.txt
+?? docs/verification/location-audit-20261007.json
+?? docs/verification/location-autofill-bengaluru-20261007.png
+?? docs/verification/location-autofill-bengaluru-20261007.xml
+?? docs/verification/location-autofill-mumbai-20261007.png
+?? docs/verification/location-autofill-mumbai-20261007.xml
+?? docs/verification/location-crash-buffer-20261007.txt
+?? docs/verification/location-data-preservation-20261008.json
+?? docs/verification/location-emulator-health-20261007.txt
+?? docs/verification/location-final-20261007.png
+?? docs/verification/location-lint-20261007.txt
+?? docs/verification/location-lint-final-20261007.txt
+?? docs/verification/location-native-current.xml
+?? docs/verification/location-native-final.xml
+?? docs/verification/location-native-reloaded.xml
+?? docs/verification/location-native-transport-error.txt
+?? docs/verification/location-provider-20261007.txt
+?? docs/verification/location-registry-retry-20261007.txt
+?? docs/verification/location-restart-20261007.xml
+?? docs/verification/location-runtime-emulator-health.txt
+?? docs/verification/location-tests-20261007.txt
+?? docs/verification/location-tests-device-fix-20261007.txt
+?? docs/verification/location-tests-final-20261007.txt
+?? docs/verification/location-typecheck-20261007.txt
+?? docs/verification/location-typecheck-final-20261007.txt
+?? docs/verification/milestone-admin-results-20261013.json
+?? docs/verification/milestone-backend-counts-20261013.json
+?? docs/verification/milestone-backend-exit-20261013.txt
+?? docs/verification/milestone-mobile-results-20261013.json
+?? docs/verification/native-city-options.xml
+?? docs/verification/native-city-search.png
+?? docs/verification/native-city-selected.png
+?? docs/verification/native-create-location.xml
+?? docs/verification/native-current.xml
+?? docs/verification/native-data-preservation.json
+?? docs/verification/native-draft-details.png
+?? docs/verification/native-draft-details.xml
+?? docs/verification/native-edit-draft.png
+?? docs/verification/native-edit-draft.xml
+?? docs/verification/native-location-selection.xml
+?? docs/verification/native-readiness-emulator-health.txt
+?? docs/verification/native-readiness-recent-errors.txt
+?? docs/verification/native-recovered.xml
+?? docs/verification/phase4-admin-audit-20261006.json
+?? docs/verification/phase4-admin-audit-stderr-20261006.txt
+?? docs/verification/phase4-backend-test-counts-20261006.json
+?? docs/verification/phase4-backend-verify-20261006.txt
+?? docs/verification/phase4-emulator-run-20261006.txt
+?? docs/verification/phase4-migration-baseline-20261006.json
+?? docs/verification/phase4-migration-checksums-20261006.json
+?? docs/verification/phase4-mobile-audit-20261006.json
+?? docs/verification/phase4-mobile-audit-stderr-20261006.txt
+?? docs/verification/phase4-mobile-baseline-20261006.txt
+?? docs/verification/phase4-mobile-format-check-20261006.txt
+?? docs/verification/phase4-mobile-format-fixes-20261006.txt
+?? docs/verification/phase4-mobile-lint-20261006.txt
+?? docs/verification/phase4-mobile-quality-20261006.json
+?? docs/verification/phase4-mobile-tests-20261006.txt
+?? docs/verification/phase4-mobile-typecheck-20261006.txt
+?? docs/verification/profile-redesign-20261007.png
+?? docs/verification/profile-ui-lint-20261007.txt
+?? docs/verification/profile-ui-tests-20261007.txt
+?? docs/verification/profile-ui-tests-final-20261007.txt
+?? docs/verification/profile-ui-typecheck-20261007.txt
+?? docs/verification/readiness-carpenter-20261007.xml
+?? docs/verification/readiness-dependency-freeze-20261007.json
+?? docs/verification/replica-discover.png
+?? docs/verification/security-admin-audit-20261009.err
+?? docs/verification/security-admin-audit-20261009.json
+?? docs/verification/security-admin-bundle-evidence.json
+?? docs/verification/security-backend-dependency-tree.txt
+?? docs/verification/security-current-reconciliation.json
+?? docs/verification/security-devtools-editor-source.txt
+?? docs/verification/security-lockfile-reconciliation.json
+?? docs/verification/security-mobile-audit-20261009.err
+?? docs/verification/security-mobile-audit-20261009.json
+?? docs/verification/security-mobile-audit-20261013.err
+?? docs/verification/security-mobile-audit-20261013.json
+?? docs/verification/security-nvd-connectivity.txt
+?? docs/verification/security-production-bundle-evidence.json
+?? docs/verification/security-shell-quote-chain.json
+?? docs/verification/ui-format-20261007.txt
+?? docs/verification/ui-lint-20261007.txt
+?? docs/verification/ui-loading-20261007.png
+?? docs/verification/ui-mobile-tests-20261007.txt
+?? docs/verification/ui-mobile-tests-final-20261007.json
+?? docs/verification/ui-mobile-tests-final-20261007.txt
+?? docs/verification/ui-offline-20261007.png
+?? docs/verification/ui-offline-fixed-20261007.png
+?? docs/verification/ui-typecheck-20261007.txt
+?? docs/verification/yellow-teal-bookings.png
+?? docs/verification/yellow-teal-discover.png
+?? docs/verification/yellow-teal-my-jobs.png
+?? docs/verification/yellow-teal-post.png
+?? docs/verification/yellow-teal-profile.png
+?? mobile/.stitch/designs/MobileAppUI.html
+?? mobile/.stitch/designs/MobileAppUI.png
+?? mobile/assets/glass-background.png
+?? mobile/assets/glass-nav-4.png
+?? mobile/assets/glass-nav-5.png
+?? mobile/assets/glass-nav-selected.png
+?? mobile/assets/glass-sheen.png
+?? mobile/npm_audit_mobile.json
+?? mobile/npm_audit_mobile_utf8.json
+?? mobile/scripts/import-india-cities.cjs
+?? mobile/src/__tests__/bookings.test.tsx
+?? mobile/src/__tests__/cancellation-consistency.test.tsx
+?? mobile/src/__tests__/discovery.test.tsx
+?? mobile/src/__tests__/draft-editor.test.tsx
+?? mobile/src/__tests__/job-location.test.tsx
+?? mobile/src/__tests__/location.test.ts
+?? mobile/src/__tests__/quotation-api.test.ts
+?? mobile/src/__tests__/quotes.test.tsx
+?? mobile/src/__tests__/requirement-publish.test.tsx
+?? mobile/src/__tests__/service-areas.test.tsx
+?? mobile/src/__tests__/ui.test.tsx
+?? mobile/src/app/(customer)/booking/[id].tsx
+?? mobile/src/app/(worker)/booking/[id].tsx
+?? mobile/src/app/(worker)/bookings.tsx
+?? mobile/src/components/GlassStartButton.tsx
+?? mobile/src/components/GlassTabButton.tsx
+?? mobile/src/components/glass.tsx
+?? mobile/src/components/theme.tsx
+?? mobile/src/location/CanonicalPlacePicker.tsx
+?? mobile/src/location/GEONAMES_NOTICE.md
+?? mobile/src/location/JobLocationPicker.tsx
+?? mobile/src/location/ServiceAreas.tsx
+?? mobile/src/location/canonical-locations.json
+?? mobile/src/location/currentSearchLocation.ts
+?? mobile/src/location/india-cities.json
+?? mobile/src/location/indiaCities.ts
+?? mobile/src/navigation/DraftNavigationGuard.tsx
+?? output/apply-glass-theme.cjs
+?? output/build-glass-material.ps1
+?? output/build-nav-material.ps1
+?? output/client-progress/image-prompt.txt
+?? output/client-progress/nammacrew-progress-2026-10-08.png
+?? output/liquid-glass-ui/01-find-workers.png
+?? output/liquid-glass-ui/02-my-jobs.png
+?? output/liquid-glass-ui/03-post-a-job.png
+?? output/liquid-glass-ui/04-bookings.png
+?? output/liquid-glass-ui/05-profile.png
+?? output/liquid-glass-ui/design-prompts.md
+?? output/liquid-glass-ui/my-jobs-prompt.txt
+?? output/liquid-glass-ui/nammacrew-five-ui-concepts.zip
+?? output/refine-glass-controls.cjs
+?? output/refine-glass-forms.cjs
+?? output/refine-glass-pages.cjs
+?? output/style-glass-pages.cjs

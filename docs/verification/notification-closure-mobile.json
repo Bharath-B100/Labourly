@@ -1,0 +1,18 @@
+[
+  {
+    "exit": 0,
+    "gate": "test"
+  },
+  {
+    "exit": 0,
+    "gate": "typecheck"
+  },
+  {
+    "exit": 0,
+    "gate": "lint"
+  },
+  {
+    "exit": 0,
+    "gate": "format:check"
+  }
+]

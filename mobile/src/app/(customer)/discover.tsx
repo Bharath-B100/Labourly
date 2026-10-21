@@ -7,6 +7,7 @@ import {
   palette,
 } from '../../components/theme';
 import { useState, useEffect, useRef, useCallback } from 'react';
+import { useLocalSearchParams } from 'expo-router';
 import { currentSearchLocation } from '../../location/currentSearchLocation';
 import { indiaStates, citiesForState } from '../../location/indiaCities';
 import { View, Text, ScrollView, Pressable } from 'react-native';
@@ -17,10 +18,25 @@ import { WorkerCard } from '../../components/WorkerCard';
 import { Action, Select, Loading, EmptyState } from '../../components/ui';
 import { NotificationBell } from '../../components/NotificationBell';
 
-const initial = { tradeId: '', lat: '', lng: '', radius: '15', cityId: '' };
+const initial = {
+  tradeId: '',
+  lat: '',
+  lng: '',
+  radius: '15',
+  cityId: '',
+  availability: '',
+  page: 0,
+};
 export default function DiscoverScreen() {
-  const [draft, setDraft] = useState(initial);
-  const [applied, setApplied] = useState(initial);
+  const { tradeId: requestedTrade } = useLocalSearchParams<{
+    tradeId?: string;
+  }>();
+  const trade = typeof requestedTrade === 'string' ? requestedTrade : '';
+  return <DiscoverContent key={trade} initialTrade={trade} />;
+}
+function DiscoverContent({ initialTrade }: { initialTrade: string }) {
+  const [draft, setDraft] = useState({ ...initial, tradeId: initialTrade });
+  const [applied, setApplied] = useState({ ...initial, tradeId: initialTrade });
   const [validation, setValidation] = useState('');
   const [locating, setLocating] = useState(true);
   const [locationError, setLocationError] = useState('');
@@ -40,6 +56,7 @@ export default function DiscoverScreen() {
         lat: String(latitude),
         lng: String(longitude),
         cityId: '',
+        page: 0,
       };
       setDraft((previous) => ({ ...previous, ...coordinates }));
       setApplied((previous) => ({ ...previous, ...coordinates }));
@@ -72,16 +89,23 @@ export default function DiscoverScreen() {
     };
   }, [locate]);
   const [locationOpen, setLocationOpen] = useState(false);
+  const [filtersOpen, setFiltersOpen] = useState(true);
   const catalogue = useQuery({
     queryKey: ['discovery-trades'],
     queryFn: getTrades,
   });
+  // Validate deep-link identifiers against the server catalogue before querying.
+  const tradeId = catalogue.data?.some((trade) => trade.id === applied.tradeId)
+    ? applied.tradeId
+    : undefined;
   const workers = useQuery({
-    queryKey: ['discovery-workers', applied],
-    enabled: !!applied.lat && !!applied.lng,
+    queryKey: ['discovery-workers', applied, tradeId],
+    enabled: !!applied.lat && !!applied.lng && catalogue.isSuccess,
     queryFn: () =>
       searchWorkers({
-        tradeId: applied.tradeId || undefined,
+        tradeId,
+        page: applied.page,
+        availability: applied.availability || undefined,
         lat: Number(applied.lat),
         lng: Number(applied.lng),
         radiusKm: Number(applied.radius),
@@ -110,9 +134,10 @@ export default function DiscoverScreen() {
       return;
     }
     setValidation('');
-    if (JSON.stringify(draft) === JSON.stringify(applied))
+    const next = { ...draft, page: 0 };
+    if (JSON.stringify(next) === JSON.stringify(applied))
       void workers.refetch();
-    else setApplied({ ...draft });
+    else setApplied(next);
   };
   return (
     <SafeAreaView className="flex-1 bg-canvas">
@@ -124,7 +149,7 @@ export default function DiscoverScreen() {
         <PageHeading
           inset={8}
           title="Find workers"
-          subtitle="The right skills. Close to you."
+          subtitle="Skilled people for your next project"
           right={<NotificationBell />}
         />
         <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10 }}>
@@ -133,8 +158,11 @@ export default function DiscoverScreen() {
             accessibilityLabel={
               locationOpen ? 'Hide city selection' : 'Choose a city instead'
             }
-            onPress={() => setLocationOpen(!locationOpen)}
-            disabled={locating}
+            onPress={() => {
+              lookupVersion.current++;
+              setLocating(false);
+              setLocationOpen(!locationOpen);
+            }}
             style={[
               glassSurface,
               {
@@ -180,7 +208,7 @@ export default function DiscoverScreen() {
           </Pressable>
         </View>
         {!!locationError && (
-          <Text accessibilityRole="alert" className="text-rose-700">
+          <Text accessibilityRole="alert" className="text-ink">
             {locationError}
           </Text>
         )}
@@ -199,8 +227,20 @@ export default function DiscoverScreen() {
               onChange={(code) => {
                 setStateCode(code);
                 setCityId('');
-                setDraft((previous) => ({ ...previous, lat: '', lng: '' }));
-                setApplied((previous) => ({ ...previous, lat: '', lng: '' }));
+                setDraft((previous) => ({
+                  ...previous,
+                  lat: '',
+                  lng: '',
+                  cityId: '',
+                  page: 0,
+                }));
+                setApplied((previous) => ({
+                  ...previous,
+                  lat: '',
+                  lng: '',
+                  cityId: '',
+                  page: 0,
+                }));
                 setLocationSource('');
                 setValidation('');
               }}
@@ -244,62 +284,154 @@ export default function DiscoverScreen() {
             </Text>
           </View>
         )}
-        <GlassCard style={{ gap: 12, padding: 16 }}>
-          <View
-            style={{ flexDirection: 'row', gap: 12, alignItems: 'flex-start' }}
-          >
-            <View style={{ flex: 1 }}>
-              <Select
-                label="Trade"
-                value={draft.tradeId}
-                onChange={(tradeId) => setDraft({ ...draft, tradeId })}
-                searchable
-                disabled={catalogue.isPending}
-                options={[
-                  { value: '', label: 'All trades' },
-                  ...(catalogue.data ?? []).map((t) => ({
-                    value: t.id,
-                    label: t.name,
-                  })),
-                ]}
-              />
-            </View>
-            <View style={{ flex: 1 }}>
-              <Select
-                label="Radius"
-                value={draft.radius}
-                onChange={(radius) => setDraft({ ...draft, radius })}
-                options={['5', '15', '30', '50'].map((value) => ({
-                  value,
-                  label: value + ' km',
-                }))}
-              />
-            </View>
-          </View>
-          {catalogue.isError && (
-            <View>
-              <Text accessibilityRole="alert" className="text-rose-700">
-                Could not load trades.
+        <View style={{ flexDirection: 'row', gap: 8, flexWrap: 'wrap' }}>
+          {['', 'AVAILABLE'].map((availability) => (
+            <Pressable
+              key={availability}
+              accessibilityRole="button"
+              accessibilityState={{
+                selected: applied.availability === availability,
+              }}
+              onPress={() => {
+                setDraft((old) => ({ ...old, availability }));
+                setApplied((old) => ({ ...old, availability, page: 0 }));
+              }}
+              style={{
+                minHeight: 48,
+                justifyContent: 'center',
+                paddingHorizontal: 16,
+                borderRadius: 24,
+                backgroundColor:
+                  applied.availability === availability
+                    ? palette.yellow
+                    : palette.grey,
+              }}
+            >
+              <Text style={{ color: palette.ink }}>
+                {availability ? 'Available' : 'All workers'}
               </Text>
-              <Action
-                label="Retry trades"
-                variant="secondary"
-                onPress={() => void catalogue.refetch()}
-              />
+            </Pressable>
+          ))}
+          <Pressable
+            accessibilityRole="button"
+            accessibilityLabel="Smart filters"
+            accessibilityState={{ expanded: filtersOpen }}
+            onPress={() => setFiltersOpen(!filtersOpen)}
+            style={{
+              minHeight: 48,
+              paddingHorizontal: 16,
+              flexDirection: 'row',
+              gap: 8,
+              alignItems: 'center',
+              borderRadius: 24,
+              borderWidth: 1,
+              borderColor: palette.grey,
+            }}
+          >
+            <Ionicons name="options-outline" size={18} color={palette.ink} />
+            <Text>Filters</Text>
+          </Pressable>
+        </View>
+        {filtersOpen && (
+          <GlassCard style={{ gap: 16, padding: 16 }}>
+            <View
+              style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+              }}
+            >
+              <Text
+                accessibilityRole="header"
+                style={{ fontSize: 20, fontWeight: '700', color: palette.ink }}
+              >
+                Smart filters
+              </Text>
+              <Pressable
+                accessibilityRole="button"
+                accessibilityLabel="Reset worker filters"
+                onPress={() =>
+                  setDraft((old) => ({
+                    ...old,
+                    tradeId: '',
+                    radius: '15',
+                    availability: '',
+                  }))
+                }
+                style={{
+                  minHeight: 48,
+                  justifyContent: 'center',
+                  paddingHorizontal: 12,
+                }}
+              >
+                <Text style={{ color: palette.ink }}>Reset</Text>
+              </Pressable>
             </View>
-          )}
-          {!!validation && (
-            <Text accessibilityRole="alert" className="text-rose-700">
-              {validation}
+
+            <View
+              style={{
+                flexDirection: 'row',
+                gap: 12,
+                alignItems: 'flex-start',
+              }}
+            >
+              <View style={{ flex: 1 }}>
+                <Select
+                  label="Trade"
+                  value={draft.tradeId}
+                  onChange={(tradeId) => setDraft({ ...draft, tradeId })}
+                  searchable
+                  disabled={catalogue.isPending}
+                  options={[
+                    { value: '', label: 'All trades' },
+                    ...(catalogue.data ?? []).map((t) => ({
+                      value: t.id,
+                      label: t.name,
+                    })),
+                  ]}
+                />
+              </View>
+              <View style={{ flex: 1 }}>
+                <Select
+                  label="Radius"
+                  value={draft.radius}
+                  onChange={(radius) => setDraft({ ...draft, radius })}
+                  options={['5', '15', '30', '50'].map((value) => ({
+                    value,
+                    label: value + ' km',
+                  }))}
+                />
+              </View>
+            </View>
+            {catalogue.isError && (
+              <View>
+                <Text accessibilityRole="alert" className="text-ink">
+                  Could not load trades.
+                </Text>
+                <Action
+                  label="Retry trades"
+                  variant="secondary"
+                  onPress={() => void catalogue.refetch()}
+                />
+              </View>
+            )}
+            {!!validation && (
+              <Text accessibilityRole="alert" className="text-ink">
+                {validation}
+              </Text>
+            )}
+            <Action
+              label="Search Workers"
+              loading={workers.isFetching}
+              disabled={locating}
+              onPress={search}
+            />
+            <Text style={{ color: palette.ink, fontSize: 12, lineHeight: 18 }}>
+              Rates are agreed through quotations. Reviews and verified-identity
+              filters are not available yet.
             </Text>
-          )}
-          <Action
-            label="Search Workers"
-            loading={workers.isFetching}
-            disabled={locating}
-            onPress={search}
-          />
-        </GlassCard>
+          </GlassCard>
+        )}
         {!draft.cityId && draft.lat && draft.lng ? (
           <Text style={{ fontSize: 11, lineHeight: 15, color: palette.muted }}>
             GPS matches distance-based service areas only. Choose a city to
@@ -356,12 +488,31 @@ export default function DiscoverScreen() {
               accessibilityLiveRegion="polite"
               className="text-sm font-semibold text-muted mb-4"
             >
-              {workers.data.items.length} workers shown
+              {workers.data.total} workers found - Page {applied.page + 1}
             </Text>
             {workers.data.items.map((worker) => (
               <WorkerCard key={worker.id} worker={worker} />
             ))}
+            <View style={{ gap: 12, marginTop: 16 }}>
+              {(applied.page + 1) * workers.data.size < workers.data.total && (
+                <Action
+                  label="Next workers"
+                  onPress={() =>
+                    setApplied((old) => ({ ...old, page: old.page + 1 }))
+                  }
+                />
+              )}
+            </View>
           </View>
+        )}
+        {applied.page > 0 && !workers.isFetching && (
+          <Action
+            label="Previous workers"
+            variant="secondary"
+            onPress={() =>
+              setApplied((old) => ({ ...old, page: old.page - 1 }))
+            }
+          />
         )}
       </ScrollView>
     </SafeAreaView>

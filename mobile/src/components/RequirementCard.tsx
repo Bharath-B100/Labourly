@@ -4,6 +4,8 @@ import { useRouter } from 'expo-router';
 import { glassSurface, GlassRim, palette } from './theme';
 import type { RequirementView } from '../api/marketplace';
 
+import { formatRequirementLocation } from '../location/formatLocation';
+
 export function RequirementCard({
   requirement,
   onPress,
@@ -20,8 +22,14 @@ export function RequirementCard({
       month: 'short',
       year: 'numeric',
     });
+  const locationText = formatRequirementLocation(
+    requirement.city,
+    requirement.district,
+    requirement.state,
+  );
+
   const rows: [React.ComponentProps<typeof Ionicons>['name'], string][] = [
-    ['location-outline', `${requirement.city}, ${requirement.district}`],
+    ['location-outline', locationText],
     [
       'people-outline',
       `${requirement.workerCount} worker${requirement.workerCount > 1 ? 's' : ''} needed`,
@@ -60,11 +68,9 @@ export function RequirementCard({
               fontSize: 12,
               fontWeight: '700',
               color:
-                requirement.status === 'CANCELLED' ? '#B42340' : palette.teal,
+                requirement.status === 'CANCELLED' ? '#202326' : palette.teal,
               backgroundColor:
-                requirement.status === 'OPEN'
-                  ? 'rgba(255,221,83,0.50)'
-                  : 'rgba(187,229,210,0.5)',
+                requirement.status === 'OPEN' ? '#FFCC25' : '#E5E7EB',
             }}
           >
             {requirement.status}
@@ -100,7 +106,7 @@ export function RequirementCard({
         >
           <View
             style={{
-              backgroundColor: 'rgba(164,222,207,0.35)',
+              backgroundColor: '#E5E7EB',
               width: 29,
               height: 29,
               borderRadius: 15,

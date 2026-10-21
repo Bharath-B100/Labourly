@@ -1,0 +1,26 @@
+[
+  {
+    "gate": "test",
+    "exit": 1
+  },
+  {
+    "gate": "typecheck",
+    "exit": 0
+  },
+  {
+    "gate": "lint",
+    "exit": 0
+  },
+  {
+    "gate": "format:check",
+    "exit": 2
+  },
+  {
+    "gate": "test:dependencies",
+    "exit": 0
+  },
+  {
+    "gate": "expo install --check offline",
+    "exit": 0
+  }
+]

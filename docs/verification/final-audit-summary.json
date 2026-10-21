@@ -1,0 +1,93 @@
+{
+  "migrations": [
+    {
+      "version": "1",
+      "file": "V1__initial_schema.sql",
+      "stored": -1307860250,
+      "calculated": -1307860250,
+      "match": true
+    },
+    {
+      "version": "2",
+      "file": "V2__booking_invariants.sql",
+      "stored": -751598349,
+      "calculated": -751598349,
+      "match": true
+    },
+    {
+      "version": "3",
+      "file": "V3__serialize_worker_reservations.sql",
+      "stored": -1699428378,
+      "calculated": -1699428378,
+      "match": true
+    },
+    {
+      "version": "4",
+      "file": "V4__authentication_and_onboarding.sql",
+      "stored": -1360545391,
+      "calculated": -1360545391,
+      "match": true
+    },
+    {
+      "version": "5",
+      "file": "V5__secure_sessions_and_complete_onboarding.sql",
+      "stored": 238203645,
+      "calculated": 238203645,
+      "match": true
+    },
+    {
+      "version": "6",
+      "file": "V6__marketplace_discovery_and_matching.sql",
+      "stored": 1172082018,
+      "calculated": 1172082018,
+      "match": true
+    },
+    {
+      "version": "7",
+      "file": "V7__quotations_and_hiring.sql",
+      "stored": -451308708,
+      "calculated": -451308708,
+      "match": true
+    },
+    {
+      "version": "8",
+      "file": "V8__booking_cancellation.sql",
+      "stored": 86830775,
+      "calculated": 86830775,
+      "match": true
+    },
+    {
+      "version": "9",
+      "file": "V9__quotation_and_booking_history.sql",
+      "stored": -583670085,
+      "calculated": -583670085,
+      "match": true
+    },
+    {
+      "version": "10",
+      "file": "V10__canonical_locations_and_worker_coverage.sql",
+      "stored": 1547405469,
+      "calculated": 1547405469,
+      "match": true
+    },
+    {
+      "version": "11",
+      "file": "V11__draft_requirement_editing.sql",
+      "stored": 624233715,
+      "calculated": 624233715,
+      "match": true
+    }
+  ],
+  "git": {
+    "trackedModified": 56,
+    "untrackedEntries": 139
+  },
+  "mobileAudit": {
+    "info": 0,
+    "low": 0,
+    "moderate": 12,
+    "high": 54,
+    "critical": 1,
+    "total": 67
+  }
+}

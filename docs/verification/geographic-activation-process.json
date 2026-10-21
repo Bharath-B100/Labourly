@@ -1,0 +1,5 @@
+{
+  "ProcessId": 8448,
+  "ExecutablePath": "D:\\Files\\EDUCATION\\NammaCrew\\.tools\\jdk21-local\\jdk-21.0.12.1+1\\bin\\java.exe",
+  "CommandLine": "\"D:\\Files\\EDUCATION\\NammaCrew\\.tools\\jdk21-local\\jdk-21.0.12.1+1\\bin\\java.exe\" -Xmx384m -Djdk.net.unixdomain.tmpdir=D:/Files/EDUCATION/NammaCrew/.tools/java-sockets -jar D:/Files/EDUCATION/NammaCrew/.tools/backend-geographic-runtime/backend.jar --server.address=127.0.0.1 --server.port=8080 --spring.profiles.active=dev --nammacrew.dev.seed=false"
+}

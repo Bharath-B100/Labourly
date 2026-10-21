@@ -21,6 +21,7 @@ import {
   withdrawQuote,
   editQuote,
 } from '../../../api/quotations';
+import { formatRequirementLocation } from '../../../location/formatLocation';
 
 const PRICING_OPTIONS = [
   { value: 'FIXED_TOTAL', label: 'Fixed Total' },
@@ -177,7 +178,7 @@ export default function OpportunityDetailsScreen() {
   if (loading) {
     return (
       <SafeAreaView className="flex-1 bg-canvas items-center justify-center">
-        <ActivityIndicator size="large" color="#145C58" />
+        <ActivityIndicator size="large" color="#202326" />
       </SafeAreaView>
     );
   }
@@ -185,7 +186,7 @@ export default function OpportunityDetailsScreen() {
   if (error || !requirement) {
     return (
       <SafeAreaView className="flex-1 bg-canvas items-center justify-center p-6">
-        <Text className="text-red-700 text-center">{error || 'Not found'}</Text>
+        <Text className="text-ink text-center">{error || 'Not found'}</Text>
       </SafeAreaView>
     );
   }
@@ -226,19 +227,23 @@ export default function OpportunityDetailsScreen() {
 
           <View className="flex-row flex-wrap gap-x-4 gap-y-1">
             <View className="flex-row items-center">
-              <Ionicons name="location-outline" size={14} color="#466E68" />
+              <Ionicons name="location-outline" size={14} color="#202326" />
               <Text className="text-muted text-sm ml-1">
-                {requirement.city}, {requirement.district}
+                {formatRequirementLocation(
+                  requirement.city,
+                  requirement.district,
+                  requirement.state,
+                )}
               </Text>
             </View>
             <View className="flex-row items-center">
-              <Ionicons name="people-outline" size={14} color="#466E68" />
+              <Ionicons name="people-outline" size={14} color="#202326" />
               <Text className="text-muted text-sm ml-1">
                 {requirement.workerCount} workers
               </Text>
             </View>
             <View className="flex-row items-center">
-              <Ionicons name="calendar-outline" size={14} color="#466E68" />
+              <Ionicons name="calendar-outline" size={14} color="#202326" />
               <Text className="text-muted text-sm ml-1">
                 {starts} – {ends}
               </Text>
@@ -251,18 +256,18 @@ export default function OpportunityDetailsScreen() {
           <View
             className={`rounded-xl p-3 mb-4 border ${
               myQuoteStatus === 'ACCEPTED'
-                ? 'bg-green-400/10 border-green-400/30'
+                ? 'bg-tinted/10 border-outline/30'
                 : myQuoteStatus === 'REJECTED'
-                  ? 'bg-red-400/10 border-red-400/30'
+                  ? 'bg-tinted/10 border-outline/30'
                   : 'bg-tinted border-outline'
             }`}
           >
             <Text
               className={`font-semibold text-center ${
                 myQuoteStatus === 'ACCEPTED'
-                  ? 'text-green-700'
+                  ? 'text-ink'
                   : myQuoteStatus === 'REJECTED'
-                    ? 'text-red-700'
+                    ? 'text-ink'
                     : 'text-accent'
               }`}
             >
@@ -285,7 +290,7 @@ export default function OpportunityDetailsScreen() {
             {/* Amount */}
             <Text className="text-ink font-semibold mb-1">Amount (₹) *</Text>
             <TextInput
-              placeholderTextColor="#466E68"
+              placeholderTextColor="#202326"
               testID="amount-input"
               accessibilityLabel="Quote amount in rupees"
               className="border border-outline rounded-xl px-3 py-2.5 text-ink mb-4"
@@ -338,7 +343,7 @@ export default function OpportunityDetailsScreen() {
               Duration (days) *
             </Text>
             <TextInput
-              placeholderTextColor="#466E68"
+              placeholderTextColor="#202326"
               className="border border-outline rounded-xl px-3 py-2.5 text-ink mb-4"
               accessibilityLabel="Duration in days"
               placeholder="e.g. 5"
@@ -352,7 +357,7 @@ export default function OpportunityDetailsScreen() {
               Note to customer (optional)
             </Text>
             <TextInput
-              placeholderTextColor="#466E68"
+              placeholderTextColor="#202326"
               className="border border-outline rounded-xl px-3 py-2.5 text-ink mb-5 h-20"
               accessibilityLabel="Note to customer"
               placeholder="Any relevant experience, equipment, or clarifications..."

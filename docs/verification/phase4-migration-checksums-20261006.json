@@ -1,0 +1,34 @@
+[
+  {
+    "file": "V1__initial_schema.sql",
+    "unchanged": true
+  },
+  {
+    "file": "V2__booking_invariants.sql",
+    "unchanged": true
+  },
+  {
+    "file": "V3__serialize_worker_reservations.sql",
+    "unchanged": true
+  },
+  {
+    "file": "V4__authentication_and_onboarding.sql",
+    "unchanged": true
+  },
+  {
+    "file": "V5__secure_sessions_and_complete_onboarding.sql",
+    "unchanged": true
+  },
+  {
+    "file": "V6__marketplace_discovery_and_matching.sql",
+    "unchanged": true
+  },
+  {
+    "file": "V7__quotations_and_hiring.sql",
+    "unchanged": true
+  },
+  {
+    "file": "V8__booking_cancellation.sql",
+    "unchanged": true
+  }
+]

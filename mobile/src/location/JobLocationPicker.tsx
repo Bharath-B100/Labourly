@@ -120,7 +120,12 @@ export function JobLocationPicker({
             }}
           >
             {confirmed && candidate
-              ? candidate.city + ', ' + candidate.stateCode
+              ? candidate.city === 'GPS job location'
+                ? 'Location selected on map'
+                : candidate.city +
+                  (candidate.stateCode && candidate.stateCode !== 'IN'
+                    ? ', ' + candidate.stateCode
+                    : '')
               : 'Choose job location'}
           </Text>
           <Ionicons name="chevron-down" size={18} color={palette.teal} />
@@ -136,7 +141,7 @@ export function JobLocationPicker({
             }}
           />
           {error ? (
-            <Text accessibilityRole="alert" className="text-rose-700">
+            <Text accessibilityRole="alert" className="text-ink">
               {error}
             </Text>
           ) : null}

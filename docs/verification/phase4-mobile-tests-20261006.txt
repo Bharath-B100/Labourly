@@ -1,0 +1,12 @@
+PASS src/__tests__/quotes.test.tsx (62.016 s)
+PASS src/__tests__/onboarding.test.tsx (6.533 s)
+PASS src/__tests__/foundation.test.tsx
+PASS src/__tests__/api.test.ts
+PASS src/__tests__/bookings.test.tsx (6.796 s)
+PASS src/__tests__/session.test.ts
+
+Test Suites: 6 passed, 6 total
+Tests:       33 passed, 33 total
+Snapshots:   0 total
+Time:        88.338 s
+Ran all test suites.

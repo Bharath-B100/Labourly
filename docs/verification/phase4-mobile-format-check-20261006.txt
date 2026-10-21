@@ -1,0 +1,13 @@
+
+> mobile@1.0.0 format:check
+> prettier --check .
+
+Checking formatting...
+[warn] app.json
+[warn] src/__tests__/quotation-api.test.ts
+[warn] src/__tests__/quotes.test.tsx
+[warn] src/app/(customer)/requirement/quotes.tsx
+[warn] src/app/(customer)/requirements.tsx
+[warn] src/app/(worker)/opportunity/[id].tsx
+[warn] src/app/(worker)/schedule.tsx
+[warn] Code style issues found in 7 files. Run Prettier with --write to fix.

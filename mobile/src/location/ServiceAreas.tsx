@@ -225,7 +225,7 @@ function CoverageForm({
           </Text>
         )}
       {!!error && (
-        <Text accessibilityRole="alert" className="text-rose-700">
+        <Text accessibilityRole="alert" className="text-ink">
           {error}
         </Text>
       )}

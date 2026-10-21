@@ -1,0 +1,14 @@
+[
+  {
+    "gate": "typecheck",
+    "exitCode": 2
+  },
+  {
+    "gate": "lint",
+    "exitCode": 0
+  },
+  {
+    "gate": "format:check",
+    "exitCode": 1
+  }
+]

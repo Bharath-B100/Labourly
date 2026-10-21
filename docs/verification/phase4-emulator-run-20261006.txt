@@ -1,0 +1,7 @@
+Current APK installed: mobile/android/app/build/outputs/apk/debug/app-debug.apk (78389292 bytes)
+Emulator: emulator-5554 device; Medium_Phone_API_36.1
+Launch: welcome screen rendered (NammaCrew / Get Started)
+Backend: Java 21 dev profile, port 8080; existing PostgreSQL/PostGIS compose volume retained
+Emulator HTTP GET http://10.0.2.2:8080/actuator/health: 200 status UP
+Metro: port 8083; first multipart bundle failed; restart after bundle warmup rendered welcome screen
+Acceptance-readiness corrections and manual acceptance are not certified by this launch check.

@@ -1,0 +1,26 @@
+[
+  {
+    "path": "mobile\\npm_audit_mobile.json",
+    "sha256": "134c04512b95b1554157e8bc8d55953c8263540749d39d6cbb01569146aa356f",
+    "bytes": 76574,
+    "result": "valid JSON when decoded as utf-16"
+  },
+  {
+    "path": "mobile\\npm_audit_mobile_utf8.json",
+    "sha256": "455244af47db7c9756a2746f174f1c1a8a4c84cd1ab8e84b06b52087fb281e72",
+    "bytes": 38289,
+    "result": "valid JSON when decoded as utf-8-sig"
+  },
+  {
+    "path": "admin\\npm_audit_admin.json",
+    "sha256": "94e51037e7a56ae98d6937d853dcc4f62bd2e523aff624cf1d066408893c6aa3",
+    "bytes": 10684,
+    "result": "valid JSON when decoded as utf-16"
+  },
+  {
+    "path": "admin\\npm_audit_admin_utf8.json",
+    "sha256": "3fd41be71ae4b2591f54515ae36262091420c1c9c5b7460bd8af56b6747c9cf6",
+    "bytes": 5344,
+    "result": "valid JSON when decoded as utf-8-sig"
+  }
+]

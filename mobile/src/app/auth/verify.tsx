@@ -23,22 +23,12 @@ export default function VerifyScreen() {
   const verify = useMutation({
     mutationFn: async () => {
       try {
-        const startTime = Date.now();
         const tokens = credentialsSchema.parse(
           await publicJson('/api/v1/auth/otp/verify', {
             phone: normalizePhone(phone),
             code: validateOtp(code),
           }),
         );
-
-        // Loading preview: keep rolling in center for 2 seconds (2000ms)
-        if (process.env.NODE_ENV !== 'test') {
-          const elapsed = Date.now() - startTime;
-          const remaining = Math.max(0, 2000 - elapsed);
-          if (remaining > 0) {
-            await new Promise((resolve) => setTimeout(resolve, remaining));
-          }
-        }
 
         // Now commit session credentials to mount the dashboard underneath
         await useSession.getState().signIn(tokens);
@@ -65,9 +55,6 @@ export default function VerifyScreen() {
 
   return (
     <Screen>
-      <View className="mb-6 w-12 h-12 rounded-xl border border-outline bg-surface items-center justify-center">
-        <Text className="text-ink text-xl font-bold tracking-widest">NC</Text>
-      </View>
       <View className="gap-6">
         <Text
           accessibilityRole="header"
@@ -89,7 +76,7 @@ export default function VerifyScreen() {
           editable={!verify.isPending}
         />
         {verify.isError && (
-          <Text accessibilityRole="alert" className="text-red-700">
+          <Text accessibilityRole="alert" className="text-ink">
             {verify.error.message}
           </Text>
         )}
@@ -106,7 +93,7 @@ export default function VerifyScreen() {
         />
         {resend.isSuccess && <Text className="text-ink">New code sent.</Text>}
         {resend.isError && (
-          <Text accessibilityRole="alert" className="text-red-700">
+          <Text accessibilityRole="alert" className="text-ink">
             {resend.error.message}
           </Text>
         )}

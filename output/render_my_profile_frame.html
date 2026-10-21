@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Labourly My Profile Render Frame</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      background: #EAEFF5;
+      width: 480px;
+      height: 960px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      overflow: hidden;
+      margin: 0;
+    }
+    .iphone-case {
+      width: 390px;
+      height: 844px;
+      background: #E5E7EB;
+      border-radius: 50px;
+      position: relative;
+      box-shadow: 
+        0 0 0 4px #26292E,
+        0 0 0 9px #16181B,
+        0 30px 60px -15px rgba(15, 23, 42, 0.45);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Dynamic Island */
+    .dynamic-island {
+      position: absolute;
+      top: 11px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 120px;
+      height: 32px;
+      background: #000000;
+      border-radius: 20px;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      padding-right: 12px;
+    }
+    .camera-lens {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #111B27;
+      border: 1px solid #1E293B;
+    }
+
+    /* Top Section on #E5E7EB background */
+    .top-section {
+      background: #E5E7EB;
+      padding-top: 12px;
+      padding-bottom: 6px;
+      z-index: 50;
+    }
+
+    /* Status Bar (#202326) */
+    .status-bar {
+      height: 44px;
+      padding: 12px 28px 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 14px;
+      font-weight: 700;
+      color: #202326;
+    }
+    .status-icons {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* Navigation Bar */
+    .nav-bar {
+      height: 52px;
+      padding: 0 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .screen-title {
+      font-size: 24px;
+      font-weight: 800;
+      color: #202326;
+      letter-spacing: -0.4px;
+    }
+    .edit-btn {
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      background: #FFFFFF;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid rgba(32, 35, 38, 0.08);
+      cursor: pointer;
+    }
+    .edit-icon {
+      width: 19px;
+      height: 19px;
+      stroke: #202326;
+      fill: none;
+      stroke-width: 2.2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    /* Screen Content Area */
+    .content-area {
+      flex: 1;
+      padding: 6px 18px 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      background: #E5E7EB;
+      overflow-y: hidden;
+    }
+
+    /* Profile Card (#FFFFFF) */
+    .profile-card {
+      background: #FFFFFF;
+      border-radius: 20px;
+      padding: 18px 18px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      box-shadow: 0 2px 10px rgba(32, 35, 38, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.9);
+      position: relative;
+    }
+    .avatar-wrapper {
+      position: relative;
+      width: 68px;
+      height: 68px;
+      flex-shrink: 0;
+    }
+    .circular-avatar {
+      width: 68px;
+      height: 68px;
+      border-radius: 50%;
+      background: #F3F4F6;
+      border: 2.5px solid #202326;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+    .avatar-svg {
+      width: 100%;
+      height: 100%;
+    }
+    .avatar-hardhat-badge {
+      position: absolute;
+      bottom: -2px;
+      right: -2px;
+      width: 22px;
+      height: 22px;
+      background: #FFCC25;
+      border-radius: 50%;
+      border: 2px solid #FFFFFF;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .avatar-hardhat-badge svg {
+      width: 12px;
+      height: 12px;
+      fill: #202326;
+    }
+
+    .profile-info {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+      flex: 1;
+    }
+    .profile-name {
+      font-size: 20px;
+      font-weight: 800;
+      color: #202326;
+      letter-spacing: -0.3px;
+    }
+    .profile-subtitle {
+      font-size: 13.5px;
+      font-weight: 600;
+      color: #202326;
+      opacity: 0.65;
+    }
+    .badge-row {
+      margin-top: 4px;
+      display: flex;
+      align-items: center;
+    }
+    .verified-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      background: #FFCC25;
+      color: #202326;
+      padding: 3px 9px;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.2px;
+    }
+    .verified-check {
+      width: 12px;
+      height: 12px;
+      stroke: #202326;
+      stroke-width: 3;
+      fill: none;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    /* Settings Group Containers (#FFFFFF) */
+    .settings-group {
+      background: #FFFFFF;
+      border-radius: 18px;
+      overflow: hidden;
+      box-shadow: 0 2px 10px rgba(32, 35, 38, 0.04);
+      display: flex;
+      flex-direction: column;
+    }
+    .settings-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 13.5px 16px;
+      border-bottom: 1px solid #E5E7EB;
+      position: relative;
+    }
+    .settings-row:last-child {
+      border-bottom: none;
+    }
+    .row-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .icon-box {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      background: #F3F4F6;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .row-icon {
+      width: 18px;
+      height: 18px;
+      stroke: #202326;
+      stroke-width: 2.2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      fill: none;
+    }
+    .row-label {
+      font-size: 14.5px;
+      font-weight: 700;
+      color: #202326;
+      letter-spacing: -0.1px;
+    }
+    .row-right {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .value-tag {
+      font-size: 13.5px;
+      font-weight: 600;
+      color: #202326;
+      opacity: 0.6;
+    }
+    .group-verified-tag {
+      background: #FFCC25;
+      color: #202326;
+      padding: 3px 8px;
+      border-radius: 6px;
+      font-size: 11.5px;
+      font-weight: 800;
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+    }
+    .chevron-icon {
+      width: 15px;
+      height: 15px;
+      stroke: #202326;
+      stroke-width: 2.4;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      fill: none;
+      opacity: 0.45;
+    }
+
+    /* Footer CTA: Full-width #FFFFFF "Log Out" button bordered in #202326 */
+    .footer-cta-container {
+      margin-top: 4px;
+    }
+    .logout-button {
+      width: 100%;
+      height: 52px;
+      background: #FFFFFF;
+      border: 2px solid #202326;
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      cursor: pointer;
+      box-shadow: 0 2px 6px rgba(32, 35, 38, 0.05);
+    }
+    .exit-icon {
+      width: 20px;
+      height: 20px;
+      stroke: #202326;
+      stroke-width: 2.4;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      fill: none;
+    }
+    .logout-text {
+      font-size: 16px;
+      font-weight: 800;
+      color: #202326;
+      letter-spacing: -0.2px;
+    }
+
+    /* Home Indicator */
+    .home-indicator {
+      width: 134px;
+      height: 5px;
+      background: #202326;
+      border-radius: 3px;
+      margin: 10px auto 4px;
+      opacity: 0.9;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="iphone-case">
+    <!-- Dynamic Island -->
+    <div class="dynamic-island">
+      <div class="camera-lens"></div>
+    </div>
+
+    <!-- Header & Profile Title: #E5E7EB background -->
+    <div class="top-section">
+      <!-- Status Bar (#202326) -->
+      <div class="status-bar">
+        <span>9:41</span>
+        <div class="status-icons">
+          <!-- Cellular -->
+          <svg width="17" height="12" viewBox="0 0 17 12" fill="#202326">
+            <rect x="0" y="9" width="3" height="3" rx="0.5"/>
+            <rect x="4.5" y="6" width="3" height="6" rx="0.5"/>
+            <rect x="9" y="3" width="3" height="9" rx="0.5"/>
+            <rect x="13.5" y="0" width="3" height="12" rx="0.5"/>
+          </svg>
+          <!-- Wifi -->
+          <svg width="16" height="12" viewBox="0 0 16 12" fill="#202326">
+            <path d="M8 2.5C10.8 2.5 13.3 3.6 15.2 5.4L16 4.5C13.8 2.5 11 1.2 8 1.2C5 1.2 2.2 2.5 0 4.5L0.8 5.4C2.7 3.6 5.2 2.5 8 2.5Z"/>
+            <path d="M8 6C10 6 11.8 6.8 13.2 8.1L14 7.2C12.3 5.7 10.3 4.8 8 4.8C5.7 4.8 3.7 5.7 2 7.2L2.8 8.1C4.2 6.8 6 6 8 6Z"/>
+            <circle cx="8" cy="10.5" r="1.5"/>
+          </svg>
+          <!-- Battery -->
+          <svg width="25" height="12" viewBox="0 0 25 12" fill="none">
+            <rect x="0.5" y="0.5" width="21" height="11" rx="3" stroke="#202326"/>
+            <rect x="2" y="2" width="16" height="8" rx="1.5" fill="#202326"/>
+            <path d="M23 4C23.6 4.5 24 5.2 24 6C24 6.8 23.6 7.5 23 8" stroke="#202326" stroke-width="1.2" stroke-linecap="round"/>
+          </svg>
+        </div>
+      </div>
+
+      <!-- Navigation Row: Bold left title 'My Profile' and right edit icon -->
+      <div class="nav-bar">
+        <h1 class="screen-title">My Profile</h1>
+        <div class="edit-btn">
+          <svg class="edit-icon" viewBox="0 0 24 24">
+            <path d="M12 20h9"/>
+            <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+
+    <!-- Content Area (#E5E7EB Background) -->
+    <div class="content-area">
+      <!-- Top #FFFFFF Profile Card -->
+      <div class="profile-card">
+        <div class="avatar-wrapper">
+          <div class="circular-avatar">
+            <svg class="avatar-svg" viewBox="0 0 80 80">
+              <rect width="80" height="80" fill="#E5E7EB"/>
+              <!-- Contractor Shirt / Collar -->
+              <path d="M12 78 C12 60, 24 54, 40 54 C56 54, 68 60, 68 78 Z" fill="#202326"/>
+              <path d="M34 54 L40 64 L46 54 Z" fill="#FFCC25"/>
+              <!-- Neck -->
+              <rect x="34" y="44" width="12" height="12" fill="#D97706" rx="2"/>
+              <!-- Face -->
+              <circle cx="40" cy="36" r="17" fill="#F59E0B"/>
+              <!-- Beard / Mustache -->
+              <path d="M32 40 C34 44, 46 44, 48 40 C48 45, 45 49, 40 49 C35 49, 32 45, 32 40 Z" fill="#202326"/>
+              <!-- Eyes -->
+              <circle cx="34" cy="34" r="2" fill="#202326"/>
+              <circle cx="46" cy="34" r="2" fill="#202326"/>
+              <!-- Safety Yellow Hard Hat -->
+              <path d="M22 28 C22 17, 30 13, 40 13 C50 13, 58 17, 58 28 Z" fill="#FFCC25"/>
+              <rect x="18" y="27" width="44" height="5" rx="2" fill="#FFCC25"/>
+              <rect x="38" y="13" width="4" height="12" fill="#202326" opacity="0.3"/>
+            </svg>
+          </div>
+          <div class="avatar-hardhat-badge">
+            <svg viewBox="0 0 24 24">
+              <path d="M12 3c-4.97 0-9 4.03-9 9 0 .34.02.67.06 1h17.88c.04-.33.06-.66.06-1 0-4.97-4.03-9-9-9zM2 15h20v2H2z"/>
+            </svg>
+          </div>
+        </div>
+
+        <div class="profile-info">
+          <h2 class="profile-name">Amit Sharma</h2>
+          <span class="profile-subtitle">Contractor</span>
+          <div class="badge-row">
+            <div class="verified-badge">
+              <svg class="verified-check" viewBox="0 0 24 24">
+                <polyline points="20 6 9 17 4 12"/>
+              </svg>
+              <span>Verified</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Settings Group 1: 4 Rows (#FFFFFF) -->
+      <div class="settings-group">
+        <!-- KYC Verification -->
+        <div class="settings-row">
+          <div class="row-left">
+            <div class="icon-box">
+              <svg class="row-icon" viewBox="0 0 24 24">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                <path d="m9 12 2 2 4-4"/>
+              </svg>
+            </div>
+            <span class="row-label">KYC Verification</span>
+          </div>
+          <div class="row-right">
+            <span class="group-verified-tag">
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#202326" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="20 6 9 17 4 12"/>
+              </svg>
+              Verified
+            </span>
+            <svg class="chevron-icon" viewBox="0 0 24 24">
+              <polyline points="9 18 15 12 9 6"/>
+            </svg>
+          </div>
+        </div>
+
+        <!-- Language -->
+        <div class="settings-row">
+          <div class="row-left">
+            <div class="icon-box">
+              <svg class="row-icon" viewBox="0 0 24 24">
+                <circle cx="12" cy="12" r="10"/>
+                <line x1="2" y1="12" x2="22" y2="12"/>
+                <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+              </svg>
+            </div>
+            <span class="row-label">Language</span>
+          </div>
+          <div class="row-right">
+            <span class="value-tag">English</span>
+            <svg class="chevron-icon" viewBox="0 0 24 24">
+              <polyline points="9 18 15 12 9 6"/>
+            </svg>
+          </div>
+        </div>
+
+        <!-- Country -->
+        <div class="settings-row">
+          <div class="row-left">
+            <div class="icon-box">
+              <svg class="row-icon" viewBox="0 0 24 24">
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                <circle cx="12" cy="10" r="3"/>
+              </svg>
+            </div>
+            <span class="row-label">Country</span>
+          </div>
+          <div class="row-right">
+            <span class="value-tag">India</span>
+            <svg class="chevron-icon" viewBox="0 0 24 24">
+              <polyline points="9 18 15 12 9 6"/>
+            </svg>
+          </div>
+        </div>
+
+        <!-- Notifications -->
+        <div class="settings-row">
+          <div class="row-left">
+            <div class="icon-box">
+              <svg class="row-icon" viewBox="0 0 24 24">
+                <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+                <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+              </svg>
+            </div>
+            <span class="row-label">Notifications</span>
+          </div>
+          <div class="row-right">
+            <svg class="chevron-icon" viewBox="0 0 24 24">
+              <polyline points="9 18 15 12 9 6"/>
+            </svg>
+          </div>
+        </div>
+      </div>
+
+      <!-- Settings Group 2: 3 Rows (#FFFFFF) -->
+      <div class="settings-group">
+        <!-- Help & Support -->
+        <div class="settings-row">
+          <div class="row-left">
+            <div class="icon-box">
+              <svg class="row-icon" viewBox="0 0 24 24">
+                <path d="M3 18v-6a9 9 0 0 1 18 0v6"/>
+                <path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/>
+              </svg>
+            </div>
+            <span class="row-label">Help & Support</span>
+          </div>
+          <div class="row-right">
+            <svg class="chevron-icon" viewBox="0 0 24 24">
+              <polyline points="9 18 15 12 9 6"/>
+            </svg>
+          </div>
+        </div>
+
+        <!-- Privacy Policy -->
+        <div class="settings-row">
+          <div class="row-left">
+            <div class="icon-box">
+              <svg class="row-icon" viewBox="0 0 24 24">
+                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+              </svg>
+            </div>
+            <span class="row-label">Privacy Policy</span>
+          </div>
+          <div class="row-right">
+            <svg class="chevron-icon" viewBox="0 0 24 24">
+              <polyline points="9 18 15 12 9 6"/>
+            </svg>
+          </div>
+        </div>
+
+        <!-- Terms & Conditions -->
+        <div class="settings-row">
+          <div class="row-left">
+            <div class="icon-box">
+              <svg class="row-icon" viewBox="0 0 24 24">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                <polyline points="14 2 14 8 20 8"/>
+                <line x1="16" y1="13" x2="8" y2="13"/>
+                <line x1="16" y1="17" x2="8" y2="17"/>
+                <polyline points="10 9 9 9 8 9"/>
+              </svg>
+            </div>
+            <span class="row-label">Terms & Conditions</span>
+          </div>
+          <div class="row-right">
+            <svg class="chevron-icon" viewBox="0 0 24 24">
+              <polyline points="9 18 15 12 9 6"/>
+            </svg>
+          </div>
+        </div>
+      </div>
+
+      <!-- Footer CTA: Full-width #FFFFFF "Log Out" button bordered in #202326 -->
+      <div class="footer-cta-container">
+        <button class="logout-button">
+          <!-- Exit Icon -->
+          <svg class="exit-icon" viewBox="0 0 24 24">
+            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+            <polyline points="16 17 21 12 16 7"/>
+            <line x1="21" y1="12" x2="9" y2="12"/>
+          </svg>
+          <span class="logout-text">Log Out</span>
+        </button>
+      </div>
+
+      <!-- Home Indicator -->
+      <div class="home-indicator"></div>
+    </div>
+  </div>
+
+</body>
+</html>

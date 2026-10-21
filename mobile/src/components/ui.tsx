@@ -1,3 +1,4 @@
+import { Ionicons } from '@expo/vector-icons';
 import { GlassBackdrop, Brand, glassSurface, GlassRim } from './theme';
 import { GlassReveal, useGlassMotion } from './glass';
 import {
@@ -13,17 +14,23 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useEffect, useState, type PropsWithChildren } from 'react';
 
-export function Screen({ children }: PropsWithChildren) {
+export function Screen({
+  children,
+  branded = true,
+}: PropsWithChildren<{ branded?: boolean }>) {
   return (
     <SafeAreaView className="flex-1 bg-canvas">
       <GlassBackdrop />
       <ScrollView
         keyboardShouldPersistTaps="handled"
         keyboardDismissMode="on-drag"
-        contentContainerStyle={{ flexGrow: 1, padding: 24 }}
+        contentContainerStyle={{ flexGrow: 1, padding: branded ? 24 : 16 }}
       >
-        <View className="w-full max-w-2xl self-center gap-6">
-          <Brand />
+        <View
+          className="w-full max-w-2xl self-center"
+          style={{ gap: branded ? 24 : 16 }}
+        >
+          {branded && <Brand />}
           {children}
         </View>
       </ScrollView>
@@ -62,19 +69,9 @@ export function Action({
     }).start();
   };
   const blocked = disabled || loading;
-  const background = {
-    primary: 'rgba(255,211,54,0.72)',
-    secondary: 'rgba(255,255,255,0.18)',
-    danger: 'rgba(251, 113, 133, 0.12)',
-    quiet: 'transparent',
-  }[variant];
-  const foreground =
-    variant === 'primary'
-      ? '#104C49'
-      : variant === 'danger'
-        ? '#B42340'
-        : '#104C49';
-  const showArrow = withArrow ?? (variant !== 'quiet' && variant !== 'danger');
+  const background = variant === 'primary' ? '#FFCC25' : '#FFFFFF';
+  const foreground = '#202326';
+  const showArrow = withArrow ?? false;
   return (
     <Animated.View style={{ transform: [{ scale }] }}>
       <Pressable
@@ -89,7 +86,7 @@ export function Action({
         style={{
           ...glassSurface,
           minHeight: variant === 'quiet' ? 44 : 52,
-          borderRadius: 999,
+          borderRadius: 12,
           paddingHorizontal: 20,
           paddingVertical: 8,
           justifyContent: 'center',
@@ -97,20 +94,9 @@ export function Action({
           alignItems: 'center',
           gap: 10,
           backgroundColor: background,
-          shadowColor: '#145C58',
-          shadowOpacity: variant === 'quiet' ? 0 : 0.16,
-          shadowRadius: 16,
-          shadowOffset: { width: 0, height: 5 },
-          elevation: 0,
           borderWidth: variant === 'quiet' ? 0 : 1,
-          borderColor:
-            variant === 'secondary'
-              ? 'rgba(255,255,255,0.95)'
-              : variant === 'danger'
-                ? 'rgba(251, 113, 133, 0.3)'
-                : 'rgba(255,255,255,0.95)',
-          opacity: blocked ? 0.5 : undefined,
-          boxShadow: variant === 'quiet' ? 'none' : glassSurface.boxShadow,
+          borderColor: variant === 'primary' ? '#FFCC25' : '#E5E7EB',
+          opacity: blocked ? 0.55 : 1,
         }}
       >
         {variant !== 'quiet' && <GlassRim radius={30} />}
@@ -132,7 +118,7 @@ export function Action({
               width: 28,
               height: 28,
               borderRadius: 14,
-              backgroundColor: '#145C58',
+              backgroundColor: '#202326',
               alignItems: 'center',
               justifyContent: 'center',
             }}
@@ -171,24 +157,20 @@ export function Input({
         style={[
           glassSurface,
           {
-            borderRadius: 20,
+            borderRadius: 10,
             paddingHorizontal: 16,
             paddingTop: 8,
             paddingBottom: 5,
-            borderColor: error
-              ? '#B42340'
-              : focused
-                ? '#145C58'
-                : 'rgba(255,255,255,0.92)',
+            borderColor: error ? '#202326' : focused ? '#202326' : '#E5E7EB',
           },
         ]}
       >
         <GlassRim radius={20} />
-        <Text style={{ fontSize: 12, color: '#466E68' }}>{label}</Text>
+        <Text style={{ fontSize: 12, color: '#202326' }}>{label}</Text>
         <TextInput
           {...props}
           accessibilityLabel={props.accessibilityLabel ?? label}
-          placeholderTextColor="#648C83"
+          placeholderTextColor="#202326"
           onFocus={(event) => {
             setFocused(true);
             onFocus?.(event);
@@ -199,12 +181,12 @@ export function Input({
           }}
           style={[
             {
-              minHeight: 32,
+              minHeight: 40,
               padding: 0,
               paddingVertical: 3,
               fontSize: 16,
               fontWeight: '500',
-              color: '#104C49',
+              color: '#202326',
               textAlignVertical: props.multiline ? 'top' : 'center',
             },
             style,
@@ -215,7 +197,7 @@ export function Input({
         <Text
           accessibilityLiveRegion="polite"
           style={{
-            color: error ? '#B42340' : '#466E68',
+            color: error ? '#202326' : '#202326',
             fontSize: 13,
           }}
         >
@@ -267,45 +249,46 @@ export function Select({
         style={{
           ...glassSurface,
           minHeight: 52,
-          borderRadius: 18,
+          borderRadius: 10,
           borderWidth: 1,
-          borderColor: open ? '#145C58' : 'rgba(255,255,255,0.96)',
+          borderColor: open ? '#202326' : '#E5E7EB',
           paddingHorizontal: 16,
           paddingVertical: 8,
           flexDirection: 'row',
           alignItems: 'center',
           gap: 12,
-          backgroundColor: open
-            ? 'rgba(20,92,88,0.12)'
-            : 'rgba(255,255,255,0.20)',
+          backgroundColor: open ? '#E5E7EB' : '#FFFFFF',
           opacity: disabled ? 0.5 : undefined,
         }}
       >
         <GlassRim radius={18} />
         <View style={{ flex: 1, gap: 3 }}>
-          <Text style={{ fontSize: 12, color: '#466E68' }}>{label}</Text>
+          <Text style={{ fontSize: 12, color: '#202326' }}>{label}</Text>
           <Text
             style={{
               fontSize: 16,
               fontWeight: '500',
-              color: selected ? '#104C49' : '#648C83',
+              color: selected ? '#202326' : '#202326',
             }}
           >
             {selected?.label ?? placeholder}
           </Text>
         </View>
-        <Text accessible={false} style={{ color: '#104C49', fontSize: 18 }}>
-          {open ? '−' : '⌄'}
-        </Text>
+        <Ionicons
+          accessible={false}
+          name={open ? 'chevron-up' : 'chevron-down'}
+          size={20}
+          color="#202326"
+        />
       </Pressable>
       {open && !disabled && (
         <GlassReveal>
           <View
             style={{
               borderWidth: 1,
-              borderColor: 'rgba(20,92,88,0.24)',
-              borderRadius: 18,
-              backgroundColor: '#F7F9F5',
+              borderColor: '#E5E7EB',
+              borderRadius: 10,
+              backgroundColor: '#FFFFFF',
               padding: 8,
               gap: 8,
             }}
@@ -325,7 +308,7 @@ export function Select({
               style={{ maxHeight: 240 }}
             >
               {visible.length === 0 && (
-                <Text style={{ padding: 16, color: '#466E68' }}>
+                <Text style={{ padding: 16, color: '#202326' }}>
                   No options found.
                 </Text>
               )}
@@ -349,27 +332,25 @@ export function Select({
                     gap: 12,
                     alignItems: 'center',
                     backgroundColor:
-                      option.value === value
-                        ? 'rgba(20,92,88,0.24)'
-                        : 'transparent',
+                      option.value === value ? '#FFCC25' : 'transparent',
                   }}
                 >
-                  <Text style={{ flex: 1, color: '#104C49', fontSize: 16 }}>
+                  <Text style={{ flex: 1, color: '#202326', fontSize: 16 }}>
                     {option.label}
                   </Text>
                   {option.value === value && (
-                    <Text
+                    <Ionicons
                       accessible={false}
-                      style={{ color: '#104C49', fontWeight: '700' }}
-                    >
-                      ✓
-                    </Text>
+                      name="checkmark"
+                      size={20}
+                      color="#202326"
+                    />
                   )}
                 </Pressable>
               ))}
             </ScrollView>
             {!!maxVisibleOptions && visible.length > maxVisibleOptions && (
-              <Text style={{ padding: 8, color: '#466E68' }}>
+              <Text style={{ padding: 8, color: '#202326' }}>
                 Showing the first {maxVisibleOptions} matches. Type to narrow
                 your search.
               </Text>
@@ -386,7 +367,7 @@ export function Select({
   );
 }
 export function Loading() {
-  return <ActivityIndicator accessibilityLabel="Loading" color="#145C58" />;
+  return <ActivityIndicator accessibilityLabel="Loading" color="#202326" />;
 }
 export function EmptyState({
   title,

@@ -1,0 +1,46 @@
+{
+  "health": {
+    "status": "UP"
+  },
+  "jarSha256": "55924910a95cf6c84e6982725a20d362bbad13127510d59bce28ef05e33d3cdf",
+  "backendCounts": {
+    "surefire": {
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "failsafe": {
+      "tests": 90,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "total": {
+      "tests": 94,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    }
+  },
+  "preservation": {
+    "bookings": true,
+    "quotations": true,
+    "reservations": true,
+    "migration_versions": [
+      "1",
+      "2",
+      "3",
+      "4",
+      "5",
+      "6",
+      "7",
+      "8",
+      "9",
+      "10",
+      "11",
+      "12"
+    ],
+    "migrations_successful": true
+  }
+}

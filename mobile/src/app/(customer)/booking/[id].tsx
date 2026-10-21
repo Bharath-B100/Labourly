@@ -19,11 +19,11 @@ import {
 } from '../../../api/quotations';
 
 const STATUS_COLOR: Record<string, string> = {
-  PENDING: '#f59e0b',
-  CONFIRMED: '#315CAB',
-  IN_PROGRESS: '#6C40A8',
-  COMPLETED: '#16734A',
-  CANCELLED: '#B42340',
+  PENDING: '#FFCC25',
+  CONFIRMED: '#202326',
+  IN_PROGRESS: '#202326',
+  COMPLETED: '#202326',
+  CANCELLED: '#202326',
 };
 
 const PRICING_LABEL: Record<string, string> = {
@@ -105,7 +105,7 @@ export default function BookingDetailsScreen() {
   if (loading && !booking) {
     return (
       <SafeAreaView className="flex-1 bg-canvas items-center justify-center">
-        <ActivityIndicator size="large" color="#145C58" />
+        <ActivityIndicator size="large" color="#202326" />
       </SafeAreaView>
     );
   }
@@ -113,12 +113,12 @@ export default function BookingDetailsScreen() {
   if (error || !booking) {
     return (
       <SafeAreaView className="flex-1 bg-canvas items-center justify-center p-6">
-        <Text className="text-red-700 text-center">{error || 'Not found'}</Text>
+        <Text className="text-ink text-center">{error || 'Not found'}</Text>
       </SafeAreaView>
     );
   }
 
-  const color = STATUS_COLOR[booking.status] ?? '#466E68';
+  const color = STATUS_COLOR[booking.status] ?? '#202326';
   const starts = new Date(booking.startsAt).toLocaleDateString('en-IN', {
     day: 'numeric',
     month: 'short',
@@ -156,7 +156,7 @@ export default function BookingDetailsScreen() {
 
           <Text className="text-muted text-xs font-semibold mb-1">WORKER</Text>
           <View className="flex-row items-center mb-4">
-            <Ionicons name="person-circle-outline" size={24} color="#466E68" />
+            <Ionicons name="person-circle-outline" size={24} color="#202326" />
             <Text className="text-ink font-semibold text-base ml-2">
               {booking.workerName}
             </Text>
@@ -164,7 +164,7 @@ export default function BookingDetailsScreen() {
 
           <Text className="text-muted text-xs font-semibold mb-1">TERMS</Text>
           <View className="bg-tinted rounded-xl p-3 mb-4 flex-row items-center">
-            <Ionicons name="cash-outline" size={24} color="#145C58" />
+            <Ionicons name="cash-outline" size={24} color="#202326" />
             <View className="ml-3">
               <Text className="text-accent font-bold text-xl">
                 ₹{Number(booking.amount).toLocaleString('en-IN')}
@@ -179,7 +179,7 @@ export default function BookingDetailsScreen() {
             SCHEDULE
           </Text>
           <View className="bg-surface rounded-xl p-3 border border-outline flex-row items-center">
-            <Ionicons name="calendar-outline" size={20} color="#466E68" />
+            <Ionicons name="calendar-outline" size={20} color="#202326" />
             <View className="ml-3">
               <Text className="text-ink font-semibold">
                 {starts} – {ends}
@@ -189,8 +189,8 @@ export default function BookingDetailsScreen() {
         </View>
 
         {booking.status === 'CANCELLED' && (
-          <View className="bg-surface rounded-2xl border border-red-400/30 p-4 mb-4 gap-2">
-            <Text className="text-red-700 font-bold text-lg">
+          <View className="bg-surface rounded-2xl border border-outline/30 p-4 mb-4 gap-2">
+            <Text className="text-ink font-bold text-lg">
               Booking cancelled
             </Text>
             <Text className="font-semibold text-ink">Cancellation reason</Text>
@@ -225,8 +225,8 @@ export default function BookingDetailsScreen() {
         )}
 
         {showCancel && (
-          <View className="bg-surface rounded-2xl border border-red-400/30 p-4 mb-6 shadow-sm">
-            <Text className="text-red-700 font-bold text-base mb-2">
+          <View className="bg-surface rounded-2xl border border-outline/30 p-4 mb-6 shadow-sm">
+            <Text className="text-ink font-bold text-base mb-2">
               Cancel Booking
             </Text>
             <Text className="text-muted text-sm mb-3">
@@ -234,7 +234,7 @@ export default function BookingDetailsScreen() {
               the booking will be terminated.
             </Text>
             <TextInput
-              placeholderTextColor="#466E68"
+              placeholderTextColor="#202326"
               className="border border-outline rounded-xl px-3 py-2.5 text-ink mb-4 h-20"
               accessibilityLabel="Reason for cancellation"
               placeholder="Reason for cancellation..."

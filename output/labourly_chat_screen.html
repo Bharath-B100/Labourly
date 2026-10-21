@@ -1,0 +1,813 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Labourly - iOS Chat Screen Specification & Mockup</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --safety-yellow: #FFCC25;
+      --charcoal-black: #202326;
+      --pure-white: #FFFFFF;
+      --concrete-grey: #E5E7EB;
+      --bg-canvas: #0F1113;
+      --card-bg: #1A1D20;
+      --border-color: #2D3136;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background-color: var(--bg-canvas);
+      color: #E2E8F0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 40px 20px 60px;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 32px;
+      max-width: 760px;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      border-radius: 9999px;
+      background-color: rgba(255, 204, 37, 0.12);
+      border: 1px solid rgba(255, 204, 37, 0.35);
+      color: var(--safety-yellow);
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      margin-bottom: 14px;
+    }
+
+    h1 {
+      font-size: 32px;
+      font-weight: 800;
+      color: #FFFFFF;
+      letter-spacing: -0.5px;
+      margin-bottom: 10px;
+    }
+
+    .subtitle {
+      font-size: 16px;
+      color: #94A3B8;
+      line-height: 1.5;
+    }
+
+    /* Palette Bar */
+    .palette-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 16px;
+      margin-bottom: 36px;
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 16px 24px;
+    }
+
+    .palette-chip {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: #121417;
+      border: 1px solid #282C31;
+      padding: 8px 14px;
+      border-radius: 10px;
+    }
+
+    .color-swatch {
+      width: 28px;
+      height: 28px;
+      border-radius: 6px;
+      box-shadow: inset 0 0 0 1px rgba(0,0,0,0.15);
+    }
+
+    .color-info {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .color-name {
+      font-size: 11px;
+      font-weight: 600;
+      color: #94A3B8;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+    }
+
+    .color-hex {
+      font-size: 14px;
+      font-weight: 700;
+      font-family: monospace;
+      color: #F8FAFC;
+    }
+
+    /* Showcase Layout */
+    .showcase-grid {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 40px;
+      max-width: 1100px;
+      width: 100%;
+    }
+
+    .device-card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 24px;
+      padding: 24px;
+      box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.6);
+    }
+
+    .device-card-header {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .device-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: #FFFFFF;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .device-tag {
+      font-size: 11px;
+      padding: 3px 8px;
+      border-radius: 6px;
+      font-weight: 600;
+      background: #23272D;
+      color: #94A3B8;
+    }
+
+    /* iPhone Frame */
+    .iphone-frame {
+      width: 390px;
+      height: 844px;
+      background-color: var(--pure-white);
+      border-radius: 50px;
+      position: relative;
+      box-shadow: 
+        0 0 0 4px #26292E,
+        0 0 0 9px #16181B,
+        0 25px 50px -12px rgba(0, 0, 0, 0.85);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .master-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      border-radius: 46px;
+    }
+
+    /* Live Interactive Chat Canvas */
+    .ios-screen {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      background-color: var(--pure-white);
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Header Bar */
+    .chat-header-container {
+      background-color: var(--pure-white);
+      border-bottom: 1px solid rgba(229, 231, 235, 0.8);
+      z-index: 30;
+    }
+
+    .status-bar {
+      height: 44px;
+      padding: 12px 28px 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--charcoal-black);
+    }
+
+    .status-icons {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .nav-bar {
+      height: 54px;
+      padding: 0 16px 8px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .back-btn {
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      cursor: pointer;
+      color: var(--charcoal-black);
+    }
+
+    .avatar-wrapper {
+      position: relative;
+      width: 38px;
+      height: 38px;
+    }
+
+    .avatar-circle {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: #D1D5DB;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .avatar-circle svg {
+      width: 100%;
+      height: 100%;
+    }
+
+    .worker-meta {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .worker-name {
+      font-size: 16px;
+      font-weight: 800;
+      color: var(--charcoal-black);
+      letter-spacing: -0.2px;
+    }
+
+    .status-row {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .online-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background-color: var(--safety-yellow);
+    }
+
+    .status-text {
+      font-size: 12px;
+      font-weight: 600;
+      color: #64748B;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .icon-action-btn {
+      width: 34px;
+      height: 34px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      cursor: pointer;
+      color: var(--charcoal-black);
+      transition: background 0.15s ease;
+    }
+
+    .icon-action-btn:hover {
+      background: var(--concrete-grey);
+    }
+
+    /* Chat Feed */
+    .chat-feed {
+      flex: 1;
+      background-color: var(--concrete-grey);
+      overflow-y: auto;
+      padding: 16px 16px 120px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .chat-feed::-webkit-scrollbar {
+      width: 4px;
+    }
+    .chat-feed::-webkit-scrollbar-thumb {
+      background: #CBD5E1;
+      border-radius: 4px;
+    }
+
+    /* Messages */
+    .msg-group {
+      display: flex;
+      flex-direction: column;
+      max-width: 82%;
+    }
+
+    .msg-group.outgoing {
+      align-self: flex-end;
+      align-items: flex-end;
+    }
+
+    .msg-group.incoming {
+      align-self: flex-start;
+      align-items: flex-start;
+    }
+
+    .bubble {
+      padding: 12px 16px;
+      font-size: 14.5px;
+      line-height: 1.45;
+      position: relative;
+    }
+
+    .bubble.outgoing {
+      background-color: var(--charcoal-black);
+      color: var(--pure-white);
+      border-radius: 18px 18px 4px 18px;
+    }
+
+    .bubble.incoming {
+      background-color: var(--pure-white);
+      color: var(--charcoal-black);
+      border-radius: 18px 18px 18px 4px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+    }
+
+    .msg-time {
+      font-size: 11px;
+      margin-top: 4px;
+      padding: 0 4px;
+      color: #64748B;
+    }
+
+    .msg-group.outgoing .msg-time {
+      text-align: right;
+    }
+
+    /* Outgoing Location Card */
+    .map-card {
+      background-color: var(--pure-white);
+      border-radius: 18px 18px 4px 18px;
+      padding: 8px 8px 12px;
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.06);
+      width: 250px;
+    }
+
+    .map-visual {
+      width: 100%;
+      height: 120px;
+      border-radius: 12px;
+      background: #F1F5F9;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .map-caption {
+      margin-top: 10px;
+      padding: 0 4px;
+      font-size: 13.5px;
+      font-weight: 700;
+      color: var(--charcoal-black);
+      line-height: 1.35;
+    }
+
+    /* Footer Container */
+    .chat-footer {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background-color: var(--pure-white);
+      border-top: 1px solid rgba(229, 231, 235, 0.8);
+      padding: 10px 16px 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      z-index: 40;
+    }
+
+    /* Quick Reply Chips */
+    .quick-replies-row {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding-bottom: 2px;
+    }
+
+    .quick-replies-row::-webkit-scrollbar {
+      display: none;
+    }
+
+    .chip-btn {
+      white-space: nowrap;
+      height: 34px;
+      padding: 0 14px;
+      border-radius: 17px;
+      background-color: var(--pure-white);
+      border: 1.5px solid var(--charcoal-black);
+      color: var(--charcoal-black);
+      font-size: 13px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .chip-btn:hover {
+      background-color: var(--charcoal-black);
+      color: var(--pure-white);
+    }
+
+    /* Message Input Row */
+    .input-bar {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .attach-btn {
+      width: 36px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--charcoal-black);
+      cursor: pointer;
+    }
+
+    .msg-input-field {
+      flex: 1;
+      height: 42px;
+      background-color: var(--concrete-grey);
+      border-radius: 21px;
+      border: none;
+      padding: 0 16px;
+      font-family: inherit;
+      font-size: 14.5px;
+      color: var(--charcoal-black);
+      outline: none;
+    }
+
+    .msg-input-field::placeholder {
+      color: #64748B;
+    }
+
+    .send-btn {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background-color: var(--safety-yellow);
+      color: var(--charcoal-black);
+      border: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 18px;
+      font-weight: 800;
+      box-shadow: 0 3px 8px rgba(255, 204, 37, 0.4);
+      transition: all 0.15s ease;
+    }
+
+    .send-btn:hover {
+      transform: scale(1.05);
+    }
+
+    .send-btn:active {
+      transform: scale(0.95);
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="badge">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 9h12v2H6V9zm8 5H6v-2h8v2zm4-6H6V6h12v2z"/>
+      </svg>
+      Labourly Design System • 4 Colors Strictly
+    </div>
+    <h1>Chat Screen</h1>
+    <p class="subtitle">iOS (390×844px) client-to-contractor direct messaging thread with location card, quick reply chips, and status verification.</p>
+  </header>
+
+  <!-- Palette Bar -->
+  <div class="palette-container">
+    <div class="palette-chip">
+      <div class="color-swatch" style="background-color: #FFCC25;"></div>
+      <div class="color-info">
+        <span class="color-name">Safety Yellow</span>
+        <span class="color-hex">#FFCC25</span>
+      </div>
+    </div>
+    <div class="palette-chip">
+      <div class="color-swatch" style="background-color: #202326;"></div>
+      <div class="color-info">
+        <span class="color-name">Charcoal Black</span>
+        <span class="color-hex">#202326</span>
+      </div>
+    </div>
+    <div class="palette-chip">
+      <div class="color-swatch" style="background-color: #FFFFFF; box-shadow: inset 0 0 0 1px #cbd5e1;"></div>
+      <div class="color-info">
+        <span class="color-name">Pure White</span>
+        <span class="color-hex">#FFFFFF</span>
+      </div>
+    </div>
+    <div class="palette-chip">
+      <div class="color-swatch" style="background-color: #E5E7EB;"></div>
+      <div class="color-info">
+        <span class="color-name">Concrete Grey</span>
+        <span class="color-hex">#E5E7EB</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Showcase Grid -->
+  <div class="showcase-grid">
+
+    <!-- Card 1: Master Visual Render -->
+    <div class="device-card">
+      <div class="device-card-header">
+        <div class="device-title">
+          <span>Master Visual Render</span>
+        </div>
+        <span class="device-tag">8K Mockup</span>
+      </div>
+      <div class="iphone-frame">
+        <img class="master-image" src="../Labourly_iOS_Chat_Screen.jpg" alt="Labourly iOS Chat Screen Render" onerror="this.onerror=null; this.src='../mobile/assets/labourly/chat-screen-mockup.jpg';">
+      </div>
+    </div>
+
+    <!-- Card 2: Interactive Prototype -->
+    <div class="device-card">
+      <div class="device-card-header">
+        <div class="device-title">
+          <span>Interactive Prototype</span>
+        </div>
+        <span class="device-tag">Live Dynamic DOM</span>
+      </div>
+      <div class="iphone-frame">
+        <div class="ios-screen">
+
+          <!-- Header Container -->
+          <div class="chat-header-container">
+            <!-- Status Bar -->
+            <div class="status-bar">
+              <span>9:41</span>
+              <div class="status-icons">
+                <svg width="17" height="12" viewBox="0 0 17 12" fill="currentColor">
+                  <rect x="0" y="8" width="3" height="4" rx="0.5"/>
+                  <rect x="4.5" y="5.5" width="3" height="6.5" rx="0.5"/>
+                  <rect x="9" y="3" width="3" height="9" rx="0.5"/>
+                  <rect x="13.5" y="0" width="3" height="12" rx="0.5"/>
+                </svg>
+                <svg width="16" height="12" viewBox="0 0 16 12" fill="currentColor">
+                  <path d="M8 2.8C5.2 2.8 2.7 3.9 1 5.6L0 4.5C2 2.5 4.8 1.2 8 1.2C11.2 1.2 14 2.5 16 4.5L15 5.6C13.3 3.9 10.8 2.8 8 2.8ZM8 6.4C6.3 6.4 4.8 7.1 3.7 8.2L2.7 7.1C4.1 5.7 6 4.8 8 4.8C10 4.8 11.9 5.7 13.3 7.1L12.3 8.2C11.2 7.1 9.7 6.4 8 6.4ZM8 10C7.2 10 6.5 10.3 6 10.8L8 12.8L10 10.8C9.5 10.3 8.8 10 8 10Z"/>
+                </svg>
+                <svg width="25" height="12" viewBox="0 0 25 12" fill="currentColor">
+                  <rect x="0.5" y="0.5" width="21" height="11" rx="3.5" fill="none" stroke="currentColor"/>
+                  <rect x="2" y="2" width="16" height="8" rx="2"/>
+                  <path d="M23 4.5v3c.6-.3 1-.8 1-1.5s-.4-1.2-1-1.5z"/>
+                </svg>
+              </div>
+            </div>
+
+            <!-- Navigation Bar -->
+            <div class="nav-bar">
+              <div class="header-left">
+                <div class="back-btn" onclick="alert('Back to chats')">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="15 18 9 12 15 6"></polyline>
+                  </svg>
+                </div>
+                <div class="avatar-wrapper">
+                  <div class="avatar-circle">
+                    <!-- SVG Avatar with Yellow Hard Hat -->
+                    <svg viewBox="0 0 100 100" width="38" height="38">
+                      <rect width="100" height="100" fill="#E5E7EB"/>
+                      <circle cx="50" cy="50" r="22" fill="#8D5B4C"/>
+                      <!-- Hard Hat in Safety Yellow -->
+                      <path d="M25 45 C25 24 75 24 75 45 Z" fill="#FFCC25"/>
+                      <rect x="20" y="43" width="60" height="6" rx="3" fill="#FFCC25"/>
+                      <path d="M47 26 h6 v18 h-6 z" fill="#202326"/>
+                      <!-- Body -->
+                      <path d="M20 95 C20 72 80 72 80 95 Z" fill="#202326"/>
+                    </svg>
+                  </div>
+                </div>
+                <div class="worker-meta">
+                  <div class="worker-name">Ramesh Kumar</div>
+                  <div class="status-row">
+                    <span class="online-dot"></span>
+                    <span class="status-text">Online</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Header Action Icons -->
+              <div class="header-actions">
+                <div class="icon-action-btn" title="Phone Call" onclick="alert('Calling Ramesh Kumar (+91 98765 43210)...')">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+                  </svg>
+                </div>
+                <div class="icon-action-btn" title="Video Call" onclick="alert('Starting video consultation with Ramesh Kumar...')">
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <polygon points="23 7 16 12 23 17 23 7"></polygon>
+                    <rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect>
+                  </svg>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Chat Feed on #E5E7EB Background -->
+          <div class="chat-feed" id="chatFeed">
+
+            <!-- Message 1: Outgoing #202326 Bubble -->
+            <div class="msg-group outgoing">
+              <div class="bubble outgoing">
+                Hi! I need 3 masons for a residential project starting next week.
+              </div>
+              <div class="msg-time">10:20 AM</div>
+            </div>
+
+            <!-- Message 2: Incoming #FFFFFF Bubble -->
+            <div class="msg-group incoming">
+              <div class="bubble incoming">
+                Sure sir, I am available. Can you share the location and duration?
+              </div>
+              <div class="msg-time">10:22 AM</div>
+            </div>
+
+            <!-- Message 3: Outgoing Location Card with Map -->
+            <div class="msg-group outgoing">
+              <div class="map-card">
+                <div class="map-visual">
+                  <!-- Minimalist Greyscale Map Vector -->
+                  <svg width="100%" height="100%" viewBox="0 0 250 120">
+                    <rect width="250" height="120" fill="#E2E8F0"/>
+                    <!-- Road grid lines -->
+                    <path d="M-10,30 Q60,35 120,20 T260,30" stroke="#CBD5E1" stroke-width="8" fill="none"/>
+                    <path d="M-10,75 Q80,60 140,85 T260,70" stroke="#CBD5E1" stroke-width="12" fill="none"/>
+                    <path d="M40,-10 L30,130" stroke="#CBD5E1" stroke-width="6" fill="none"/>
+                    <path d="M110,-10 L130,130" stroke="#CBD5E1" stroke-width="10" fill="none"/>
+                    <path d="M190,-10 L170,130" stroke="#CBD5E1" stroke-width="7" fill="none"/>
+                    <path d="M80,30 L160,85" stroke="#FFFFFF" stroke-width="5" fill="none"/>
+                    
+                    <!-- Safety Yellow Pin -->
+                    <g transform="translate(125, 45)">
+                      <path d="M0,0 C-7,-12 -12,-20 -12,-28 A12,12 0 0,1 12,-28 C12,-20 7,-12 0,0 Z" fill="#FFCC25"/>
+                      <circle cx="0" cy="-28" r="5" fill="#202326"/>
+                    </g>
+                  </svg>
+                </div>
+                <div class="map-caption">
+                  Bengaluru, Karnataka • 3 workers • 2 weeks
+                </div>
+              </div>
+              <div class="msg-time">10:24 AM</div>
+            </div>
+
+            <!-- Message 4: Incoming #FFFFFF Bubble -->
+            <div class="msg-group incoming">
+              <div class="bubble incoming">
+                Looks good. I can start from next Monday.
+              </div>
+              <div class="msg-time">10:25 AM</div>
+            </div>
+
+          </div>
+
+          <!-- Sticky Footer -->
+          <div class="chat-footer">
+            <!-- Quick-reply Chips -->
+            <div class="quick-replies-row">
+              <button type="button" class="chip-btn" onclick="sendQuickReply('Are you available?')">
+                Are you available?
+              </button>
+              <button type="button" class="chip-btn" onclick="sendQuickReply('What is your rate?')">
+                What is your rate?
+              </button>
+            </div>
+
+            <!-- Input Bar -->
+            <div class="input-bar">
+              <div class="attach-btn" title="Add Attachment" onclick="alert('Select site photos, plans, or location...')">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"></path>
+                </svg>
+              </div>
+              <input type="text" id="chatInput" class="msg-input-field" placeholder="Type a message..." onkeypress="handleEnter(event)">
+              <button type="button" class="send-btn" onclick="sendMessage()">
+                →
+              </button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    function handleEnter(e) {
+      if (e.key === 'Enter') {
+        sendMessage();
+      }
+    }
+
+    function sendQuickReply(text) {
+      const input = document.getElementById('chatInput');
+      input.value = text;
+      sendMessage();
+    }
+
+    function sendMessage() {
+      const input = document.getElementById('chatInput');
+      const text = input.value.trim();
+      if (!text) return;
+
+      const feed = document.getElementById('chatFeed');
+      const now = new Date();
+      const timeStr = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+      const msgDiv = document.createElement('div');
+      msgDiv.className = 'msg-group outgoing';
+      msgDiv.innerHTML = `
+        <div class="bubble outgoing">${escapeHTML(text)}</div>
+        <div class="msg-time">${timeStr}</div>
+      `;
+
+      feed.appendChild(msgDiv);
+      input.value = '';
+      feed.scrollTop = feed.scrollHeight;
+    }
+
+    function escapeHTML(str) {
+      return str.replace(/[&<>'"]/g, 
+        tag => ({
+          '&': '&amp;',
+          '<': '&lt;',
+          '>': '&gt;',
+          "'": '&#39;',
+          '"': '&quot;'
+        }[tag] || tag)
+      );
+    }
+  </script>
+</body>
+</html>

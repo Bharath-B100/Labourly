@@ -1,0 +1,100 @@
+BEGIN
+ version |               description               |  checksum   | success 
+---------+-----------------------------------------+-------------+---------
+ 1       | initial schema                          | -1307860250 | t
+ 2       | booking invariants                      |  -751598349 | t
+ 3       | serialize worker reservations           | -1699428378 | t
+ 4       | authentication and onboarding           | -1360545391 | t
+ 5       | secure sessions and complete onboarding |   238203645 | t
+ 6       | marketplace discovery and matching      |  1172082018 | t
+ 7       | quotations and hiring                   |  -451308708 | t
+ 8       | booking cancellation                    |    86830775 | t
+ 9       | quotation and booking history           |  -583670085 | t
+ 10      | canonical locations and worker coverage |  1547405469 | t
+ 11      | draft requirement editing               |   624233715 | t
+(11 rows)
+
+                  id                  |  status   | amount  |   pricing_basis    |         starts_at          |          ends_at           |         cancelled_at          |             cancelled_by             | reason_present |              worker_id               | reserved | quote_status |            requirement_id            |              title              | requirement_status 
+--------------------------------------+-----------+---------+--------------------+----------------------------+----------------------------+-------------------------------+--------------------------------------+----------------+--------------------------------------+----------+--------------+--------------------------------------+---------------------------------+--------------------
+ 3987a802-1a5a-460e-884a-5c8c6832fd31 | CONFIRMED | 2500.00 | PER_WORKER_PER_DAY | 2026-10-08 09:43:10.432+00 | 2026-10-10 09:43:10.432+00 |                               |                                      | f              | d9ae550f-6e15-4447-8b87-8366841e638b | t        | ACCEPTED     | 98f25557-4b7a-4785-90ec-f74b419e8148 | Phase 4 acceptance carpenter    | CLOSED
+ 4792c5c5-ceaf-4735-af0d-d852086bcace | CONFIRMED | 4500.00 | FIXED_TOTAL        | 2026-10-15 04:15:45+00     | 2026-10-17 04:15:45+00     |                               |                                      | f              | d9ae550f-6e15-4447-8b87-8366841e638b | t        | ACCEPTED     | 70543e73-88e1-41c9-aa37-fcb545c5e6aa | Phase 4 Competing Quotes Test 2 | CLOSED
+ 6c64fd7d-b647-4661-a197-705939117ec8 | CANCELLED | 1000.00 | FIXED_TOTAL        | 2026-10-22 07:17:41.086+00 | 2026-10-23 07:17:41.086+00 | 2026-10-08 08:18:22.022011+00 | 0e0caaec-ebdf-4c76-bf45-a276eda4d897 | t              | 60eed3ca-ba59-48a7-9268-a4e60eae2659 | f        | ACCEPTED     | 9ba3f0a3-cf91-49ce-86d8-ef7aed835b33 | Phase 4 cancellation Test       | CLOSED
+(3 rows)
+
+            requirement_id            |              worker_id               |  status  | amount  | pricing_basis 
+--------------------------------------+--------------------------------------+----------+---------+---------------
+ 70543e73-88e1-41c9-aa37-fcb545c5e6aa | d9ae550f-6e15-4447-8b87-8366841e638b | ACCEPTED | 4500.00 | FIXED_TOTAL
+ 70543e73-88e1-41c9-aa37-fcb545c5e6aa | 60eed3ca-ba59-48a7-9268-a4e60eae2659 | REJECTED | 4000.00 | FIXED_TOTAL
+ 9ba3f0a3-cf91-49ce-86d8-ef7aed835b33 | 60eed3ca-ba59-48a7-9268-a4e60eae2659 | ACCEPTED | 1000.00 | FIXED_TOTAL
+(3 rows)
+
+             conname             |                                                                                                                                                                definition                                                                                                                                                                
+---------------------------------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ booking_workers_booking_id_fkey | FOREIGN KEY (booking_id) REFERENCES bookings(id)
+ booking_workers_check           | CHECK ((ends_at > starts_at))
+ booking_workers_pkey            | PRIMARY KEY (booking_id, worker_id)
+ booking_workers_worker_id_fkey  | FOREIGN KEY (worker_id) REFERENCES worker_profiles(user_id)
+ bookings_cancelled_by_fkey      | FOREIGN KEY (cancelled_by) REFERENCES users(id)
+ bookings_check                  | CHECK ((ends_at > starts_at))
+ bookings_check1                 | CHECK ((num_nonnulls(request_id, quotation_id) = 1))
+ bookings_pkey                   | PRIMARY KEY (id)
+ bookings_quotation_id_fkey      | FOREIGN KEY (quotation_id) REFERENCES quotations(id)
+ bookings_request_id_fkey        | FOREIGN KEY (request_id) REFERENCES booking_requests(id)
+ bookings_request_id_key         | UNIQUE (request_id)
+ bookings_status_check           | CHECK (((status)::text = ANY ((ARRAY['PENDING'::character varying, 'CONFIRMED'::character varying, 'IN_PROGRESS'::character varying, 'COMPLETED'::character varying, 'CANCELLED'::character varying])::text[])))
+ cancellation_audit_complete     | CHECK ((((cancelled_by IS NULL) AND (cancelled_at IS NULL) AND (cancel_reason IS NULL)) OR (((status)::text = 'CANCELLED'::text) AND (cancelled_by IS NOT NULL) AND (cancelled_at IS NOT NULL) AND (cancel_reason IS NOT NULL) AND ((length(TRIM(BOTH FROM cancel_reason)) >= 1) AND (length(TRIM(BOTH FROM cancel_reason)) <= 2000)))))
+ quotation_duration_bound        | CHECK ((duration_days <= 3650))
+ quotation_note_bound            | CHECK (((worker_note IS NULL) OR (length(worker_note) <= 2000)))
+ quotation_positive_amount       | CHECK ((amount > (0)::numeric))
+ quotations_amount_check         | CHECK ((amount >= (0)::numeric))
+ quotations_duration_days_check  | CHECK ((duration_days > 0))
+ quotations_pkey                 | PRIMARY KEY (id)
+ quotations_pricing_basis_check  | CHECK (((pricing_basis)::text = ANY ((ARRAY['FIXED_TOTAL'::character varying, 'PER_DAY'::character varying, 'PER_WORKER_PER_DAY'::character varying])::text[])))
+ quotations_requirement_id_fkey  | FOREIGN KEY (requirement_id) REFERENCES labour_requirements(id)
+ quotations_status_check         | CHECK (((status)::text = ANY ((ARRAY['SUBMITTED'::character varying, 'ACCEPTED'::character varying, 'REJECTED'::character varying, 'WITHDRAWN'::character varying])::text[])))
+ quotations_worker_id_fkey       | FOREIGN KEY (worker_id) REFERENCES worker_profiles(user_id)
+ worker_no_overlapping_bookings  | EXCLUDE USING gist (worker_id WITH =, tstzrange(starts_at, ends_at, '[)'::text) WITH &&) WHERE (reserved)
+(24 rows)
+
+               indexname                |                                                                         indexdef                                                                         
+----------------------------------------+----------------------------------------------------------------------------------------------------------------------------------------------------------
+ bookings_pkey                          | CREATE UNIQUE INDEX bookings_pkey ON public.bookings USING btree (id)
+ bookings_request_id_key                | CREATE UNIQUE INDEX bookings_request_id_key ON public.bookings USING btree (request_id)
+ bookings_status_time_idx               | CREATE INDEX bookings_status_time_idx ON public.bookings USING btree (status, starts_at)
+ booking_one_per_quotation              | CREATE UNIQUE INDEX booking_one_per_quotation ON public.bookings USING btree (quotation_id) WHERE (quotation_id IS NOT NULL)
+ quotations_pkey                        | CREATE UNIQUE INDEX quotations_pkey ON public.quotations USING btree (id)
+ quote_worker_requirement_idx           | CREATE UNIQUE INDEX quote_worker_requirement_idx ON public.quotations USING btree (requirement_id, worker_id) WHERE ((status)::text = 'SUBMITTED'::text)
+ quotation_one_accepted_per_requirement | CREATE UNIQUE INDEX quotation_one_accepted_per_requirement ON public.quotations USING btree (requirement_id) WHERE ((status)::text = 'ACCEPTED'::text)
+(7 rows)
+
+           tgname            | tgenabled 
+-----------------------------+-----------
+ touch_updated_at            | O
+ touch_updated_at            | O
+ guard_booking               | O
+ guard_booking_worker        | O
+ synchronize_booking_workers | O
+ update_quotations_timestamp | O
+ quotation_history           | O
+ booking_commercial_history  | O
+(8 rows)
+
+  entity   | count 
+-----------+-------
+ states    |    36
+ districts |   763
+ cities    |  3781
+(3 rows)
+
+ district_resolution | count 
+---------------------+-------
+ UNRESOLVED          |    27
+ SOURCE_VERIFIED     |  3754
+(2 rows)
+
+ overlap_violations 
+--------------------
+                  0
+(1 row)
+
+COMMIT

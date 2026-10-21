@@ -1,3 +1,4 @@
+import { CustomerCategories } from './CustomerCategories';
 import { glassSurface, GlassRim } from '../components/theme';
 import ServiceAreas from '../location/ServiceAreas';
 import { useState } from 'react';
@@ -34,7 +35,7 @@ function Choice({
       accessibilityState={{ checked: selected }}
       onPress={onPress}
       style={({ pressed }) => ({ opacity: pressed ? 0.75 : 1 })}
-      className={`min-h-12 rounded-xl border p-3 ${selected ? 'border-white bg-surface' : 'border-outline bg-surface'}`}
+      className={`min-h-12 rounded-xl border p-3 ${selected ? 'border-ink bg-sunshine' : 'border-outline bg-surface'}`}
     >
       <Text className="text-base text-ink">
         {selected ? '✓ ' : ''}
@@ -69,14 +70,25 @@ function Field({
 }
 export default function ProfileEditor({
   editing = false,
+  requestedRole,
 }: {
   editing?: boolean;
+  requestedRole?: string;
 }) {
   const session = useSession((state) => state.session);
+  const roles =
+    session?.roles.filter((role) => role === 'CUSTOMER' || role === 'WORKER') ??
+    [];
+  const editRole = requestedRole ?? (roles.length === 1 ? roles[0] : undefined);
   const query = useQuery({
-    queryKey: ['onboarding', session?.userId, editing],
+    queryKey: ['onboarding', session?.userId, editing, editRole],
     queryFn: async () => ({
-      draft: await apiJson<Draft>('/api/v1/onboarding'),
+      draft: await (async () => {
+        if (!editing) return apiJson<Draft>('/api/v1/onboarding');
+        if (!editRole || !roles.includes(editRole as ProfileRole))
+          throw new Error('Choose an authorized profile from its role tab.');
+        return apiJson<Draft>(`/api/v1/profile/${editRole.toLowerCase()}`);
+      })(),
       catalogue: await apiJson<Catalogue>('/api/v1/onboarding/catalogue'),
     }),
     retry: false,
@@ -95,7 +107,7 @@ export default function ProfileEditor({
   if (query.isError)
     return (
       <Screen>
-        <Text accessibilityRole="alert" className="text-red-700">
+        <Text accessibilityRole="alert" className="text-ink">
           Unable to load your saved profile. {query.error.message}
         </Text>
         <Action
@@ -108,7 +120,7 @@ export default function ProfileEditor({
     );
   return (
     <ProfileForm
-      key={`${session?.userId}:${editing}`}
+      key={`${session?.userId}:${editing}:${editRole}`}
       editing={editing}
       initial={query.data.draft}
       catalogue={query.data.catalogue}
@@ -168,6 +180,7 @@ function ProfileForm({
       if (!role) throw new Error('Select a role.');
       const validation = validateStep(data, role, next);
       if (validation) throw new Error(validation);
+      if (editing && !finish) return { next, finish };
       if (finish && editing)
         await apiJson(`/api/v1/profile/${role.toLowerCase()}`, {
           method: 'POST',
@@ -185,7 +198,11 @@ function ProfileForm({
     },
     onSuccess: async ({ next, finish }) => {
       setStep(next);
-      setNotice('Progress saved.');
+      setNotice(
+        editing && !finish
+          ? 'Changes are saved only when you select Save profile.'
+          : 'Progress saved.',
+      );
       if (finish) {
         await useSession.getState().loadSession();
         if (!editing) {
@@ -215,7 +232,7 @@ function ProfileForm({
           onPress={() => selection.mutate('WORKER')}
         />
         {selection.isError && (
-          <Text accessibilityRole="alert" className="text-red-700">
+          <Text accessibilityRole="alert" className="text-ink">
             {selection.error.message}
           </Text>
         )}
@@ -255,7 +272,7 @@ function ProfileForm({
         <View
           style={{
             ...glassSurface,
-            backgroundColor: 'rgba(247,201,72,0.12)',
+            backgroundColor: '#FFCC25',
             borderRadius: 24,
             padding: 20,
             flexDirection: 'row',
@@ -268,12 +285,12 @@ function ProfileForm({
               width: 64,
               height: 64,
               borderRadius: 32,
-              backgroundColor: '#F7C948',
+              backgroundColor: '#FFCC25',
               alignItems: 'center',
               justifyContent: 'center',
             }}
           >
-            <Text style={{ color: '#145C58', fontSize: 24, fontWeight: '700' }}>
+            <Text style={{ color: '#202326', fontSize: 24, fontWeight: '700' }}>
               {(
                 data.fullName.trim() ||
                 session?.fullName ||
@@ -288,15 +305,15 @@ function ProfileForm({
             </Text>
           </View>
           <View style={{ flex: 1, gap: 5 }}>
-            <Text style={{ color: '#145C58', fontSize: 19, fontWeight: '700' }}>
+            <Text style={{ color: '#202326', fontSize: 19, fontWeight: '700' }}>
               {data.fullName.trim() ||
                 session?.fullName ||
                 (role === 'CUSTOMER' ? 'Customer account' : 'Worker account')}
             </Text>
-            <Text style={{ color: '#466E68', fontSize: 14 }}>
+            <Text style={{ color: '#202326', fontSize: 14 }}>
               {session?.phone}
             </Text>
-            <Text style={{ color: '#466E68', fontSize: 12 }}>
+            <Text style={{ color: '#202326', fontSize: 12 }}>
               ✓ Phone verified · {role === 'CUSTOMER' ? 'Customer' : 'Worker'}
             </Text>
           </View>
@@ -330,11 +347,9 @@ function ProfileForm({
                   height: 18,
                   borderRadius: 9,
                   borderWidth: 2,
-                  borderColor: index <= uiStep ? '#FFFFFF' : '#A9D2C3',
-                  backgroundColor:
-                    index <= uiStep ? '#F7C948' : 'rgba(255,255,255,0.35)',
-                  boxShadow:
-                    index <= uiStep ? '0 0 7px rgba(247,201,72,0.65)' : 'none',
+                  borderColor: index <= uiStep ? '#FFFFFF' : '#E5E7EB',
+                  backgroundColor: index <= uiStep ? '#FFCC25' : '#FFFFFF',
+                  boxShadow: index <= uiStep ? '0 0 7px #FFCC25' : 'none',
                 }}
               />
               {index < uiTitles.length - 1 && (
@@ -343,7 +358,7 @@ function ProfileForm({
                     flex: 1,
                     height: 3,
                     borderRadius: 3,
-                    backgroundColor: index < uiStep ? '#F7C948' : '#B4D9CB',
+                    backgroundColor: index < uiStep ? '#FFCC25' : '#E5E7EB',
                   }}
                 />
               )}
@@ -358,7 +373,7 @@ function ProfileForm({
         style={{
           ...glassSurface,
           borderWidth: 1,
-          borderColor: 'rgba(255,255,255,0.96)',
+          borderColor: '#FFFFFF',
           borderRadius: 20,
           padding: 18,
           gap: 14,
@@ -397,14 +412,9 @@ function ProfileForm({
             />
             {role === 'CUSTOMER' ? (
               <>
-                <Select
-                  label="Customer type"
+                <CustomerCategories
                   value={data.customerType}
-                  placeholder="Choose your customer type"
-                  options={catalogue.customerTypes.map((type) => ({
-                    value: type.code,
-                    label: type.name,
-                  }))}
+                  options={catalogue.customerTypes}
                   onChange={(value) => field('customerType', value)}
                 />
                 <Field
@@ -612,12 +622,12 @@ function ProfileForm({
         )}
       </View>
       {save.isError && (
-        <Text accessibilityRole="alert" className="text-red-700">
+        <Text accessibilityRole="alert" className="text-ink">
           {save.error.message}
         </Text>
       )}
       {notice && (
-        <Text accessibilityLiveRegion="polite" className="text-green-700">
+        <Text accessibilityLiveRegion="polite" className="text-ink">
           {notice}
         </Text>
       )}
@@ -630,7 +640,9 @@ function ProfileForm({
                 ? editing
                   ? 'Save profile'
                   : 'Complete profile'
-                : 'Save and continue'
+                : editing
+                  ? 'Continue'
+                  : 'Save and continue'
           }
           loading={save.isPending}
           onPress={() =>

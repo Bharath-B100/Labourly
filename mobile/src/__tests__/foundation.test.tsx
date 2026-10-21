@@ -1,6 +1,7 @@
 import { fireEvent, render, screen } from '@testing-library/react-native';
 import Welcome from '../app/index';
 import { hasRole, homeRoute, useSession, type Session } from '../auth/session';
+jest.mock('@expo/vector-icons', () => ({ Ionicons: 'Ionicons' }));
 const mockPush = jest.fn();
 jest.mock('expo-router', () => ({
   useRouter: () => ({ push: mockPush }),
@@ -27,10 +28,12 @@ beforeEach(() => {
   useSession.setState({ session: null, isLoading: false, error: null });
   mockPush.mockClear();
 });
-test('welcome renders and Get Started opens login', async () => {
+test('intro completes before opening OTP login', async () => {
   await render(<Welcome />);
-  expect(screen.getByText('Ready to build?')).toBeTruthy();
-  await fireEvent.press(screen.getByRole('button', { name: 'Get Started' }));
+  expect(screen.getByText('Reliable people.\nStronger projects.')).toBeTruthy();
+  await fireEvent.press(screen.getByRole('button', { name: 'Continue' }));
+  await fireEvent.press(screen.getByRole('button', { name: 'Continue' }));
+  await fireEvent.press(screen.getByRole('button', { name: 'Get started' }));
   expect(mockPush).toHaveBeenCalledWith('/auth/login');
 });
 test('role guards fail closed', () => {
@@ -51,7 +54,7 @@ test('routes new and partial accounts to onboarding; completed accounts to corre
   ).toBe('/auth/onboarding');
   expect(
     homeRoute({ ...base, roles: ['CUSTOMER'], onboardingState: 'COMPLETED' }),
-  ).toBe('/(customer)/discover');
+  ).toBe('/(customer)/home');
   expect(
     homeRoute({ ...base, roles: ['WORKER'], onboardingState: 'COMPLETED' }),
   ).toBe('/(worker)/opportunities');

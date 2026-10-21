@@ -46,18 +46,29 @@ export default function RequirementsScreen() {
         className="flex-1"
         contentContainerStyle={{ padding: 20, paddingBottom: 32 }}
       >
+        <View style={{ gap: 12, marginBottom: 20 }}>
+          <Action
+            label="Post a requirement"
+            onPress={() => router.push('/(customer)/post')}
+          />
+          <Action
+            label="My bookings"
+            variant="secondary"
+            onPress={() => router.push('/(customer)/bookings')}
+          />
+        </View>
         {!loading && !error && requirements.length > 0 && (
-          <Text style={{ fontSize: 14, color: '#145C58', marginBottom: 16 }}>
+          <Text style={{ fontSize: 14, color: '#202326', marginBottom: 16 }}>
             {requirements.length} requirements
           </Text>
         )}
         {error ? (
           <View className="items-center mt-8">
-            <Text className="text-red-700 text-center mb-4">{error}</Text>
+            <Text className="text-ink text-center mb-4">{error}</Text>
             <Action label="Retry" variant="secondary" onPress={fetchReqs} />
           </View>
         ) : loading ? (
-          <ActivityIndicator className="mt-8" size="large" color="#145C58" />
+          <ActivityIndicator className="mt-8" size="large" color="#202326" />
         ) : requirements.length === 0 ? (
           <View className="items-center mt-8 p-6 bg-surface rounded-xl border border-outline">
             <Text className="text-ink text-lg font-semibold mb-2">

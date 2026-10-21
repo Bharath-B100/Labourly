@@ -94,13 +94,41 @@ public class ProfileService {
     if (role == null) return new Draft(null, user.getOnboardingState(), 0, empty());
     var rows =
         sql.query(
-            "SELECT step,data::text FROM onboarding_drafts WHERE user_id=?",
+            "SELECT role,step,data::text FROM onboarding_drafts WHERE user_id=?",
             (rs, n) ->
-                new Draft(role, user.getOnboardingState(), rs.getInt(1), decode(rs.getString(2))),
+                new Draft(
+                    rs.getString(1),
+                    user.getOnboardingState(),
+                    rs.getInt(2),
+                    decode(rs.getString(3))),
             id);
-    return rows.isEmpty()
-        ? new Draft(role, user.getOnboardingState(), 0, empty())
-        : rows.getFirst();
+    if (!rows.isEmpty()) {
+      requireRole(user, rows.getFirst().role());
+      return rows.getFirst();
+    }
+    if (user.getRoles().stream()
+            .filter(r -> Set.of("CUSTOMER", "WORKER").contains(r.getCode()))
+            .count()
+        > 1) throw new IllegalArgumentException("Select an explicit profile role");
+    return new Draft(role, user.getOnboardingState(), 0, empty());
+  }
+
+  /** Completed profiles are read from role-specific records, never the shared onboarding draft. */
+  @Transactional(readOnly = true)
+  public Draft profile(UUID id, String role) {
+    if (!Set.of("CUSTOMER", "WORKER").contains(role))
+      throw new IllegalArgumentException("Invalid profile role");
+    User user = user(id);
+    requireRole(user, role);
+    String query =
+        role.equals("CUSTOMER")
+            ? "SELECT jsonb_build_object('fullName',u.display_name,'customerType',p.customer_type,'companyName',p.company_name,'state',p.location->>'state','district',p.location->>'district','city',p.location->>'city','postalCode',p.location->>'postalCode')::text FROM customer_profiles p JOIN users u ON u.id=p.user_id WHERE p.user_id=?"
+            : "SELECT jsonb_build_object('fullName',u.display_name,'workerType',p.worker_type,'profilePhotoUrl',p.profile_photo_url,'tradeId',p.primary_trade_id,'experienceYears',p.experience_years,'availability',p.availability_status,'teamName',p.team_name,'teamSize',p.team_size,'skillIds',(SELECT coalesce(jsonb_agg(skill_id ORDER BY skill_id),'[]'::jsonb) FROM worker_subskills WHERE worker_id=p.user_id),'state',l.state_code,'district',l.district,'city',l.city,'postalCode',l.postal_code)::text FROM worker_profiles p JOIN users u ON u.id=p.user_id LEFT JOIN LATERAL (SELECT * FROM worker_service_locations WHERE worker_id=p.user_id ORDER BY created_at,id LIMIT 1) l ON true WHERE p.user_id=?";
+    var rows = sql.query(query, (rs, n) -> decode(rs.getString(1)), id);
+    if (rows.isEmpty())
+      throw new IllegalArgumentException("Saved profile not available for this role");
+    return new Draft(
+        role, user.getOnboardingState(), role.equals("CUSTOMER") ? 2 : 3, rows.getFirst());
   }
 
   @Transactional
@@ -113,7 +141,7 @@ public class ProfileService {
       throw new IllegalArgumentException("Invalid onboarding step");
     validate(data, old.role(), step);
     sql.update(
-        "INSERT INTO onboarding_drafts(user_id,role,step,data) VALUES (?,?,?,?::jsonb) ON CONFLICT(user_id) DO UPDATE SET step=excluded.step,data=excluded.data",
+        "INSERT INTO onboarding_drafts(user_id,role,step,data) VALUES (?,?,?,?::jsonb) ON CONFLICT(user_id) DO UPDATE SET step=excluded.step,data=excluded.data WHERE onboarding_drafts.role=excluded.role",
         id,
         old.role(),
         step,
@@ -200,7 +228,7 @@ public class ProfileService {
     user.setOnboardingState("COMPLETED");
     user.setOnboardingStep(null);
     sql.update(
-        "INSERT INTO onboarding_drafts(user_id,role,step,data) VALUES (?,?,?,?::jsonb) ON CONFLICT(user_id) DO UPDATE SET step=excluded.step,data=excluded.data",
+        "INSERT INTO onboarding_drafts(user_id,role,step,data) VALUES (?,?,?,?::jsonb) ON CONFLICT(user_id) DO UPDATE SET step=excluded.step,data=excluded.data WHERE onboarding_drafts.role=excluded.role",
         id,
         role,
         role.equals("CUSTOMER") ? 2 : 3,

@@ -7,18 +7,24 @@ import {
 } from '../../components/theme';
 import { Action } from '../../components/ui';
 import { useState, useCallback } from 'react';
-import { View, Text, ScrollView, ActivityIndicator } from 'react-native';
+import {
+  View,
+  Text,
+  ScrollView,
+  ActivityIndicator,
+  Pressable,
+} from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { useFocusEffect, useRouter } from 'expo-router';
 import { getMyBookings, BookingView } from '../../api/quotations';
 
 const STATUS_COLOR: Record<string, string> = {
-  PENDING: '#f59e0b',
-  CONFIRMED: '#145C58',
-  IN_PROGRESS: '#6C40A8',
-  COMPLETED: '#16734A',
-  CANCELLED: '#B42340',
+  PENDING: '#FFCC25',
+  CONFIRMED: '#202326',
+  IN_PROGRESS: '#202326',
+  COMPLETED: '#202326',
+  CANCELLED: '#202326',
 };
 
 const PRICING_LABEL: Record<string, string> = {
@@ -45,7 +51,7 @@ function BookingCard({ booking }: { booking: BookingView }) {
               width: 60,
               height: 60,
               borderRadius: 30,
-              backgroundColor: 'rgba(247,201,72,0.25)',
+              backgroundColor: '#FFCC25',
               alignItems: 'center',
               justifyContent: 'center',
             },
@@ -90,7 +96,7 @@ function BookingCard({ booking }: { booking: BookingView }) {
             width: 40,
             height: 40,
             borderRadius: 20,
-            backgroundColor: '#DCEEE7',
+            backgroundColor: '#E5E7EB',
             alignItems: 'center',
             justifyContent: 'center',
           }}
@@ -115,7 +121,7 @@ function BookingCard({ booking }: { booking: BookingView }) {
           style={{
             flex: 1,
             borderLeftWidth: 1,
-            borderColor: '#B7D9CE',
+            borderColor: '#E5E7EB',
             paddingLeft: 10,
             gap: 5,
           }}
@@ -144,7 +150,7 @@ function BookingCard({ booking }: { booking: BookingView }) {
               fontSize: 13,
               color: palette.teal,
               borderLeftWidth: 1,
-              borderColor: '#B7D9CE',
+              borderColor: '#E5E7EB',
               paddingLeft: 18,
             }}
           >
@@ -165,6 +171,14 @@ export default function BookingsScreen() {
   const [bookings, setBookings] = useState<BookingView[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [statusTab, setStatusTab] = useState('Active');
+  const visibleBookings = bookings.filter((booking) =>
+    statusTab === 'Cancelled'
+      ? booking.status === 'CANCELLED'
+      : statusTab === 'Completed'
+        ? booking.status === 'COMPLETED'
+        : !['CANCELLED', 'COMPLETED'].includes(booking.status),
+  );
 
   const loadData = async () => {
     try {
@@ -205,7 +219,38 @@ export default function BookingsScreen() {
   return (
     <SafeAreaView className="flex-1 bg-canvas">
       <GlassBackdrop />
-      <PageHeading title="My bookings" subtitle="Your work, organised." />
+      <PageHeading
+        title="My projects"
+        subtitle="Bookings, schedules and your crew"
+      />
+      <View
+        style={{
+          flexDirection: 'row',
+          flexWrap: 'wrap',
+          gap: 8,
+          paddingHorizontal: 20,
+          paddingBottom: 12,
+        }}
+      >
+        {['Active', 'Completed', 'Cancelled'].map((tab) => (
+          <Pressable
+            key={tab}
+            accessibilityRole="button"
+            accessibilityState={{ selected: statusTab === tab }}
+            onPress={() => setStatusTab(tab)}
+            style={{
+              paddingHorizontal: 16,
+              minHeight: 48,
+              justifyContent: 'center',
+              borderRadius: 24,
+              backgroundColor:
+                statusTab === tab ? palette.yellow : palette.grey,
+            }}
+          >
+            <Text style={{ color: palette.ink, fontWeight: '600' }}>{tab}</Text>
+          </Pressable>
+        ))}
+      </View>
 
       <ScrollView
         className="flex-1"
@@ -218,14 +263,14 @@ export default function BookingsScreen() {
         )}
         {error ? (
           <View className="items-center mt-8">
-            <Text className="text-red-700 text-center mb-4">{error}</Text>
+            <Text className="text-ink text-center mb-4">{error}</Text>
             <Action label="Retry" variant="secondary" onPress={loadData} />
           </View>
         ) : loading ? (
-          <ActivityIndicator className="mt-8" size="large" color="#145C58" />
+          <ActivityIndicator className="mt-8" size="large" color="#202326" />
         ) : bookings.length === 0 ? (
           <View className="items-center mt-8 p-6 bg-surface rounded-xl border border-outline">
-            <Ionicons name="briefcase-outline" size={40} color="#466E68" />
+            <Ionicons name="briefcase-outline" size={40} color="#202326" />
             <Text className="text-ink text-lg font-semibold mt-3 mb-1">
               No bookings yet
             </Text>
@@ -233,8 +278,12 @@ export default function BookingsScreen() {
               Accepted quotations will appear here as confirmed bookings.
             </Text>
           </View>
+        ) : visibleBookings.length === 0 ? (
+          <Text style={{ color: palette.ink }}>
+            No {statusTab.toLowerCase()} projects.
+          </Text>
         ) : (
-          bookings.map((b) => <BookingCard key={b.id} booking={b} />)
+          visibleBookings.map((b) => <BookingCard key={b.id} booking={b} />)
         )}
       </ScrollView>
     </SafeAreaView>

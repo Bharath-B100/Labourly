@@ -1,9 +1,14 @@
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { Pressable, useWindowDimensions } from 'react-native';
 import { GlassTabBackground } from '../../components/theme';
 import { Tabs, useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { useContext } from 'react';
-import { GlassTabButton } from '../../components/GlassTabButton';
-import { Pressable } from 'react-native';
+import {
+  GlassTabButton,
+  TabIcon,
+  CustomerTabLabel,
+} from '../../components/GlassTabButton';
 import {
   DraftNavigationGuard,
   type DraftExitGuard,
@@ -12,6 +17,8 @@ import {
 export default function CustomerLayout() {
   const guard: DraftExitGuard = useContext(DraftNavigationGuard);
   const router = useRouter();
+  const insets = useSafeAreaInsets();
+  const { fontScale } = useWindowDimensions();
   return (
     <DraftNavigationGuard.Provider value={guard}>
       <Tabs
@@ -35,18 +42,18 @@ export default function CustomerLayout() {
         })}
         screenOptions={{
           headerShown: false,
-          headerStyle: { backgroundColor: '#F7F9F5' },
-          headerTintColor: '#145C58',
+          headerStyle: { backgroundColor: '#FFFFFF' },
+          headerTintColor: '#202326',
           headerShadowVisible: false,
-          tabBarActiveTintColor: '#145C58',
-          tabBarInactiveTintColor: '#466E68',
+          tabBarActiveTintColor: '#202326',
+          tabBarInactiveTintColor: '#202326',
           tabBarHideOnKeyboard: true,
           tabBarButton: (props) => <GlassTabButton {...props} />,
-          tabBarActiveBackgroundColor: 'transparent',
-          tabBarInactiveBackgroundColor: 'transparent',
+          tabBarActiveBackgroundColor: '#FFCC25',
+          tabBarInactiveBackgroundColor: '#FFFFFF',
           tabBarBackground: () => <GlassTabBackground count={5} />,
           tabBarItemStyle: {
-            borderRadius: 40,
+            borderRadius: 0,
             marginHorizontal: 0,
             paddingVertical: 8,
             borderWidth: 0,
@@ -54,23 +61,36 @@ export default function CustomerLayout() {
           tabBarStyle: {
             backgroundColor: 'transparent',
             borderTopWidth: 0,
-            height: 74,
+            height: 64 + insets.bottom + Math.max(0, fontScale - 1) * 24,
             paddingTop: 0,
-            paddingBottom: 0,
-            marginHorizontal: 14,
-            marginBottom: 20,
-            borderRadius: 40,
+            paddingBottom: insets.bottom,
+            marginHorizontal: 0,
+            marginBottom: 0,
+            borderRadius: 0,
             elevation: 0,
           },
-          tabBarLabelStyle: { fontSize: 10, fontWeight: '600' },
+          tabBarLabelStyle: { fontSize: 11, fontWeight: '600' },
         }}
       >
         <Tabs.Screen
+          name="home"
+          options={{
+            title: 'Home',
+            tabBarAccessibilityLabel: 'Home',
+            tabBarLabel: () => <CustomerTabLabel label="Home" />,
+            tabBarIcon: ({ color, focused }) => (
+              <TabIcon name="home-outline" color={color} focused={focused} />
+            ),
+          }}
+        />
+        <Tabs.Screen
           name="discover"
           options={{
-            title: 'Find Workers',
-            tabBarIcon: ({ color }) => (
-              <Ionicons name="search" size={24} color={color} />
+            title: 'Workers',
+            tabBarAccessibilityLabel: 'Workers',
+            tabBarLabel: () => <CustomerTabLabel label="Workers" />,
+            tabBarIcon: ({ color, focused }) => (
+              <TabIcon name="search" color={color} focused={focused} />
             ),
           }}
         />
@@ -78,36 +98,44 @@ export default function CustomerLayout() {
           name="requirements"
           options={{
             title: 'My Requirements',
-            tabBarLabel: 'My Jobs',
-            tabBarIcon: ({ color }) => (
-              <Ionicons name="list" size={24} color={color} />
+            tabBarAccessibilityLabel: 'My Requirements',
+            tabBarLabel: () => <CustomerTabLabel label="Jobs" />,
+            tabBarIcon: ({ color, focused }) => (
+              <TabIcon name="list" color={color} focused={focused} />
+            ),
+          }}
+        />
+        <Tabs.Screen
+          name="chat"
+          options={{
+            title: 'Chat',
+            tabBarLabel: () => <CustomerTabLabel label="Chat" />,
+            tabBarAccessibilityLabel: 'Chat',
+            tabBarIcon: ({ color, focused }) => (
+              <TabIcon
+                name="chatbubble-outline"
+                color={color}
+                focused={focused}
+              />
             ),
           }}
         />
         <Tabs.Screen
           name="post"
-          options={{
-            title: 'Post',
-            tabBarIcon: ({ color }) => (
-              <Ionicons name="add-outline" size={24} color={color} />
-            ),
-          }}
+          options={{ href: null, title: 'Post requirement' }}
         />
         <Tabs.Screen
           name="bookings"
-          options={{
-            title: 'Bookings',
-            tabBarIcon: ({ color }) => (
-              <Ionicons name="briefcase-outline" size={24} color={color} />
-            ),
-          }}
+          options={{ href: null, title: 'Bookings' }}
         />
         <Tabs.Screen
           name="profile"
           options={{
             title: 'Profile',
-            tabBarIcon: ({ color }) => (
-              <Ionicons name="person-outline" size={24} color={color} />
+            tabBarAccessibilityLabel: 'Profile',
+            tabBarLabel: () => <CustomerTabLabel label="Profile" />,
+            tabBarIcon: ({ color, focused }) => (
+              <TabIcon name="person-outline" color={color} focused={focused} />
             ),
           }}
         />
@@ -120,9 +148,16 @@ export default function CustomerLayout() {
             headerLeft: () => (
               <Pressable
                 onPress={() => router.back()}
-                style={{ marginLeft: 16, padding: 4 }}
+                accessibilityRole="button"
+                accessibilityLabel="Back"
+                style={{
+                  marginLeft: 8,
+                  padding: 12,
+                  minWidth: 48,
+                  minHeight: 48,
+                }}
               >
-                <Ionicons name="arrow-back" size={24} color="#145C58" />
+                <Ionicons name="arrow-back" size={24} color="#202326" />
               </Pressable>
             ),
           }}
@@ -136,9 +171,16 @@ export default function CustomerLayout() {
             headerLeft: () => (
               <Pressable
                 onPress={() => router.back()}
-                style={{ marginLeft: 16, padding: 4 }}
+                accessibilityRole="button"
+                accessibilityLabel="Back"
+                style={{
+                  marginLeft: 8,
+                  padding: 12,
+                  minWidth: 48,
+                  minHeight: 48,
+                }}
               >
-                <Ionicons name="arrow-back" size={24} color="#145C58" />
+                <Ionicons name="arrow-back" size={24} color="#202326" />
               </Pressable>
             ),
           }}
@@ -152,9 +194,16 @@ export default function CustomerLayout() {
             headerLeft: () => (
               <Pressable
                 onPress={() => router.back()}
-                style={{ marginLeft: 16, padding: 4 }}
+                accessibilityRole="button"
+                accessibilityLabel="Back"
+                style={{
+                  marginLeft: 8,
+                  padding: 12,
+                  minWidth: 48,
+                  minHeight: 48,
+                }}
               >
-                <Ionicons name="arrow-back" size={24} color="#145C58" />
+                <Ionicons name="arrow-back" size={24} color="#202326" />
               </Pressable>
             ),
           }}
@@ -168,13 +217,22 @@ export default function CustomerLayout() {
             headerLeft: () => (
               <Pressable
                 onPress={() => router.back()}
-                style={{ marginLeft: 16, padding: 4 }}
+                accessibilityRole="button"
+                accessibilityLabel="Back"
+                style={{
+                  marginLeft: 8,
+                  padding: 12,
+                  minWidth: 48,
+                  minHeight: 48,
+                }}
               >
-                <Ionicons name="arrow-back" size={24} color="#145C58" />
+                <Ionicons name="arrow-back" size={24} color="#202326" />
               </Pressable>
             ),
           }}
         />
+        <Tabs.Screen name="wallet" options={{ href: null }} />
+        <Tabs.Screen name="saved-workers" options={{ href: null }} />
       </Tabs>
     </DraftNavigationGuard.Provider>
   );

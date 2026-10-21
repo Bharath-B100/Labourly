@@ -1,61 +1,72 @@
-import { useEffect, useState, type ComponentProps } from 'react';
-import { Animated, Image, StyleSheet } from 'react-native';
+import type { ComponentProps } from 'react';
+import { View, Text, useWindowDimensions } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 import { PlatformPressable } from 'expo-router/react-navigation';
-import { useGlassMotion } from './glass';
 
-/** Keep the navigator's link, press, long-press and accessibility semantics. */
+export function TabIcon({
+  name,
+  color,
+  focused,
+}: {
+  name: ComponentProps<typeof Ionicons>['name'];
+  color: ComponentProps<typeof Ionicons>['color'];
+  focused: boolean;
+}) {
+  return (
+    <View
+      style={{
+        width: 38,
+        height: 28,
+        borderRadius: 8,
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: focused ? '#FFCC25' : '#FFFFFF',
+      }}
+    >
+      <Ionicons name={name} size={22} color={color} />
+    </View>
+  );
+}
+/** Forward all navigation events, including tabPress and the draft exit guard. */
 export function GlassTabButton({
-  children,
   style,
   ...props
 }: ComponentProps<typeof PlatformPressable>) {
   const selected =
     props.accessibilityState?.selected ?? props['aria-selected'] ?? false;
-  const reduced = useGlassMotion();
-  const [scale] = useState(() => new Animated.Value(selected ? 1 : 0.92));
-  useEffect(() => {
-    if (reduced) {
-      scale.setValue(selected ? 1 : 0.92);
-      return;
-    }
-    const animation = Animated.spring(scale, {
-      toValue: selected ? 1 : 0.92,
-      damping: 16,
-      stiffness: 220,
-      mass: 0.7,
-      useNativeDriver: true,
-    });
-    animation.start();
-    return () => animation.stop();
-  }, [selected, reduced, scale]);
   return (
-    <PlatformPressable {...props} style={[style, styles.button]}>
-      {selected && (
-        <Animated.View
-          pointerEvents="none"
-          accessibilityElementsHidden
-          importantForAccessibility="no-hide-descendants"
-          style={[StyleSheet.absoluteFill, { transform: [{ scale }] }]}
-        >
-          <Image
-            accessible={false}
-            source={require('../../assets/glass-nav-selected.png')}
-            resizeMode="stretch"
-            style={styles.material}
-          />
-        </Animated.View>
-      )}
-      {children}
-    </PlatformPressable>
+    <PlatformPressable
+      {...props}
+      style={[
+        style,
+        {
+          minHeight: 48,
+          borderTopWidth: 3,
+          borderTopColor: selected ? '#FFCC25' : '#FFFFFF',
+        },
+      ]}
+    />
   );
 }
 
-const styles = StyleSheet.create({
-  button: {
-    borderRadius: 999,
-    justifyContent: 'center',
-    backgroundColor: 'transparent',
-    overflow: 'visible',
-  },
-  material: { width: '100%', height: '100%' },
-});
+/** Short visual labels at large text sizes; the tab retains its full accessibility label. */
+export function CustomerTabLabel({ label }: { label: string }) {
+  const { fontScale } = useWindowDimensions();
+  const compact: Record<string, string> = {
+    Home: 'Hub',
+    Workers: 'Crew',
+    Profile: 'You',
+  };
+  return (
+    <Text
+      style={{
+        fontSize: 10,
+        fontWeight: '600',
+        color: '#202326',
+        textAlign: 'center',
+      }}
+    >
+      {fontScale >= 1.5 ? (compact[label] ?? label) : label}
+    </Text>
+  );
+}

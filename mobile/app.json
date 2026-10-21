@@ -1,10 +1,10 @@
 {
   "expo": {
-    "name": "NammaCrew",
+    "name": "LABOURLY",
     "slug": "nammacrew",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/labourly/launcher-white.png",
     "userInterfaceStyle": "light",
     "ios": {
       "supportsTablet": true,
@@ -12,16 +12,15 @@
     },
     "android": {
       "adaptiveIcon": {
-        "backgroundColor": "#E6F4FE",
-        "foregroundImage": "./assets/android-icon-foreground.png",
-        "backgroundImage": "./assets/android-icon-background.png",
-        "monochromeImage": "./assets/android-icon-monochrome.png"
+        "backgroundColor": "#FFFFFF",
+        "foregroundImage": "./assets/labourly/hardhat-mark.png",
+        "monochromeImage": "./assets/labourly/hardhat-mark.png"
       },
       "predictiveBackGestureEnabled": false,
       "package": "in.nammacrew.mobile"
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/labourly/launcher-white.png"
     },
     "plugins": [
       "expo-router",
@@ -32,10 +31,11 @@
         {
           "isAndroidBackgroundLocationEnabled": false,
           "isAndroidForegroundServiceEnabled": false,
-          "locationWhenInUsePermission": "Allow NammaCrew to use your location to find workers near you.",
+          "locationWhenInUsePermission": "Allow Labourly to use your location to find workers near you.",
           "isIosBackgroundLocationEnabled": false
         }
-      ]
+      ],
+      "./plugins/withLabourlyLaunch"
     ],
     "scheme": "nammacrew"
   }

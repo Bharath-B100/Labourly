@@ -1,0 +1,14 @@
+npm warn Unknown cli config "--run". This will stop working in the next major version of npm.
+
+> nammacrew-admin@0.1.0 test
+> vitest run
+
+
+ RUN  v4.1.11 D:/Files/EDUCATION/NammaCrew/admin
+
+
+ Test Files  1 passed (1)
+      Tests  2 passed (2)
+   Start at  16:39:14
+   Duration  3.55s (transform 126ms, setup 603ms, import 84ms, tests 283ms, environment 2.02s)
+

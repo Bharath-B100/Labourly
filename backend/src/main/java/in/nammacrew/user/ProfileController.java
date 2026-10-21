@@ -26,6 +26,11 @@ public class ProfileController {
     return profiles.draft(id(auth));
   }
 
+  @GetMapping("/profile/{role}")
+  public ProfileService.Draft profile(Authentication auth, @PathVariable String role) {
+    return profiles.profile(id(auth), role.toUpperCase(java.util.Locale.ROOT));
+  }
+
   @PutMapping("/onboarding")
   public ProfileService.Draft save(Authentication auth, @RequestBody DraftRequest request) {
     return profiles.saveDraft(id(auth), request.step(), request.data());

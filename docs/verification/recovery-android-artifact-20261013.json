@@ -1,0 +1,14 @@
+{
+  "outcome": "PASS",
+  "exitCode": 0,
+  "path": "D:\\Files\\EDUCATION\\NammaCrew\\mobile\\android\\app\\build\\outputs\\apk\\debug\\app-debug.apk",
+  "bytes": 78956130,
+  "sha256": "5CF0A365F6782F88C4899E94192032FE4D3D10DC9F48E41E0DD2948143C3FB05",
+  "lastWriteTime": "2026-10-13T10:02:35.6069153+05:30",
+  "duration": "18m 28s",
+  "architectures": [
+    "x86_64"
+  ],
+  "javaScriptBundles": [],
+  "sourceEvidence": "Current workspace native sources compiled; debug variant uses Metro JavaScript, no embedded production bundle or new native acceptance verified."
+}

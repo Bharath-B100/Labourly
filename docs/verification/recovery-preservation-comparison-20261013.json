@@ -1,0 +1,14 @@
+{
+  "bookings": {
+    "unchanged": true,
+    "count": 3
+  },
+  "quotations": {
+    "unchanged": true,
+    "count": 4
+  },
+  "reservations": {
+    "unchanged": true,
+    "count": 3
+  }
+}

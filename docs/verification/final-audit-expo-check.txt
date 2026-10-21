@@ -1,0 +1,4 @@
+env: load .env
+env: export EXPO_PUBLIC_API_URL
+Dependency validation is unreliable in offline-mode
+Dependencies are up to date

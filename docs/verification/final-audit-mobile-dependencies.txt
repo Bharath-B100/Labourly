@@ -1,0 +1,5 @@
+
+> mobile@1.0.0 test:dependencies
+> node scripts/check-dependency-compat.cjs
+
+PASS: patched xcode dependency produces 10,000 unique valid project IDs.

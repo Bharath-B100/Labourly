@@ -1,0 +1,34 @@
+[
+  {
+    "file": "brand-reference.png",
+    "bytes": 1270384,
+    "sha256": "55dd23d1b38f3518dcb62d45cc150d0b5a044473b41f841133b6f7d7a7533389",
+    "dimensions": [1254, 1254],
+    "mode": "RGBA",
+    "alphaRange": [0, 255]
+  },
+  {
+    "file": "wordmark.png",
+    "bytes": 710340,
+    "sha256": "7caf31a6939fa0fa62fc825d28765140edb48e7f65a47e113679668fcb2fb436",
+    "dimensions": [2172, 724],
+    "mode": "RGBA",
+    "alphaRange": [0, 255]
+  },
+  {
+    "file": "hardhat-mark.png",
+    "bytes": 478415,
+    "sha256": "186e1ef6ce5d2ff5d08376212d33255c7762b1a453ac184812801e65d461d7e7",
+    "dimensions": [1254, 1254],
+    "mode": "RGBA",
+    "alphaRange": [0, 255]
+  },
+  {
+    "file": "launcher-white.png",
+    "bytes": 1047648,
+    "sha256": "c95229f244123955adec2dbef809d2baf21e146ce18311cf4c2c9febbdb17cfd",
+    "dimensions": [1254, 1254],
+    "mode": "RGB",
+    "alphaRange": null
+  }
+]

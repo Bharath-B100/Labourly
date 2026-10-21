@@ -1,0 +1,10 @@
+BEGIN
+                  id                  |         display_name          | availability_status | explicit_radius | legacy_radius | conflict 
+--------------------------------------+-------------------------------+---------------------+-----------------+---------------+----------
+ d9ae550f-6e15-4447-8b87-8366841e638b | Suresh Carpenter              | AVAILABLE           | f               | f             | t
+ 19f560b0-4c63-4a0b-b4fc-e3544892ec33 | Worker D (Carpenter, Out)     | AVAILABLE           | f               | f             | f
+ 60eed3ca-ba59-48a7-9268-a4e60eae2659 | Worker E (Carpenter, In)      | AVAILABLE           | f               | t             | f
+ 3eec1276-0535-493a-9b1c-387e29d8ef54 | Worker C (Carpenter, Unavail) | UNAVAILABLE         | f               | t             | f
+(4 rows)
+
+ROLLBACK

@@ -1,0 +1,51 @@
+{
+  "sourceCount": 13,
+  "affectedPackages": [
+    {
+      "name": "braces",
+      "sources": []
+    },
+    {
+      "name": "chokidar",
+      "sources": []
+    },
+    {
+      "name": "fast-glob",
+      "sources": []
+    },
+    {
+      "name": "micromatch",
+      "sources": []
+    },
+    {
+      "name": "postcss-nested",
+      "sources": []
+    },
+    {
+      "name": "postcss-selector-parser",
+      "sources": []
+    },
+    {
+      "name": "source-map-js",
+      "sources": []
+    },
+    {
+      "name": "tailwindcss",
+      "sources": []
+    }
+  ],
+  "artifacts": [
+    {
+      "file": "index-C8el5NK5.css",
+      "sha256": "0a2c7043dc6ca9f50541f9d2c8f53118713dd660df9a637b7b10cbe8b9977227"
+    },
+    {
+      "file": "index-qD45rLlU.js",
+      "sha256": "5c62b9a5d5c4a91eb5d7c4aa8287a242c3d5171263f2193b78c2c05c2eafea6a"
+    },
+    {
+      "file": "index-qD45rLlU.js.map",
+      "sha256": "afeb0b461d7686342cb5bacdd54f6c3af800f4f8cad1e5cdcc0dd74867eafb86"
+    }
+  ]
+}

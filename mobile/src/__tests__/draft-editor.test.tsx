@@ -8,6 +8,7 @@ import {
   DraftNavigationGuard,
   type DraftExitGuard,
 } from '../navigation/DraftNavigationGuard';
+jest.mock('@expo/vector-icons', () => ({ Ionicons: 'Ionicons' }));
 const mockReplace = jest.fn();
 const mockDispatch = jest.fn();
 const mockNavigation = { dispatch: mockDispatch };

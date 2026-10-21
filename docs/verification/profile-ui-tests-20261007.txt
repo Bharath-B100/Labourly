@@ -1,0 +1,502 @@
+PASS src/__tests__/ui.test.tsx
+FAIL src/__tests__/onboarding.test.tsx
+  ● customer onboarding requires name and location, reviews and completes
+
+    Found multiple elements with text: Your location
+
+    <View>
+      <RCTScrollView>
+        <View>
+          <View>
+            <View>
+              <Text
+                accessibilityRole="header"
+              >
+                Your location
+              </Text>
+              <Text>
+                Let’s get your profile ready.
+              </Text>
+            </View>
+            <View
+              accessibilityLabel="Step 2 of 3"
+            >
+              <View>
+                <View />
+                <View />
+                <View />
+              </View>
+              <Text>
+                2
+                 of 
+                3
+                 · 
+                Your location
+              </Text>
+            </View>
+            <View>
+              <View>
+                <Text>
+                  Your location
+                </Text>
+                <Text>
+                  Keep your information accurate and up to date.
+                </Text>
+              </View>
+              <View>
+                <View>
+                  <Text>
+                    State code (for example KA)
+                  </Text>
+                  <TextInput
+                    accessibilityLabel="State code (for example KA)"
+                    value=""
+                  />
+                </View>
+                <View>
+                  <Text>
+                    District
+                  </Text>
+                  <TextInput
+                    accessibilityLabel="District"
+                    value=""
+                  />
+                </View>
+                <View>
+                  <Text>
+                    City
+                  </Text>
+                  <TextInput
+                    accessibilityLabel="City"
+                    value=""
+                  />
+                </View>
+                <View>
+                  <Text>
+                    Postal code
+                  </Text>
+                  <TextInput
+                    accessibilityLabel="Postal code"
+                    value=""
+                  />
+                </View>
+              </View>
+            </View>
+            <Text>
+              Progress saved.
+            </Text>
+            <View
+              accessibilityLabel="Back"
+              accessibilityRole="button"
+              accessibilityState={
+                {
+                  "busy": false,
+                  "disabled": false,
+                }
+              }
+              accessible={true}
+            >
+              <Text>
+                Back
+              </Text>
+            </View>
+            <View
+              accessibilityLabel="Save and continue"
+              accessibilityRole="button"
+              accessibilityState={
+                {
+                  "busy": false,
+                  "disabled": false,
+                }
+              }
+              accessible={true}
+            >
+              <Text>
+                Save and continue
+              </Text>
+            </View>
+            <View
+              accessibilityLabel="Save progress"
+              accessibilityRole="button"
+              accessibilityState={
+                {
+                  "busy": false,
+                  "disabled": false,
+                }
+              }
+              accessible={true}
+            >
+              <Text>
+                Save progress
+              </Text>
+            </View>
+            <View
+              accessibilityLabel="Sign out"
+              accessibilityRole="button"
+              accessibilityState={
+                {
+                  "busy": false,
+                  "disabled": false,
+                }
+              }
+              accessible={true}
+            >
+              <Text>
+                Sign out
+              </Text>
+            </View>
+          </View>
+        </View>
+      </RCTScrollView>
+    </View>
+
+      185 |   await fireEvent.press(screen.getByRole('radio', { name: 'Other' }));
+      186 |   await press('Save and continue');
+    > 187 |   await screen.findByText('Your location');
+          |                ^
+      188 |   await fill('State code (for example KA)', 'KA');
+      189 |   await fill('District', 'Bengaluru Urban');
+      190 |   await fill('City', 'Bengaluru');
+
+      at Object.findByText (src/__tests__/onboarding.test.tsx:187:16)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+  ● worker resumes the server draft step and completes trade, skills and availability
+
+    Found multiple elements with text: Your trade and skills
+
+    <View>
+      <RCTScrollView>
+        <View>
+          <View>
+            <View>
+              <Text
+                accessibilityRole="header"
+              >
+                Your trade and skills
+              </Text>
+              <Text>
+                Let’s get your profile ready.
+              </Text>
+            </View>
+            <View
+              accessibilityLabel="Step 2 of 4"
+            >
+              <View>
+                <View />
+                <View />
+                <View />
+                <View />
+              </View>
+              <Text>
+                2
+                 of 
+                4
+                 · 
+                Your trade and skills
+              </Text>
+            </View>
+            <View>
+              <View>
+                <Text>
+                  Your trade and skills
+                </Text>
+                <Text>
+                  Keep your information accurate and up to date.
+                </Text>
+              </View>
+              <View>
+                <View>
+                  <Text>
+                    Primary trade
+                  </Text>
+                  <View
+                    accessibilityHint="Opens the available options"
+                    accessibilityLabel="Primary trade: Choose an option"
+                    accessibilityRole="button"
+                    accessibilityState={
+                      {
+                        "disabled": false,
+                        "expanded": false,
+                      }
+                    }
+                    accessible={true}
+                  >
+                    <Text>
+                      Choose an option
+                    </Text>
+                    <Text
+                      accessible={false}
+                    >
+                      ⌄
+                    </Text>
+                  </View>
+                </View>
+                <Text>
+                  Skills and sub-skills
+                </Text>
+                <View>
+                  <Text>
+                    Years of experience
+                  </Text>
+                  <TextInput
+                    accessibilityLabel="Years of experience"
+                    value=""
+                  />
+                </View>
+              </View>
+            </View>
+            <View
+              accessibilityLabel="Back"
+              accessibilityRole="button"
+              accessibilityState={
+                {
+                  "busy": false,
+                  "disabled": false,
+                }
+              }
+              accessible={true}
+            >
+              <Text>
+                Back
+              </Text>
+            </View>
+            <View
+              accessibilityLabel="Save and continue"
+              accessibilityRole="button"
+              accessibilityState={
+                {
+                  "busy": false,
+                  "disabled": false,
+                }
+              }
+              accessible={true}
+            >
+              <Text>
+                Save and continue
+              </Text>
+            </View>
+            <View
+              accessibilityLabel="Save progress"
+              accessibilityRole="button"
+              accessibilityState={
+                {
+                  "busy": false,
+                  "disabled": false,
+                }
+              }
+              accessible={true}
+            >
+              <Text>
+                Save progress
+              </Text>
+            </View>
+            <View
+              accessibilityLabel="Sign out"
+              accessibilityRole="button"
+              accessibilityState={
+                {
+                  "busy": false,
+                  "disabled": false,
+                }
+              }
+              accessible={true}
+            >
+              <Text>
+                Sign out
+              </Text>
+            </View>
+          </View>
+        </View>
+      </RCTScrollView>
+    </View>
+
+      208 |   };
+      209 |   await show(<ProfileEditor />);
+    > 210 |   await screen.findByText('Your trade and skills');
+          |                ^
+      211 |   await fireEvent.press(screen.getByRole('button', { name: /Primary trade:/ }));
+      212 |   await fireEvent.press(screen.getByRole('radio', { name: 'Carpenter' }));
+      213 |   await fireEvent.press(screen.getByRole('checkbox', { name: 'Furniture' }));
+
+      at Object.findByText (src/__tests__/onboarding.test.tsx:210:16)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+  ● reopening onboarding replaces cached progress with the authoritative server draft
+
+    Found multiple elements with text: Your trade and skills
+
+    <View>
+      <RCTScrollView>
+        <View>
+          <View>
+            <View>
+              <Text
+                accessibilityRole="header"
+              >
+                Your trade and skills
+              </Text>
+              <Text>
+                Let’s get your profile ready.
+              </Text>
+            </View>
+            <View
+              accessibilityLabel="Step 2 of 4"
+            >
+              <View>
+                <View />
+                <View />
+                <View />
+                <View />
+              </View>
+              <Text>
+                2
+                 of 
+                4
+                 · 
+                Your trade and skills
+              </Text>
+            </View>
+            <View>
+              <View>
+                <Text>
+                  Your trade and skills
+                </Text>
+                <Text>
+                  Keep your information accurate and up to date.
+                </Text>
+              </View>
+              <View>
+                <View>
+                  <Text>
+                    Primary trade
+                  </Text>
+                  <View
+                    accessibilityHint="Opens the available options"
+                    accessibilityLabel="Primary trade: Choose an option"
+                    accessibilityRole="button"
+                    accessibilityState={
+                      {
+                        "disabled": false,
+                        "expanded": false,
+                      }
+                    }
+                    accessible={true}
+                  >
+                    <Text>
+                      Choose an option
+                    </Text>
+                    <Text
+                      accessible={false}
+                    >
+                      ⌄
+                    </Text>
+                  </View>
+                </View>
+                <Text>
+                  Skills and sub-skills
+                </Text>
+                <View>
+                  <Text>
+                    Years of experience
+                  </Text>
+                  <TextInput
+                    accessibilityLabel="Years of experience"
+                    value=""
+                  />
+                </View>
+              </View>
+            </View>
+            <View
+              accessibilityLabel="Back"
+              accessibilityRole="button"
+              accessibilityState={
+                {
+                  "busy": false,
+                  "disabled": false,
+                }
+              }
+              accessible={true}
+            >
+              <Text>
+                Back
+              </Text>
+            </View>
+            <View
+              accessibilityLabel="Save and continue"
+              accessibilityRole="button"
+              accessibilityState={
+                {
+                  "busy": false,
+                  "disabled": false,
+                }
+              }
+              accessible={true}
+            >
+              <Text>
+                Save and continue
+              </Text>
+            </View>
+            <View
+              accessibilityLabel="Save progress"
+              accessibilityRole="button"
+              accessibilityState={
+                {
+                  "busy": false,
+                  "disabled": false,
+                }
+              }
+              accessible={true}
+            >
+              <Text>
+                Save progress
+              </Text>
+            </View>
+            <View
+              accessibilityLabel="Sign out"
+              accessibilityRole="button"
+              accessibilityState={
+                {
+                  "busy": false,
+                  "disabled": false,
+                }
+              }
+              accessible={true}
+            >
+              <Text>
+                Sign out
+              </Text>
+            </View>
+          </View>
+        </View>
+      </RCTScrollView>
+    </View>
+
+      242 |   };
+      243 |   await show(<ProfileEditor />);
+    > 244 |   await screen.findByText('Your trade and skills');
+          |                ^
+      245 |   expect(screen.queryByText('Your details')).toBeNull();
+      246 |   expect(apiJson).toHaveBeenCalledWith('/api/v1/onboarding');
+      247 | });
+
+      at Object.findByText (src/__tests__/onboarding.test.tsx:244:16)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+PASS src/__tests__/discovery.test.tsx
+PASS src/__tests__/quotes.test.tsx
+PASS src/__tests__/bookings.test.tsx
+PASS src/__tests__/foundation.test.tsx
+PASS src/__tests__/requirement-publish.test.tsx
+PASS src/__tests__/api.test.ts
+PASS src/__tests__/session.test.ts
+PASS src/__tests__/quotation-api.test.ts
+
+Test Suites: 1 failed, 9 passed, 10 total
+Tests:       3 failed, 47 passed, 50 total
+Snapshots:   0 total
+Time:        11.05 s
+Ran all test suites.

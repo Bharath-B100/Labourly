@@ -11,8 +11,9 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { hasRole, useSession } from '../auth/session';
 import { useLoginTransition } from '../auth/loginTransition';
 import { observeNotificationAccount } from '../notifications/session';
+import { observeQueryAccount } from '../auth/queryIsolation';
 import { LoginTransition } from '../components/LoginTransition';
-import { Action, EmptyState, Loading, Screen } from '../components/ui';
+import { Action, EmptyState, Screen } from '../components/ui';
 
 export function ErrorBoundary({ retry }: ErrorBoundaryProps) {
   return (
@@ -38,52 +39,17 @@ export default function RootLayout() {
       }),
   );
 
-  const { session, loadSession, isLoading, error, logout } = useSession();
+  const { session, loadSession, isLoading, error } = useSession();
   const transition = useLoginTransition();
   useEffect(() => observeNotificationAccount(client), [client]);
+  useEffect(() => observeQueryAccount(client), [client]);
 
   useEffect(() => {
     loadSession();
   }, [loadSession]);
 
-  if (isLoading) {
-    return (
-      <SafeAreaProvider>
-        <StatusBar style="dark" />
-        <Screen>
-          <Loading />
-        </Screen>
-      </SafeAreaProvider>
-    );
-  }
-  if (error)
-    return (
-      <SafeAreaProvider>
-        <StatusBar style="dark" />
-        <Screen>
-          <EmptyState title="Connection unavailable" description={error} />
-          <Action
-            label="Try again"
-            onPress={() => {
-              void loadSession();
-            }}
-          />
-          <Action
-            label="Sign out"
-            variant="secondary"
-            onPress={() => {
-              void logout().catch(() =>
-                useSession.setState({
-                  error:
-                    'Signed out on this device. Server revocation could not be confirmed.',
-                }),
-              );
-            }}
-          />
-        </Screen>
-      </SafeAreaProvider>
-    );
-  const completed = session?.onboardingState === 'COMPLETED';
+  const completed =
+    !isLoading && !error && session?.onboardingState === 'COMPLETED';
 
   return (
     <SafeAreaProvider>
@@ -92,10 +58,10 @@ export default function RootLayout() {
         <DraftNavigationGuard.Provider value={draftGuard}>
           <Stack
             screenOptions={{
-              headerStyle: { backgroundColor: '#F7F9F5' },
-              headerTintColor: '#145C58',
+              headerStyle: { backgroundColor: '#FFFFFF' },
+              headerTintColor: '#202326',
               headerShadowVisible: false,
-              contentStyle: { backgroundColor: '#F7F9F5' },
+              contentStyle: { backgroundColor: '#FFFFFF' },
             }}
             UNSTABLE_router={(original) => ({
               getStateForAction(state, action, options) {
@@ -116,6 +82,10 @@ export default function RootLayout() {
               <Stack.Screen name="auth" options={{ headerShown: false }} />
             </Stack.Protected>
             <Stack.Protected guard={!!completed}>
+              <Stack.Screen
+                name="edit-profile"
+                options={{ title: 'Edit profile' }}
+              />
               <Stack.Screen
                 name="profile"
                 options={{ title: 'Edit profile' }}

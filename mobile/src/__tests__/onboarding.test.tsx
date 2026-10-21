@@ -19,6 +19,7 @@ import {
   type Draft,
 } from '../onboarding/profile';
 const mockPush = jest.fn();
+jest.mock('@expo/vector-icons', () => ({ Ionicons: 'Ionicons' }));
 const mockReplace = jest.fn();
 const mockLoad = jest.fn();
 const mockSignIn = jest.fn();
@@ -261,4 +262,76 @@ test('worker team fields and review prerequisites are validated', () => {
       2,
     ),
   ).toContain('trade');
+});
+
+test('completed profile editing reads the requested role and never autosaves into onboarding', async () => {
+  useSession.setState({
+    session: {
+      ...user,
+      roles: ['CUSTOMER', 'WORKER'],
+      onboardingState: 'COMPLETED',
+    },
+  });
+  draft = {
+    role: 'CUSTOMER',
+    state: 'COMPLETED',
+    step: 2,
+    data: {
+      ...emptyProfile,
+      fullName: 'Fictional Customer',
+      customerType: 'OTHER',
+      state: 'KA',
+      district: 'Bengaluru Urban',
+      city: 'Bengaluru',
+      postalCode: '560001',
+    },
+  };
+  await show(<ProfileEditor editing requestedRole="CUSTOMER" />);
+  await waitFor(() =>
+    expect(screen.getByRole('button', { name: 'Edit details' })).toBeTruthy(),
+  );
+  expect(apiJson).toHaveBeenCalledWith('/api/v1/profile/customer');
+  await press('Edit details');
+  await press('Back');
+  await fireEvent.changeText(
+    screen.getByLabelText('Full name'),
+    'Fictional Edited Customer',
+  );
+  await press('Continue');
+  await press('Continue');
+  expect(
+    jest.mocked(apiJson).mock.calls.filter(([, options]) => options?.method),
+  ).toHaveLength(0);
+  await press('Save profile');
+  await waitFor(() =>
+    expect(apiJson).toHaveBeenCalledWith(
+      '/api/v1/profile/customer',
+      expect.objectContaining({ method: 'POST' }),
+    ),
+  );
+  expect(
+    jest
+      .mocked(apiJson)
+      .mock.calls.some(
+        ([path, options]) =>
+          path === '/api/v1/onboarding' && options?.method === 'PUT',
+      ),
+  ).toBe(false);
+});
+
+test('dual-role editor requires an explicit authorized role before reading data', async () => {
+  useSession.setState({
+    session: {
+      ...user,
+      roles: ['CUSTOMER', 'WORKER'],
+      onboardingState: 'COMPLETED',
+    },
+  });
+  await show(<ProfileEditor editing />);
+  await waitFor(() =>
+    expect(screen.getByText(/Choose an authorized profile/)).toBeTruthy(),
+  );
+  expect(apiJson).not.toHaveBeenCalledWith('/api/v1/onboarding');
+  expect(apiJson).not.toHaveBeenCalledWith('/api/v1/profile/customer');
+  expect(apiJson).not.toHaveBeenCalledWith('/api/v1/profile/worker');
 });

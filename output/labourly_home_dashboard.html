@@ -1,0 +1,1073 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Labourly - iOS Home Dashboard Screen Specification & Mockup</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --safety-yellow: #FFCC25;
+      --charcoal-black: #202326;
+      --pure-white: #FFFFFF;
+      --concrete-grey: #E5E7EB;
+      --bg-canvas: #0F1113;
+      --card-bg: #1A1D20;
+      --border-color: #2D3136;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background-color: var(--bg-canvas);
+      color: #E2E8F0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 40px 20px 60px;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 32px;
+      max-width: 760px;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      border-radius: 9999px;
+      background-color: rgba(255, 204, 37, 0.12);
+      border: 1px solid rgba(255, 204, 37, 0.35);
+      color: var(--safety-yellow);
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      margin-bottom: 14px;
+    }
+
+    h1 {
+      font-size: 32px;
+      font-weight: 800;
+      color: #FFFFFF;
+      letter-spacing: -0.5px;
+      margin-bottom: 10px;
+    }
+
+    .subtitle {
+      font-size: 16px;
+      color: #94A3B8;
+      line-height: 1.5;
+    }
+
+    /* Palette Bar */
+    .palette-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 16px;
+      margin-bottom: 36px;
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 16px 24px;
+    }
+
+    .palette-chip {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: #121417;
+      border: 1px solid #282C31;
+      padding: 8px 14px;
+      border-radius: 10px;
+    }
+
+    .color-swatch {
+      width: 28px;
+      height: 28px;
+      border-radius: 6px;
+      box-shadow: inset 0 0 0 1px rgba(0,0,0,0.15);
+    }
+
+    .color-info {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .color-name {
+      font-size: 11px;
+      font-weight: 600;
+      color: #94A3B8;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+    }
+
+    .color-hex {
+      font-size: 14px;
+      font-weight: 700;
+      font-family: monospace;
+      color: #F8FAFC;
+    }
+
+    /* Presentation Layout */
+    .showcase-grid {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 40px;
+      max-width: 1100px;
+      width: 100%;
+    }
+
+    .device-card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 24px;
+      padding: 24px;
+      box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.6);
+    }
+
+    .device-card-header {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .device-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: #FFFFFF;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .device-tag {
+      font-size: 11px;
+      padding: 3px 8px;
+      border-radius: 6px;
+      font-weight: 600;
+      background: #23272D;
+      color: #94A3B8;
+    }
+
+    /* iPhone Frame */
+    .iphone-frame {
+      width: 390px;
+      height: 844px;
+      background-color: var(--pure-white);
+      border-radius: 50px;
+      position: relative;
+      box-shadow: 
+        0 0 0 4px #26292E,
+        0 0 0 9px #16181B,
+        0 30px 60px rgba(0, 0, 0, 0.8);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Dynamic Island & Status Bar */
+    .status-bar {
+      height: 48px;
+      padding: 12px 28px 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: var(--charcoal-black);
+      font-weight: 600;
+      font-size: 14px;
+      z-index: 10;
+      background: transparent;
+    }
+
+    .time-slot {
+      font-weight: 700;
+      letter-spacing: -0.2px;
+    }
+
+    .status-icons {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+    }
+
+    .status-icon-svg {
+      fill: var(--charcoal-black);
+    }
+
+    /* Screen Content */
+    .screen-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+      padding: 10px 20px 0;
+      position: relative;
+      scrollbar-width: none;
+    }
+
+    .screen-content::-webkit-scrollbar {
+      display: none;
+    }
+
+    /* Header & Search */
+    .dashboard-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 14px;
+    }
+
+    .brand-col {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .logo-container {
+      position: relative;
+      display: inline-block;
+      margin-bottom: 3px;
+    }
+
+    .wordmark {
+      font-size: 32px;
+      font-weight: 900;
+      color: var(--charcoal-black);
+      letter-spacing: -0.8px;
+      line-height: 1;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .hard-hat-overlay {
+      position: absolute;
+      top: -18px;
+      left: -10px;
+      width: 36px;
+      height: 28px;
+      transform: rotate(-14deg);
+      filter: drop-shadow(0 2px 4px rgba(32, 35, 38, 0.25));
+    }
+
+    .location-dropdown {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--charcoal-black);
+      cursor: pointer;
+    }
+
+    .location-pin {
+      width: 14px;
+      height: 14px;
+      stroke: var(--charcoal-black);
+      fill: none;
+      stroke-width: 2;
+    }
+
+    .chevron-icon {
+      width: 12px;
+      height: 12px;
+      stroke: var(--charcoal-black);
+      fill: none;
+      stroke-width: 2.2;
+    }
+
+    .notification-btn {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: #F3F4F6;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      position: relative;
+      border: none;
+    }
+
+    .notification-bell-svg {
+      width: 20px;
+      height: 20px;
+      stroke: var(--charcoal-black);
+      fill: none;
+      stroke-width: 2;
+    }
+
+    .bell-badge {
+      position: absolute;
+      top: 9px;
+      right: 10px;
+      width: 7px;
+      height: 7px;
+      background-color: var(--safety-yellow);
+      border-radius: 50%;
+      border: 1px solid var(--pure-white);
+    }
+
+    /* Search Bar */
+    .search-bar-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      height: 50px;
+      background-color: var(--concrete-grey);
+      border-radius: 9999px;
+      padding: 0 16px;
+      margin-bottom: 20px;
+    }
+
+    .search-icon {
+      width: 18px;
+      height: 18px;
+      stroke: var(--charcoal-black);
+      fill: none;
+      stroke-width: 2.2;
+    }
+
+    .search-input {
+      flex: 1;
+      border: none;
+      background: transparent;
+      outline: none;
+      font-family: inherit;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--charcoal-black);
+    }
+
+    .search-input::placeholder {
+      color: #6B7280;
+    }
+
+    .filter-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .filter-icon {
+      width: 18px;
+      height: 18px;
+      stroke: var(--charcoal-black);
+      fill: none;
+      stroke-width: 2.2;
+    }
+
+    /* Category Grid */
+    .categories-section {
+      margin-bottom: 20px;
+    }
+
+    .section-title {
+      font-size: 17px;
+      font-weight: 800;
+      color: var(--charcoal-black);
+      margin-bottom: 12px;
+      letter-spacing: -0.3px;
+    }
+
+    .category-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+
+    .category-card {
+      background-color: #F3F4F6;
+      border: 1px solid var(--concrete-grey);
+      border-radius: 18px;
+      padding: 12px 6px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      text-align: center;
+    }
+
+    .category-card:hover {
+      background-color: #FFFFFF;
+      border-color: var(--safety-yellow);
+      box-shadow: 0 4px 12px rgba(255, 204, 37, 0.2);
+      transform: translateY(-2px);
+    }
+
+    .avatar-wrapper {
+      width: 54px;
+      height: 54px;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .avatar-svg {
+      width: 100%;
+      height: 100%;
+    }
+
+    .category-label {
+      font-size: 13px;
+      font-weight: 800;
+      color: var(--charcoal-black);
+      letter-spacing: -0.2px;
+    }
+
+    /* Promo Banner */
+    .promo-banner {
+      background-color: var(--charcoal-black);
+      border-radius: 20px;
+      padding: 16px 18px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      position: relative;
+      overflow: hidden;
+      margin-bottom: 18px;
+    }
+
+    .promo-avatar {
+      width: 68px;
+      height: 68px;
+      flex-shrink: 0;
+    }
+
+    .promo-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+
+    .promo-headline {
+      font-size: 15px;
+      font-weight: 800;
+      color: var(--pure-white);
+      line-height: 1.25;
+      letter-spacing: -0.2px;
+    }
+
+    .promo-subtext {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--safety-yellow);
+      letter-spacing: 0.2px;
+    }
+
+    .promo-arrow-btn {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background-color: var(--safety-yellow);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: none;
+      cursor: pointer;
+      flex-shrink: 0;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      transition: transform 0.15s ease;
+    }
+
+    .promo-arrow-btn:hover {
+      transform: scale(1.08);
+    }
+
+    .arrow-icon {
+      font-size: 16px;
+      font-weight: 900;
+      color: var(--charcoal-black);
+    }
+
+    /* Bottom Navigation Bar */
+    .bottom-tab-bar {
+      height: 72px;
+      background-color: var(--pure-white);
+      border-top: 1px solid var(--concrete-grey);
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      padding: 0 10px 10px;
+      z-index: 20;
+    }
+
+    .tab-btn {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      width: 58px;
+      position: relative;
+    }
+
+    .tab-icon-svg {
+      width: 22px;
+      height: 22px;
+      stroke: #94A3B8;
+      fill: none;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .tab-label {
+      font-size: 11px;
+      font-weight: 600;
+      color: #94A3B8;
+    }
+
+    /* Active Tab (Home) */
+    .tab-btn.active .tab-icon-svg {
+      stroke: var(--charcoal-black);
+      fill: var(--safety-yellow);
+    }
+
+    .tab-btn.active .tab-label {
+      color: var(--charcoal-black);
+      font-weight: 800;
+    }
+
+    .tab-btn.active::before {
+      content: '';
+      position: absolute;
+      top: -12px;
+      width: 28px;
+      height: 3px;
+      background-color: var(--safety-yellow);
+      border-radius: 2px;
+    }
+
+    /* Image Preview Container */
+    .image-preview-container {
+      width: 390px;
+      height: 844px;
+      border-radius: 50px;
+      overflow: hidden;
+      box-shadow: 
+        0 0 0 4px #26292E,
+        0 0 0 9px #16181B,
+        0 30px 60px rgba(0, 0, 0, 0.8);
+      position: relative;
+      background: #FFFFFF;
+    }
+
+    .image-preview-container img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    /* Specs Table */
+    .specs-card {
+      margin-top: 40px;
+      max-width: 900px;
+      width: 100%;
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 20px;
+      padding: 28px;
+    }
+
+    .specs-card h2 {
+      font-size: 20px;
+      font-weight: 700;
+      color: #FFFFFF;
+      margin-bottom: 20px;
+    }
+
+    .spec-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+    }
+
+    .spec-table th, .spec-table td {
+      padding: 12px 16px;
+      text-align: left;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .spec-table th {
+      color: #94A3B8;
+      font-weight: 600;
+      text-transform: uppercase;
+      font-size: 12px;
+      letter-spacing: 0.5px;
+    }
+
+    .spec-table td {
+      color: #F1F5F9;
+    }
+
+    .spec-highlight {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-family: monospace;
+      font-size: 13px;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="badge">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M12 2L1 21h22L12 2zm0 3.99L19.53 19H4.47L12 5.99zM11 10h2v4h-2zm0 6h2v2h-2z"/>
+      </svg>
+      Labourly Mobile OS Design System
+    </div>
+    <h1>iOS Home Dashboard Screen Design</h1>
+    <p class="subtitle">Central customer dashboard strictly utilizing the 4-color palette, 7-trade avatar grid with Safety Yellow hard hats (#FFCC25), Charcoal Black promo banner (#202326), and 5-tab bottom navigation.</p>
+  </header>
+
+  <!-- Color Palette -->
+  <div class="palette-container">
+    <div class="palette-chip">
+      <div class="color-swatch" style="background-color: var(--safety-yellow);"></div>
+      <div class="color-info">
+        <span class="color-name">Safety Yellow</span>
+        <span class="color-hex">#FFCC25</span>
+      </div>
+    </div>
+    <div class="palette-chip">
+      <div class="color-swatch" style="background-color: var(--charcoal-black);"></div>
+      <div class="color-info">
+        <span class="color-name">Charcoal Black</span>
+        <span class="color-hex">#202326</span>
+      </div>
+    </div>
+    <div class="palette-chip">
+      <div class="color-swatch" style="background-color: var(--pure-white); border: 1px solid #333;"></div>
+      <div class="color-info">
+        <span class="color-name">Pure White</span>
+        <span class="color-hex">#FFFFFF</span>
+      </div>
+    </div>
+    <div class="palette-chip">
+      <div class="color-swatch" style="background-color: var(--concrete-grey);"></div>
+      <div class="color-info">
+        <span class="color-name">Concrete Grey</span>
+        <span class="color-hex">#E5E7EB</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Showcase Cards -->
+  <div class="showcase-grid">
+
+    <!-- Card 1: High Fidelity AI Generated Render -->
+    <div class="device-card">
+      <div class="device-card-header">
+        <div class="device-title">
+          <span>High-Res Master Render</span>
+        </div>
+        <span class="device-tag">AI Visual Artifact (8K Spec)</span>
+      </div>
+
+      <div class="image-preview-container">
+        <img src="../Labourly_iOS_Home_Dashboard.jpg" alt="Labourly iOS Mobile Home Dashboard Screen Render">
+      </div>
+    </div>
+
+    <!-- Card 2: Interactive Vector & Component Implementation -->
+    <div class="device-card">
+      <div class="device-card-header">
+        <div class="device-title">
+          <span>Interactive Vector Layout</span>
+        </div>
+        <span class="device-tag">390 x 844 px Native iOS Canvas</span>
+      </div>
+
+      <!-- iPhone Frame -->
+      <div class="iphone-frame">
+        <!-- iOS Status Bar -->
+        <div class="status-bar">
+          <div class="time-slot">9:41</div>
+          <div class="status-icons">
+            <svg class="status-icon-svg" width="17" height="12" viewBox="0 0 17 12">
+              <rect x="0" y="8" width="3" height="4" rx="0.5"/>
+              <rect x="4.5" y="5.5" width="3" height="6.5" rx="0.5"/>
+              <rect x="9" y="3" width="3" height="9" rx="0.5"/>
+              <rect x="13.5" y="0" width="3" height="12" rx="0.5"/>
+            </svg>
+            <svg class="status-icon-svg" width="16" height="12" viewBox="0 0 16 12">
+              <path d="M8 9.5a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3zm-4.2-2.8a6 6 0 0 1 8.4 0 .75.75 0 1 1-1.06 1.06 4.5 4.5 0 0 0-6.28 0 .75.75 0 0 1-1.06-1.06zm-3.18-3.18a10.5 10.5 0 0 1 14.76 0 .75.75 0 1 1-1.06 1.06 9 9 0 0 0-12.64 0 .75.75 0 0 1-1.06-1.06z"/>
+            </svg>
+            <svg class="status-icon-svg" width="25" height="12" viewBox="0 0 25 12">
+              <rect x="0.5" y="0.5" width="21" height="11" rx="3.5" fill="none" stroke="currentColor" stroke-width="1.2"/>
+              <rect x="2" y="2" width="18" height="8" rx="2" fill="currentColor"/>
+              <path d="M23 4.5v3a1 1 0 0 0 1-1v-1a1 1 0 0 0-1-1z" fill="currentColor"/>
+            </svg>
+          </div>
+        </div>
+
+        <!-- Scrollable Screen Content -->
+        <div class="screen-content">
+          <!-- Dashboard Header -->
+          <div class="dashboard-header">
+            <div class="brand-col">
+              <div class="logo-container">
+                <svg class="hard-hat-overlay" viewBox="0 0 100 80">
+                  <path d="M8 58 Q 50 68 92 58 Q 96 55 90 52 Q 50 48 10 52 Q 4 55 8 58 Z" fill="#FFCC25" stroke="#202326" stroke-width="4"/>
+                  <path d="M16 52 C 16 18, 84 18, 84 52 Z" fill="#FFCC25" stroke="#202326" stroke-width="4"/>
+                  <path d="M44 20 L 44 51 M 56 20 L 56 51" stroke="#202326" stroke-width="3.5" stroke-linecap="round"/>
+                  <path d="M50 18 L 50 51" stroke="#FFD84D" stroke-width="3" stroke-linecap="round"/>
+                </svg>
+                <div class="wordmark">Labourly</div>
+              </div>
+              <div class="location-dropdown">
+                <svg class="location-pin" viewBox="0 0 24 24">
+                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                  <circle cx="12" cy="10" r="3"/>
+                </svg>
+                <span>Bengaluru, Karnataka</span>
+                <svg class="chevron-icon" viewBox="0 0 24 24">
+                  <path d="M6 9l6 6 6-6"/>
+                </svg>
+              </div>
+            </div>
+
+            <!-- Top Right Notification Bell -->
+            <button class="notification-btn" aria-label="Notifications">
+              <svg class="notification-bell-svg" viewBox="0 0 24 24">
+                <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+                <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+              </svg>
+              <div class="bell-badge"></div>
+            </button>
+          </div>
+
+          <!-- Search Bar -->
+          <div class="search-bar-row">
+            <svg class="search-icon" viewBox="0 0 24 24">
+              <circle cx="11" cy="11" r="8"/>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+            </svg>
+            <input type="text" class="search-input" placeholder="Search for labour, skills, or jobs...">
+            <button class="filter-btn" aria-label="Filter">
+              <svg class="filter-icon" viewBox="0 0 24 24">
+                <line x1="4" y1="21" x2="4" y2="14"/>
+                <line x1="4" y1="10" x2="4" y2="3"/>
+                <line x1="12" y1="21" x2="12" y2="12"/>
+                <line x1="12" y1="8" x2="12" y2="3"/>
+                <line x1="20" y1="21" x2="20" y2="16"/>
+                <line x1="20" y1="12" x2="20" y2="3"/>
+                <line x1="1" y1="14" x2="7" y2="14"/>
+                <line x1="9" y1="8" x2="15" y2="8"/>
+                <line x1="17" y1="16" x2="23" y2="16"/>
+              </svg>
+            </button>
+          </div>
+
+          <!-- Category Grid (7 Trade Items) -->
+          <div class="categories-section">
+            <div class="section-title">Trade Categories</div>
+            <div class="category-grid">
+              <!-- 1. Mason -->
+              <div class="category-card">
+                <div class="avatar-wrapper">
+                  <svg class="avatar-svg" viewBox="0 0 60 60">
+                    <circle cx="30" cy="30" r="28" fill="#E5E7EB"/>
+                    <!-- Shoulders/Bib -->
+                    <path d="M16 54 L20 42 L40 42 L44 54 Z" fill="#202326"/>
+                    <rect x="23" y="42" width="14" height="12" fill="#FFCC25"/>
+                    <!-- Neck -->
+                    <rect x="26" y="32" width="8" height="12" fill="#B45309"/>
+                    <!-- Head -->
+                    <circle cx="30" cy="28" r="10" fill="#B45309"/>
+                    <!-- Safety Yellow Hard Hat -->
+                    <ellipse cx="30" cy="22" rx="14" ry="4" fill="#FFCC25" stroke="#202326" stroke-width="1.5"/>
+                    <path d="M18 22 C18 10, 42 10, 42 22 Z" fill="#FFCC25" stroke="#202326" stroke-width="1.5"/>
+                  </svg>
+                </div>
+                <span class="category-label">Mason</span>
+              </div>
+
+              <!-- 2. Carpenter -->
+              <div class="category-card">
+                <div class="avatar-wrapper">
+                  <svg class="avatar-svg" viewBox="0 0 60 60">
+                    <circle cx="30" cy="30" r="28" fill="#E5E7EB"/>
+                    <path d="M16 54 L20 42 L40 42 L44 54 Z" fill="#202326"/>
+                    <rect x="23" y="42" width="14" height="12" fill="#FFCC25"/>
+                    <rect x="26" y="32" width="8" height="12" fill="#D97706"/>
+                    <circle cx="30" cy="28" r="10" fill="#D97706"/>
+                    <!-- Beard -->
+                    <path d="M24 28 C24 35, 36 35, 36 28 Z" fill="#202326"/>
+                    <!-- Safety Yellow Hard Hat -->
+                    <ellipse cx="30" cy="22" rx="14" ry="4" fill="#FFCC25" stroke="#202326" stroke-width="1.5"/>
+                    <path d="M18 22 C18 10, 42 10, 42 22 Z" fill="#FFCC25" stroke="#202326" stroke-width="1.5"/>
+                  </svg>
+                </div>
+                <span class="category-label">Carpenter</span>
+              </div>
+
+              <!-- 3. Plumber -->
+              <div class="category-card">
+                <div class="avatar-wrapper">
+                  <svg class="avatar-svg" viewBox="0 0 60 60">
+                    <circle cx="30" cy="30" r="28" fill="#E5E7EB"/>
+                    <path d="M16 54 L20 42 L40 42 L44 54 Z" fill="#202326"/>
+                    <rect x="23" y="42" width="14" height="12" fill="#E5E7EB"/>
+                    <rect x="26" y="32" width="8" height="12" fill="#FBBF24"/>
+                    <circle cx="30" cy="28" r="10" fill="#FBBF24"/>
+                    <!-- Safety Yellow Hard Hat -->
+                    <ellipse cx="30" cy="22" rx="14" ry="4" fill="#FFCC25" stroke="#202326" stroke-width="1.5"/>
+                    <path d="M18 22 C18 10, 42 10, 42 22 Z" fill="#FFCC25" stroke="#202326" stroke-width="1.5"/>
+                  </svg>
+                </div>
+                <span class="category-label">Plumber</span>
+              </div>
+
+              <!-- 4. Electrician -->
+              <div class="category-card">
+                <div class="avatar-wrapper">
+                  <svg class="avatar-svg" viewBox="0 0 60 60">
+                    <circle cx="30" cy="30" r="28" fill="#E5E7EB"/>
+                    <path d="M16 54 L20 42 L40 42 L44 54 Z" fill="#202326"/>
+                    <rect x="23" y="42" width="14" height="12" fill="#FFCC25"/>
+                    <rect x="26" y="32" width="8" height="12" fill="#D97706"/>
+                    <circle cx="30" cy="28" r="10" fill="#D97706"/>
+                    <!-- Safety Yellow Hard Hat -->
+                    <ellipse cx="30" cy="22" rx="14" ry="4" fill="#FFCC25" stroke="#202326" stroke-width="1.5"/>
+                    <path d="M18 22 C18 10, 42 10, 42 22 Z" fill="#FFCC25" stroke="#202326" stroke-width="1.5"/>
+                  </svg>
+                </div>
+                <span class="category-label">Electrician</span>
+              </div>
+
+              <!-- 5. Painter -->
+              <div class="category-card">
+                <div class="avatar-wrapper">
+                  <svg class="avatar-svg" viewBox="0 0 60 60">
+                    <circle cx="30" cy="30" r="28" fill="#E5E7EB"/>
+                    <path d="M16 54 L20 42 L40 42 L44 54 Z" fill="#202326"/>
+                    <rect x="23" y="42" width="14" height="12" fill="#FFFFFF"/>
+                    <rect x="26" y="32" width="8" height="12" fill="#FBBF24"/>
+                    <circle cx="30" cy="28" r="10" fill="#FBBF24"/>
+                    <!-- Safety Yellow Hard Hat -->
+                    <ellipse cx="30" cy="22" rx="14" ry="4" fill="#FFCC25" stroke="#202326" stroke-width="1.5"/>
+                    <path d="M18 22 C18 10, 42 10, 42 22 Z" fill="#FFCC25" stroke="#202326" stroke-width="1.5"/>
+                  </svg>
+                </div>
+                <span class="category-label">Painter</span>
+              </div>
+
+              <!-- 6. Welder -->
+              <div class="category-card">
+                <div class="avatar-wrapper">
+                  <svg class="avatar-svg" viewBox="0 0 60 60">
+                    <circle cx="30" cy="30" r="28" fill="#E5E7EB"/>
+                    <path d="M16 54 L20 42 L40 42 L44 54 Z" fill="#202326"/>
+                    <rect x="23" y="42" width="14" height="12" fill="#FFCC25"/>
+                    <rect x="26" y="32" width="8" height="12" fill="#B45309"/>
+                    <circle cx="30" cy="28" r="10" fill="#B45309"/>
+                    <!-- Safety Yellow Hard Hat -->
+                    <ellipse cx="30" cy="22" rx="14" ry="4" fill="#FFCC25" stroke="#202326" stroke-width="1.5"/>
+                    <path d="M18 22 C18 10, 42 10, 42 22 Z" fill="#FFCC25" stroke="#202326" stroke-width="1.5"/>
+                  </svg>
+                </div>
+                <span class="category-label">Welder</span>
+              </div>
+
+              <!-- 7. Helper -->
+              <div class="category-card" style="grid-column: span 3; max-width: 140px; margin: 0 auto; width: 100%;">
+                <div class="avatar-wrapper">
+                  <svg class="avatar-svg" viewBox="0 0 60 60">
+                    <circle cx="30" cy="30" r="28" fill="#E5E7EB"/>
+                    <path d="M16 54 L20 42 L40 42 L44 54 Z" fill="#202326"/>
+                    <rect x="23" y="42" width="14" height="12" fill="#FFCC25"/>
+                    <rect x="26" y="32" width="8" height="12" fill="#D97706"/>
+                    <circle cx="30" cy="28" r="10" fill="#D97706"/>
+                    <!-- Safety Yellow Hard Hat -->
+                    <ellipse cx="30" cy="22" rx="14" ry="4" fill="#FFCC25" stroke="#202326" stroke-width="1.5"/>
+                    <path d="M18 22 C18 10, 42 10, 42 22 Z" fill="#FFCC25" stroke="#202326" stroke-width="1.5"/>
+                  </svg>
+                </div>
+                <span class="category-label">Helper</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Promo Banner -->
+          <div class="promo-banner">
+            <div class="promo-avatar">
+              <svg viewBox="0 0 80 80" width="100%" height="100%">
+                <circle cx="40" cy="40" r="38" fill="#2D3136"/>
+                <!-- Torso & Overalls -->
+                <path d="M18 76 L24 55 L56 55 L62 76 Z" fill="#FFFFFF"/>
+                <rect x="30" y="55" width="20" height="21" fill="#FFCC25"/>
+                <!-- Head & Neck -->
+                <rect x="34" y="42" width="12" height="14" fill="#D97706"/>
+                <circle cx="40" cy="36" r="13" fill="#D97706"/>
+                <!-- Yellow Hard Hat -->
+                <ellipse cx="40" cy="27" rx="19" ry="5.5" fill="#FFCC25" stroke="#202326" stroke-width="2"/>
+                <path d="M24 27 C24 10, 56 10, 56 27 Z" fill="#FFCC25" stroke="#202326" stroke-width="2"/>
+              </svg>
+            </div>
+            <div class="promo-content">
+              <div class="promo-headline">Get Skilled Labour<br>Near You</div>
+              <div class="promo-subtext">Verified • Reliable • On Demand</div>
+            </div>
+            <button class="promo-arrow-btn" aria-label="Browse nearby labour">
+              <span class="arrow-icon">→</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Bottom 5-Tab Navigation Bar -->
+        <div class="bottom-tab-bar">
+          <!-- 1. Home (Active) -->
+          <button class="tab-btn active" onclick="switchTab(this)">
+            <svg class="tab-icon-svg" viewBox="0 0 24 24">
+              <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+              <polyline points="9 22 9 12 15 12 15 22"/>
+            </svg>
+            <span class="tab-label">Home</span>
+          </button>
+
+          <!-- 2. Workers -->
+          <button class="tab-btn" onclick="switchTab(this)">
+            <svg class="tab-icon-svg" viewBox="0 0 24 24">
+              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+              <circle cx="9" cy="7" r="4"/>
+              <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+              <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+            </svg>
+            <span class="tab-label">Workers</span>
+          </button>
+
+          <!-- 3. Jobs -->
+          <button class="tab-btn" onclick="switchTab(this)">
+            <svg class="tab-icon-svg" viewBox="0 0 24 24">
+              <rect x="2" y="7" width="20" height="14" rx="2" ry="2"/>
+              <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>
+            </svg>
+            <span class="tab-label">Jobs</span>
+          </button>
+
+          <!-- 4. Chat -->
+          <button class="tab-btn" onclick="switchTab(this)">
+            <svg class="tab-icon-svg" viewBox="0 0 24 24">
+              <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/>
+            </svg>
+            <span class="tab-label">Chat</span>
+          </button>
+
+          <!-- 5. Profile -->
+          <button class="tab-btn" onclick="switchTab(this)">
+            <svg class="tab-icon-svg" viewBox="0 0 24 24">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+              <circle cx="12" cy="7" r="4"/>
+            </svg>
+            <span class="tab-label">Profile</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Design Tokens & Implementation Specifications -->
+  <div class="specs-card">
+    <h2>Home Dashboard Screen Specification & Token Mapping</h2>
+    <table class="spec-table">
+      <thead>
+        <tr>
+          <th>Element</th>
+          <th>Specification Details</th>
+          <th>Applied Color Token</th>
+          <th>Layout / Geometry Tokens</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Screen Background</strong></td>
+          <td>Full Viewport Canvas</td>
+          <td><span class="spec-highlight" style="background:#FFF; color:#000;">#FFFFFF (Pure White)</span></td>
+          <td>390 x 844 px (Standard iPhone viewport, 50px border-radius)</td>
+        </tr>
+        <tr>
+          <td><strong>Status Bar</strong></td>
+          <td>iOS System Bar</td>
+          <td><span class="spec-highlight" style="background:#202326; color:#FFF;">#202326 (Charcoal Black)</span></td>
+          <td>9:41 Time, Cellular signal, Wi-Fi 6, Battery indicator</td>
+        </tr>
+        <tr>
+          <td><strong>Top Brand Logo</strong></td>
+          <td>Labourly Wordmark with Tilted Helmet</td>
+          <td><span class="spec-highlight" style="background:#202326; color:#FFF;">#202326</span> & <span class="spec-highlight" style="background:#FFCC25; color:#000;">#FFCC25</span></td>
+          <td>Inter 32px extra-bold logo with -14° tilted safety hard hat on 'L'</td>
+        </tr>
+        <tr>
+          <td><strong>Location & Notifications</strong></td>
+          <td>City Dropdown & Bell Button</td>
+          <td><span class="spec-highlight" style="background:#202326; color:#FFF;">#202326</span> / <span class="spec-highlight" style="background:#FFCC25; color:#000;">#FFCC25 dot</span></td>
+          <td>"Bengaluru, Karnataka", map pin, chevron, 40px circular bell button</td>
+        </tr>
+        <tr>
+          <td><strong>Search Bar</strong></td>
+          <td>Full-Width Search + Filter Pill</td>
+          <td><span class="spec-highlight" style="background:#E5E7EB; color:#000;">#E5E7EB (Concrete Grey)</span></td>
+          <td>50px height, pill-rounded (9999px), search icon + filter sliders icon</td>
+        </tr>
+        <tr>
+          <td><strong>Category Grid (7 Trades)</strong></td>
+          <td>Mason, Carpenter, Plumber, Electrician, Painter, Welder, Helper</td>
+          <td><span class="spec-highlight" style="background:#E5E7EB; color:#000;">#E5E7EB</span> & <span class="spec-highlight" style="background:#FFCC25; color:#000;">#FFCC25 Hats</span></td>
+          <td>3-column grid, 18px rounded square cards with illustrated worker avatars</td>
+        </tr>
+        <tr>
+          <td><strong>Promo Banner</strong></td>
+          <td>High-Contrast Callout Card</td>
+          <td><span class="spec-highlight" style="background:#202326; color:#FFF;">#202326 Background</span></td>
+          <td>Solid #202326 surface, #FFFFFF headline, #FFCC25 subtext, 36px yellow FAB arrow</td>
+        </tr>
+        <tr>
+          <td><strong>Bottom Tab Navigation</strong></td>
+          <td>5-Tab Navigation Bar</td>
+          <td><span class="spec-highlight" style="background:#FFF; color:#000;">#FFFFFF</span> / <span class="spec-highlight" style="background:#FFCC25; color:#000;">#FFCC25 Active</span></td>
+          <td>72px bar: Home (active with #FFCC25 fill & top indicator), Workers, Jobs, Chat, Profile</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <script>
+    function switchTab(clickedTab) {
+      document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+      clickedTab.classList.add('active');
+    }
+  </script>
+
+</body>
+</html>

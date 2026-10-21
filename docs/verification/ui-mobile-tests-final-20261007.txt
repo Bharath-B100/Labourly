@@ -1,0 +1,17 @@
+PASS src/__tests__/ui.test.tsx
+PASS src/__tests__/onboarding.test.tsx
+PASS src/__tests__/discovery.test.tsx
+PASS src/__tests__/requirement-publish.test.tsx
+PASS src/__tests__/bookings.test.tsx
+PASS src/__tests__/quotes.test.tsx
+PASS src/__tests__/foundation.test.tsx
+PASS src/__tests__/session.test.ts
+PASS src/__tests__/api.test.ts
+PASS src/__tests__/quotation-api.test.ts
+
+Test Suites: 10 passed, 10 total
+Tests:       50 passed, 50 total
+Snapshots:   0 total
+Time:        7.812 s
+Ran all test suites.
+Test results written to: ..\docs\verification\ui-mobile-tests-final-20261007.json

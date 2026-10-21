@@ -1,0 +1,644 @@
+  ● [36m< />[39m
+
+  ● [36m< />[39m
+
+  ● [36m< />[39m
+
+  ● [36m< />[39m
+
+  ● [36m< />[39m
+
+  ● [36m< />[39m
+
+  ● [36m< />[39m
+
+  ● [36m< />[39m
+
+  ● [36m< />[39m
+
+  ● [36m< />[39m
+
+  ● [36m< />[39m
+
+  ● [36m< />[39m
+
+  ● [36m< />[39m
+
+  ● [36m< />[39m
+
+  ● [36m< />[39m
+
+  ● [36m< />[39m
+
+  ● [36m< />[39m
+
+  ● [36m< />[39m
+
+  ● [36m< />[39m
+
+  ● [36m< />[39m
+
+  ● [36m< />[39m
+
+  ● [36m< />[39m
+
+  ● [36m< />[39m
+
+  ● [36m< />[39m
+
+  ● [36m< />[39m
+
+  ● [36m< />[39m
+
+  ● [36m< />[39m
+
+  ● [36m< />[39m
+
+  ● [36m< />[39m
+
+  ● [36m< />[39m
+
+  ● [36m< />[39m
+
+  ● [36m< />[39m
+
+  ● [36m< />[39m
+
+  ● [36m< />[39m
+
+  ● [36m< />[39m
+
+  ● [36m< />[39m
+
+  ● [36m< />[39m
+
+  ● [36m< />[39m
+
+  ● [36m< />[39m
+
+  ● [36m< />[39m
+
+  ● [36m< />[39m
+
+  ● [36m< />[39m
+
+  ● [36m< />[39m
+
+  ● [36m< />[39m
+
+  ● [36m< />[39m
+
+  ● [36m< />[39m
+
+  ● [36m< />[39m
+
+  ● [36m< />[39m
+
+  ● [36m< />[39m
+
+FAIL src/__tests__/quotes.test.tsx (43.547 s)
+  ● Console
+
+    console.log
+      amount onChangeText fired with: 3000
+
+      at log (D:\Files\EDUCATION\NammaCrew\mobile\src\app\(worker)../../../../opportunity/[id].tsx:272:25)
+
+    console.log
+      handleSubmit called! amount: 3000 days: 2
+
+      at log (D:\Files\EDUCATION\NammaCrew\mobile\src\app\(worker)../../../../opportunity/[id].tsx:89:13)
+
+    console.log
+      Validation passed, submitting...
+
+      at log (D:\Files\EDUCATION\NammaCrew\mobile\src\app\(worker)../../../../opportunity/[id].tsx:102:13)
+
+    console.log
+      TEST 2 DOM OUTPUT:
+
+      at log (src/__tests__/quotes.test.tsx:127:17)
+
+    console.log
+      TEST 2 DOM OUTPUT:
+
+      at log (src/__tests__/quotes.test.tsx:127:17)
+
+    console.log
+      TEST 2 DOM OUTPUT:
+
+      at log (src/__tests__/quotes.test.tsx:127:17)
+
+    console.log
+      TEST 2 DOM OUTPUT:
+
+      at log (src/__tests__/quotes.test.tsx:127:17)
+
+    console.log
+      TEST 2 DOM OUTPUT:
+
+      at log (src/__tests__/quotes.test.tsx:127:17)
+
+    console.log
+      TEST 2 DOM OUTPUT:
+
+      at log (src/__tests__/quotes.test.tsx:127:17)
+
+    console.log
+      TEST 2 DOM OUTPUT:
+
+      at log (src/__tests__/quotes.test.tsx:127:17)
+
+    console.log
+      TEST 2 DOM OUTPUT:
+
+      at log (src/__tests__/quotes.test.tsx:127:17)
+
+    console.log
+      TEST 2 DOM OUTPUT:
+
+      at log (src/__tests__/quotes.test.tsx:127:17)
+
+    console.log
+      TEST 2 DOM OUTPUT:
+
+      at log (src/__tests__/quotes.test.tsx:127:17)
+
+    console.log
+      TEST 2 DOM OUTPUT:
+
+      at log (src/__tests__/quotes.test.tsx:127:17)
+
+    console.log
+      TEST 2 DOM OUTPUT:
+
+      at log (src/__tests__/quotes.test.tsx:127:17)
+
+    console.log
+      TEST 2 DOM OUTPUT:
+
+      at log (src/__tests__/quotes.test.tsx:127:17)
+
+    console.log
+      TEST 2 DOM OUTPUT:
+
+      at log (src/__tests__/quotes.test.tsx:127:17)
+
+    console.log
+      TEST 2 DOM OUTPUT:
+
+      at log (src/__tests__/quotes.test.tsx:127:17)
+
+    console.log
+      TEST 2 DOM OUTPUT:
+
+      at log (src/__tests__/quotes.test.tsx:127:17)
+
+    console.log
+      TEST 2 DOM OUTPUT:
+
+      at log (src/__tests__/quotes.test.tsx:127:17)
+
+    console.log
+      TEST 2 DOM OUTPUT:
+
+      at log (src/__tests__/quotes.test.tsx:127:17)
+
+    console.log
+      TEST 2 DOM OUTPUT:
+
+      at log (src/__tests__/quotes.test.tsx:127:17)
+
+    console.log
+      TEST 2 DOM OUTPUT:
+
+      at log (src/__tests__/quotes.test.tsx:127:17)
+
+    console.log
+      TEST 2 DOM OUTPUT:
+
+      at log (src/__tests__/quotes.test.tsx:127:17)
+
+    console.log
+      TEST 2 DOM OUTPUT:
+
+      at log (src/__tests__/quotes.test.tsx:127:17)
+
+    console.log
+      TEST 2 DOM OUTPUT:
+
+      at log (src/__tests__/quotes.test.tsx:127:17)
+
+    console.log
+      TEST 2 DOM OUTPUT:
+
+      at log (src/__tests__/quotes.test.tsx:127:17)
+
+    console.log
+      TEST 2 DOM OUTPUT:
+
+      at log (src/__tests__/quotes.test.tsx:127:17)
+
+    console.log
+      TEST 2 DOM OUTPUT:
+
+      at log (src/__tests__/quotes.test.tsx:127:17)
+
+    console.log
+      TEST 2 DOM OUTPUT:
+
+      at log (src/__tests__/quotes.test.tsx:127:17)
+
+    console.log
+      TEST 2 DOM OUTPUT:
+
+      at log (src/__tests__/quotes.test.tsx:127:17)
+
+    console.log
+      TEST 2 DOM OUTPUT:
+
+      at log (src/__tests__/quotes.test.tsx:127:17)
+
+    console.log
+      TEST 2 DOM OUTPUT:
+
+      at log (src/__tests__/quotes.test.tsx:127:17)
+
+    console.log
+      TEST 2 DOM OUTPUT:
+
+      at log (src/__tests__/quotes.test.tsx:127:17)
+
+    console.log
+      TEST 2 DOM OUTPUT:
+
+      at log (src/__tests__/quotes.test.tsx:127:17)
+
+    console.log
+      TEST 4 DOM OUTPUT:
+
+      at log (src/__tests__/quotes.test.tsx:167:17)
+
+    console.log
+      TEST 4 DOM OUTPUT:
+
+      at log (src/__tests__/quotes.test.tsx:167:17)
+
+    console.log
+      TEST 4 DOM OUTPUT:
+
+      at log (src/__tests__/quotes.test.tsx:167:17)
+
+    console.log
+      TEST 4 DOM OUTPUT:
+
+      at log (src/__tests__/quotes.test.tsx:167:17)
+
+    console.log
+      TEST 4 DOM OUTPUT:
+
+      at log (src/__tests__/quotes.test.tsx:167:17)
+
+    console.log
+      TEST 4 DOM OUTPUT:
+
+      at log (src/__tests__/quotes.test.tsx:167:17)
+
+    console.log
+      TEST 4 DOM OUTPUT:
+
+      at log (src/__tests__/quotes.test.tsx:167:17)
+
+    console.log
+      TEST 4 DOM OUTPUT:
+
+      at log (src/__tests__/quotes.test.tsx:167:17)
+
+    console.log
+      TEST 4 DOM OUTPUT:
+
+      at log (src/__tests__/quotes.test.tsx:167:17)
+
+    console.log
+      TEST 4 DOM OUTPUT:
+
+      at log (src/__tests__/quotes.test.tsx:167:17)
+
+    console.log
+      TEST 4 DOM OUTPUT:
+
+      at log (src/__tests__/quotes.test.tsx:167:17)
+
+    console.log
+      TEST 4 DOM OUTPUT:
+
+      at log (src/__tests__/quotes.test.tsx:167:17)
+
+    console.log
+      TEST 4 DOM OUTPUT:
+
+      at log (src/__tests__/quotes.test.tsx:167:17)
+
+    console.log
+      TEST 4 DOM OUTPUT:
+
+      at log (src/__tests__/quotes.test.tsx:167:17)
+
+    console.log
+      TEST 4 DOM OUTPUT:
+
+      at log (src/__tests__/quotes.test.tsx:167:17)
+
+    console.log
+      TEST 4 DOM OUTPUT:
+
+      at log (src/__tests__/quotes.test.tsx:167:17)
+
+    console.log
+      TEST 4 DOM OUTPUT:
+
+      at log (src/__tests__/quotes.test.tsx:167:17)
+
+  ● Worker Quote Submission › renders existing quote and allows withdrawal
+
+    Unable to find an element with text: Update Quote
+
+      121 |     await render(<OpportunityDetailsScreen />);
+      122 |     
+    > 123 |     await waitFor(() => {
+          |                  ^
+      124 |       try {
+      125 |         expect(screen.getByText('Update Quote')).toBeTruthy();
+      126 |       } catch (e) {
+
+      at Object.<anonymous> (src/__tests__/quotes.test.tsx:123:18)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+  ● Worker Quote Submission › handles backend/API error gracefully
+
+    Unable to find an element with text: Network Error
+
+      149 |     (apiJson as jest.Mock).mockRejectedValue(new Error('Network Error'));
+      150 |     await render(<OpportunityDetailsScreen />);
+    > 151 |     await waitFor(() => expect(screen.getByText('Network Error')).toBeTruthy());
+          |                  ^
+      152 |   });
+      153 | });
+      154 |
+
+      at Object.<anonymous> (src/__tests__/quotes.test.tsx:151:18)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+  ● Customer Quote Management › renders empty quote state
+
+    Unable to find an element with text: No quotes yet
+
+      161 |     (getRequirementQuotes as jest.Mock).mockResolvedValue([]);
+      162 |     await render(<QuotesScreen />);
+    > 163 |     await waitFor(() => {
+          |                  ^
+      164 |       try {
+      165 |         expect(screen.getByText('No quotes yet')).toBeTruthy();
+      166 |       } catch (e) {
+
+      at Object.<anonymous> (src/__tests__/quotes.test.tsx:163:18)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+  ● Customer Quote Management › renders quotes and allows accepting
+
+    Unable to find an element with text: Worker A
+
+      185 |     
+      186 |     await render(<QuotesScreen />);
+    > 187 |     await waitFor(() => expect(screen.getByText('Worker A')).toBeTruthy());
+          |                  ^
+      188 |     
+      189 |     mockAlert.mockImplementation((title, message, buttons) => {
+      190 |       if (buttons && buttons[1] && buttons[1].onPress) {
+
+      at Object.<anonymous> (src/__tests__/quotes.test.tsx:187:18)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+  ● Customer Quote Management › rejects quote successfully
+
+    Unable to find an element with text: Reject
+
+      214 |     
+      215 |     await render(<QuotesScreen />);
+    > 216 |     await waitFor(() => expect(screen.getByText('Reject')).toBeTruthy());
+          |                  ^
+      217 |     
+      218 |     mockAlert.mockImplementation((title, message, buttons) => {
+      219 |       if (buttons && buttons[1] && buttons[1].onPress) {
+
+      at Object.<anonymous> (src/__tests__/quotes.test.tsx:216:18)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+PASS src/__tests__/onboarding.test.tsx (12.387 s)
+PASS src/__tests__/bookings.test.tsx
+  ● Console
+
+    console.error
+      The current testing environment is not configured to support act(...)
+
+      109 |           }
+      110 |           const data = await getMyBookings();
+    > 111 |           if (mounted) setBookings(data);
+          |                        ^
+      112 |         } catch (e: any) {
+      113 |           if (mounted) setError(e.message ?? 'Failed to load bookings');
+      114 |         } finally {
+
+      at isConcurrentActEnvironment (node_modules/react-reconciler/cjs/react-reconciler.development.js:13990:17)
+      at warnIfUpdatesNotWrappedWithActDEV (node_modules/react-reconciler/cjs/react-reconciler.development.js:16304:7)
+      at scheduleUpdateOnFiber (node_modules/react-reconciler/cjs/react-reconciler.development.js:14070:11)
+      at dispatchSetStateInternal (node_modules/react-reconciler/cjs/react-reconciler.development.js:6784:13)
+      at dispatchSetState (node_modules/react-reconciler/cjs/react-reconciler.development.js:6741:7)
+      at setBookings (D:\Files\EDUCATION\NammaCrew\mobile\src\app\(customer)../../../../bookings.tsx:111:24)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+    console.error
+      The current testing environment is not configured to support act(...)
+
+      113 |           if (mounted) setError(e.message ?? 'Failed to load bookings');
+      114 |         } finally {
+    > 115 |           if (mounted) setLoading(false);
+          |                        ^
+      116 |         }
+      117 |       };
+      118 |       fetchData();
+
+      at isConcurrentActEnvironment (node_modules/react-reconciler/cjs/react-reconciler.development.js:13990:17)
+      at warnIfUpdatesNotWrappedWithActDEV (node_modules/react-reconciler/cjs/react-reconciler.development.js:16304:7)
+      at scheduleUpdateOnFiber (node_modules/react-reconciler/cjs/react-reconciler.development.js:14070:11)
+      at dispatchSetStateInternal (node_modules/react-reconciler/cjs/react-reconciler.development.js:6784:13)
+      at dispatchSetState (node_modules/react-reconciler/cjs/react-reconciler.development.js:6741:7)
+      at setLoading (D:\Files\EDUCATION\NammaCrew\mobile\src\app\(customer)../../../../bookings.tsx:115:24)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+    console.error
+      The current testing environment is not configured to support act(...)
+
+      109 |           }
+      110 |           const data = await getMyBookings();
+    > 111 |           if (mounted) setBookings(data);
+          |                        ^
+      112 |         } catch (e: any) {
+      113 |           if (mounted) setError(e.message ?? 'Failed to load bookings');
+      114 |         } finally {
+
+      at isConcurrentActEnvironment (node_modules/react-reconciler/cjs/react-reconciler.development.js:13990:17)
+      at warnIfUpdatesNotWrappedWithActDEV (node_modules/react-reconciler/cjs/react-reconciler.development.js:16304:7)
+      at scheduleUpdateOnFiber (node_modules/react-reconciler/cjs/react-reconciler.development.js:14070:11)
+      at dispatchSetStateInternal (node_modules/react-reconciler/cjs/react-reconciler.development.js:6784:13)
+      at dispatchSetState (node_modules/react-reconciler/cjs/react-reconciler.development.js:6741:7)
+      at setBookings (D:\Files\EDUCATION\NammaCrew\mobile\src\app\(customer)../../../../bookings.tsx:111:24)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+    console.error
+      The current testing environment is not configured to support act(...)
+
+      113 |           if (mounted) setError(e.message ?? 'Failed to load bookings');
+      114 |         } finally {
+    > 115 |           if (mounted) setLoading(false);
+          |                        ^
+      116 |         }
+      117 |       };
+      118 |       fetchData();
+
+      at isConcurrentActEnvironment (node_modules/react-reconciler/cjs/react-reconciler.development.js:13990:17)
+      at warnIfUpdatesNotWrappedWithActDEV (node_modules/react-reconciler/cjs/react-reconciler.development.js:16304:7)
+      at scheduleUpdateOnFiber (node_modules/react-reconciler/cjs/react-reconciler.development.js:14070:11)
+      at dispatchSetStateInternal (node_modules/react-reconciler/cjs/react-reconciler.development.js:6784:13)
+      at dispatchSetState (node_modules/react-reconciler/cjs/react-reconciler.development.js:6741:7)
+      at setLoading (D:\Files\EDUCATION\NammaCrew\mobile\src\app\(customer)../../../../bookings.tsx:115:24)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+    console.error
+      The current testing environment is not configured to support act(...)
+
+      46 |       }
+      47 |       const data = await getBookingDetails(id);
+    > 48 |       if (mounted.current) setBooking(data);
+         |                            ^
+      49 |     } catch (e: any) {
+      50 |       if (mounted.current) setError(e.message ?? 'Failed to load booking details');
+      51 |     } finally {
+
+      at isConcurrentActEnvironment (node_modules/react-reconciler/cjs/react-reconciler.development.js:13990:17)
+      at warnIfUpdatesNotWrappedWithActDEV (node_modules/react-reconciler/cjs/react-reconciler.development.js:16304:7)
+      at scheduleUpdateOnFiber (node_modules/react-reconciler/cjs/react-reconciler.development.js:14070:11)
+      at dispatchSetStateInternal (node_modules/react-reconciler/cjs/react-reconciler.development.js:6784:13)
+      at dispatchSetState (node_modules/react-reconciler/cjs/react-reconciler.development.js:6741:7)
+      at setBooking (D:\Files\EDUCATION\NammaCrew\mobile\src\app\(customer)../../../../booking/[id].tsx:48:28)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+    console.error
+      The current testing environment is not configured to support act(...)
+
+      50 |       if (mounted.current) setError(e.message ?? 'Failed to load booking details');
+      51 |     } finally {
+    > 52 |       if (mounted.current) setLoading(false);
+         |                            ^
+      53 |     }
+      54 |   };
+      55 |
+
+      at isConcurrentActEnvironment (node_modules/react-reconciler/cjs/react-reconciler.development.js:13990:17)
+      at warnIfUpdatesNotWrappedWithActDEV (node_modules/react-reconciler/cjs/react-reconciler.development.js:16304:7)
+      at scheduleUpdateOnFiber (node_modules/react-reconciler/cjs/react-reconciler.development.js:14070:11)
+      at dispatchSetStateInternal (node_modules/react-reconciler/cjs/react-reconciler.development.js:6784:13)
+      at dispatchSetState (node_modules/react-reconciler/cjs/react-reconciler.development.js:6741:7)
+      at setLoading (D:\Files\EDUCATION\NammaCrew\mobile\src\app\(customer)../../../../booking/[id].tsx:52:28)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+    console.error
+      The current testing environment is not configured to support act(...)
+
+      46 |       }
+      47 |       const data = await getBookingDetails(id);
+    > 48 |       if (mounted.current) setBooking(data);
+         |                            ^
+      49 |     } catch (e: any) {
+      50 |       if (mounted.current) setError(e.message ?? 'Failed to load booking details');
+      51 |     } finally {
+
+      at isConcurrentActEnvironment (node_modules/react-reconciler/cjs/react-reconciler.development.js:13990:17)
+      at warnIfUpdatesNotWrappedWithActDEV (node_modules/react-reconciler/cjs/react-reconciler.development.js:16304:7)
+      at scheduleUpdateOnFiber (node_modules/react-reconciler/cjs/react-reconciler.development.js:14070:11)
+      at dispatchSetStateInternal (node_modules/react-reconciler/cjs/react-reconciler.development.js:6784:13)
+      at dispatchSetState (node_modules/react-reconciler/cjs/react-reconciler.development.js:6741:7)
+      at setBooking (D:\Files\EDUCATION\NammaCrew\mobile\src\app\(customer)../../../../booking/[id].tsx:48:28)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+    console.error
+      The current testing environment is not configured to support act(...)
+
+      50 |       if (mounted.current) setError(e.message ?? 'Failed to load booking details');
+      51 |     } finally {
+    > 52 |       if (mounted.current) setLoading(false);
+         |                            ^
+      53 |     }
+      54 |   };
+      55 |
+
+      at isConcurrentActEnvironment (node_modules/react-reconciler/cjs/react-reconciler.development.js:13990:17)
+      at warnIfUpdatesNotWrappedWithActDEV (node_modules/react-reconciler/cjs/react-reconciler.development.js:16304:7)
+      at scheduleUpdateOnFiber (node_modules/react-reconciler/cjs/react-reconciler.development.js:14070:11)
+      at dispatchSetStateInternal (node_modules/react-reconciler/cjs/react-reconciler.development.js:6784:13)
+      at dispatchSetState (node_modules/react-reconciler/cjs/react-reconciler.development.js:6741:7)
+      at setLoading (D:\Files\EDUCATION\NammaCrew\mobile\src\app\(customer)../../../../booking/[id].tsx:52:28)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+    console.log
+      handleCancel called! cancelReason:
+
+      at log (D:\Files\EDUCATION\NammaCrew\mobile\src\app\(customer)../../../../booking/[id].tsx:65:13)
+
+    console.log
+      Validation failed: cancelReason empty
+
+      at log (D:\Files\EDUCATION\NammaCrew\mobile\src\app\(customer)../../../../booking/[id].tsx:67:15)
+
+    console.log
+      TextInput onChangeText fired with: Plans changed
+
+      at log (D:\Files\EDUCATION\NammaCrew\mobile\src\app\(customer)../../../../booking/[id].tsx:182:25)
+
+    console.log
+      handleCancel called! cancelReason: Plans changed
+
+      at log (D:\Files\EDUCATION\NammaCrew\mobile\src\app\(customer)../../../../booking/[id].tsx:65:13)
+
+    console.log
+      Validation passed, showing Alert...
+
+      at log (D:\Files\EDUCATION\NammaCrew\mobile\src\app\(customer)../../../../booking/[id].tsx:71:13)
+
+    console.log
+      Alert Yes pressed, calling cancelBooking...
+
+      at Object.log (D:\Files\EDUCATION\NammaCrew\mobile\src\app\(customer)../../../../booking/[id].tsx:78:19)
+
+PASS src/__tests__/foundation.test.tsx
+PASS src/__tests__/api.test.ts
+PASS src/__tests__/session.test.ts
+
+Test Suites: 1 failed, 5 passed, 6 total
+Tests:       5 failed, 28 passed, 33 total
+Snapshots:   0 total
+Time:        86.795 s
+Ran all test suites.

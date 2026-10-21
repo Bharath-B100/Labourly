@@ -1,0 +1,17 @@
+PASS src/__tests__/location.test.ts (6.756 s)
+PASS src/__tests__/discovery.test.tsx (9.07 s)
+PASS src/__tests__/onboarding.test.tsx
+PASS src/__tests__/quotes.test.tsx
+PASS src/__tests__/bookings.test.tsx
+PASS src/__tests__/api.test.ts
+PASS src/__tests__/foundation.test.tsx
+PASS src/__tests__/requirement-publish.test.tsx
+PASS src/__tests__/session.test.ts
+PASS src/__tests__/ui.test.tsx
+PASS src/__tests__/quotation-api.test.ts
+
+Test Suites: 11 passed, 11 total
+Tests:       57 passed, 57 total
+Snapshots:   0 total
+Time:        41.108 s
+Ran all test suites.

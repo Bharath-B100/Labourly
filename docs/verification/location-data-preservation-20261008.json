@@ -1,0 +1,9 @@
+{
+  "booking": "CONFIRMED",
+  "quotation": "ACCEPTED",
+  "requirement": "DRAFT",
+  "workerProfiles": 3,
+  "serviceLocations": 3,
+  "originalFieldsUnchanged": true,
+  "addedRequirementLocationFields": "NULL, no backfill"
+}

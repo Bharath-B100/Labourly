@@ -1,0 +1,72 @@
+Use case: infographic-diagram.
+Create an exceptionally clear, polished client presentation infographic for NammaCrew, an India-first construction workforce marketplace. Landscape 3:2 high-resolution image, generous whitespace, very legible precise English typography, white/off-white background, navy text, teal completed badges, amber validation badges, grey planned badges. Professional restrained construction-tech visual identity, minimal line icons, no photographs, no fake charts or completion percentages. Main focus readable project progress and full delivery journey. Avoid clutter. All text below must be rendered accurately, with clear hierarchy. Do not invent dates, completion claims, features or phase numbers.
+
+HEADER:
+"NammaCrew"
+"Project roadmap & progress"
+"Client update • 8 October 2026"
+Prominent status strip: "Core marketplace built • Booking validation in progress • Production launch pending"
+
+ROADMAP: a clean horizontal journey of five numbered or unnumbered connected cards. The last card must NOT say Phase 5:
+"Phase 1 — Foundation"
+"COMPLETE"
+"Android app, backend & database"
+"Admin interface shell"
+
+"Phase 2 — Accounts"
+"COMPLETE"
+"OTP flow, secure sessions"
+"Customer & worker profiles"
+Small note: "Live SMS pending"
+
+"Phase 3 — Marketplace"
+"COMPLETE"
+"Worker discovery & filters"
+"Job posting & nearby matching"
+
+"Phase 4 — Quotes & bookings"
+"VALIDATION IN PROGRESS"
+"Quote, accept & book flows built"
+"Cancellation & overlap safeguards"
+"Full acceptance still pending"
+
+"Launch readiness"
+"PENDING"
+"Security, live services & device QA"
+"Release build & deployment"
+
+BELOW ROADMAP: three spacious columns, with short bullet lists:
+LEFT heading "Built & demonstrated"
+• "Customer and worker onboarding"
+• "Worker search, jobs and matching"
+• "GPS autofill + state/city search"
+• "Refined profiles, forms and navigation"
+Evidence small inset: "Latest recorded mobile run: 57/57 tests passed"
+"Android emulator checks completed"
+"Evidence recorded through 7 October"
+
+MIDDLE heading "Next delivery priorities"
+• "Finish end-to-end booking acceptance"
+• "Resolve dependency security findings"
+• "Connect production SMS"
+• "Build admin verification operations"
+• "Test physical phones and accessibility"
+• "Prepare release build and deployment"
+Small amber inset: "Latest security audit: 1 critical, 54 high, 12 moderate findings"
+"Remediation remains open"
+
+RIGHT heading "Later scope — confirm with client"
+• "Payments and settlement"
+• "Team roster hiring"
+• "Native photo upload and storage"
+• "Launch region and labour categories"
+• "Pricing, cancellation and dispute policies"
+• "Brand clearance and release ownership"
+Small note: "Later-phase scope and schedule require agreement."
+
+FOOTER clean navy strip:
+"Current delivery: development build • Full Phase 4 sign-off and production readiness are pending"
+Tiny supporting line:
+"Completed phases reflect recorded validation; recent changes still require final release checks."
+
+Use status words as well as colors. Completed means development milestones, never imply production ready. Do not add percentage completion, launch date, payment integration, ratings or a working admin dashboard. Make the entire infographic client-ready and readable with no extraneous decorative text.

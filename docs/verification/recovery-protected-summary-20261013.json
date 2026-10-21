@@ -1,0 +1,41 @@
+[
+  {
+    "id": "3987a802-1a5a-460e-884a-5c8c6832fd31",
+    "title": "Phase 4 acceptance carpenter",
+    "amount": 2500.0,
+    "status": "CONFIRMED",
+    "worker": "Suresh Carpenter",
+    "reserved": true,
+    "cancelled_at": null,
+    "cancelled_by": null,
+    "cancel_reason": null,
+    "pricing_basis": "PER_WORKER_PER_DAY",
+    "requirement_status": "CLOSED"
+  },
+  {
+    "id": "4792c5c5-ceaf-4735-af0d-d852086bcace",
+    "title": "Phase 4 Competing Quotes Test 2",
+    "amount": 4500.0,
+    "status": "CONFIRMED",
+    "worker": "Suresh Carpenter",
+    "reserved": true,
+    "cancelled_at": null,
+    "cancelled_by": null,
+    "cancel_reason": null,
+    "pricing_basis": "FIXED_TOTAL",
+    "requirement_status": "CLOSED"
+  },
+  {
+    "id": "6c64fd7d-b647-4661-a197-705939117ec8",
+    "title": "Phase 4 cancellation Test",
+    "amount": 1000.0,
+    "status": "CANCELLED",
+    "worker": "Worker E (Carpenter, In)",
+    "reserved": false,
+    "cancelled_at": "2026-10-08T08:18:22.022011+00:00",
+    "cancelled_by": "Bharath Customer",
+    "cancel_reason": "I cant be there on time im sorry",
+    "pricing_basis": "FIXED_TOTAL",
+    "requirement_status": "CLOSED"
+  }
+]

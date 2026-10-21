@@ -1,0 +1,5 @@
+  % Total    % Received % Xferd  Average Speed  Time    Time    Time   Current
+                                 Dload  Upload  Total   Spent   Left   Speed
+
+  0      0   0      0   0      0      0      0           00:12              0
+curl: (28) Operation timed out after 12180 milliseconds with 0 bytes received

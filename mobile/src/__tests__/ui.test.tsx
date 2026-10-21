@@ -6,6 +6,7 @@ import {
   cleanup,
 } from '@testing-library/react-native';
 import { Action, Select } from '../components/ui';
+jest.mock('@expo/vector-icons', () => ({ Ionicons: 'Ionicons' }));
 jest.mock('react-native-safe-area-context', () => ({
   SafeAreaView:
     jest.requireActual<typeof import('react-native')>('react-native').View,

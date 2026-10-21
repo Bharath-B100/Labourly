@@ -112,7 +112,7 @@ class FoundationIT {
         .andExpect(jsonPath("$.components").doesNotExist());
     assertNotNull(sql.queryForObject("SELECT postgis_version()", String.class));
     assertEquals(
-        12,
+        13,
         sql.queryForObject(
             "SELECT count(*) FROM flyway_schema_history WHERE success AND version IS NOT NULL",
             Integer.class));

@@ -1,0 +1,9 @@
+{
+  "result": "PASS",
+  "path": "D:\\Files\\EDUCATION\\NammaCrew\\mobile\\android\\app\\build\\outputs\\apk\\debug\\app-debug.apk",
+  "bytes": 78956130,
+  "lastWriteTime": "2026-10-07T14:24:13.5439131+05:30",
+  "sha256": "5CF0A365F6782F88C4899E94192032FE4D3D10DC9F48E41E0DD2948143C3FB05",
+  "duration": "4m 58s",
+  "mode": "offline incremental x86_64 debug; not installed during audit"
+}

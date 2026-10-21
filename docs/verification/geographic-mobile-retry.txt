@@ -1,0 +1,8 @@
+PASS src/__tests__/job-location.test.tsx
+PASS src/__tests__/cancellation-consistency.test.tsx
+
+Test Suites: 2 passed, 2 total
+Tests:       16 passed, 16 total
+Snapshots:   0 total
+Time:        6.463 s, estimated 200 s
+Ran all test suites matching /src\\__tests__\\job-location.test.tsx|src\\__tests__\\cancellation-consistency.test.tsx/i.

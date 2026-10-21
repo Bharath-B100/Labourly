@@ -1,0 +1,6 @@
+2026-10-08T16:46:58.885+05:30  INFO 8448 --- [nammacrew] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-10-08T16:46:59.884+05:30  INFO 8448 --- [nammacrew] [           main] o.f.core.internal.command.DbValidate     : Successfully validated 11 migrations (execution time 00:00.546s)
+2026-10-08T16:46:59.978+05:30  INFO 8448 --- [nammacrew] [           main] o.f.core.internal.command.DbMigrate      : Current version of schema "public": 11
+2026-10-08T16:47:00.002+05:30  INFO 8448 --- [nammacrew] [           main] o.f.core.internal.command.DbMigrate      : Schema "public" is up to date. No migration necessary.
+2026-10-08T16:47:19.730+05:30  INFO 8448 --- [nammacrew] [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/'
+2026-10-08T16:47:19.905+05:30  INFO 8448 --- [nammacrew] [           main] in.nammacrew.NammaCrewApplication        : Started NammaCrewApplication in 35.108 seconds (process running for 35.632)

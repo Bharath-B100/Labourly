@@ -29,7 +29,7 @@ function NotificationBellContent() {
       onPress={() => router?.push?.('/notifications')}
       style={({ pressed }) => [styles.container, pressed && styles.pressed]}
     >
-      <Ionicons name="notifications-outline" size={24} color="#145C58" />
+      <Ionicons name="notifications-outline" size={24} color="#202326" />
       {!isError && unreadCount > 0 && (
         <View style={styles.badge}>
           <Text style={styles.badgeText}>
@@ -54,12 +54,14 @@ export function NotificationBell() {
 
 const styles = StyleSheet.create({
   container: {
-    padding: 6,
+    padding: 12,
+    minWidth: 48,
+    minHeight: 48,
     position: 'relative',
     borderRadius: 20,
-    backgroundColor: 'rgba(255, 255, 255, 0.65)',
+    backgroundColor: '#FFFFFF',
     borderWidth: 1,
-    borderColor: 'rgba(20, 92, 88, 0.15)',
+    borderColor: '#E5E7EB',
   },
   pressed: {
     opacity: 0.7,
@@ -69,7 +71,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: -2,
     right: -2,
-    backgroundColor: '#D97706',
+    backgroundColor: '#202326',
     borderRadius: 10,
     minWidth: 18,
     height: 18,

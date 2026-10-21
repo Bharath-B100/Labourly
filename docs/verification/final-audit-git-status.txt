@@ -1,0 +1,195 @@
+ M backend/src/main/java/in/nammacrew/auth/AuthService.java
+ M backend/src/main/java/in/nammacrew/auth/OtpProvider.java
+ M backend/src/main/java/in/nammacrew/auth/dev/DevelopmentOtpProvider.java
+ M backend/src/main/java/in/nammacrew/booking/Booking.java
+ M backend/src/main/java/in/nammacrew/booking/BookingController.java
+ M backend/src/main/java/in/nammacrew/booking/BookingDTOs.java
+ M backend/src/main/java/in/nammacrew/booking/BookingQueryService.java
+ M backend/src/main/java/in/nammacrew/booking/BookingService.java
+ M backend/src/main/java/in/nammacrew/dev/DevDataSeeder.java
+ M backend/src/main/java/in/nammacrew/marketplace/MarketplaceController.java
+ M backend/src/main/java/in/nammacrew/marketplace/MarketplaceDTOs.java
+ M backend/src/main/java/in/nammacrew/marketplace/MarketplaceDiscoveryService.java
+ M backend/src/main/java/in/nammacrew/marketplace/MatchingEngine.java
+ M backend/src/main/java/in/nammacrew/marketplace/QuotationController.java
+ M backend/src/main/java/in/nammacrew/marketplace/QuotationDTOs.java
+ M backend/src/main/java/in/nammacrew/marketplace/QuotationService.java
+ M backend/src/main/java/in/nammacrew/marketplace/RequirementController.java
+ M backend/src/main/java/in/nammacrew/marketplace/RequirementService.java
+ M backend/src/test/java/in/nammacrew/FoundationIT.java
+ M backend/src/test/java/in/nammacrew/auth/MigrationIT.java
+ M backend/src/test/java/in/nammacrew/marketplace/MarketplaceIT.java
+ M backend/src/test/java/in/nammacrew/marketplace/QuotationConcurrencyIT.java
+ M backend/src/test/java/in/nammacrew/marketplace/QuotationIT.java
+ M docs/API_DESIGN.md
+ M docs/DATABASE.md
+ M docs/LOCAL_DEVELOPMENT.md
+ M mobile/app.json
+ M mobile/metro.config.js
+ M mobile/package-lock.json
+ M mobile/package.json
+ M mobile/src/__tests__/onboarding.test.tsx
+ M mobile/src/api/marketplace.ts
+ M mobile/src/api/quotations.ts
+ M mobile/src/app/(customer)/_layout.tsx
+ M mobile/src/app/(customer)/bookings.tsx
+ M mobile/src/app/(customer)/discover.tsx
+ M mobile/src/app/(customer)/post.tsx
+ M mobile/src/app/(customer)/profile.tsx
+ M mobile/src/app/(customer)/requirement/[id].tsx
+ M mobile/src/app/(customer)/requirement/quotes.tsx
+ M mobile/src/app/(customer)/requirements.tsx
+ M mobile/src/app/(customer)/worker/[id].tsx
+ M mobile/src/app/(worker)/_layout.tsx
+ M mobile/src/app/(worker)/opportunities.tsx
+ M mobile/src/app/(worker)/opportunity/[id].tsx
+ M mobile/src/app/(worker)/profile.tsx
+ M mobile/src/app/(worker)/schedule.tsx
+ M mobile/src/app/_layout.tsx
+ M mobile/src/app/auth/login.tsx
+ M mobile/src/app/auth/verify.tsx
+ M mobile/src/app/index.tsx
+ M mobile/src/components/RequirementCard.tsx
+ M mobile/src/components/RoleHome.tsx
+ M mobile/src/components/WorkerCard.tsx
+ M mobile/src/components/ui.tsx
+ M mobile/src/onboarding/ProfileEditor.tsx
+?? backend/src/main/java/in/nammacrew/marketplace/ServiceCoverage.java
+?? backend/src/main/java/in/nammacrew/marketplace/ServiceCoverageController.java
+?? backend/src/main/resources/db/migration/V10__canonical_locations_and_worker_coverage.sql
+?? backend/src/main/resources/db/migration/V11__draft_requirement_editing.sql
+?? backend/src/main/resources/db/migration/V8__booking_cancellation.sql
+?? backend/src/main/resources/db/migration/V9__quotation_and_booking_history.sql
+?? backend/src/test/java/in/nammacrew/marketplace/CancellationPresentationIT.java
+?? backend/src/test/java/in/nammacrew/marketplace/CanonicalLocationIT.java
+?? backend/src/test/java/in/nammacrew/marketplace/DraftEditingIT.java
+?? backend/src/test/java/in/nammacrew/marketplace/MarketplaceControllerIT.java
+?? backend/src/test/java/in/nammacrew/marketplace/QuotationTestSupport.java
+?? backend/src/test/java/in/nammacrew/marketplace/ServiceCoverageIT.java
+?? docs/DAILY_REPORT_DAY_4.md
+?? docs/DEFECT_10_UNSAVED_CHANGES.md
+?? docs/DEFECT_11_CANCELLATION_CONSISTENCY.md
+?? docs/LOCATION_AUTOFILL_STATUS.md
+?? docs/LOCATION_COVERAGE_IMPLEMENTATION.md
+?? docs/PHASE_4_NATIVE_READINESS.md
+?? docs/PHASE_4_REPORT.md
+?? docs/UI_UX_REVIEW.md
+?? docs/reference/
+?? docs/verification/city-selector-all-tests-20261007.txt
+?? docs/verification/city-selector-lint-20261007.txt
+?? docs/verification/city-selector-native-20261007.png
+?? docs/verification/city-selector-native-20261007.xml
+?? docs/verification/city-selector-tests-20261007.txt
+?? docs/verification/city-selector-typecheck-20261007.txt
+?? docs/verification/defect10-native-back-warning.png
+?? docs/verification/defect10-native-clean-back.png
+?? docs/verification/defect10-native-clean-back.xml
+?? docs/verification/defect10-native-discard.png
+?? docs/verification/defect10-native-final-keep.png
+?? docs/verification/defect10-native-final-reopen.png
+?? docs/verification/defect10-native-final-reopen.xml
+?? docs/verification/defect10-native-final-warning.png
+?? docs/verification/defect10-native-header-warning.png
+?? docs/verification/defect10-native-keep.png
+?? docs/verification/defect10-native-recent-errors.txt
+?? docs/verification/defect10-native-reopen.png
+?? docs/verification/defect10-native-tab-discard.png
+?? docs/verification/defect10-native-tab-warning.png
+?? docs/verification/defect10-persistence.txt
+?? docs/verification/defect10-protected-preservation.json
+?? docs/verification/defect11-native-quotes.png
+?? docs/verification/defect11-native-recent-errors.txt
+?? docs/verification/defect11-native-worker-details.png
+?? docs/verification/defect11-native-worker-details.xml
+?? docs/verification/defect11-preservation.json
+?? docs/verification/location-adb-devices-20261007.txt
+?? docs/verification/location-android-build-20261007.txt
+?? docs/verification/location-android-build-retry-20261007.txt
+?? docs/verification/location-audit-20261007.json
+?? docs/verification/location-autofill-bengaluru-20261007.png
+?? docs/verification/location-autofill-bengaluru-20261007.xml
+?? docs/verification/location-autofill-mumbai-20261007.png
+?? docs/verification/location-autofill-mumbai-20261007.xml
+?? docs/verification/location-crash-buffer-20261007.txt
+?? docs/verification/location-data-preservation-20261008.json
+?? docs/verification/location-emulator-health-20261007.txt
+?? docs/verification/location-final-20261007.png
+?? docs/verification/location-lint-20261007.txt
+?? docs/verification/location-lint-final-20261007.txt
+?? docs/verification/location-native-current.xml
+?? docs/verification/location-native-final.xml
+?? docs/verification/location-native-reloaded.xml
+?? docs/verification/location-native-transport-error.txt
+?? docs/verification/location-provider-20261007.txt
+?? docs/verification/location-registry-retry-20261007.txt
+?? docs/verification/location-restart-20261007.xml
+?? docs/verification/location-runtime-emulator-health.txt
+?? docs/verification/location-tests-20261007.txt
+?? docs/verification/location-tests-device-fix-20261007.txt
+?? docs/verification/location-tests-final-20261007.txt
+?? docs/verification/location-typecheck-20261007.txt
+?? docs/verification/location-typecheck-final-20261007.txt
+?? docs/verification/native-city-options.xml
+?? docs/verification/native-city-search.png
+?? docs/verification/native-city-selected.png
+?? docs/verification/native-create-location.xml
+?? docs/verification/native-current.xml
+?? docs/verification/native-data-preservation.json
+?? docs/verification/native-draft-details.png
+?? docs/verification/native-draft-details.xml
+?? docs/verification/native-edit-draft.png
+?? docs/verification/native-edit-draft.xml
+?? docs/verification/native-location-selection.xml
+?? docs/verification/native-readiness-emulator-health.txt
+?? docs/verification/native-readiness-recent-errors.txt
+?? docs/verification/native-recovered.xml
+?? docs/verification/phase4-admin-audit-20261006.json
+?? docs/verification/phase4-admin-audit-stderr-20261006.txt
+?? docs/verification/phase4-backend-test-counts-20261006.json
+?? docs/verification/phase4-backend-verify-20261006.txt
+?? docs/verification/phase4-emulator-run-20261006.txt
+?? docs/verification/phase4-migration-baseline-20261006.json
+?? docs/verification/phase4-migration-checksums-20261006.json
+?? docs/verification/phase4-mobile-audit-20261006.json
+?? docs/verification/phase4-mobile-audit-stderr-20261006.txt
+?? docs/verification/phase4-mobile-baseline-20261006.txt
+?? docs/verification/phase4-mobile-format-check-20261006.txt
+?? docs/verification/phase4-mobile-format-fixes-20261006.txt
+?? docs/verification/phase4-mobile-lint-20261006.txt
+?? docs/verification/phase4-mobile-quality-20261006.json
+?? docs/verification/phase4-mobile-tests-20261006.txt
+?? docs/verification/phase4-mobile-typecheck-20261006.txt
+?? docs/verification/profile-redesign-20261007.png
+?? docs/verification/profile-ui-lint-20261007.txt
+?? docs/verification/profile-ui-tests-20261007.txt
+?? docs/verification/profile-ui-tests-final-20261007.txt
+?? docs/verification/profile-ui-typecheck-20261007.txt
+?? docs/verification/readiness-carpenter-20261007.xml
+?? docs/verification/readiness-dependency-freeze-20261007.json
+?? docs/verification/ui-format-20261007.txt
+?? docs/verification/ui-lint-20261007.txt
+?? docs/verification/ui-loading-20261007.png
+?? docs/verification/ui-mobile-tests-20261007.txt
+?? docs/verification/ui-mobile-tests-final-20261007.json
+?? docs/verification/ui-mobile-tests-final-20261007.txt
+?? docs/verification/ui-offline-20261007.png
+?? docs/verification/ui-offline-fixed-20261007.png
+?? docs/verification/ui-typecheck-20261007.txt
+?? mobile/scripts/import-india-cities.cjs
+?? mobile/src/__tests__/bookings.test.tsx
+?? mobile/src/__tests__/cancellation-consistency.test.tsx
+?? mobile/src/__tests__/discovery.test.tsx
+?? mobile/src/__tests__/draft-editor.test.tsx
+?? mobile/src/__tests__/job-location.test.tsx
+?? mobile/src/__tests__/location.test.ts
+?? mobile/src/__tests__/quotation-api.test.ts
+?? mobile/src/__tests__/quotes.test.tsx
+?? mobile/src/__tests__/requirement-publish.test.tsx
+?? mobile/src/__tests__/service-areas.test.tsx
+?? mobile/src/__tests__/ui.test.tsx
+?? mobile/src/app/(customer)/booking/
+?? mobile/src/app/(worker)/booking/
+?? mobile/src/app/(worker)/bookings.tsx
+?? mobile/src/location/
+?? mobile/src/navigation/
+?? output/

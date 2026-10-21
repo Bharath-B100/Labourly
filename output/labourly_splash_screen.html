@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Labourly - iOS Splash Screen Specification & Mockup</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --safety-yellow: #FFCC25;
+      --charcoal-black: #202326;
+      --pure-white: #FFFFFF;
+      --concrete-grey: #E5E7EB;
+      --bg-canvas: #0F1113;
+      --card-bg: #1A1D20;
+      --border-color: #2D3136;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background-color: var(--bg-canvas);
+      color: #E2E8F0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 40px 20px 60px;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 32px;
+      max-width: 760px;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      border-radius: 9999px;
+      background-color: rgba(255, 204, 37, 0.12);
+      border: 1px solid rgba(255, 204, 37, 0.35);
+      color: var(--safety-yellow);
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      margin-bottom: 14px;
+    }
+
+    h1 {
+      font-size: 32px;
+      font-weight: 800;
+      color: #FFFFFF;
+      letter-spacing: -0.5px;
+      margin-bottom: 10px;
+    }
+
+    .subtitle {
+      font-size: 16px;
+      color: #94A3B8;
+      line-height: 1.5;
+    }
+
+    /* Palette Bar */
+    .palette-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 16px;
+      margin-bottom: 36px;
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 16px 24px;
+    }
+
+    .palette-chip {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: #121417;
+      border: 1px solid #282C31;
+      padding: 8px 14px;
+      border-radius: 10px;
+    }
+
+    .color-swatch {
+      width: 28px;
+      height: 28px;
+      border-radius: 6px;
+      box-shadow: inset 0 0 0 1px rgba(0,0,0,0.15);
+    }
+
+    .color-info {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .color-name {
+      font-size: 11px;
+      font-weight: 600;
+      color: #94A3B8;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+    }
+
+    .color-hex {
+      font-size: 14px;
+      font-weight: 700;
+      font-family: monospace;
+      color: #F8FAFC;
+    }
+
+    /* Presentation Layout */
+    .showcase-grid {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 40px;
+      max-width: 1100px;
+      width: 100%;
+    }
+
+    .device-card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 24px;
+      padding: 24px;
+      box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.6);
+    }
+
+    .device-card-header {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .device-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: #FFFFFF;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .device-tag {
+      font-size: 11px;
+      padding: 3px 8px;
+      border-radius: 6px;
+      font-weight: 600;
+      background: #23272D;
+      color: #94A3B8;
+    }
+
+    /* iPhone Frame */
+    .iphone-frame {
+      width: 390px;
+      height: 844px;
+      background-color: var(--pure-white);
+      border-radius: 50px;
+      position: relative;
+      box-shadow: 
+        0 0 0 4px #26292E,
+        0 0 0 9px #16181B,
+        0 30px 60px rgba(0, 0, 0, 0.8);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Dynamic Island / Notch Placeholder & Status Bar */
+    .status-bar {
+      height: 48px;
+      padding: 12px 28px 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: var(--charcoal-black);
+      font-weight: 600;
+      font-size: 14px;
+      z-index: 10;
+      background: transparent;
+    }
+
+    .time-slot {
+      font-weight: 700;
+      letter-spacing: -0.2px;
+    }
+
+    .status-icons {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+    }
+
+    .status-icon-svg {
+      fill: var(--charcoal-black);
+    }
+
+    /* Screen Content */
+    .screen-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+      z-index: 2;
+    }
+
+    /* Branding Section */
+    .brand-section {
+      padding-top: 40px;
+      text-align: center;
+      position: relative;
+      z-index: 5;
+    }
+
+    .logo-container {
+      position: relative;
+      display: inline-block;
+      margin-bottom: 8px;
+    }
+
+    .wordmark {
+      font-size: 46px;
+      font-weight: 900;
+      color: var(--charcoal-black);
+      letter-spacing: -1.2px;
+      line-height: 1;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .hard-hat-overlay {
+      position: absolute;
+      top: -24px;
+      left: -14px;
+      width: 52px;
+      height: 38px;
+      transform: rotate(-14deg);
+      filter: drop-shadow(0 2px 4px rgba(32, 35, 38, 0.25));
+    }
+
+    .sub-tagline {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--charcoal-black);
+      letter-spacing: -0.2px;
+      opacity: 0.9;
+    }
+
+    /* Illustration Area */
+    .illustration-wrapper {
+      position: absolute;
+      bottom: 120px;
+      left: 0;
+      right: 0;
+      height: 490px;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      pointer-events: none;
+    }
+
+    .hero-svg {
+      width: 100%;
+      height: 100%;
+    }
+
+    /* Footer Section */
+    .footer-section {
+      padding-bottom: 44px;
+      padding-left: 32px;
+      padding-right: 32px;
+      text-align: center;
+      position: relative;
+      z-index: 5;
+      background: linear-gradient(to top, rgba(255,255,255,1) 75%, rgba(255,255,255,0) 100%);
+    }
+
+    .footer-heading {
+      font-size: 18px;
+      font-weight: 800;
+      color: var(--charcoal-black);
+      line-height: 1.35;
+      margin-bottom: 16px;
+      letter-spacing: -0.3px;
+    }
+
+    .progress-bar-track {
+      width: 100%;
+      max-width: 240px;
+      height: 8px;
+      background-color: var(--concrete-grey);
+      border-radius: 9999px;
+      margin: 0 auto;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .progress-bar-fill {
+      width: 50%;
+      height: 100%;
+      background-color: var(--safety-yellow);
+      border-radius: 9999px;
+      transition: width 0.4s ease;
+    }
+
+    /* Image Preview Container */
+    .image-preview-container {
+      width: 390px;
+      height: 844px;
+      border-radius: 50px;
+      overflow: hidden;
+      box-shadow: 
+        0 0 0 4px #26292E,
+        0 0 0 9px #16181B,
+        0 30px 60px rgba(0, 0, 0, 0.8);
+      position: relative;
+      background: #FFFFFF;
+    }
+
+    .image-preview-container img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    /* Specs Table */
+    .specs-card {
+      margin-top: 40px;
+      max-width: 900px;
+      width: 100%;
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 20px;
+      padding: 28px;
+    }
+
+    .specs-card h2 {
+      font-size: 20px;
+      font-weight: 700;
+      color: #FFFFFF;
+      margin-bottom: 20px;
+    }
+
+    .spec-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+    }
+
+    .spec-table th, .spec-table td {
+      padding: 12px 16px;
+      text-align: left;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .spec-table th {
+      color: #94A3B8;
+      font-weight: 600;
+      text-transform: uppercase;
+      font-size: 12px;
+      letter-spacing: 0.5px;
+    }
+
+    .spec-table td {
+      color: #F1F5F9;
+    }
+
+    .spec-highlight {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-family: monospace;
+      font-size: 13px;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="badge">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M12 2L1 21h22L12 2zm0 3.99L19.53 19H4.47L12 5.99zM11 10h2v4h-2zm0 6h2v2h-2z"/>
+      </svg>
+      Labourly Mobile OS Design System
+    </div>
+    <h1>iOS Splash Screen Design</h1>
+    <p class="subtitle">On-demand construction labour hiring platform splash screen strictly adhering to the 4-color palette, 390x844px iPhone frame, and architectural hero illustration.</p>
+  </header>
+
+  <!-- Color Palette -->
+  <div class="palette-container">
+    <div class="palette-chip">
+      <div class="color-swatch" style="background-color: var(--safety-yellow);"></div>
+      <div class="color-info">
+        <span class="color-name">Safety Yellow</span>
+        <span class="color-hex">#FFCC25</span>
+      </div>
+    </div>
+    <div class="palette-chip">
+      <div class="color-swatch" style="background-color: var(--charcoal-black);"></div>
+      <div class="color-info">
+        <span class="color-name">Charcoal Black</span>
+        <span class="color-hex">#202326</span>
+      </div>
+    </div>
+    <div class="palette-chip">
+      <div class="color-swatch" style="background-color: var(--pure-white); border: 1px solid #333;"></div>
+      <div class="color-info">
+        <span class="color-name">Pure White</span>
+        <span class="color-hex">#FFFFFF</span>
+      </div>
+    </div>
+    <div class="palette-chip">
+      <div class="color-swatch" style="background-color: var(--concrete-grey);"></div>
+      <div class="color-info">
+        <span class="color-name">Concrete Grey</span>
+        <span class="color-hex">#E5E7EB</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Showcase Cards -->
+  <div class="showcase-grid">
+
+    <!-- Card 1: High Fidelity AI Generated Render -->
+    <div class="device-card">
+      <div class="device-card-header">
+        <div class="device-title">
+          <span>High-Res Master Render</span>
+        </div>
+        <span class="device-tag">AI Visual Artifact (8K Spec)</span>
+      </div>
+
+      <div class="image-preview-container">
+        <img src="../Labourly_iOS_Splash_Screen.jpg" alt="Labourly iOS Mobile Splash Screen Render">
+      </div>
+    </div>
+
+    <!-- Card 2: Vector SVG & UI Component Implementation -->
+    <div class="device-card">
+      <div class="device-card-header">
+        <div class="device-title">
+          <span>Interactive Vector Layout</span>
+        </div>
+        <span class="device-tag">390 x 844 px Native iOS Canvas</span>
+      </div>
+
+      <!-- iPhone Frame -->
+      <div class="iphone-frame">
+        <!-- iOS Status Bar -->
+        <div class="status-bar">
+          <div class="time-slot">9:41</div>
+          <div class="status-icons">
+            <!-- Cellular -->
+            <svg class="status-icon-svg" width="17" height="12" viewBox="0 0 17 12">
+              <rect x="0" y="8" width="3" height="4" rx="0.5"/>
+              <rect x="4.5" y="5.5" width="3" height="6.5" rx="0.5"/>
+              <rect x="9" y="3" width="3" height="9" rx="0.5"/>
+              <rect x="13.5" y="0" width="3" height="12" rx="0.5"/>
+            </svg>
+            <!-- Wi-Fi -->
+            <svg class="status-icon-svg" width="16" height="12" viewBox="0 0 16 12">
+              <path d="M8 9.5a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3zm-4.2-2.8a6 6 0 0 1 8.4 0 .75.75 0 1 1-1.06 1.06 4.5 4.5 0 0 0-6.28 0 .75.75 0 0 1-1.06-1.06zm-3.18-3.18a10.5 10.5 0 0 1 14.76 0 .75.75 0 1 1-1.06 1.06 9 9 0 0 0-12.64 0 .75.75 0 0 1-1.06-1.06z"/>
+            </svg>
+            <!-- Battery -->
+            <svg class="status-icon-svg" width="25" height="12" viewBox="0 0 25 12">
+              <rect x="0.5" y="0.5" width="21" height="11" rx="3.5" fill="none" stroke="currentColor" stroke-width="1.2"/>
+              <rect x="2" y="2" width="18" height="8" rx="2" fill="currentColor"/>
+              <path d="M23 4.5v3a1 1 0 0 0 1-1v-1a1 1 0 0 0-1-1z" fill="currentColor"/>
+            </svg>
+          </div>
+        </div>
+
+        <!-- Screen Body -->
+        <div class="screen-content">
+          <!-- Top Branding -->
+          <div class="brand-section">
+            <div class="logo-container">
+              <!-- Hard hat icon placed tilted over the L -->
+              <svg class="hard-hat-overlay" viewBox="0 0 100 80">
+                <!-- Hard hat brim -->
+                <path d="M8 58 Q 50 68 92 58 Q 96 55 90 52 Q 50 48 10 52 Q 4 55 8 58 Z" fill="#FFCC25" stroke="#202326" stroke-width="4"/>
+                <!-- Hard hat dome -->
+                <path d="M16 52 C 16 18, 84 18, 84 52 Z" fill="#FFCC25" stroke="#202326" stroke-width="4"/>
+                <!-- Hard hat central ridge / rib -->
+                <path d="M44 20 L 44 51 M 56 20 L 56 51" stroke="#202326" stroke-width="3.5" stroke-linecap="round"/>
+                <path d="M50 18 L 50 51" stroke="#FFD84D" stroke-width="3" stroke-linecap="round"/>
+              </svg>
+              <div class="wordmark">Labourly</div>
+            </div>
+            <div class="sub-tagline">Hire Local Labour, Fast.</div>
+          </div>
+
+          <!-- Hero Architectural Vector Illustration -->
+          <div class="illustration-wrapper">
+            <svg class="hero-svg" viewBox="0 0 390 490" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <!-- Background Skyline - Layered Concrete Grey (#E5E7EB) -->
+              <g opacity="0.95">
+                <!-- Far distant towers -->
+                <rect x="20" y="160" width="46" height="230" fill="#E5E7EB"/>
+                <rect x="74" y="120" width="60" height="270" fill="#E5E7EB"/>
+                <polygon points="74,120 104,80 134,120" fill="#E5E7EB"/>
+                
+                <rect x="180" y="140" width="54" height="250" fill="#E5E7EB"/>
+                <rect x="240" y="100" width="70" height="290" fill="#E5E7EB"/>
+                <polygon points="240,100 275,60 310,100" fill="#E5E7EB"/>
+
+                <rect x="318" y="150" width="55" height="240" fill="#E5E7EB"/>
+              </g>
+
+              <!-- Midground: Crisp Charcoal Black Line Art & Architectural Girders -->
+              <!-- Tower Crane 1 (Left) -->
+              <g stroke="#202326" stroke-width="2">
+                <!-- Crane Mast -->
+                <line x1="60" y1="90" x2="60" y2="330"/>
+                <line x1="76" y1="90" x2="76" y2="330"/>
+                <!-- Mast latticing -->
+                <line x1="60" y1="110" x2="76" y2="130"/>
+                <line x1="76" y1="130" x2="60" y2="150"/>
+                <line x1="60" y1="150" x2="76" y2="170"/>
+                <line x1="76" y1="170" x2="60" y2="190"/>
+                <line x1="60" y1="190" x2="76" y2="210"/>
+                <line x1="76" y1="210" x2="60" y2="230"/>
+                <line x1="60" y1="230" x2="76" y2="250"/>
+                <line x1="76" y1="250" x2="60" y2="270"/>
+                <!-- Crane Jib & Counter-jib -->
+                <line x1="10" y1="90" x2="190" y2="90" stroke-width="3"/>
+                <line x1="68" y1="55" x2="68" y2="90"/>
+                <line x1="68" y1="55" x2="130" y2="90"/>
+                <line x1="68" y1="55" x2="25" y2="90"/>
+                <!-- Counterweight -->
+                <rect x="18" y="85" width="20" height="15" fill="#202326"/>
+                <!-- Hoist Line & Hook -->
+                <line x1="150" y1="90" x2="150" y2="160" stroke="#202326" stroke-width="1.5" stroke-dasharray="3 2"/>
+                <rect x="140" y="160" width="20" height="10" fill="#202326"/>
+              </g>
+
+              <!-- Steel Framework Structure (Midground) -->
+              <g stroke="#202326" stroke-width="2.5">
+                <rect x="90" y="210" width="110" height="140" fill="none"/>
+                <line x1="126" y1="210" x2="126" y2="350"/>
+                <line x1="163" y1="210" x2="163" y2="350"/>
+                <line x1="90" y1="256" x2="200" y2="256"/>
+                <line x1="90" y1="303" x2="200" y2="303"/>
+                <!-- Diagonal cross braces -->
+                <line x1="90" y1="210" x2="126" y2="256" stroke-width="1.5"/>
+                <line x1="126" y1="210" x2="90" y2="256" stroke-width="1.5"/>
+                <line x1="163" y1="256" x2="200" y2="303" stroke-width="1.5"/>
+                <line x1="200" y1="256" x2="163" y2="303" stroke-width="1.5"/>
+              </g>
+
+              <!-- Tower Crane 2 (Right Background) -->
+              <g stroke="#202326" stroke-width="1.5" opacity="0.75">
+                <line x1="290" y1="70" x2="290" y2="230"/>
+                <line x1="302" y1="70" x2="302" y2="230"/>
+                <line x1="240" y1="70" x2="370" y2="70" stroke-width="2"/>
+                <line x1="296" y1="45" x2="296" y2="70"/>
+                <line x1="296" y1="45" x2="340" y2="70"/>
+                <line x1="296" y1="45" x2="255" y2="70"/>
+                <rect x="245" y="66" width="14" height="10" fill="#202326"/>
+              </g>
+
+              <!-- Foreground Platform Railing -->
+              <g stroke="#202326" stroke-width="2.5">
+                <line x1="0" y1="365" x2="390" y2="365"/>
+                <line x1="0" y1="395" x2="390" y2="395"/>
+                <line x1="50" y1="365" x2="50" y2="440"/>
+                <line x1="195" y1="365" x2="195" y2="440"/>
+                <line x1="340" y1="365" x2="340" y2="440"/>
+              </g>
+
+              <!-- THREE SKILLED WORKERS (Foreground, 3/4 angle viewed from back looking toward skyline) -->
+
+              <!-- Worker 1 (Left - Three-Quarter Profile) -->
+              <g id="worker-1">
+                <!-- Boots & Legs in Charcoal Black -->
+                <path d="M125 390 L122 455 L138 455 L137 400 L146 400 L145 455 L161 455 L157 390 Z" fill="#202326"/>
+                <!-- Torso: Charcoal Black Work Shirt -->
+                <path d="M120 345 L116 395 L164 395 L160 345 Z" fill="#202326"/>
+                <!-- High-Vis Safety Yellow Vest (#FFCC25) -->
+                <path d="M121 346 C121 346, 140 348, 159 346 L163 392 L117 392 Z" fill="#FFCC25" stroke="#202326" stroke-width="2"/>
+                <!-- Reflective Strips on Vest (Concrete Grey #E5E7EB) -->
+                <rect x="120" y="365" width="40" height="6" fill="#E5E7EB"/>
+                <rect x="120" y="378" width="40" height="6" fill="#E5E7EB"/>
+                <!-- Arms -->
+                <path d="M117 348 L110 385 L118 387 L124 358 Z" fill="#202326"/>
+                <path d="M159 348 L168 385 L160 387 L154 358 Z" fill="#202326"/>
+                <!-- Head & Neck -->
+                <circle cx="140" cy="336" r="11" fill="#202326"/>
+                <!-- Safety Yellow Hard Hat (#FFCC25) -->
+                <path d="M127 334 C127 320, 153 320, 153 334 Z" fill="#FFCC25" stroke="#202326" stroke-width="2"/>
+                <ellipse cx="140" cy="334" rx="15" ry="3.5" fill="#FFCC25" stroke="#202326" stroke-width="1.8"/>
+              </g>
+
+              <!-- Worker 2 (Center - Standing proud, Holding Blueprints) -->
+              <g id="worker-2">
+                <!-- Boots & Legs in Charcoal Black -->
+                <path d="M185 385 L182 458 L200 458 L199 395 L207 395 L206 458 L224 458 L221 385 Z" fill="#202326"/>
+                <!-- Torso: Charcoal Black Work Shirt -->
+                <path d="M178 335 L174 390 L228 390 L224 335 Z" fill="#202326"/>
+                <!-- High-Vis Safety Yellow Vest (#FFCC25) -->
+                <path d="M180 336 C180 336, 201 338, 222 336 L226 388 L176 388 Z" fill="#FFCC25" stroke="#202326" stroke-width="2"/>
+                <!-- Reflective Strips on Vest -->
+                <rect x="179" y="356" width="44" height="6.5" fill="#E5E7EB"/>
+                <rect x="178" y="372" width="46" height="6.5" fill="#E5E7EB"/>
+                <!-- Left Arm holding Rolled-up Blueprints -->
+                <path d="M177 338 L164 365 L173 372 L183 348 Z" fill="#202326"/>
+                <!-- Rolled Architectural Blueprints (Concrete Grey #E5E7EB with Charcoal outline) -->
+                <g transform="rotate(-30 162 375)">
+                  <rect x="150" y="365" width="42" height="10" rx="3" fill="#FFFFFF" stroke="#202326" stroke-width="2"/>
+                  <line x1="154" y1="370" x2="188" y2="370" stroke="#202326" stroke-width="1.5" stroke-dasharray="3 2"/>
+                </g>
+                <!-- Right Arm -->
+                <path d="M224 338 L233 375 L225 378 L218 350 Z" fill="#202326"/>
+                <!-- Head & Neck -->
+                <circle cx="201" cy="324" r="12" fill="#202326"/>
+                <!-- Safety Yellow Hard Hat (#FFCC25) -->
+                <path d="M187 322 C187 306, 215 306, 215 322 Z" fill="#FFCC25" stroke="#202326" stroke-width="2"/>
+                <ellipse cx="201" cy="322" rx="16" ry="4" fill="#FFCC25" stroke="#202326" stroke-width="2"/>
+              </g>
+
+              <!-- Worker 3 (Right - Looking Forward toward Skyline) -->
+              <g id="worker-3">
+                <!-- Boots & Legs in Charcoal Black -->
+                <path d="M250 390 L247 455 L263 455 L262 400 L271 400 L270 455 L286 455 L282 390 Z" fill="#202326"/>
+                <!-- Torso: Charcoal Black Work Shirt -->
+                <path d="M245 345 L241 395 L289 395 L285 345 Z" fill="#202326"/>
+                <!-- High-Vis Safety Yellow Vest (#FFCC25) -->
+                <path d="M246 346 C246 346, 265 348, 284 346 L288 392 L242 392 Z" fill="#FFCC25" stroke="#202326" stroke-width="2"/>
+                <!-- Reflective Strips on Vest -->
+                <rect x="245" y="365" width="40" height="6" fill="#E5E7EB"/>
+                <rect x="245" y="378" width="40" height="6" fill="#E5E7EB"/>
+                <!-- Arms -->
+                <path d="M242 348 L235 385 L243 387 L249 358 Z" fill="#202326"/>
+                <path d="M284 348 L293 385 L285 387 L279 358 Z" fill="#202326"/>
+                <!-- Head & Neck -->
+                <circle cx="265" cy="336" r="11" fill="#202326"/>
+                <!-- Safety Yellow Hard Hat (#FFCC25) -->
+                <path d="M252 334 C252 320, 278 320, 278 334 Z" fill="#FFCC25" stroke="#202326" stroke-width="2"/>
+                <ellipse cx="265" cy="334" rx="15" ry="3.5" fill="#FFCC25" stroke="#202326" stroke-width="1.8"/>
+              </g>
+            </svg>
+          </div>
+
+          <!-- Bottom Footer & Loading State -->
+          <div class="footer-section">
+            <div class="footer-heading">
+              Skilled People<br>
+              Build a Better Tomorrow
+            </div>
+            <div class="progress-bar-track">
+              <div class="progress-bar-fill"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Design Tokens & Implementation Specifications -->
+  <div class="specs-card">
+    <h2>Design Tokens & Composition Audit</h2>
+    <table class="spec-table">
+      <thead>
+        <tr>
+          <th>Element</th>
+          <th>Design Specification</th>
+          <th>Applied Color Token</th>
+          <th>Geometry / Typographic Specs</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Screen Frame</strong></td>
+          <td>Standard iOS Canvas</td>
+          <td><span class="spec-highlight" style="background:#FFF; color:#000;">#FFFFFF (Pure White)</span></td>
+          <td>390 x 844 px (Standard iPhone viewport, 50px border-radius)</td>
+        </tr>
+        <tr>
+          <td><strong>Status Bar</strong></td>
+          <td>iOS System Bar</td>
+          <td><span class="spec-highlight" style="background:#202326; color:#FFF;">#202326 (Charcoal Black)</span></td>
+          <td>9:41 Time, Cellular signal, Wi-Fi 6, Battery indicator</td>
+        </tr>
+        <tr>
+          <td><strong>Brand Wordmark</strong></td>
+          <td>Upper Third Centered Logo</td>
+          <td><span class="spec-highlight" style="background:#202326; color:#FFF;">#202326</span> & <span class="spec-highlight" style="background:#FFCC25; color:#000;">#FFCC25</span></td>
+          <td>Inter Extra-Bold 46px, -1.2px letter-spacing, -14° tilted safety hard hat on 'L'</td>
+        </tr>
+        <tr>
+          <td><strong>Brand Tagline</strong></td>
+          <td>Sub-heading beneath Logo</td>
+          <td><span class="spec-highlight" style="background:#202326; color:#FFF;">#202326 (Charcoal Black)</span></td>
+          <td>Inter Medium 15px, "Hire Local Labour, Fast."</td>
+        </tr>
+        <tr>
+          <td><strong>Skyline & Cranes</strong></td>
+          <td>Architectural Construction Vector</td>
+          <td><span class="spec-highlight" style="background:#E5E7EB; color:#000;">#E5E7EB</span> & <span class="spec-highlight" style="background:#202326; color:#FFF;">#202326</span></td>
+          <td>Layered Concrete Grey high-rises, crisp Charcoal Black tower cranes & steel lattice</td>
+        </tr>
+        <tr>
+          <td><strong>Workers Hero</strong></td>
+          <td>3 Skilled Craftsmen (3/4 angle)</td>
+          <td><span class="spec-highlight" style="background:#FFCC25; color:#000;">#FFCC25</span> & <span class="spec-highlight" style="background:#202326; color:#FFF;">#202326</span></td>
+          <td>High-vis Safety Yellow vests & hard hats, Charcoal Black apparel, rolled architectural blueprint</td>
+        </tr>
+        <tr>
+          <td><strong>Footer Message</strong></td>
+          <td>Centered Mission Statement</td>
+          <td><span class="spec-highlight" style="background:#202326; color:#FFF;">#202326 (Charcoal Black)</span></td>
+          <td>Inter Bold 18px / 1.35 line-height: "Skilled People / Build a Better Tomorrow"</td>
+        </tr>
+        <tr>
+          <td><strong>Loading State</strong></td>
+          <td>Sleek Horizontal Pill Bar</td>
+          <td><span class="spec-highlight" style="background:#E5E7EB; color:#000;">#E5E7EB</span> track / <span class="spec-highlight" style="background:#FFCC25; color:#000;">#FFCC25</span> fill</td>
+          <td>240px width, 8px height, 9999px border-radius, exact 50% filled indicator</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+</body>
+</html>

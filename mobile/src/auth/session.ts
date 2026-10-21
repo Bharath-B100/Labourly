@@ -85,14 +85,10 @@ export function hasRole(session: Session | null, role: Role) {
 }
 export function homeRoute(
   session: Session | null,
-):
-  | '/'
-  | '/auth/onboarding'
-  | '/(customer)/discover'
-  | '/(worker)/opportunities' {
+): '/' | '/auth/onboarding' | '/(customer)/home' | '/(worker)/opportunities' {
   if (!session) return '/';
   if (session.onboardingState !== 'COMPLETED') return '/auth/onboarding';
-  if (hasRole(session, 'CUSTOMER')) return '/(customer)/discover';
+  if (hasRole(session, 'CUSTOMER')) return '/(customer)/home';
   if (hasRole(session, 'WORKER')) return '/(worker)/opportunities';
   return '/';
 }

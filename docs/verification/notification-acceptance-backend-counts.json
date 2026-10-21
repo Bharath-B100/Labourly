@@ -1,0 +1,20 @@
+{
+  "surefire": {
+    "tests": 4,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "failsafe": {
+    "tests": 90,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "total": {
+    "tests": 94,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  }
+}

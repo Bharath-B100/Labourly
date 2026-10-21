@@ -1,0 +1,9 @@
+{
+  "date": "2026-10-08T15:21:18.2901878+05:30",
+  "backend": {
+    "status": "UP"
+  },
+  "metroListening": true,
+  "adb": "List of devices attached\r\nemulator-5554\tdevice\r\n\r\n",
+  "database": "running"
+}

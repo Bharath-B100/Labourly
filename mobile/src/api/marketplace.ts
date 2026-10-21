@@ -110,6 +110,10 @@ export async function getWorkerDetails(id: string): Promise<WorkerCard> {
   return apiJson<WorkerCard>(`/api/v1/marketplace/workers/${id}`);
 }
 
+export async function getSavedWorkerIds(page = 0): Promise<string[]> {
+  return apiJson<string[]>(`/api/v1/saved-workers?page=${page}`);
+}
+
 export async function getTrades(): Promise<Trade[]> {
   const data = await apiJson<{ trades: Trade[] }>(
     '/api/v1/onboarding/catalogue',

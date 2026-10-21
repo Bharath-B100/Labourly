@@ -72,9 +72,9 @@ export function GlassHighlight() {
         right: 3,
         height: '45%',
         borderTopWidth: 1,
-        borderColor: 'rgba(255,255,255,0.95)',
+        borderColor: '#FFFFFF',
         borderRadius: 20,
-        backgroundColor: 'rgba(255,255,255,0.3)',
+        backgroundColor: '#FFFFFF',
       }}
     />
   );

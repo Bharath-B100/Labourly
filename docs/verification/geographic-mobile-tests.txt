@@ -1,0 +1,192 @@
+npm warn Unknown cli config "--runInBand". This will stop working in the next major version of npm.
+
+> mobile@1.0.0 test
+> jest --runInBand
+
+FAIL src/__tests__/job-location.test.tsx (153.705 s)
+  ● manual selection recovers from denied GPS and requires confirmation
+
+    thrown: "Exceeded timeout of 5000 ms for a test.
+    Add a timeout value to this test to increase the timeout, if this is a long-running test. See https://jestjs.io/docs/api#testname-fn-timeout."
+
+      66 | );
+      67 |
+    > 68 | test('manual selection recovers from denied GPS and requires confirmation', async () => {
+         | ^
+      69 |   jest
+      70 |     .mocked(currentSearchLocation)
+      71 |     .mockRejectedValueOnce(new Error('Permission denied. Choose a city.'));
+
+      at Object.test (src/__tests__/job-location.test.tsx:68:1)
+
+  ● manual selection recovers from denied GPS and requires confirmation
+
+    thrown: "Exceeded timeout of 5000 ms for a hook.
+    Add a timeout value to this test to increase the timeout, if this is a long-running test. See https://jestjs.io/docs/api#testname-fn-timeout."
+
+    > 1 | import { fireEvent, render, waitFor } from '@testing-library/react-native';
+        | ^
+      2 | import {
+      3 |   JobLocationPicker,
+      4 |   cityJobLocation,
+
+      at Object.afterEach (node_modules/@testing-library/react-native/src/index.ts:14:5)
+      at Object.require (src/__tests__/job-location.test.tsx:1:1)
+
+  ● initialValue populates confirmed location and skips reselection
+
+    thrown: "Exceeded timeout of 5000 ms for a test.
+    Add a timeout value to this test to increase the timeout, if this is a long-running test. See https://jestjs.io/docs/api#testname-fn-timeout."
+
+      122 | });
+      123 |
+    > 124 | test('initialValue populates confirmed location and skips reselection', async () => {
+          | ^
+      125 |   const change = jest.fn();
+      126 |   const initial = cityJobLocation(
+      127 |     locationCatalogue.cities.find((c) => c.id === '1265863')!,
+
+      at Object.test (src/__tests__/job-location.test.tsx:124:1)
+
+  ● GPS explains radius-only matching and manual fallback replaces rather than labels GPS
+
+    thrown: "Exceeded timeout of 5000 ms for a test.
+    Add a timeout value to this test to increase the timeout, if this is a long-running test. See https://jestjs.io/docs/api#testname-fn-timeout."
+
+      140 | });
+      141 |
+    > 142 | test('GPS explains radius-only matching and manual fallback replaces rather than labels GPS', async () => {
+          | ^
+      143 |   jest
+      144 |     .mocked(currentSearchLocation)
+      145 |     .mockResolvedValueOnce({ latitude: 51.5, longitude: -0.12 });
+
+      at Object.test (src/__tests__/job-location.test.tsx:142:1)
+
+  ● GPS explains radius-only matching and manual fallback replaces rather than labels GPS
+
+    thrown: "Exceeded timeout of 5000 ms for a hook.
+    Add a timeout value to this test to increase the timeout, if this is a long-running test. See https://jestjs.io/docs/api#testname-fn-timeout."
+
+    > 1 | import { fireEvent, render, waitFor } from '@testing-library/react-native';
+        | ^
+      2 | import {
+      3 |   JobLocationPicker,
+      4 |   cityJobLocation,
+
+      at Object.afterEach (node_modules/@testing-library/react-native/src/index.ts:14:5)
+      at Object.require (src/__tests__/job-location.test.tsx:1:1)
+
+FAIL src/__tests__/cancellation-consistency.test.tsx (45.799 s)
+  ● accepted quote distinguishes current booking CONFIRMED from historical acceptance
+
+    thrown: "Exceeded timeout of 5000 ms for a test.
+    Add a timeout value to this test to increase the timeout, if this is a long-running test. See https://jestjs.io/docs/api#testname-fn-timeout."
+
+      42 |   bookingId: 'booking',
+      43 | };
+    > 44 | test.each(['CONFIRMED', 'CANCELLED', 'COMPLETED', null])(
+         |                                                         ^
+      45 |   'accepted quote distinguishes current booking %s from historical acceptance',
+      46 |   async (bookingStatus) => {
+      47 |     jest.mocked(getMyQuotes).mockResolvedValue([{ ...quote, bookingStatus }]);
+
+      at node_modules/jest-each/build/bind.js:47:15
+          at Array.forEach (<anonymous>)
+      at Object.<anonymous> (src/__tests__/cancellation-consistency.test.tsx:44:57)
+
+  ● accepted quote distinguishes current booking CANCELLED from historical acceptance
+
+    Unable to find an element with text: Booking status: CANCELLED
+
+    <View>
+      <View>
+        <Text>
+          My Quotes
+        </Text>
+        <Text>
+          Quotes you've submitted to customers
+        </Text>
+      </View>
+      <RCTScrollView>
+        <View>
+          <View>
+            <View>
+              <Text>
+                Cancellation test
+              </Text>
+              <View>
+                <Text>
+                  Quote: 
+                  ACCEPTED
+                </Text>
+              </View>
+            </View>
+            <Text>
+              Submitted 
+              8/10/2026
+            </Text>
+            <View>
+              <View>
+                <Ionicons />
+                <Text>
+                  ₹
+                  1,000
+                  Fixed
+                </Text>
+              </View>
+              <View>
+                <Ionicons />
+                <Text>
+                  22 Oct 2026
+                   · 
+                  1
+                  d
+                </Text>
+              </View>
+            </View>
+            <View>
+              <Text>
+                Booking confirmed — check My Bookings
+              </Text>
+              <Text>
+                Booking status: 
+                CONFIRMED
+              </Text>
+            </View>
+          </View>
+        </View>
+      </RCTScrollView>
+    </View>
+
+      51 |     );
+      52 |     expect(
+    > 53 |       screen.getByText(`Booking status: ${bookingStatus ?? 'Unavailable'}`),
+         |              ^
+      54 |     ).toBeTruthy();
+      55 |     if (bookingStatus === 'CANCELLED') {
+      56 |       expect(screen.getByText('Booking cancelled')).toBeTruthy();
+
+      at getByText (src/__tests__/cancellation-consistency.test.tsx:53:14)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+PASS src/__tests__/discovery.test.tsx (18.375 s)
+PASS src/__tests__/onboarding.test.tsx (5.607 s)
+PASS src/__tests__/service-areas.test.tsx
+PASS src/__tests__/draft-editor.test.tsx
+PASS src/__tests__/quotation-api.test.ts
+PASS src/__tests__/session.test.ts
+PASS src/__tests__/ui.test.tsx
+PASS src/__tests__/bookings.test.tsx
+PASS src/__tests__/quotes.test.tsx
+PASS src/__tests__/requirement-publish.test.tsx
+PASS src/__tests__/foundation.test.tsx
+PASS src/__tests__/api.test.ts
+PASS src/__tests__/location.test.ts
+
+Test Suites: 2 failed, 13 passed, 15 total
+Tests:       5 failed, 82 passed, 87 total
+Snapshots:   0 total
+Time:        257.4 s
+Ran all test suites.

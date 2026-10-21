@@ -47,10 +47,10 @@ export default function OpportunitiesScreen() {
           paddingBottom: 10,
           backgroundColor: '#FFFFFF',
           borderBottomWidth: 1,
-          borderBottomColor: 'rgba(20, 92, 88, 0.1)',
+          borderBottomColor: '#E5E7EB',
         }}
       >
-        <Text style={{ fontSize: 20, fontWeight: '800', color: '#104C49' }}>
+        <Text style={{ fontSize: 20, fontWeight: '800', color: '#202326' }}>
           Nearby Opportunities
         </Text>
         <NotificationBell />
@@ -59,11 +59,11 @@ export default function OpportunitiesScreen() {
       <ScrollView className="flex-1 p-4">
         {error ? (
           <View className="items-center mt-8">
-            <Text className="text-red-700 text-center mb-4">{error}</Text>
+            <Text className="text-ink text-center mb-4">{error}</Text>
             <Action label="Retry" variant="secondary" onPress={fetchOpps} />
           </View>
         ) : loading ? (
-          <ActivityIndicator className="mt-8" size="large" color="#145C58" />
+          <ActivityIndicator className="mt-8" size="large" color="#202326" />
         ) : opportunities.length === 0 ? (
           <View className="items-center mt-8 p-6 bg-surface rounded-xl border border-outline">
             <Text className="text-ink text-lg font-semibold mb-2">

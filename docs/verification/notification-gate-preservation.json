@@ -1,0 +1,5 @@
+{
+  "bookings": true,
+  "quotations": true,
+  "reservations": true
+}

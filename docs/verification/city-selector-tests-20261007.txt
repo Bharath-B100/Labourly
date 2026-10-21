@@ -1,0 +1,14 @@
+npm warn "src/__tests__/discovery.test.tsx" is being parsed as a normal command line argument.
+npm warn Unknown cli config "--runTestsByPath". This will stop working in the next major version of npm.
+
+> mobile@1.0.0 test
+> jest --runInBand src/__tests__/discovery.test.tsx src/__tests__/location.test.ts
+
+PASS src/__tests__/discovery.test.tsx (11.227 s)
+PASS src/__tests__/location.test.ts
+
+Test Suites: 2 passed, 2 total
+Tests:       9 passed, 9 total
+Snapshots:   0 total
+Time:        13.685 s, estimated 20 s
+Ran all test suites matching /src\\__tests__\\discovery.test.tsx|src\\__tests__\\location.test.ts/i.

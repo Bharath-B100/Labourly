@@ -1,0 +1,771 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Labourly - iOS My Projects Screen Specification & Mockup</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --safety-yellow: #FFCC25;
+      --charcoal-black: #202326;
+      --pure-white: #FFFFFF;
+      --concrete-grey: #E5E7EB;
+      --bg-canvas: #0F1113;
+      --card-bg: #1A1D20;
+      --border-color: #2D3136;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background-color: var(--bg-canvas);
+      color: #E2E8F0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 40px 20px 60px;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 32px;
+      max-width: 760px;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      border-radius: 9999px;
+      background-color: rgba(255, 204, 37, 0.12);
+      border: 1px solid rgba(255, 204, 37, 0.35);
+      color: var(--safety-yellow);
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      margin-bottom: 14px;
+    }
+
+    h1 {
+      font-size: 32px;
+      font-weight: 800;
+      color: #FFFFFF;
+      letter-spacing: -0.5px;
+      margin-bottom: 10px;
+    }
+
+    .subtitle {
+      font-size: 16px;
+      color: #94A3B8;
+      line-height: 1.5;
+    }
+
+    /* Palette Bar */
+    .palette-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 16px;
+      margin-bottom: 36px;
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 16px 24px;
+    }
+
+    .palette-chip {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: #121417;
+      border: 1px solid #282C31;
+      padding: 8px 14px;
+      border-radius: 10px;
+    }
+
+    .color-swatch {
+      width: 28px;
+      height: 28px;
+      border-radius: 6px;
+      box-shadow: inset 0 0 0 1px rgba(0,0,0,0.15);
+    }
+
+    .color-info {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .color-name {
+      font-size: 11px;
+      font-weight: 600;
+      color: #94A3B8;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+    }
+
+    .color-hex {
+      font-size: 14px;
+      font-weight: 700;
+      font-family: monospace;
+      color: #F8FAFC;
+    }
+
+    /* Showcase Layout */
+    .showcase-grid {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 40px;
+      max-width: 1100px;
+      width: 100%;
+    }
+
+    .device-card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 24px;
+      padding: 24px;
+      box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.6);
+    }
+
+    .device-card-header {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .device-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: #FFFFFF;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .device-tag {
+      font-size: 11px;
+      padding: 3px 8px;
+      border-radius: 6px;
+      font-weight: 600;
+      background: #23272D;
+      color: #94A3B8;
+    }
+
+    /* iPhone Frame */
+    .iphone-frame {
+      width: 390px;
+      height: 844px;
+      background-color: var(--concrete-grey);
+      border-radius: 50px;
+      position: relative;
+      box-shadow: 
+        0 0 0 4px #26292E,
+        0 0 0 9px #16181B,
+        0 25px 50px -12px rgba(0, 0, 0, 0.85);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .master-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      border-radius: 46px;
+    }
+
+    /* Interactive Live Screen Canvas */
+    .ios-screen {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      background-color: var(--concrete-grey);
+      position: relative;
+      overflow: hidden;
+      color: var(--charcoal-black);
+    }
+
+    /* Status Bar */
+    .status-bar {
+      height: 44px;
+      padding: 12px 28px 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--charcoal-black);
+      z-index: 20;
+    }
+
+    .status-icons {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* Header & Filter Tabs */
+    .header-section {
+      padding: 10px 20px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .screen-title {
+      font-size: 28px;
+      font-weight: 900;
+      letter-spacing: -0.5px;
+      color: var(--charcoal-black);
+    }
+
+    .filter-tabs-row {
+      display: flex;
+      gap: 10px;
+    }
+
+    .filter-pill {
+      height: 38px;
+      padding: 0 16px;
+      border-radius: 19px;
+      font-family: inherit;
+      font-size: 13.5px;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      background-color: var(--pure-white);
+      color: var(--charcoal-black);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s ease;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+    }
+
+    .filter-pill.active {
+      background-color: var(--safety-yellow);
+      color: var(--charcoal-black);
+      font-weight: 800;
+      box-shadow: 0 4px 10px rgba(255, 204, 37, 0.35);
+    }
+
+    /* Scrollable Cards Feed */
+    .projects-scroll-feed {
+      flex: 1;
+      overflow-y: auto;
+      padding: 0 20px 96px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .projects-scroll-feed::-webkit-scrollbar {
+      width: 4px;
+    }
+    .projects-scroll-feed::-webkit-scrollbar-thumb {
+      background: #CBD5E1;
+      border-radius: 4px;
+    }
+
+    /* Project Card */
+    .project-card {
+      background-color: var(--pure-white);
+      border-radius: 20px;
+      padding: 18px;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.04);
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .card-top-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+
+    .project-title {
+      font-size: 18px;
+      font-weight: 800;
+      color: var(--charcoal-black);
+      letter-spacing: -0.2px;
+    }
+
+    .badge-status {
+      padding: 4px 12px;
+      border-radius: 12px;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.2px;
+    }
+
+    .badge-ongoing {
+      background-color: var(--safety-yellow);
+      color: var(--charcoal-black);
+    }
+
+    .badge-upcoming {
+      background-color: var(--concrete-grey);
+      color: var(--charcoal-black);
+    }
+
+    .project-subtitle {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--charcoal-black);
+    }
+
+    .project-date-row {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      color: var(--charcoal-black);
+      font-weight: 500;
+    }
+
+    /* Card Bottom Row: Avatars + Progress */
+    .card-bottom-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 4px;
+    }
+
+    .avatar-stack {
+      display: flex;
+      align-items: center;
+    }
+
+    .stack-avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      border: 2px solid var(--pure-white);
+      background-color: #E2E8F0;
+      margin-left: -8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 15px;
+      overflow: hidden;
+    }
+
+    .stack-avatar:first-child {
+      margin-left: 0;
+    }
+
+    .progress-section {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 4px;
+      flex: 1;
+      max-width: 160px;
+    }
+
+    .progress-bar-track {
+      width: 100%;
+      height: 8px;
+      border-radius: 4px;
+      background-color: var(--concrete-grey);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      border-radius: 4px;
+      background-color: var(--safety-yellow);
+    }
+
+    .progress-bar-fill.empty {
+      width: 0%;
+    }
+
+    .progress-label {
+      font-size: 12.5px;
+      font-weight: 800;
+      color: var(--charcoal-black);
+    }
+
+    /* Bottom 5-Tab Navigation Bar */
+    .bottom-nav-bar {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 80px;
+      background-color: var(--pure-white);
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      padding: 8px 12px 20px;
+      border-top: 1px solid rgba(229, 231, 235, 0.8);
+      box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.05);
+      z-index: 50;
+    }
+
+    .nav-tab-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      cursor: pointer;
+      padding: 4px 10px;
+      border-radius: 16px;
+      transition: all 0.15s ease;
+      color: var(--charcoal-black);
+    }
+
+    .nav-tab-item.active {
+      font-weight: 800;
+    }
+
+    .active-pill-highlight {
+      background-color: var(--safety-yellow);
+      padding: 4px 16px;
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .tab-icon {
+      width: 22px;
+      height: 22px;
+    }
+
+    .tab-label {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--charcoal-black);
+    }
+
+    .nav-tab-item.active .tab-label {
+      font-weight: 800;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="badge">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/>
+      </svg>
+      Labourly Design System • 4 Colors Strictly
+    </div>
+    <h1>My Projects Screen</h1>
+    <p class="subtitle">iOS (390×844px) contractor job management dashboard with live status cards, progress meters, and 5-tab navigation.</p>
+  </header>
+
+  <!-- Palette Bar -->
+  <div class="palette-container">
+    <div class="palette-chip">
+      <div class="color-swatch" style="background-color: #FFCC25;"></div>
+      <div class="color-info">
+        <span class="color-name">Safety Yellow</span>
+        <span class="color-hex">#FFCC25</span>
+      </div>
+    </div>
+    <div class="palette-chip">
+      <div class="color-swatch" style="background-color: #202326;"></div>
+      <div class="color-info">
+        <span class="color-name">Charcoal Black</span>
+        <span class="color-hex">#202326</span>
+      </div>
+    </div>
+    <div class="palette-chip">
+      <div class="color-swatch" style="background-color: #FFFFFF; box-shadow: inset 0 0 0 1px #cbd5e1;"></div>
+      <div class="color-info">
+        <span class="color-name">Pure White</span>
+        <span class="color-hex">#FFFFFF</span>
+      </div>
+    </div>
+    <div class="palette-chip">
+      <div class="color-swatch" style="background-color: #E5E7EB;"></div>
+      <div class="color-info">
+        <span class="color-name">Concrete Grey</span>
+        <span class="color-hex">#E5E7EB</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Showcase Grid -->
+  <div class="showcase-grid">
+
+    <!-- Card 1: Master Visual Render -->
+    <div class="device-card">
+      <div class="device-card-header">
+        <div class="device-title">
+          <span>Master Visual Render</span>
+        </div>
+        <span class="device-tag">8K Mockup</span>
+      </div>
+      <div class="iphone-frame">
+        <img class="master-image" src="../Labourly_iOS_My_Projects.jpg" alt="Labourly iOS My Projects Screen Render" onerror="this.onerror=null; this.src='../mobile/assets/labourly/my-projects-mockup.jpg';">
+      </div>
+    </div>
+
+    <!-- Card 2: Interactive Prototype -->
+    <div class="device-card">
+      <div class="device-card-header">
+        <div class="device-title">
+          <span>Interactive Prototype</span>
+        </div>
+        <span class="device-tag">Live Dynamic DOM</span>
+      </div>
+      <div class="iphone-frame">
+        <div class="ios-screen">
+
+          <!-- Status Bar -->
+          <div class="status-bar">
+            <span>9:41</span>
+            <div class="status-icons">
+              <svg width="17" height="12" viewBox="0 0 17 12" fill="currentColor">
+                <rect x="0" y="8" width="3" height="4" rx="0.5"/>
+                <rect x="4.5" y="5.5" width="3" height="6.5" rx="0.5"/>
+                <rect x="9" y="3" width="3" height="9" rx="0.5"/>
+                <rect x="13.5" y="0" width="3" height="12" rx="0.5"/>
+              </svg>
+              <svg width="16" height="12" viewBox="0 0 16 12" fill="currentColor">
+                <path d="M8 2.8C5.2 2.8 2.7 3.9 1 5.6L0 4.5C2 2.5 4.8 1.2 8 1.2C11.2 1.2 14 2.5 16 4.5L15 5.6C13.3 3.9 10.8 2.8 8 2.8ZM8 6.4C6.3 6.4 4.8 7.1 3.7 8.2L2.7 7.1C4.1 5.7 6 4.8 8 4.8C10 4.8 11.9 5.7 13.3 7.1L12.3 8.2C11.2 7.1 9.7 6.4 8 6.4ZM8 10C7.2 10 6.5 10.3 6 10.8L8 12.8L10 10.8C9.5 10.3 8.8 10 8 10Z"/>
+              </svg>
+              <svg width="25" height="12" viewBox="0 0 25 12" fill="currentColor">
+                <rect x="0.5" y="0.5" width="21" height="11" rx="3.5" fill="none" stroke="currentColor"/>
+                <rect x="2" y="2" width="16" height="8" rx="2"/>
+                <path d="M23 4.5v3c.6-.3 1-.8 1-1.5s-.4-1.2-1-1.5z"/>
+              </svg>
+            </div>
+          </div>
+
+          <!-- Header & Tabs -->
+          <div class="header-section">
+            <h2 class="screen-title">My Projects</h2>
+            <div class="filter-tabs-row">
+              <button type="button" class="filter-pill active" onclick="selectTab(this, 'active')">Active (3)</button>
+              <button type="button" class="filter-pill" onclick="selectTab(this, 'completed')">Completed</button>
+              <button type="button" class="filter-pill" onclick="selectTab(this, 'cancelled')">Cancelled</button>
+            </div>
+          </div>
+
+          <!-- Projects Scroll Feed -->
+          <div class="projects-scroll-feed" id="projectsFeed">
+
+            <!-- Card 1: Residential Building -->
+            <div class="project-card">
+              <div class="card-top-row">
+                <div class="project-title">Residential Building</div>
+                <span class="badge-status badge-ongoing">Ongoing</span>
+              </div>
+              <div class="project-subtitle">Masons • 3 Workers</div>
+              <div class="project-date-row">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                  <line x1="16" y1="2" x2="16" y2="6"></line>
+                  <line x1="8" y1="2" x2="8" y2="6"></line>
+                  <line x1="3" y1="10" x2="21" y2="10"></line>
+                </svg>
+                <span>12 Apr - 26 Apr, 2025</span>
+              </div>
+              <div class="card-bottom-row">
+                <div class="avatar-stack">
+                  <div class="stack-avatar">👷🏾</div>
+                  <div class="stack-avatar">👷🏽</div>
+                  <div class="stack-avatar">👷🏻</div>
+                </div>
+                <div class="progress-section">
+                  <div class="progress-bar-track">
+                    <div class="progress-bar-fill" style="width: 100%;"></div>
+                  </div>
+                  <span class="progress-label">3/3 workers</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Card 2: Office Renovation -->
+            <div class="project-card">
+              <div class="card-top-row">
+                <div class="project-title">Office Renovation</div>
+                <span class="badge-status badge-upcoming">Upcoming</span>
+              </div>
+              <div class="project-subtitle">Carpenters • 2 Workers</div>
+              <div class="project-date-row">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                  <line x1="16" y1="2" x2="16" y2="6"></line>
+                  <line x1="8" y1="2" x2="8" y2="6"></line>
+                  <line x1="3" y1="10" x2="21" y2="10"></line>
+                </svg>
+                <span>1 May - 30 May, 2025</span>
+              </div>
+              <div class="card-bottom-row">
+                <div class="avatar-stack">
+                  <div class="stack-avatar">👷🏾</div>
+                  <div class="stack-avatar">👷🏼</div>
+                </div>
+                <div class="progress-section">
+                  <div class="progress-bar-track">
+                    <div class="progress-bar-fill empty"></div>
+                  </div>
+                  <span class="progress-label">0/2 workers</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Card 3: Villa Construction -->
+            <div class="project-card">
+              <div class="card-top-row">
+                <div class="project-title">Villa Construction</div>
+                <span class="badge-status badge-ongoing">Ongoing</span>
+              </div>
+              <div class="project-subtitle">Helpers • 4 Workers</div>
+              <div class="project-date-row">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                  <line x1="16" y1="2" x2="16" y2="6"></line>
+                  <line x1="8" y1="2" x2="8" y2="6"></line>
+                  <line x1="3" y1="10" x2="21" y2="10"></line>
+                </svg>
+                <span>10 Apr - 10 May, 2025</span>
+              </div>
+              <div class="card-bottom-row">
+                <div class="avatar-stack">
+                  <div class="stack-avatar">👷🏼</div>
+                  <div class="stack-avatar">👷🏽</div>
+                  <div class="stack-avatar">👷🏾</div>
+                </div>
+                <div class="progress-section">
+                  <div class="progress-bar-track">
+                    <div class="progress-bar-fill" style="width: 100%;"></div>
+                  </div>
+                  <span class="progress-label">4/4 workers</span>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Bottom 5-Tab Navigation Bar -->
+          <div class="bottom-nav-bar">
+            <!-- Home -->
+            <div class="nav-tab-item" onclick="switchNav(this)">
+              <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                <polyline points="9 22 9 12 15 12 15 22"></polyline>
+              </svg>
+              <span class="tab-label">Home</span>
+            </div>
+
+            <!-- Workers -->
+            <div class="nav-tab-item" onclick="switchNav(this)">
+              <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                <circle cx="9" cy="7" r="4"></circle>
+                <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+              </svg>
+              <span class="tab-label">Workers</span>
+            </div>
+
+            <!-- Jobs (Active) -->
+            <div class="nav-tab-item active" onclick="switchNav(this)">
+              <div class="active-pill-highlight">
+                <svg class="tab-icon" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M20 6h-4V4c0-1.11-.89-2-2-2h-4c-1.11 0-2 .89-2 2v2H4c-1.11 0-1.99.89-1.99 2L2 19c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V8c0-1.11-.89-2-2-2zm-6 0h-4V4h4v2z"/>
+                </svg>
+              </div>
+              <span class="tab-label">Jobs</span>
+            </div>
+
+            <!-- Chat -->
+            <div class="nav-tab-item" onclick="switchNav(this)">
+              <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+              </svg>
+              <span class="tab-label">Chat</span>
+            </div>
+
+            <!-- Profile -->
+            <div class="nav-tab-item" onclick="switchNav(this)">
+              <svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                <circle cx="12" cy="7" r="4"></circle>
+              </svg>
+              <span class="tab-label">Profile</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    function selectTab(btn, tab) {
+      document.querySelectorAll('.filter-pill').forEach(p => p.classList.remove('active'));
+      btn.classList.add('active');
+
+      const feed = document.getElementById('projectsFeed');
+      if (tab === 'completed') {
+        feed.innerHTML = `
+          <div style="text-align: center; padding: 60px 20px; color: #64748B;">
+            <div style="font-size: 36px; margin-bottom: 10px;">🏗️</div>
+            <div style="font-weight: 700; font-size: 16px; color: #202326;">No Completed Projects Yet</div>
+            <div style="font-size: 13.5px; margin-top: 4px;">Active projects move here once finished.</div>
+          </div>
+        `;
+      } else if (tab === 'cancelled') {
+        feed.innerHTML = `
+          <div style="text-align: center; padding: 60px 20px; color: #64748B;">
+            <div style="font-size: 36px; margin-bottom: 10px;">📋</div>
+            <div style="font-weight: 700; font-size: 16px; color: #202326;">No Cancelled Projects</div>
+            <div style="font-size: 13.5px; margin-top: 4px;">You have no cancelled contracts.</div>
+          </div>
+        `;
+      } else {
+        location.reload();
+      }
+    }
+
+    function switchNav(item) {
+      document.querySelectorAll('.nav-tab-item').forEach(i => {
+        i.classList.remove('active');
+        const pill = i.querySelector('.active-pill-highlight');
+        if (pill) {
+          const svg = pill.querySelector('svg');
+          i.insertBefore(svg, pill);
+          pill.remove();
+        }
+      });
+      item.classList.add('active');
+      const svg = item.querySelector('svg');
+      const pill = document.createElement('div');
+      pill.className = 'active-pill-highlight';
+      item.insertBefore(pill, item.querySelector('.tab-label'));
+      pill.appendChild(svg);
+    }
+  </script>
+</body>
+</html>

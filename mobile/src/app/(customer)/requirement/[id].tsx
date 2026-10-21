@@ -126,9 +126,9 @@ export default function RequirementDetailsScreen() {
       </View>
       <ScrollView className="flex-1 p-4">
         {error ? (
-          <Text className="text-red-700">{error}</Text>
+          <Text className="text-ink">{error}</Text>
         ) : loading ? (
-          <ActivityIndicator size="large" color="#145C58" />
+          <ActivityIndicator size="large" color="#202326" />
         ) : (
           <>
             <View className="bg-surface p-4 rounded-2xl shadow-sm border border-outline mb-6">

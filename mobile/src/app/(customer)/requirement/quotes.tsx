@@ -19,10 +19,10 @@ const PRICING_LABEL: Record<string, string> = {
 };
 
 const STATUS_COLOR: Record<string, string> = {
-  SUBMITTED: '#315CAB',
-  ACCEPTED: '#16734A',
-  REJECTED: '#B42340',
-  WITHDRAWN: '#466E68',
+  SUBMITTED: '#202326',
+  ACCEPTED: '#202326',
+  REJECTED: '#202326',
+  WITHDRAWN: '#202326',
 };
 
 function QuoteCard({
@@ -34,7 +34,7 @@ function QuoteCard({
   onAccept: (id: string) => void;
   onReject: (id: string) => void;
 }) {
-  const color = STATUS_COLOR[quote.status] ?? '#466E68';
+  const color = STATUS_COLOR[quote.status] ?? '#202326';
   const isSubmitted = quote.status === 'SUBMITTED';
   const starts = new Date(quote.startsAt).toLocaleDateString('en-IN', {
     day: 'numeric',
@@ -66,7 +66,7 @@ function QuoteCard({
 
       {/* Amount */}
       <View className="bg-tinted rounded-xl p-3 mb-3 flex-row items-center">
-        <Ionicons name="cash-outline" size={20} color="#145C58" />
+        <Ionicons name="cash-outline" size={20} color="#202326" />
         <View className="ml-2">
           <Text className="text-accent font-bold text-lg">
             ₹{Number(quote.amount).toLocaleString('en-IN')}
@@ -80,11 +80,11 @@ function QuoteCard({
       {/* Schedule */}
       <View className="flex-row gap-4 mb-3">
         <View className="flex-row items-center">
-          <Ionicons name="calendar-outline" size={14} color="#466E68" />
+          <Ionicons name="calendar-outline" size={14} color="#202326" />
           <Text className="text-muted text-sm ml-1">From {starts}</Text>
         </View>
         <View className="flex-row items-center">
-          <Ionicons name="time-outline" size={14} color="#466E68" />
+          <Ionicons name="time-outline" size={14} color="#202326" />
           <Text className="text-muted text-sm ml-1">{quote.durationDays}d</Text>
         </View>
       </View>
@@ -219,7 +219,7 @@ export default function RequirementQuotesScreen() {
       <ScrollView className="flex-1 p-4">
         {error ? (
           <View className="items-center mt-8">
-            <Text className="text-red-700 text-center mb-4">{error}</Text>
+            <Text className="text-ink text-center mb-4">{error}</Text>
             <Action
               label="Retry"
               variant="secondary"
@@ -229,10 +229,10 @@ export default function RequirementQuotesScreen() {
             />
           </View>
         ) : loading || acting ? (
-          <ActivityIndicator className="mt-8" size="large" color="#145C58" />
+          <ActivityIndicator className="mt-8" size="large" color="#202326" />
         ) : quotes.length === 0 ? (
           <View className="items-center mt-8 p-6 bg-surface rounded-xl border border-outline">
-            <Ionicons name="document-text-outline" size={40} color="#466E68" />
+            <Ionicons name="document-text-outline" size={40} color="#202326" />
             <Text className="text-ink text-lg font-semibold mt-3 mb-1">
               No quotes yet
             </Text>

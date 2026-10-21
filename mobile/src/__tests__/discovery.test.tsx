@@ -6,6 +6,7 @@ import {
   fireEvent,
   cleanup,
   waitFor,
+  act,
 } from '@testing-library/react-native';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import DiscoverScreen from '../app/(customer)/discover';
@@ -18,7 +19,11 @@ jest.mock('../api/marketplace', () => ({
   getTrades: jest.fn(),
   searchWorkers: jest.fn(),
 }));
-jest.mock('expo-router', () => ({ useRouter: () => ({ push: jest.fn() }) }));
+let mockSearchParams: { tradeId?: string } = {};
+jest.mock('expo-router', () => ({
+  useRouter: () => ({ push: jest.fn() }),
+  useLocalSearchParams: () => mockSearchParams,
+}));
 jest.mock('react-native-safe-area-context', () => ({
   SafeAreaView:
     jest.requireActual<typeof import('react-native')>('react-native').View,
@@ -26,6 +31,7 @@ jest.mock('react-native-safe-area-context', () => ({
 let client: QueryClient;
 beforeEach(() => {
   jest.clearAllMocks();
+  mockSearchParams = {};
   jest
     .mocked(currentSearchLocation)
     .mockResolvedValue({ latitude: 19.076, longitude: 72.8777 });
@@ -60,6 +66,31 @@ async function chooseState(name: string) {
   );
   await fireEvent.press(screen.getByRole('radio', { name }));
 }
+test('Home trade selection filters real location search using a catalogue identifier', async () => {
+  mockSearchParams = { tradeId: 'carpenter-id' };
+  jest
+    .mocked(getTrades)
+    .mockResolvedValue([
+      { id: 'carpenter-id', code: 'CARPENTER', name: 'Carpenter', skills: [] },
+    ]);
+  await show();
+  await waitFor(() =>
+    expect(searchWorkers).toHaveBeenLastCalledWith(
+      expect.objectContaining({
+        tradeId: 'carpenter-id',
+        lat: 19.076,
+        lng: 72.8777,
+      }),
+    ),
+  );
+});
+test('unknown trade route parameter never reaches the worker search API', async () => {
+  mockSearchParams = { tradeId: 'invalid-reference' };
+  await show();
+  expect(searchWorkers).toHaveBeenLastCalledWith(
+    expect.objectContaining({ tradeId: undefined }),
+  );
+});
 async function chooseCity(name: string) {
   await fireEvent.press(screen.getByRole('button', { name: /City:/ }));
   await fireEvent.changeText(screen.getByLabelText('Search city'), name);
@@ -180,3 +211,140 @@ test('GPS search discloses limited coverage and offers city fallback', async () 
     screen.getByRole('button', { name: 'Choose a city instead' }),
   ).toBeTruthy();
 });
+
+test('availability chips apply the server filter and All workers clears it', async () => {
+  await render(
+    <QueryClientProvider client={client}>
+      <DiscoverScreen />
+    </QueryClientProvider>,
+  );
+  await waitFor(() => expect(searchWorkers).toHaveBeenCalled());
+  await fireEvent.press(screen.getByRole('button', { name: 'Available' }));
+  await waitFor(() =>
+    expect(searchWorkers).toHaveBeenLastCalledWith(
+      expect.objectContaining({ availability: 'AVAILABLE' }),
+    ),
+  );
+  await fireEvent.press(screen.getByRole('button', { name: 'All workers' }));
+  await waitFor(() =>
+    expect(searchWorkers).toHaveBeenLastCalledWith(
+      expect.objectContaining({ availability: undefined }),
+    ),
+  );
+});
+
+test('manual city selection interrupts pending GPS and ignores its late result', async () => {
+  let resolve!: (value: { latitude: number; longitude: number }) => void;
+  jest.mocked(currentSearchLocation).mockReturnValue(
+    new Promise((done) => {
+      resolve = done;
+    }),
+  );
+  await render(
+    <QueryClientProvider client={client}>
+      <DiscoverScreen />
+    </QueryClientProvider>,
+  );
+  await waitFor(() => expect(currentSearchLocation).toHaveBeenCalled());
+  await fireEvent.press(
+    screen.getByRole('button', { name: 'Choose a city instead' }),
+  );
+  await chooseState('Karnataka');
+  await chooseCity('Bengaluru');
+  await fireEvent.press(screen.getByRole('button', { name: 'Search Workers' }));
+  await waitFor(() => expect(searchWorkers).toHaveBeenCalled());
+  await act(async () => {
+    resolve({ latitude: 19, longitude: 72 });
+  });
+  expect(searchWorkers).toHaveBeenLastCalledWith(
+    expect.objectContaining({ lat: 12.97194, lng: 77.59369 }),
+  );
+  expect(searchWorkers).toHaveBeenCalledTimes(1);
+});
+
+test('workers pagination reaches later results and availability restarts at page zero', async () => {
+  const worker = {
+    id: 'fictional-worker',
+    name: 'Test worker',
+    workerType: 'INDIVIDUAL',
+    trade: 'Carpenter',
+    skills: [],
+    experienceYears: 2,
+    availability: 'AVAILABLE',
+    city: 'Test city',
+    district: 'Test district',
+    state: 'Test state',
+    verificationStatus: 'UNVERIFIED',
+  };
+  jest.mocked(searchWorkers).mockImplementation(async (params) => ({
+    items: [{ ...worker, id: `worker-${params.page ?? 0}` }],
+    total: 21,
+    size: 20,
+    page: params.page ?? 0,
+  }));
+  await render(
+    <QueryClientProvider client={client}>
+      <DiscoverScreen />
+    </QueryClientProvider>,
+  );
+  await screen.findByRole('button', { name: 'Next workers' });
+  await fireEvent.press(screen.getByRole('button', { name: 'Next workers' }));
+  await screen.findByRole('button', { name: 'Previous workers' });
+  expect(searchWorkers).toHaveBeenLastCalledWith(
+    expect.objectContaining({ page: 1 }),
+  );
+  expect(screen.queryByRole('button', { name: 'Next workers' })).toBeNull();
+  await fireEvent.press(screen.getByRole('button', { name: 'Available' }));
+  await waitFor(() =>
+    expect(searchWorkers).toHaveBeenLastCalledWith(
+      expect.objectContaining({ page: 0, availability: 'AVAILABLE' }),
+    ),
+  );
+});
+
+test.each(['empty', 'error'])(
+  'can return from a later %s worker page',
+  async (outcome) => {
+    const worker = {
+      id: 'test-worker',
+      name: 'Test worker',
+      workerType: 'INDIVIDUAL',
+      trade: 'Carpenter',
+      skills: [],
+      experienceYears: 1,
+      availability: 'AVAILABLE',
+      city: 'Test city',
+      district: 'Test district',
+      state: 'Test state',
+      verificationStatus: 'UNVERIFIED',
+    };
+    jest.mocked(searchWorkers).mockImplementation(async (params) => {
+      if (params.page === 1 && outcome === 'error')
+        throw new Error('Connection interrupted');
+      return {
+        items: params.page === 1 ? [] : [worker],
+        total: params.page === 1 ? 20 : 21,
+        size: 20,
+        page: params.page ?? 0,
+      };
+    });
+    await render(
+      <QueryClientProvider client={client}>
+        <DiscoverScreen />
+      </QueryClientProvider>,
+    );
+    await fireEvent.press(
+      await screen.findByRole('button', { name: 'Next workers' }),
+    );
+    await screen.findByText(
+      outcome === 'empty' ? 'No workers found' : 'Unable to load workers',
+    );
+    await fireEvent.press(
+      await screen.findByRole('button', { name: 'Previous workers' }),
+    );
+    await screen.findByRole('button', { name: 'Next workers' });
+    expect(searchWorkers).toHaveBeenLastCalledWith(
+      expect.objectContaining({ page: 0 }),
+    );
+  },
+);

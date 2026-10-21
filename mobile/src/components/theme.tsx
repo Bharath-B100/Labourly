@@ -1,102 +1,74 @@
 import { Image, StyleSheet, Text, View, type ViewProps } from 'react-native';
 import type { PropsWithChildren } from 'react';
-
 export const palette = {
-  yellow: '#F7C948',
-  teal: '#145C58',
-  ink: '#104C49',
-  muted: '#466E68',
-  pearl: '#F7F9F5',
-  mint: '#DCEEE7',
-};
-
-/** Static colour field avoids expensive live blur on scrolling Android screens. */
+  yellow: '#FFCC25',
+  ink: '#202326',
+  white: '#FFFFFF',
+  grey: '#E5E7EB',
+  // Compatibility aliases keep existing marketplace screens on one palette.
+  teal: '#202326',
+  muted: '#202326',
+  pearl: '#FFFFFF',
+  mint: '#E5E7EB',
+} as const;
+export const spacing = { xs: 4, sm: 8, md: 16, lg: 24, xl: 32 } as const;
+export const typography = {
+  title: 28,
+  heading: 20,
+  body: 16,
+  caption: 13,
+} as const;
+/** Brand artwork approved by the user; original reference retained with assets. */
+export function LabourlyMark({ size = 48 }: { size?: number }) {
+  return (
+    <Image
+      source={require('../../assets/labourly/hardhat-mark.png')}
+      accessible={false}
+      resizeMode="contain"
+      style={{ width: size, height: size }}
+    />
+  );
+}
+export function LabourlyLogo({ width = 200 }: { width?: number }) {
+  return (
+    <Image
+      source={require('../../assets/labourly/wordmark.png')}
+      accessibilityLabel="Labourly. Hire Local. Build Better."
+      accessible
+      resizeMode="contain"
+      style={{ width, maxWidth: '100%', aspectRatio: 3 }}
+    />
+  );
+}
+// Legacy export names are adapters, not a second visual theme.
 export function GlassBackdrop() {
   return (
     <View
       pointerEvents="none"
-      accessibilityElementsHidden
-      importantForAccessibility="no-hide-descendants"
-      style={StyleSheet.absoluteFill}
-    >
-      <Image
-        source={require('../../assets/glass-background.png')}
-        resizeMode="stretch"
-        accessible={false}
-        style={{ width: '100%', height: '100%' }}
-      />
-    </View>
+      style={[StyleSheet.absoluteFill, { backgroundColor: palette.white }]}
+    />
   );
 }
-
 export const glassSurface = {
-  backgroundColor: 'rgba(255,255,255,0.20)',
-  borderRadius: 28,
-  borderWidth: 1.5,
-  borderColor: 'rgba(255,255,255,0.96)',
-  shadowColor: '#145C58',
-  shadowOpacity: 0.12,
-  shadowRadius: 16,
-  shadowOffset: { width: 0, height: 6 },
-  boxShadow:
-    '0 8px 16px rgba(20,92,88,0.12), inset 2px 3px 2px rgba(255,255,255,0.95), inset -2px -3px 2px rgba(255,255,255,0.75), inset 5px 5px 7px rgba(170,224,208,0.28)',
+  backgroundColor: palette.white,
+  borderRadius: 12,
+  borderWidth: 1,
+  borderColor: palette.grey,
 } as const;
-
-export function GlassRim({ radius = 28 }: { radius?: number }) {
-  return (
-    <View
-      pointerEvents="none"
-      accessibilityElementsHidden
-      importantForAccessibility="no-hide-descendants"
-      style={[
-        StyleSheet.absoluteFill,
-        { borderRadius: radius, overflow: 'hidden' },
-      ]}
-    >
-      <Image
-        source={require('../../assets/glass-sheen.png')}
-        style={{ width: '100%', height: '100%', opacity: 0.65 }}
-        resizeMode="stretch"
-        accessible={false}
-      />
-      <View
-        style={{
-          position: 'absolute',
-          inset: 3,
-          borderRadius: radius - 3,
-          borderWidth: 1,
-          borderColor: 'rgba(255,255,255,0.70)',
-          borderLeftWidth: 3,
-          borderBottomColor: 'rgba(255,255,255,0.95)',
-        }}
-      />
-      <View
-        style={{
-          position: 'absolute',
-          inset: 7,
-          borderRadius: radius - 7,
-          borderTopWidth: 1,
-          borderLeftWidth: 1,
-          borderColor: 'rgba(255,255,255,0.5)',
-        }}
-      />
-    </View>
-  );
+export function GlassRim(_props: { radius?: number }) {
+  return null;
 }
-
 export function GlassCard({
   children,
   style,
   ...props
 }: PropsWithChildren<ViewProps>) {
   return (
-    <View {...props} style={[glassSurface, { padding: 20 }, style]}>
-      <GlassRim />
+    <View {...props} style={[glassSurface, { padding: 16 }, style]}>
       {children}
     </View>
   );
 }
-
 export function Brand({ right }: { right?: React.ReactNode } = {}) {
   return (
     <View
@@ -104,54 +76,27 @@ export function Brand({ right }: { right?: React.ReactNode } = {}) {
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
-        marginBottom: 20,
+        gap: 12,
       }}
     >
       <View
         style={{
           flexDirection: 'row',
           alignItems: 'center',
-          gap: 9,
+          gap: 8,
+          flexShrink: 1,
         }}
       >
-        <View
-          style={{
-            width: 38,
-            height: 38,
-            backgroundColor: '#FFFFFF',
-            borderRadius: 8,
-            alignItems: 'center',
-            justifyContent: 'center',
-            borderWidth: 1,
-            borderColor: '#E3EAE6',
-          }}
-        >
-          <Image
-            accessible={false}
-            source={require('../../assets/logo.png')}
-            style={{ width: 30, height: 30, resizeMode: 'contain' }}
-          />
-        </View>
-        <Text
-          style={{
-            color: palette.teal,
-            fontSize: 21,
-            fontWeight: '800',
-            letterSpacing: -0.6,
-          }}
-        >
-          NammaCrew
-        </Text>
+        <LabourlyLogo />
       </View>
       {right}
     </View>
   );
 }
-
 export function PageHeading({
   title,
   subtitle,
-  inset = 28,
+  inset = 20,
   right,
 }: {
   title: string;
@@ -161,58 +106,54 @@ export function PageHeading({
 }) {
   return (
     <View
-      style={{ paddingHorizontal: inset, paddingTop: 16, paddingBottom: 12 }}
+      style={{
+        paddingHorizontal: inset,
+        paddingTop: 12,
+        paddingBottom: 12,
+        gap: 12,
+      }}
     >
-      <Brand right={right} />
-      <Text
-        accessibilityRole="header"
+      <View
         style={{
-          fontSize: 34,
-          fontWeight: '800',
-          letterSpacing: -0.9,
-          color: palette.ink,
+          flexDirection: 'row',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          gap: 12,
         }}
       >
-        {title}
-      </Text>
-      {subtitle && (
         <Text
+          accessibilityRole="header"
           style={{
-            fontSize: 15,
-            lineHeight: 22,
-            color: palette.muted,
-            marginTop: 5,
+            fontSize: 22,
+            flex: 1,
+            fontWeight: '700',
+            color: palette.ink,
           }}
         >
+          {title}
+        </Text>
+        {right}
+      </View>
+      {subtitle && (
+        <Text style={{ fontSize: 15, lineHeight: 22, color: palette.ink }}>
           {subtitle}
         </Text>
       )}
     </View>
   );
 }
-
-/** Five adjoining lenses; navigator retains tab events, guards and accessibility. */
-export function GlassTabBackground({ count = 5 }: { count?: number }) {
+export function GlassTabBackground(_props: { count?: number }) {
   return (
     <View
       pointerEvents="none"
-      accessibilityElementsHidden
-      importantForAccessibility="no-hide-descendants"
       style={[
         StyleSheet.absoluteFill,
-        { flexDirection: 'row', alignItems: 'stretch' },
+        {
+          backgroundColor: palette.white,
+          borderTopWidth: 1,
+          borderColor: palette.grey,
+        },
       ]}
-    >
-      <Image
-        accessible={false}
-        source={
-          count === 4
-            ? require('../../assets/glass-nav-4.png')
-            : require('../../assets/glass-nav-5.png')
-        }
-        resizeMode="stretch"
-        style={{ width: '100%', height: '100%' }}
-      />
-    </View>
+    />
   );
 }

@@ -1,0 +1,65 @@
+[
+  {
+    "suite": "in.nammacrew.booking.BookingStateTest",
+    "tests": 1,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  {
+    "suite": "in.nammacrew.security.SecurityTest",
+    "tests": 3,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  {
+    "suite": "in.nammacrew.auth.AuthenticationIT",
+    "tests": 14,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  {
+    "suite": "in.nammacrew.auth.MigrationIT",
+    "tests": 4,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  {
+    "suite": "in.nammacrew.auth.ProductionAuthIT",
+    "tests": 1,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  {
+    "suite": "in.nammacrew.FoundationIT",
+    "tests": 12,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  {
+    "suite": "in.nammacrew.marketplace.MarketplaceIT",
+    "tests": 3,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  {
+    "suite": "in.nammacrew.marketplace.QuotationConcurrencyIT",
+    "tests": 4,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  {
+    "suite": "in.nammacrew.marketplace.QuotationIT",
+    "tests": 5,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  }
+]

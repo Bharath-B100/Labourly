@@ -1,0 +1,345 @@
+npm warn Unknown cli config "--outputFile". This will stop working in the next major version of npm.
+
+> mobile@1.0.0 test
+> jest --runInBand
+
+FAIL src/__tests__/ui.test.tsx (18.016 s)
+  ● searchable trade dropdown selects an option, closes and retains its selection
+
+    TypeError: expect(...).toHaveAccessibilityState is not a function
+
+      12 |  expect(screen.queryByRole('radio',{name:'Carpenter'})).toBeNull();
+      13 |  await fireEvent.press(screen.getByRole('radio',{name:'Electrician'}));
+    > 14 |  expect(screen.getByRole('button',{name:'Trade: Electrician'})).toHaveAccessibilityState({expanded:false});
+         |                                                                 ^
+      15 |  await fireEvent.press(screen.getByRole('button',{name:'Trade: Electrician'}));
+      16 |  expect(screen.getByRole('radio',{name:'Electrician'})).toHaveAccessibilityState({checked:true});
+      17 |  expect(screen.getByRole('radio',{name:'Carpenter'})).toBeTruthy();
+
+      at Object.toHaveAccessibilityState (src/__tests__/ui.test.tsx:14:65)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+  ● dropdown empty search and dismissal do not change the selected value
+
+    TypeError: expect(...).toHaveAccessibilityState is not a function
+
+      23 |  expect(screen.getByText('No options found.')).toBeTruthy();
+      24 |  await fireEvent.press(screen.getByRole('button',{name:'Close options'}));
+    > 25 |  expect(screen.getByRole('button',{name:'Trade: Choose an option'})).toHaveAccessibilityState({expanded:false});
+         |                                                                      ^
+      26 | });
+      27 | test('disabled dropdown cannot open',async()=>{
+      28 |  await render(<Select label="Trade" value="" options={options} onChange={jest.fn()} disabled />);
+
+      at Object.toHaveAccessibilityState (src/__tests__/ui.test.tsx:25:70)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+  ● busy action blocks repeat submission and exposes loading state
+
+    TypeError: expect(...).toHaveAccessibilityState is not a function
+
+      34 |  const view=await render(<Action label="Save" loading onPress={submit} />);
+      35 |  const button=screen.getByRole('button',{name:'Save'});
+    > 36 |  expect(button).toHaveAccessibilityState({disabled:true,busy:true});
+         |                 ^
+      37 |  await fireEvent.press(button);
+      38 |  expect(submit).not.toHaveBeenCalled();
+      39 |  await view.rerender(<Action label="Save" onPress={submit} />);
+
+      at Object.toHaveAccessibilityState (src/__tests__/ui.test.tsx:36:17)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+PASS src/__tests__/requirement-publish.test.tsx
+  ● Console
+
+    console.error
+      The current testing environment is not configured to support act(...)
+
+      37 |         getRequirementMatches(id as string),
+      38 |       ]);
+    > 39 |       setRequirement(reqData);
+         |       ^
+      40 |       setMatches(matchesData);
+      41 |     } catch (e: any) {
+      42 |       setError(e.message || 'Failed to load details');
+
+      at isConcurrentActEnvironment (node_modules/react-reconciler/cjs/react-reconciler.development.js:13990:17)
+      at warnIfUpdatesNotWrappedWithActDEV (node_modules/react-reconciler/cjs/react-reconciler.development.js:16304:7)
+      at scheduleUpdateOnFiber (node_modules/react-reconciler/cjs/react-reconciler.development.js:14070:11)
+      at dispatchSetStateInternal (node_modules/react-reconciler/cjs/react-reconciler.development.js:6784:13)
+      at dispatchSetState (node_modules/react-reconciler/cjs/react-reconciler.development.js:6741:7)
+      at setRequirement (D:\Files\EDUCATION\NammaCrew\mobile\src\app\(customer)../../../../requirement/[id].tsx:39:7)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+    console.error
+      The current testing environment is not configured to support act(...)
+
+      38 |       ]);
+      39 |       setRequirement(reqData);
+    > 40 |       setMatches(matchesData);
+         |       ^
+      41 |     } catch (e: any) {
+      42 |       setError(e.message || 'Failed to load details');
+      43 |     } finally {
+
+      at isConcurrentActEnvironment (node_modules/react-reconciler/cjs/react-reconciler.development.js:13990:17)
+      at warnIfUpdatesNotWrappedWithActDEV (node_modules/react-reconciler/cjs/react-reconciler.development.js:16304:7)
+      at scheduleUpdateOnFiber (node_modules/react-reconciler/cjs/react-reconciler.development.js:14070:11)
+      at dispatchSetStateInternal (node_modules/react-reconciler/cjs/react-reconciler.development.js:6784:13)
+      at dispatchSetState (node_modules/react-reconciler/cjs/react-reconciler.development.js:6741:7)
+      at setMatches (D:\Files\EDUCATION\NammaCrew\mobile\src\app\(customer)../../../../requirement/[id].tsx:40:7)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+    console.error
+      The current testing environment is not configured to support act(...)
+
+      42 |       setError(e.message || 'Failed to load details');
+      43 |     } finally {
+    > 44 |       setLoading(false);
+         |       ^
+      45 |     }
+      46 |   }, [id]);
+      47 |
+
+      at isConcurrentActEnvironment (node_modules/react-reconciler/cjs/react-reconciler.development.js:13990:17)
+      at warnIfUpdatesNotWrappedWithActDEV (node_modules/react-reconciler/cjs/react-reconciler.development.js:16304:7)
+      at scheduleUpdateOnFiber (node_modules/react-reconciler/cjs/react-reconciler.development.js:14070:11)
+      at dispatchSetStateInternal (node_modules/react-reconciler/cjs/react-reconciler.development.js:6784:13)
+      at dispatchSetState (node_modules/react-reconciler/cjs/react-reconciler.development.js:6741:7)
+      at setLoading (D:\Files\EDUCATION\NammaCrew\mobile\src\app\(customer)../../../../requirement/[id].tsx:44:7)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+    console.error
+      The current testing environment is not configured to support act(...)
+
+      37 |         getRequirementMatches(id as string),
+      38 |       ]);
+    > 39 |       setRequirement(reqData);
+         |       ^
+      40 |       setMatches(matchesData);
+      41 |     } catch (e: any) {
+      42 |       setError(e.message || 'Failed to load details');
+
+      at isConcurrentActEnvironment (node_modules/react-reconciler/cjs/react-reconciler.development.js:13990:17)
+      at warnIfUpdatesNotWrappedWithActDEV (node_modules/react-reconciler/cjs/react-reconciler.development.js:16304:7)
+      at scheduleUpdateOnFiber (node_modules/react-reconciler/cjs/react-reconciler.development.js:14070:11)
+      at dispatchSetStateInternal (node_modules/react-reconciler/cjs/react-reconciler.development.js:6784:13)
+      at dispatchSetState (node_modules/react-reconciler/cjs/react-reconciler.development.js:6741:7)
+      at setRequirement (D:\Files\EDUCATION\NammaCrew\mobile\src\app\(customer)../../../../requirement/[id].tsx:39:7)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+    console.error
+      The current testing environment is not configured to support act(...)
+
+      38 |       ]);
+      39 |       setRequirement(reqData);
+    > 40 |       setMatches(matchesData);
+         |       ^
+      41 |     } catch (e: any) {
+      42 |       setError(e.message || 'Failed to load details');
+      43 |     } finally {
+
+      at isConcurrentActEnvironment (node_modules/react-reconciler/cjs/react-reconciler.development.js:13990:17)
+      at warnIfUpdatesNotWrappedWithActDEV (node_modules/react-reconciler/cjs/react-reconciler.development.js:16304:7)
+      at scheduleUpdateOnFiber (node_modules/react-reconciler/cjs/react-reconciler.development.js:14070:11)
+      at dispatchSetStateInternal (node_modules/react-reconciler/cjs/react-reconciler.development.js:6784:13)
+      at dispatchSetState (node_modules/react-reconciler/cjs/react-reconciler.development.js:6741:7)
+      at setMatches (D:\Files\EDUCATION\NammaCrew\mobile\src\app\(customer)../../../../requirement/[id].tsx:40:7)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+    console.error
+      The current testing environment is not configured to support act(...)
+
+      42 |       setError(e.message || 'Failed to load details');
+      43 |     } finally {
+    > 44 |       setLoading(false);
+         |       ^
+      45 |     }
+      46 |   }, [id]);
+      47 |
+
+      at isConcurrentActEnvironment (node_modules/react-reconciler/cjs/react-reconciler.development.js:13990:17)
+      at warnIfUpdatesNotWrappedWithActDEV (node_modules/react-reconciler/cjs/react-reconciler.development.js:16304:7)
+      at scheduleUpdateOnFiber (node_modules/react-reconciler/cjs/react-reconciler.development.js:14070:11)
+      at dispatchSetStateInternal (node_modules/react-reconciler/cjs/react-reconciler.development.js:6784:13)
+      at dispatchSetState (node_modules/react-reconciler/cjs/react-reconciler.development.js:6741:7)
+      at setLoading (D:\Files\EDUCATION\NammaCrew\mobile\src\app\(customer)../../../../requirement/[id].tsx:44:7)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+    console.error
+      The current testing environment is not configured to support act(...)
+
+      37 |         getRequirementMatches(id as string),
+      38 |       ]);
+    > 39 |       setRequirement(reqData);
+         |       ^
+      40 |       setMatches(matchesData);
+      41 |     } catch (e: any) {
+      42 |       setError(e.message || 'Failed to load details');
+
+      at isConcurrentActEnvironment (node_modules/react-reconciler/cjs/react-reconciler.development.js:13990:17)
+      at warnIfUpdatesNotWrappedWithActDEV (node_modules/react-reconciler/cjs/react-reconciler.development.js:16304:7)
+      at scheduleUpdateOnFiber (node_modules/react-reconciler/cjs/react-reconciler.development.js:14070:11)
+      at dispatchSetStateInternal (node_modules/react-reconciler/cjs/react-reconciler.development.js:6784:13)
+      at dispatchSetState (node_modules/react-reconciler/cjs/react-reconciler.development.js:6741:7)
+      at setRequirement (D:\Files\EDUCATION\NammaCrew\mobile\src\app\(customer)../../../../requirement/[id].tsx:39:7)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+    console.error
+      The current testing environment is not configured to support act(...)
+
+      38 |       ]);
+      39 |       setRequirement(reqData);
+    > 40 |       setMatches(matchesData);
+         |       ^
+      41 |     } catch (e: any) {
+      42 |       setError(e.message || 'Failed to load details');
+      43 |     } finally {
+
+      at isConcurrentActEnvironment (node_modules/react-reconciler/cjs/react-reconciler.development.js:13990:17)
+      at warnIfUpdatesNotWrappedWithActDEV (node_modules/react-reconciler/cjs/react-reconciler.development.js:16304:7)
+      at scheduleUpdateOnFiber (node_modules/react-reconciler/cjs/react-reconciler.development.js:14070:11)
+      at dispatchSetStateInternal (node_modules/react-reconciler/cjs/react-reconciler.development.js:6784:13)
+      at dispatchSetState (node_modules/react-reconciler/cjs/react-reconciler.development.js:6741:7)
+      at setMatches (D:\Files\EDUCATION\NammaCrew\mobile\src\app\(customer)../../../../requirement/[id].tsx:40:7)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+    console.error
+      The current testing environment is not configured to support act(...)
+
+      42 |       setError(e.message || 'Failed to load details');
+      43 |     } finally {
+    > 44 |       setLoading(false);
+         |       ^
+      45 |     }
+      46 |   }, [id]);
+      47 |
+
+      at isConcurrentActEnvironment (node_modules/react-reconciler/cjs/react-reconciler.development.js:13990:17)
+      at warnIfUpdatesNotWrappedWithActDEV (node_modules/react-reconciler/cjs/react-reconciler.development.js:16304:7)
+      at scheduleUpdateOnFiber (node_modules/react-reconciler/cjs/react-reconciler.development.js:14070:11)
+      at dispatchSetStateInternal (node_modules/react-reconciler/cjs/react-reconciler.development.js:6784:13)
+      at dispatchSetState (node_modules/react-reconciler/cjs/react-reconciler.development.js:6741:7)
+      at setLoading (D:\Files\EDUCATION\NammaCrew\mobile\src\app\(customer)../../../../requirement/[id].tsx:44:7)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+    console.error
+      The current testing environment is not configured to support act(...)
+
+      37 |         getRequirementMatches(id as string),
+      38 |       ]);
+    > 39 |       setRequirement(reqData);
+         |       ^
+      40 |       setMatches(matchesData);
+      41 |     } catch (e: any) {
+      42 |       setError(e.message || 'Failed to load details');
+
+      at isConcurrentActEnvironment (node_modules/react-reconciler/cjs/react-reconciler.development.js:13990:17)
+      at warnIfUpdatesNotWrappedWithActDEV (node_modules/react-reconciler/cjs/react-reconciler.development.js:16304:7)
+      at scheduleUpdateOnFiber (node_modules/react-reconciler/cjs/react-reconciler.development.js:14070:11)
+      at dispatchSetStateInternal (node_modules/react-reconciler/cjs/react-reconciler.development.js:6784:13)
+      at dispatchSetState (node_modules/react-reconciler/cjs/react-reconciler.development.js:6741:7)
+      at setRequirement (D:\Files\EDUCATION\NammaCrew\mobile\src\app\(customer)../../../../requirement/[id].tsx:39:7)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+    console.error
+      The current testing environment is not configured to support act(...)
+
+      38 |       ]);
+      39 |       setRequirement(reqData);
+    > 40 |       setMatches(matchesData);
+         |       ^
+      41 |     } catch (e: any) {
+      42 |       setError(e.message || 'Failed to load details');
+      43 |     } finally {
+
+      at isConcurrentActEnvironment (node_modules/react-reconciler/cjs/react-reconciler.development.js:13990:17)
+      at warnIfUpdatesNotWrappedWithActDEV (node_modules/react-reconciler/cjs/react-reconciler.development.js:16304:7)
+      at scheduleUpdateOnFiber (node_modules/react-reconciler/cjs/react-reconciler.development.js:14070:11)
+      at dispatchSetStateInternal (node_modules/react-reconciler/cjs/react-reconciler.development.js:6784:13)
+      at dispatchSetState (node_modules/react-reconciler/cjs/react-reconciler.development.js:6741:7)
+      at setMatches (D:\Files\EDUCATION\NammaCrew\mobile\src\app\(customer)../../../../requirement/[id].tsx:40:7)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+    console.error
+      The current testing environment is not configured to support act(...)
+
+      42 |       setError(e.message || 'Failed to load details');
+      43 |     } finally {
+    > 44 |       setLoading(false);
+         |       ^
+      45 |     }
+      46 |   }, [id]);
+      47 |
+
+      at isConcurrentActEnvironment (node_modules/react-reconciler/cjs/react-reconciler.development.js:13990:17)
+      at warnIfUpdatesNotWrappedWithActDEV (node_modules/react-reconciler/cjs/react-reconciler.development.js:16304:7)
+      at scheduleUpdateOnFiber (node_modules/react-reconciler/cjs/react-reconciler.development.js:14070:11)
+      at dispatchSetStateInternal (node_modules/react-reconciler/cjs/react-reconciler.development.js:6784:13)
+      at dispatchSetState (node_modules/react-reconciler/cjs/react-reconciler.development.js:6741:7)
+      at setLoading (D:\Files\EDUCATION\NammaCrew\mobile\src\app\(customer)../../../../requirement/[id].tsx:44:7)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+PASS src/__tests__/onboarding.test.tsx
+  ● Console
+
+    console.error
+      An update to LoginScreen inside a test was not wrapped in act(...).
+      
+      When testing, code that causes React state updates should be wrapped into act(...):
+      
+      act(() => {
+        /* fire events that update state */
+      });
+      /* assert on the output */
+      
+      This ensures that you're testing the behavior the user would see in the browser. Learn more at https://react.dev/link/wrap-tests-with-act
+
+      at node_modules/react-reconciler/cjs/react-reconciler.development.js:16307:19
+      at runWithFiberInDEV (node_modules/react-reconciler/cjs/react-reconciler.development.js:2508:13)
+      at warnIfUpdatesNotWrappedWithActDEV (node_modules/react-reconciler/cjs/react-reconciler.development.js:16306:9)
+      at scheduleUpdateOnFiber (node_modules/react-reconciler/cjs/react-reconciler.development.js:14070:11)
+      at forceStoreRerender (node_modules/react-reconciler/cjs/react-reconciler.development.js:5935:24)
+      at node_modules/react-reconciler/cjs/react-reconciler.development.js:5920:11
+      at node_modules/@tanstack/query-core/src/notifyManager.ts:83:11
+      at notifyFn (node_modules/@tanstack/query-core/src/notifyManager.ts:25:5)
+      at node_modules/@tanstack/query-core/src/notifyManager.ts:48:13
+          at Array.forEach (<anonymous>)
+      at node_modules/@tanstack/query-core/src/notifyManager.ts:47:25
+      at batchNotifyFn (node_modules/@tanstack/query-core/src/notifyManager.ts:28:5)
+      at Timeout._onTimeout (node_modules/@tanstack/query-core/src/notifyManager.ts:46:9)
+
+PASS src/__tests__/foundation.test.tsx
+PASS src/__tests__/bookings.test.tsx
+PASS src/__tests__/quotes.test.tsx
+PASS src/__tests__/api.test.ts
+PASS src/__tests__/quotation-api.test.ts
+PASS src/__tests__/session.test.ts
+
+Test Suites: 1 failed, 8 passed, 9 total
+Tests:       3 failed, 45 passed, 48 total
+Snapshots:   0 total
+Time:        26.874 s
+Ran all test suites.
+{
+  "error": {
+    "code": 1,
+    "summary": "",
+    "detail": ""
+  }
+}

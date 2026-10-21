@@ -1,28 +1,31 @@
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { Pressable, useWindowDimensions } from 'react-native';
 import { GlassTabBackground } from '../../components/theme';
 import { Tabs, useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
-import { GlassTabButton } from '../../components/GlassTabButton';
-import { Pressable } from 'react-native';
+import { GlassTabButton, TabIcon } from '../../components/GlassTabButton';
 
 export default function WorkerLayout() {
   const router = useRouter();
+  const insets = useSafeAreaInsets();
+  const { fontScale } = useWindowDimensions();
   return (
     <Tabs
       backBehavior="history"
       screenOptions={{
         headerShown: false,
-        headerStyle: { backgroundColor: '#F7F9F5' },
-        headerTintColor: '#145C58',
+        headerStyle: { backgroundColor: '#FFFFFF' },
+        headerTintColor: '#202326',
         headerShadowVisible: false,
-        tabBarActiveTintColor: '#145C58',
-        tabBarInactiveTintColor: '#466E68',
+        tabBarActiveTintColor: '#202326',
+        tabBarInactiveTintColor: '#202326',
         tabBarHideOnKeyboard: true,
         tabBarButton: (props) => <GlassTabButton {...props} />,
-        tabBarActiveBackgroundColor: 'transparent',
-        tabBarInactiveBackgroundColor: 'transparent',
+        tabBarActiveBackgroundColor: '#FFCC25',
+        tabBarInactiveBackgroundColor: '#FFFFFF',
         tabBarBackground: () => <GlassTabBackground count={4} />,
         tabBarItemStyle: {
-          borderRadius: 40,
+          borderRadius: 0,
           marginHorizontal: 0,
           paddingVertical: 8,
           borderWidth: 0,
@@ -30,24 +33,25 @@ export default function WorkerLayout() {
         tabBarStyle: {
           backgroundColor: 'transparent',
           borderTopWidth: 0,
-          height: 74,
+          height: 64 + insets.bottom + Math.max(0, fontScale - 1) * 24,
           paddingTop: 0,
-          paddingBottom: 0,
-          marginHorizontal: 14,
-          marginBottom: 20,
-          borderRadius: 40,
+          paddingBottom: insets.bottom,
+          marginHorizontal: 0,
+          marginBottom: 0,
+          borderRadius: 0,
           elevation: 0,
         },
-        tabBarLabelStyle: { fontSize: 10, fontWeight: '600' },
+        tabBarLabelStyle: { fontSize: 11, fontWeight: '600' },
       }}
     >
       <Tabs.Screen
         name="opportunities"
         options={{
           title: 'Opportunities',
+          tabBarAccessibilityLabel: 'Opportunities',
           tabBarLabel: 'Find Jobs',
-          tabBarIcon: ({ color }) => (
-            <Ionicons name="search" size={24} color={color} />
+          tabBarIcon: ({ color, focused }) => (
+            <TabIcon name="search" color={color} focused={focused} />
           ),
         }}
       />
@@ -55,8 +59,10 @@ export default function WorkerLayout() {
         name="schedule"
         options={{
           title: 'My Quotes',
-          tabBarIcon: ({ color }) => (
-            <Ionicons name="send" size={24} color={color} />
+          tabBarLabel: 'Quotes',
+          tabBarAccessibilityLabel: 'My Quotes',
+          tabBarIcon: ({ color, focused }) => (
+            <TabIcon name="send" color={color} focused={focused} />
           ),
         }}
       />
@@ -64,8 +70,10 @@ export default function WorkerLayout() {
         name="bookings"
         options={{
           title: 'My Bookings',
-          tabBarIcon: ({ color }) => (
-            <Ionicons name="briefcase-outline" size={24} color={color} />
+          tabBarLabel: 'Bookings',
+          tabBarAccessibilityLabel: 'My Bookings',
+          tabBarIcon: ({ color, focused }) => (
+            <TabIcon name="briefcase-outline" color={color} focused={focused} />
           ),
         }}
       />
@@ -73,8 +81,9 @@ export default function WorkerLayout() {
         name="profile"
         options={{
           title: 'Profile',
-          tabBarIcon: ({ color }) => (
-            <Ionicons name="person-outline" size={24} color={color} />
+          tabBarAccessibilityLabel: 'Profile',
+          tabBarIcon: ({ color, focused }) => (
+            <TabIcon name="person-outline" color={color} focused={focused} />
           ),
         }}
       />
@@ -87,9 +96,16 @@ export default function WorkerLayout() {
           headerLeft: () => (
             <Pressable
               onPress={() => router.back()}
-              style={{ marginLeft: 16, padding: 4 }}
+              accessibilityRole="button"
+              accessibilityLabel="Back"
+              style={{
+                marginLeft: 8,
+                padding: 12,
+                minWidth: 48,
+                minHeight: 48,
+              }}
             >
-              <Ionicons name="arrow-back" size={24} color="#145C58" />
+              <Ionicons name="arrow-back" size={24} color="#202326" />
             </Pressable>
           ),
         }}
@@ -103,9 +119,16 @@ export default function WorkerLayout() {
           headerLeft: () => (
             <Pressable
               onPress={() => router.back()}
-              style={{ marginLeft: 16, padding: 4 }}
+              accessibilityRole="button"
+              accessibilityLabel="Back"
+              style={{
+                marginLeft: 8,
+                padding: 12,
+                minWidth: 48,
+                minHeight: 48,
+              }}
             >
-              <Ionicons name="arrow-back" size={24} color="#145C58" />
+              <Ionicons name="arrow-back" size={24} color="#202326" />
             </Pressable>
           ),
         }}

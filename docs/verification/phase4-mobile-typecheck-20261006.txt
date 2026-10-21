@@ -1,0 +1,7 @@
+
+> mobile@1.0.0 typecheck
+> tsc --noEmit
+
+src/app/(customer)/requirement/quotes.tsx(220,15): error TS2322: Type '(mounted: { current: boolean; }) => Promise<void>' is not assignable to type '(event: GestureResponderEvent) => void'.
+  Types of parameters 'mounted' and 'event' are incompatible.
+    Property 'current' is missing in type 'NativeSyntheticEvent<NativeTouchEvent>' but required in type '{ current: boolean; }'.

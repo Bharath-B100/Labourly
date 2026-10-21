@@ -1,0 +1,928 @@
+{
+  "mobile": {
+    "counts": {
+      "info": 0,
+      "low": 0,
+      "moderate": 12,
+      "high": 54,
+      "critical": 1,
+      "total": 67
+    },
+    "lockSha256": "89b4f7fe4e4b541cae71d5252142b9ea0de7ccd5f460e7679b0d75bb60e93447",
+    "findings": [
+      {
+        "name": "@expo/cli",
+        "severity": "high",
+        "range": "<=0.0.0-canary-20231123-1b19f96-4 || >=0.0.1-canary-20231125-d600e44",
+        "nodes": [
+          {
+            "path": "node_modules/expo/node_modules/@expo/cli",
+            "version": "57.0.27",
+            "rangeMatches": true
+          }
+        ]
+      },
+      {
+        "name": "@expo/code-signing-certificates",
+        "severity": "high",
+        "range": "*",
+        "nodes": [
+          {
+            "path": "node_modules/@expo/code-signing-certificates",
+            "version": "0.0.6",
+            "rangeMatches": true
+          }
+        ]
+      },
+      {
+        "name": "@expo/metro",
+        "severity": "high",
+        "range": "*",
+        "nodes": [
+          {
+            "path": "node_modules/@expo/metro",
+            "version": "56.0.2",
+            "rangeMatches": true
+          }
+        ]
+      },
+      {
+        "name": "@expo/metro-config",
+        "severity": "high",
+        "range": ">=0.21.0-canary-20250630-547cd82",
+        "nodes": [
+          {
+            "path": "node_modules/@expo/metro-config",
+            "version": "57.0.12",
+            "rangeMatches": true
+          }
+        ]
+      },
+      {
+        "name": "@expo/metro-file-map",
+        "severity": "high",
+        "range": "<=57.0.3 || 58.0.0-canary-20260806-8c2d007 - 58.0.3",
+        "nodes": [
+          {
+            "path": "node_modules/@expo/metro-file-map",
+            "version": "57.0.3",
+            "rangeMatches": true
+          }
+        ]
+      },
+      {
+        "name": "@istanbuljs/load-nyc-config",
+        "severity": "moderate",
+        "range": "*",
+        "nodes": [
+          {
+            "path": "node_modules/@istanbuljs/load-nyc-config",
+            "version": "1.1.0",
+            "rangeMatches": true
+          }
+        ]
+      },
+      {
+        "name": "@jest/console",
+        "severity": "high",
+        "range": "25.4.0 - 30.2.0",
+        "nodes": [
+          {
+            "path": "node_modules/@jest/console",
+            "version": "29.7.0",
+            "rangeMatches": true
+          }
+        ]
+      },
+      {
+        "name": "@jest/core",
+        "severity": "high",
+        "range": "<=30.2.0",
+        "nodes": [
+          {
+            "path": "node_modules/@jest/core",
+            "version": "29.7.0",
+            "rangeMatches": true
+          }
+        ]
+      },
+      {
+        "name": "@jest/environment",
+        "severity": "high",
+        "range": "<=30.2.0",
+        "nodes": [
+          {
+            "path": "node_modules/@jest/environment",
+            "version": "29.7.0",
+            "rangeMatches": true
+          }
+        ]
+      },
+      {
+        "name": "@jest/expect",
+        "severity": "high",
+        "range": "<=30.2.0",
+        "nodes": [
+          {
+            "path": "node_modules/@jest/expect",
+            "version": "29.7.0",
+            "rangeMatches": true
+          }
+        ]
+      },
+      {
+        "name": "@jest/fake-timers",
+        "severity": "high",
+        "range": "<=30.2.0",
+        "nodes": [
+          {
+            "path": "node_modules/@jest/fake-timers",
+            "version": "29.7.0",
+            "rangeMatches": true
+          }
+        ]
+      },
+      {
+        "name": "@jest/globals",
+        "severity": "high",
+        "range": "<=30.2.0",
+        "nodes": [
+          {
+            "path": "node_modules/@jest/globals",
+            "version": "29.7.0",
+            "rangeMatches": true
+          }
+        ]
+      },
+      {
+        "name": "@jest/reporters",
+        "severity": "high",
+        "range": "<=30.2.0",
+        "nodes": [
+          {
+            "path": "node_modules/@jest/reporters",
+            "version": "29.7.0",
+            "rangeMatches": true
+          }
+        ]
+      },
+      {
+        "name": "@jest/test-result",
+        "severity": "high",
+        "range": "25.4.0 - 30.2.0",
+        "nodes": [
+          {
+            "path": "node_modules/@jest/test-result",
+            "version": "29.7.0",
+            "rangeMatches": true
+          }
+        ]
+      },
+      {
+        "name": "@jest/test-sequencer",
+        "severity": "high",
+        "range": "<=30.2.0",
+        "nodes": [
+          {
+            "path": "node_modules/@jest/test-sequencer",
+            "version": "29.7.0",
+            "rangeMatches": true
+          }
+        ]
+      },
+      {
+        "name": "@jest/transform",
+        "severity": "high",
+        "range": "*",
+        "nodes": [
+          {
+            "path": "node_modules/@jest/transform",
+            "version": "29.7.0",
+            "rangeMatches": true
+          }
+        ]
+      },
+      {
+        "name": "@react-native/community-cli-plugin",
+        "severity": "high",
+        "range": "*",
+        "nodes": [
+          {
+            "path": "node_modules/@react-native/community-cli-plugin",
+            "version": "0.86.3",
+            "rangeMatches": true
+          }
+        ]
+      },
+      {
+        "name": "@react-native/jest-preset",
+        "severity": "high",
+        "range": "*",
+        "nodes": [
+          {
+            "path": "node_modules/@react-native/jest-preset",
+            "version": "0.86.3",
+            "rangeMatches": true
+          }
+        ]
+      },
+      {
+        "name": "@react-native/metro-config",
+        "severity": "high",
+        "range": "*",
+        "nodes": [
+          {
+            "path": "node_modules/@react-native/metro-config",
+            "version": "0.86.3",
+            "rangeMatches": true
+          }
+        ]
+      },
+      {
+        "name": "@react-native/virtualized-lists",
+        "severity": "high",
+        "range": "0.85.0-nightly-20260108-1236b6be4 - 0.87.0-rc.4",
+        "nodes": [
+          {
+            "path": "node_modules/@react-native/virtualized-lists",
+            "version": "0.86.3",
+            "rangeMatches": true
+          }
+        ]
+      },
+      {
+        "name": "@types/jest",
+        "severity": "high",
+        "range": "28.1.7 - 29.5.14",
+        "nodes": [
+          {
+            "path": "node_modules/@types/jest",
+            "version": "29.5.14",
+            "rangeMatches": true
+          }
+        ]
+      },
+      {
+        "name": "argparse",
+        "severity": "moderate",
+        "range": "1.0.0 - 1.0.10",
+        "nodes": [
+          {
+            "path": "node_modules/@istanbuljs/load-nyc-config/node_modules/argparse",
+            "version": "1.0.10",
+            "rangeMatches": true
+          }
+        ]
+      },
+      {
+        "name": "babel-jest",
+        "severity": "high",
+        "range": ">=24.2.0-alpha.0",
+        "nodes": [
+          {
+            "path": "node_modules/babel-jest",
+            "version": "29.7.0",
+            "rangeMatches": true
+          }
+        ]
+      },
+      {
+        "name": "babel-plugin-istanbul",
+        "severity": "moderate",
+        "range": ">=6.0.0-beta.0",
+        "nodes": [
+          {
+            "path": "node_modules/babel-plugin-istanbul",
+            "version": "6.1.1",
+            "rangeMatches": true
+          }
+        ]
+      },
+      {
+        "name": "braces",
+        "severity": "high",
+        "range": "*",
+        "nodes": [
+          {
+            "path": "node_modules/braces",
+            "version": "3.0.3",
+            "rangeMatches": true
+          }
+        ]
+      },
+      {
+        "name": "chokidar",
+        "severity": "high",
+        "range": "2.0.0 - 3.6.0",
+        "nodes": [
+          {
+            "path": "node_modules/chokidar",
+            "version": "3.6.0",
+            "rangeMatches": true
+          }
+        ]
+      },
+      {
+        "name": "create-jest",
+        "severity": "high",
+        "range": "29.7.0 - 30.2.0",
+        "nodes": [
+          {
+            "path": "node_modules/create-jest",
+            "version": "29.7.0",
+            "rangeMatches": true
+          }
+        ]
+      },
+      {
+        "name": "decode-uri-component",
+        "severity": "moderate",
+        "range": "<=0.4.2",
+        "nodes": [
+          {
+            "path": "node_modules/decode-uri-component",
+            "version": "0.2.2",
+            "rangeMatches": true
+          }
+        ]
+      },
+      {
+        "name": "expect",
+        "severity": "high",
+        "range": "21.0.0-beta.1 - 30.2.0",
+        "nodes": [
+          {
+            "path": "node_modules/expect",
+            "version": "29.7.0",
+            "rangeMatches": true
+          }
+        ]
+      },
+      {
+        "name": "expo",
+        "severity": "high",
+        "range": ">=45.0.0-beta.1",
+        "nodes": [
+          {
+            "path": "node_modules/expo",
+            "version": "57.0.26",
+            "rangeMatches": true
+          }
+        ]
+      },
+      {
+        "name": "expo-router",
+        "severity": "moderate",
+        "range": "1.2.2 - 3.1.2 || 5.2.0-canary-20250611-f0afe80 - 58.0.12",
+        "nodes": [
+          {
+            "path": "node_modules/expo-router",
+            "version": "57.0.24",
+            "rangeMatches": true
+          }
+        ]
+      },
+      {
+        "name": "fast-glob",
+        "severity": "high",
+        "range": "*",
+        "nodes": [
+          {
+            "path": "node_modules/fast-glob",
+            "version": "3.3.3",
+            "rangeMatches": true
+          }
+        ]
+      },
+      {
+        "name": "jest",
+        "severity": "high",
+        "range": "23.5.0 - 30.2.0",
+        "nodes": [
+          {
+            "path": "node_modules/jest",
+            "version": "29.7.0",
+            "rangeMatches": true
+          }
+        ]
+      },
+      {
+        "name": "jest-circus",
+        "severity": "high",
+        "range": "20.1.0-alpha.1 - 30.2.0",
+        "nodes": [
+          {
+            "path": "node_modules/jest-circus",
+            "version": "29.7.0",
+            "rangeMatches": true
+          }
+        ]
+      },
+      {
+        "name": "jest-cli",
+        "severity": "high",
+        "range": "23.5.0 - 30.2.0",
+        "nodes": [
+          {
+            "path": "node_modules/jest-cli",
+            "version": "29.7.0",
+            "rangeMatches": true
+          }
+        ]
+      },
+      {
+        "name": "jest-config",
+        "severity": "high",
+        "range": "18.1.0 - 19.0.4 || 23.5.0 - 30.2.0",
+        "nodes": [
+          {
+            "path": "node_modules/jest-config",
+            "version": "29.7.0",
+            "rangeMatches": true
+          }
+        ]
+      },
+      {
+        "name": "jest-environment-jsdom",
+        "severity": "high",
+        "range": "24.2.0-alpha.0 - 30.2.0",
+        "nodes": [
+          {
+            "path": "node_modules/jest-environment-jsdom",
+            "version": "29.7.0",
+            "rangeMatches": true
+          }
+        ]
+      },
+      {
+        "name": "jest-environment-node",
+        "severity": "high",
+        "range": "24.2.0-alpha.0 - 30.2.0",
+        "nodes": [
+          {
+            "path": "node_modules/jest-environment-node",
+            "version": "29.7.0",
+            "rangeMatches": true
+          }
+        ]
+      },
+      {
+        "name": "jest-expo",
+        "severity": "high",
+        "range": "18.0.0-rc.0 - 18.0.0-rc.1 || >=33.0.0-rc.0",
+        "nodes": [
+          {
+            "path": "node_modules/jest-expo",
+            "version": "57.0.5",
+            "rangeMatches": true
+          }
+        ]
+      },
+      {
+        "name": "jest-haste-map",
+        "severity": "high",
+        "range": "18.1.0 - 30.2.0",
+        "nodes": [
+          {
+            "path": "node_modules/jest-haste-map",
+            "version": "29.7.0",
+            "rangeMatches": true
+          }
+        ]
+      },
+      {
+        "name": "jest-message-util",
+        "severity": "high",
+        "range": "18.5.0-alpha.7da3df39 - 30.2.0",
+        "nodes": [
+          {
+            "path": "node_modules/jest-message-util",
+            "version": "29.7.0",
+            "rangeMatches": true
+          }
+        ]
+      },
+      {
+        "name": "jest-resolve",
+        "severity": "high",
+        "range": "18.1.0 - 19.0.2 || 24.2.0-alpha.0 - 24.5.0 || 27.1.0 - 30.2.0",
+        "nodes": [
+          {
+            "path": "node_modules/jest-resolve",
+            "version": "29.7.0",
+            "rangeMatches": true
+          }
+        ]
+      },
+      {
+        "name": "jest-resolve-dependencies",
+        "severity": "high",
+        "range": "27.0.0-next.0 - 30.2.0",
+        "nodes": [
+          {
+            "path": "node_modules/jest-resolve-dependencies",
+            "version": "29.7.0",
+            "rangeMatches": true
+          }
+        ]
+      },
+      {
+        "name": "jest-runner",
+        "severity": "high",
+        "range": "21.0.0-alpha.1 - 30.2.0",
+        "nodes": [
+          {
+            "path": "node_modules/jest-runner",
+            "version": "29.7.0",
+            "rangeMatches": true
+          }
+        ]
+      },
+      {
+        "name": "jest-runtime",
+        "severity": "high",
+        "range": "18.1.0 - 30.2.0",
+        "nodes": [
+          {
+            "path": "node_modules/jest-runtime",
+            "version": "29.7.0",
+            "rangeMatches": true
+          }
+        ]
+      },
+      {
+        "name": "jest-snapshot",
+        "severity": "high",
+        "range": "23.3.0 - 30.2.0",
+        "nodes": [
+          {
+            "path": "node_modules/jest-snapshot",
+            "version": "29.7.0",
+            "rangeMatches": true
+          }
+        ]
+      },
+      {
+        "name": "jest-watch-typeahead",
+        "severity": "high",
+        "range": "0.6.0 - 2.2.2",
+        "nodes": [
+          {
+            "path": "node_modules/jest-watch-typeahead",
+            "version": "2.2.1",
+            "rangeMatches": true
+          }
+        ]
+      },
+      {
+        "name": "jest-watcher",
+        "severity": "high",
+        "range": "25.4.0 - 30.2.0",
+        "nodes": [
+          {
+            "path": "node_modules/jest-watcher",
+            "version": "29.7.0",
+            "rangeMatches": true
+          }
+        ]
+      },
+      {
+        "name": "js-yaml",
+        "severity": "moderate",
+        "range": "3.2.7 - 3.15.2",
+        "nodes": [
+          {
+            "path": "node_modules/@istanbuljs/load-nyc-config/node_modules/js-yaml",
+            "version": "3.15.2",
+            "rangeMatches": true
+          }
+        ]
+      },
+      {
+        "name": "metro",
+        "severity": "high",
+        "range": ">=0.71.0",
+        "nodes": [
+          {
+            "path": "node_modules/metro",
+            "version": "0.84.5",
+            "rangeMatches": true
+          }
+        ]
+      },
+      {
+        "name": "metro-config",
+        "severity": "high",
+        "range": ">=0.71.0",
+        "nodes": [
+          {
+            "path": "node_modules/metro-config",
+            "version": "0.84.5",
+            "rangeMatches": true
+          }
+        ]
+      },
+      {
+        "name": "metro-file-map",
+        "severity": "high",
+        "range": "*",
+        "nodes": [
+          {
+            "path": "node_modules/metro-file-map",
+            "version": "0.84.5",
+            "rangeMatches": true
+          }
+        ]
+      },
+      {
+        "name": "metro-transform-worker",
+        "severity": "high",
+        "range": ">=0.71.0",
+        "nodes": [
+          {
+            "path": "node_modules/metro-transform-worker",
+            "version": "0.84.5",
+            "rangeMatches": true
+          }
+        ]
+      },
+      {
+        "name": "micromatch",
+        "severity": "high",
+        "range": ">=0.2.0",
+        "nodes": [
+          {
+            "path": "node_modules/micromatch",
+            "version": "4.0.8",
+            "rangeMatches": true
+          }
+        ]
+      },
+      {
+        "name": "nativewind",
+        "severity": "moderate",
+        "range": "<=0.0.0-nightly.fcb5034 || 3.0.0-2978594.0 - 4.2.7",
+        "nodes": [
+          {
+            "path": "node_modules/nativewind",
+            "version": "4.2.7",
+            "rangeMatches": true
+          }
+        ]
+      },
+      {
+        "name": "node-forge",
+        "severity": "high",
+        "range": "*",
+        "nodes": [
+          {
+            "path": "node_modules/node-forge",
+            "version": "1.4.0",
+            "rangeMatches": true
+          }
+        ]
+      },
+      {
+        "name": "postcss-nested",
+        "severity": "moderate",
+        "range": "2.0.3 - 6.2.0",
+        "nodes": [
+          {
+            "path": "node_modules/postcss-nested",
+            "version": "6.2.0",
+            "rangeMatches": true
+          }
+        ]
+      },
+      {
+        "name": "postcss-selector-parser",
+        "severity": "moderate",
+        "range": "<7.1.6",
+        "nodes": [
+          {
+            "path": "node_modules/postcss-selector-parser",
+            "version": "6.1.4",
+            "rangeMatches": true
+          }
+        ]
+      },
+      {
+        "name": "query-string",
+        "severity": "moderate",
+        "range": "5.0.0 - 9.4.1",
+        "nodes": [
+          {
+            "path": "node_modules/query-string",
+            "version": "7.1.3",
+            "rangeMatches": true
+          }
+        ]
+      },
+      {
+        "name": "react-native",
+        "severity": "high",
+        "range": ">=0.73.0-nightly-20230506-1af868c52",
+        "nodes": [
+          {
+            "path": "node_modules/react-native",
+            "version": "0.86.3",
+            "rangeMatches": true
+          }
+        ]
+      },
+      {
+        "name": "react-native-css-interop",
+        "severity": "moderate",
+        "range": "<=0.0.0-alpha.27 || >=0.0.1",
+        "nodes": [
+          {
+            "path": "node_modules/react-native-css-interop",
+            "version": "0.2.7",
+            "rangeMatches": true
+          }
+        ]
+      },
+      {
+        "name": "react-native-reanimated",
+        "severity": "high",
+        "range": "3.20.0-nightly-20250722-b6c8b9a3c - 4.0.0-nightly-20250309-9ce9085cb || 4.2.0-nightly-20250829-e8916d7ed - 4.2.0-nightly-20251017-235c127fd || 4.3.0-nightly-20251204-222f54bb9 - 4.7.1",
+        "nodes": [
+          {
+            "path": "node_modules/react-native-reanimated",
+            "version": "4.5.1",
+            "rangeMatches": true
+          }
+        ]
+      },
+      {
+        "name": "react-native-worklets",
+        "severity": "high",
+        "range": ">=0.8.0-bundle-mode-preview-1",
+        "nodes": [
+          {
+            "path": "node_modules/react-native-worklets",
+            "version": "0.10.1",
+            "rangeMatches": true
+          }
+        ]
+      },
+      {
+        "name": "shell-quote",
+        "severity": "critical",
+        "range": "1.8.4 - 1.10.0",
+        "nodes": [
+          {
+            "path": "node_modules/shell-quote",
+            "version": "1.10.0",
+            "rangeMatches": true
+          }
+        ]
+      },
+      {
+        "name": "source-map-js",
+        "severity": "high",
+        "range": "1.0.0 - 1.2.1",
+        "nodes": [
+          {
+            "path": "node_modules/source-map-js",
+            "version": "1.2.1",
+            "rangeMatches": true
+          }
+        ]
+      },
+      {
+        "name": "sprintf-js",
+        "severity": "moderate",
+        "range": "*",
+        "nodes": [
+          {
+            "path": "node_modules/sprintf-js",
+            "version": "1.0.3",
+            "rangeMatches": true
+          }
+        ]
+      },
+      {
+        "name": "tailwindcss",
+        "severity": "high",
+        "range": "<=0.0.0-oxide-insiders.ff2c25f || 0.5.0 - 3.4.19",
+        "nodes": [
+          {
+            "path": "node_modules/tailwindcss",
+            "version": "3.4.19",
+            "rangeMatches": true
+          }
+        ]
+      }
+    ]
+  },
+  "admin": {
+    "counts": {
+      "info": 0,
+      "low": 0,
+      "moderate": 2,
+      "high": 6,
+      "critical": 0,
+      "total": 8
+    },
+    "lockSha256": "1c4b11f5912be6d6513407e89cde23f3a8ed14fdb4b41cbbf0504423cb5be344",
+    "findings": [
+      {
+        "name": "braces",
+        "severity": "high",
+        "range": "*",
+        "nodes": [
+          {
+            "path": "node_modules/braces",
+            "version": "3.0.3",
+            "rangeMatches": true
+          }
+        ]
+      },
+      {
+        "name": "chokidar",
+        "severity": "high",
+        "range": "2.0.0 - 3.6.0",
+        "nodes": [
+          {
+            "path": "node_modules/chokidar",
+            "version": "3.6.0",
+            "rangeMatches": true
+          }
+        ]
+      },
+      {
+        "name": "fast-glob",
+        "severity": "high",
+        "range": "*",
+        "nodes": [
+          {
+            "path": "node_modules/fast-glob",
+            "version": "3.3.3",
+            "rangeMatches": true
+          }
+        ]
+      },
+      {
+        "name": "micromatch",
+        "severity": "high",
+        "range": ">=0.2.0",
+        "nodes": [
+          {
+            "path": "node_modules/micromatch",
+            "version": "4.0.8",
+            "rangeMatches": true
+          }
+        ]
+      },
+      {
+        "name": "postcss-nested",
+        "severity": "moderate",
+        "range": "2.0.3 - 6.2.0",
+        "nodes": [
+          {
+            "path": "node_modules/postcss-nested",
+            "version": "6.2.0",
+            "rangeMatches": true
+          }
+        ]
+      },
+      {
+        "name": "postcss-selector-parser",
+        "severity": "moderate",
+        "range": "<7.1.6",
+        "nodes": [
+          {
+            "path": "node_modules/postcss-selector-parser",
+            "version": "6.1.4",
+            "rangeMatches": true
+          }
+        ]
+      },
+      {
+        "name": "source-map-js",
+        "severity": "high",
+        "range": "1.0.0 - 1.2.1",
+        "nodes": [
+          {
+            "path": "node_modules/source-map-js",
+            "version": "1.2.1",
+            "rangeMatches": true
+          }
+        ]
+      },
+      {
+        "name": "tailwindcss",
+        "severity": "high",
+        "range": "<=0.0.0-oxide-insiders.ff2c25f || 0.5.0 - 3.4.19",
+        "nodes": [
+          {
+            "path": "node_modules/tailwindcss",
+            "version": "3.4.19",
+            "rangeMatches": true
+          }
+        ]
+      }
+    ]
+  }
+}

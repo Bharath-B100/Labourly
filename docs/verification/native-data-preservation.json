@@ -1,0 +1,12 @@
+{
+  "originalFieldsUnchanged": true,
+  "additiveFields": {
+    "location_source": null,
+    "location_state_id": null,
+    "location_city_id": null,
+    "budget": null,
+    "edit_version": 0
+  },
+  "status": "DRAFT",
+  "bookingStatus": "CONFIRMED"
+}

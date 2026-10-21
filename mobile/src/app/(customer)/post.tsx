@@ -1,3 +1,4 @@
+import { ScheduleCalendar, dateKey } from '../../components/ScheduleCalendar';
 import { GlassBackdrop, PageHeading, GlassCard } from '../../components/theme';
 import {
   JobLocationPicker,
@@ -288,7 +289,7 @@ function RequirementEditor({ onDiscard }: { onDiscard: () => void }) {
         />
         <GlassCard style={{ padding: 16, gap: 12 }}>
           {!!draftError && (
-            <Text accessibilityRole="alert" className="text-rose-700">
+            <Text accessibilityRole="alert" className="text-ink">
               {draftError}
             </Text>
           )}
@@ -296,7 +297,7 @@ function RequirementEditor({ onDiscard }: { onDiscard: () => void }) {
             <Text className="text-ink">Loading draft…</Text>
           )}
           {!!currentLocation && (
-            <Text style={{ fontSize: 11, color: '#466E68' }}>
+            <Text style={{ fontSize: 11, color: '#202326' }}>
               {currentLocation}
             </Text>
           )}
@@ -334,7 +335,7 @@ function RequirementEditor({ onDiscard }: { onDiscard: () => void }) {
           </View>
           {!!catalogueError && (
             <>
-              <Text accessibilityRole="alert" className="text-rose-700">
+              <Text accessibilityRole="alert" className="text-ink">
                 {catalogueError}
               </Text>
               <Action
@@ -355,7 +356,7 @@ function RequirementEditor({ onDiscard }: { onDiscard: () => void }) {
           )}
           {!!selectedTrade?.skills?.length && (
             <View style={{ gap: 7 }}>
-              <Text style={{ fontSize: 12, color: '#145C58' }}>Skills</Text>
+              <Text style={{ fontSize: 12, color: '#202326' }}>Skills</Text>
               <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8 }}>
                 {selectedTrade.skills.map((skill) => (
                   <Pressable
@@ -374,13 +375,13 @@ function RequirementEditor({ onDiscard }: { onDiscard: () => void }) {
                       borderWidth: 1,
                       borderColor: 'white',
                       backgroundColor: skillIds.includes(skill.id)
-                        ? 'rgba(255,211,54,0.65)'
-                        : 'rgba(255,255,255,0.22)',
+                        ? '#FFCC25'
+                        : '#FFFFFF',
                     }}
                   >
                     <Text
                       style={{
-                        color: '#145C58',
+                        color: '#202326',
                         fontWeight: '600',
                         fontSize: 13,
                       }}
@@ -400,6 +401,46 @@ function RequirementEditor({ onDiscard }: { onDiscard: () => void }) {
               compact
             />
           )}
+          <Text
+            accessibilityRole="header"
+            style={{ fontSize: 18, fontWeight: '700', color: '#202326' }}
+          >
+            Select schedule
+          </Text>
+          <ScheduleCalendar
+            value={
+              editId
+                ? startDate
+                : dateKey(
+                    new Date(
+                      new Date().getFullYear(),
+                      new Date().getMonth(),
+                      new Date().getDate() + (Number(startsInDays) || 0),
+                    ),
+                  )
+            }
+            onChange={(date) => {
+              if (editId) setStartDate(date);
+              else {
+                const today = new Date();
+                const target = new Date(`${date}T12:00:00`);
+                const offset = Math.round(
+                  (Date.UTC(
+                    target.getFullYear(),
+                    target.getMonth(),
+                    target.getDate(),
+                  ) -
+                    Date.UTC(
+                      today.getFullYear(),
+                      today.getMonth(),
+                      today.getDate(),
+                    )) /
+                    86400000,
+                );
+                setStartsInDays(String(offset));
+              }
+            }}
+          />
           <View style={{ flexDirection: 'row', gap: 10 }}>
             <View style={{ flex: 1 }}>
               <Input

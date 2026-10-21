@@ -1,0 +1,856 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Labourly - iOS Labour Listing Screen Specification & Mockup</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --safety-yellow: #FFCC25;
+      --charcoal-black: #202326;
+      --pure-white: #FFFFFF;
+      --concrete-grey: #E5E7EB;
+      --bg-canvas: #0F1113;
+      --card-bg: #1A1D20;
+      --border-color: #2D3136;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background-color: var(--bg-canvas);
+      color: #E2E8F0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 40px 20px 60px;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 32px;
+      max-width: 760px;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      border-radius: 9999px;
+      background-color: rgba(255, 204, 37, 0.12);
+      border: 1px solid rgba(255, 204, 37, 0.35);
+      color: var(--safety-yellow);
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      margin-bottom: 14px;
+    }
+
+    h1 {
+      font-size: 32px;
+      font-weight: 800;
+      color: #FFFFFF;
+      letter-spacing: -0.5px;
+      margin-bottom: 10px;
+    }
+
+    .subtitle {
+      font-size: 16px;
+      color: #94A3B8;
+      line-height: 1.5;
+    }
+
+    /* Palette Bar */
+    .palette-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 16px;
+      margin-bottom: 36px;
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 16px 24px;
+    }
+
+    .palette-chip {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: #121417;
+      border: 1px solid #282C31;
+      padding: 8px 14px;
+      border-radius: 10px;
+    }
+
+    .color-swatch {
+      width: 28px;
+      height: 28px;
+      border-radius: 6px;
+      box-shadow: inset 0 0 0 1px rgba(0,0,0,0.15);
+    }
+
+    .color-info {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .color-name {
+      font-size: 11px;
+      font-weight: 600;
+      color: #94A3B8;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+    }
+
+    .color-hex {
+      font-size: 14px;
+      font-weight: 700;
+      font-family: monospace;
+      color: #F8FAFC;
+    }
+
+    /* Presentation Layout */
+    .showcase-grid {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 40px;
+      max-width: 1100px;
+      width: 100%;
+    }
+
+    .device-card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 24px;
+      padding: 24px;
+      box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.6);
+    }
+
+    .device-card-header {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .device-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: #FFFFFF;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .device-tag {
+      font-size: 11px;
+      padding: 3px 8px;
+      border-radius: 6px;
+      font-weight: 600;
+      background: #23272D;
+      color: #94A3B8;
+    }
+
+    /* iPhone Frame */
+    .iphone-frame {
+      width: 390px;
+      height: 844px;
+      background-color: var(--concrete-grey);
+      border-radius: 50px;
+      position: relative;
+      box-shadow: 
+        0 0 0 4px #26292E,
+        0 0 0 9px #16181B,
+        0 30px 60px rgba(0, 0, 0, 0.8);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Dynamic Island & Status Bar */
+    .status-bar {
+      height: 48px;
+      padding: 12px 28px 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: var(--charcoal-black);
+      font-weight: 600;
+      font-size: 14px;
+      z-index: 10;
+      background: transparent;
+    }
+
+    .time-slot {
+      font-weight: 700;
+      letter-spacing: -0.2px;
+    }
+
+    .status-icons {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+    }
+
+    .status-icon-svg {
+      fill: var(--charcoal-black);
+    }
+
+    /* Screen Content */
+    .screen-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+      padding: 8px 16px 20px;
+      position: relative;
+      scrollbar-width: none;
+    }
+
+    .screen-content::-webkit-scrollbar {
+      display: none;
+    }
+
+    /* Navigation Bar */
+    .nav-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 6px 4px 14px;
+    }
+
+    .nav-icon-btn {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: none;
+      border: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+
+    .nav-icon {
+      width: 22px;
+      height: 22px;
+      stroke: var(--charcoal-black);
+      fill: none;
+      stroke-width: 2.4;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .screen-title {
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--charcoal-black);
+      letter-spacing: -0.4px;
+    }
+
+    /* Quick Filters Row */
+    .filters-row {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 16px;
+      overflow-x: auto;
+      padding: 2px 4px;
+      scrollbar-width: none;
+    }
+
+    .filters-row::-webkit-scrollbar {
+      display: none;
+    }
+
+    .filter-pill {
+      padding: 8px 16px;
+      border-radius: 9999px;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      border: 1px solid transparent;
+      white-space: nowrap;
+      transition: all 0.15s ease;
+      user-select: none;
+    }
+
+    .filter-pill.active {
+      background-color: var(--charcoal-black);
+      color: var(--safety-yellow);
+    }
+
+    .filter-pill.inactive {
+      background-color: var(--pure-white);
+      color: var(--charcoal-black);
+      border-color: #D1D5DB;
+    }
+
+    .filter-pill:hover {
+      transform: translateY(-1px);
+    }
+
+    /* Worker Cards Stack */
+    .cards-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .worker-card {
+      background-color: var(--pure-white);
+      border-radius: 20px;
+      padding: 14px 16px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      position: relative;
+      box-shadow: 0 4px 12px rgba(32, 35, 38, 0.05);
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .worker-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(32, 35, 38, 0.09);
+    }
+
+    /* Worker Portrait */
+    .portrait-box {
+      width: 76px;
+      height: 80px;
+      border-radius: 16px;
+      background-color: #E2E8F0;
+      overflow: hidden;
+      flex-shrink: 0;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+    }
+
+    .portrait-svg {
+      width: 100%;
+      height: 100%;
+    }
+
+    /* Worker Details */
+    .worker-info {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+
+    .worker-name {
+      font-size: 16px;
+      font-weight: 800;
+      color: var(--charcoal-black);
+      letter-spacing: -0.2px;
+    }
+
+    .rating-row {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--charcoal-black);
+    }
+
+    .star-icon {
+      color: var(--safety-yellow);
+      font-size: 13px;
+    }
+
+    .review-count {
+      color: #64748B;
+      font-weight: 500;
+    }
+
+    .trade-label {
+      font-size: 12px;
+      font-weight: 600;
+      color: #64748B;
+    }
+
+    .bottom-card-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 4px;
+    }
+
+    .daily-rate {
+      font-size: 15px;
+      font-weight: 800;
+      color: var(--charcoal-black);
+      letter-spacing: -0.3px;
+    }
+
+    .availability-badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 3px 8px;
+      border-radius: 6px;
+      background-color: var(--safety-yellow);
+      color: var(--charcoal-black);
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.1px;
+    }
+
+    /* Favorite Heart Icon */
+    .heart-btn {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .heart-svg {
+      width: 20px;
+      height: 20px;
+      stroke: var(--charcoal-black);
+      fill: none;
+      stroke-width: 2;
+      transition: all 0.15s ease;
+    }
+
+    .heart-btn.favorited .heart-svg {
+      fill: var(--safety-yellow);
+      stroke: var(--charcoal-black);
+    }
+
+    /* Image Preview Container */
+    .image-preview-container {
+      width: 390px;
+      height: 844px;
+      border-radius: 50px;
+      overflow: hidden;
+      box-shadow: 
+        0 0 0 4px #26292E,
+        0 0 0 9px #16181B,
+        0 30px 60px rgba(0, 0, 0, 0.8);
+      position: relative;
+      background: #FFFFFF;
+    }
+
+    .image-preview-container img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    /* Specs Table */
+    .specs-card {
+      margin-top: 40px;
+      max-width: 900px;
+      width: 100%;
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 20px;
+      padding: 28px;
+    }
+
+    .specs-card h2 {
+      font-size: 20px;
+      font-weight: 700;
+      color: #FFFFFF;
+      margin-bottom: 20px;
+    }
+
+    .spec-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+    }
+
+    .spec-table th, .spec-table td {
+      padding: 12px 16px;
+      text-align: left;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .spec-table th {
+      color: #94A3B8;
+      font-weight: 600;
+      text-transform: uppercase;
+      font-size: 12px;
+      letter-spacing: 0.5px;
+    }
+
+    .spec-table td {
+      color: #F1F5F9;
+    }
+
+    .spec-highlight {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-family: monospace;
+      font-size: 13px;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="badge">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M12 2L1 21h22L12 2zm0 3.99L19.53 19H4.47L12 5.99zM11 10h2v4h-2zm0 6h2v2h-2z"/>
+      </svg>
+      Labourly Mobile OS Design System
+    </div>
+    <h1>iOS Labour Listing Screen Design</h1>
+    <p class="subtitle">Search results and worker discovery screen strictly utilizing the 4-color palette, Concrete Grey canvas (#E5E7EB), Pure White cards (#FFFFFF), and vibrant Safety Yellow accents (#FFCC25).</p>
+  </header>
+
+  <!-- Color Palette -->
+  <div class="palette-container">
+    <div class="palette-chip">
+      <div class="color-swatch" style="background-color: var(--safety-yellow);"></div>
+      <div class="color-info">
+        <span class="color-name">Safety Yellow</span>
+        <span class="color-hex">#FFCC25</span>
+      </div>
+    </div>
+    <div class="palette-chip">
+      <div class="color-swatch" style="background-color: var(--charcoal-black);"></div>
+      <div class="color-info">
+        <span class="color-name">Charcoal Black</span>
+        <span class="color-hex">#202326</span>
+      </div>
+    </div>
+    <div class="palette-chip">
+      <div class="color-swatch" style="background-color: var(--pure-white); border: 1px solid #333;"></div>
+      <div class="color-info">
+        <span class="color-name">Pure White</span>
+        <span class="color-hex">#FFFFFF</span>
+      </div>
+    </div>
+    <div class="palette-chip">
+      <div class="color-swatch" style="background-color: var(--concrete-grey);"></div>
+      <div class="color-info">
+        <span class="color-name">Concrete Grey</span>
+        <span class="color-hex">#E5E7EB</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Showcase Cards -->
+  <div class="showcase-grid">
+
+    <!-- Card 1: High Fidelity AI Generated Render -->
+    <div class="device-card">
+      <div class="device-card-header">
+        <div class="device-title">
+          <span>High-Res Master Render</span>
+        </div>
+        <span class="device-tag">AI Visual Artifact (8K Spec)</span>
+      </div>
+
+      <div class="image-preview-container">
+        <img src="../Labourly_iOS_Labour_Listing.jpg" alt="Labourly iOS Mobile Labour Listing Screen Render">
+      </div>
+    </div>
+
+    <!-- Card 2: Interactive Vector & Component Implementation -->
+    <div class="device-card">
+      <div class="device-card-header">
+        <div class="device-title">
+          <span>Interactive Vector Layout</span>
+        </div>
+        <span class="device-tag">390 x 844 px Native iOS Canvas</span>
+      </div>
+
+      <!-- iPhone Frame -->
+      <div class="iphone-frame">
+        <!-- iOS Status Bar -->
+        <div class="status-bar">
+          <div class="time-slot">9:41</div>
+          <div class="status-icons">
+            <svg class="status-icon-svg" width="17" height="12" viewBox="0 0 17 12">
+              <rect x="0" y="8" width="3" height="4" rx="0.5"/>
+              <rect x="4.5" y="5.5" width="3" height="6.5" rx="0.5"/>
+              <rect x="9" y="3" width="3" height="9" rx="0.5"/>
+              <rect x="13.5" y="0" width="3" height="12" rx="0.5"/>
+            </svg>
+            <svg class="status-icon-svg" width="16" height="12" viewBox="0 0 16 12">
+              <path d="M8 9.5a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3zm-4.2-2.8a6 6 0 0 1 8.4 0 .75.75 0 1 1-1.06 1.06 4.5 4.5 0 0 0-6.28 0 .75.75 0 0 1-1.06-1.06zm-3.18-3.18a10.5 10.5 0 0 1 14.76 0 .75.75 0 1 1-1.06 1.06 9 9 0 0 0-12.64 0 .75.75 0 0 1-1.06-1.06z"/>
+            </svg>
+            <svg class="status-icon-svg" width="25" height="12" viewBox="0 0 25 12">
+              <rect x="0.5" y="0.5" width="21" height="11" rx="3.5" fill="none" stroke="currentColor" stroke-width="1.2"/>
+              <rect x="2" y="2" width="18" height="8" rx="2" fill="currentColor"/>
+              <path d="M23 4.5v3a1 1 0 0 0 1-1v-1a1 1 0 0 0-1-1z" fill="currentColor"/>
+            </svg>
+          </div>
+        </div>
+
+        <!-- Scrollable Screen Content -->
+        <div class="screen-content">
+          <!-- Navigation Bar -->
+          <div class="nav-bar">
+            <button class="nav-icon-btn" aria-label="Back">
+              <svg class="nav-icon" viewBox="0 0 24 24">
+                <polyline points="15 18 9 12 15 6"/>
+              </svg>
+            </button>
+            <h2 class="screen-title">Masons in Bengaluru</h2>
+            <button class="nav-icon-btn" aria-label="Search">
+              <svg class="nav-icon" viewBox="0 0 24 24">
+                <circle cx="11" cy="11" r="8"/>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+              </svg>
+            </button>
+          </div>
+
+          <!-- Quick Filters Row -->
+          <div class="filters-row">
+            <div class="filter-pill active" onclick="switchFilter(this)">All</div>
+            <div class="filter-pill inactive" onclick="switchFilter(this)">Nearby</div>
+            <div class="filter-pill inactive" onclick="switchFilter(this)">Verified</div>
+            <div class="filter-pill inactive" onclick="switchFilter(this)">Top Rated</div>
+          </div>
+
+          <!-- 4 Stacked Worker Cards -->
+          <div class="cards-stack">
+            <!-- 1. Ramesh Kumar -->
+            <div class="worker-card">
+              <div class="portrait-box">
+                <svg class="portrait-svg" viewBox="0 0 80 80">
+                  <path d="M18 78 L24 58 L56 58 L62 78 Z" fill="#202326"/>
+                  <rect x="34" y="44" width="12" height="14" fill="#B45309"/>
+                  <circle cx="40" cy="38" r="13" fill="#B45309"/>
+                  <ellipse cx="40" cy="28" rx="20" ry="5.5" fill="#FFCC25" stroke="#202326" stroke-width="1.8"/>
+                  <path d="M22 28 C22 10, 58 10, 58 28 Z" fill="#FFCC25" stroke="#202326" stroke-width="1.8"/>
+                </svg>
+              </div>
+              <div class="worker-info">
+                <div class="worker-name">Ramesh Kumar</div>
+                <div class="rating-row">
+                  <span class="star-icon">★</span>
+                  <span>4.8</span>
+                  <span class="review-count">(124)</span>
+                </div>
+                <div class="trade-label">Mason</div>
+                <div class="bottom-card-row">
+                  <span class="daily-rate">₹600/day</span>
+                  <span class="availability-badge">Available today</span>
+                </div>
+              </div>
+              <button class="heart-btn" onclick="toggleHeart(this)" aria-label="Favorite">
+                <svg class="heart-svg" viewBox="0 0 24 24">
+                  <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+                </svg>
+              </button>
+            </div>
+
+            <!-- 2. Shahid Ansari -->
+            <div class="worker-card">
+              <div class="portrait-box">
+                <svg class="portrait-svg" viewBox="0 0 80 80">
+                  <path d="M18 78 L24 58 L56 58 L62 78 Z" fill="#202326"/>
+                  <rect x="34" y="44" width="12" height="14" fill="#D97706"/>
+                  <circle cx="40" cy="38" r="13" fill="#D97706"/>
+                  <!-- Beard -->
+                  <path d="M30 38 C30 48, 50 48, 50 38 Z" fill="#202326"/>
+                  <ellipse cx="40" cy="28" rx="20" ry="5.5" fill="#FFCC25" stroke="#202326" stroke-width="1.8"/>
+                  <path d="M22 28 C22 10, 58 10, 58 28 Z" fill="#FFCC25" stroke="#202326" stroke-width="1.8"/>
+                </svg>
+              </div>
+              <div class="worker-info">
+                <div class="worker-name">Shahid Ansari</div>
+                <div class="rating-row">
+                  <span class="star-icon">★</span>
+                  <span>4.6</span>
+                  <span class="review-count">(98)</span>
+                </div>
+                <div class="trade-label">Mason</div>
+                <div class="bottom-card-row">
+                  <span class="daily-rate">₹550/day</span>
+                  <span class="availability-badge">Available tomorrow</span>
+                </div>
+              </div>
+              <button class="heart-btn" onclick="toggleHeart(this)" aria-label="Favorite">
+                <svg class="heart-svg" viewBox="0 0 24 24">
+                  <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+                </svg>
+              </button>
+            </div>
+
+            <!-- 3. Manoj Yadav -->
+            <div class="worker-card">
+              <div class="portrait-box">
+                <svg class="portrait-svg" viewBox="0 0 80 80">
+                  <path d="M18 78 L24 58 L56 58 L62 78 Z" fill="#202326"/>
+                  <rect x="34" y="44" width="12" height="14" fill="#B45309"/>
+                  <circle cx="40" cy="38" r="13" fill="#B45309"/>
+                  <!-- Mustache -->
+                  <path d="M33 42 Q 40 45 47 42" stroke="#202326" stroke-width="2.5" stroke-linecap="round"/>
+                  <ellipse cx="40" cy="28" rx="20" ry="5.5" fill="#FFCC25" stroke="#202326" stroke-width="1.8"/>
+                  <path d="M22 28 C22 10, 58 10, 58 28 Z" fill="#FFCC25" stroke="#202326" stroke-width="1.8"/>
+                </svg>
+              </div>
+              <div class="worker-info">
+                <div class="worker-name">Manoj Yadav</div>
+                <div class="rating-row">
+                  <span class="star-icon">★</span>
+                  <span>4.7</span>
+                  <span class="review-count">(140)</span>
+                </div>
+                <div class="trade-label">Mason</div>
+                <div class="bottom-card-row">
+                  <span class="daily-rate">₹650/day</span>
+                  <span class="availability-badge">Available today</span>
+                </div>
+              </div>
+              <button class="heart-btn" onclick="toggleHeart(this)" aria-label="Favorite">
+                <svg class="heart-svg" viewBox="0 0 24 24">
+                  <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+                </svg>
+              </button>
+            </div>
+
+            <!-- 4. Suresh Naik -->
+            <div class="worker-card">
+              <div class="portrait-box">
+                <svg class="portrait-svg" viewBox="0 0 80 80">
+                  <path d="M18 78 L24 58 L56 58 L62 78 Z" fill="#202326"/>
+                  <rect x="34" y="44" width="12" height="14" fill="#D97706"/>
+                  <circle cx="40" cy="38" r="13" fill="#D97706"/>
+                  <ellipse cx="40" cy="28" rx="20" ry="5.5" fill="#FFCC25" stroke="#202326" stroke-width="1.8"/>
+                  <path d="M22 28 C22 10, 58 10, 58 28 Z" fill="#FFCC25" stroke="#202326" stroke-width="1.8"/>
+                </svg>
+              </div>
+              <div class="worker-info">
+                <div class="worker-name">Suresh Naik</div>
+                <div class="rating-row">
+                  <span class="star-icon">★</span>
+                  <span>4.5</span>
+                  <span class="review-count">(86)</span>
+                </div>
+                <div class="trade-label">Mason</div>
+                <div class="bottom-card-row">
+                  <span class="daily-rate">₹500/day</span>
+                  <span class="availability-badge">Available today</span>
+                </div>
+              </div>
+              <button class="heart-btn" onclick="toggleHeart(this)" aria-label="Favorite">
+                <svg class="heart-svg" viewBox="0 0 24 24">
+                  <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Design Tokens & Implementation Specifications -->
+  <div class="specs-card">
+    <h2>Labour Listing Screen Specification & Token Mapping</h2>
+    <table class="spec-table">
+      <thead>
+        <tr>
+          <th>Element</th>
+          <th>Specification Details</th>
+          <th>Applied Color Token</th>
+          <th>Layout / Geometry Tokens</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Screen Background</strong></td>
+          <td>Full Viewport Canvas</td>
+          <td><span class="spec-highlight" style="background:#E5E7EB; color:#000;">#E5E7EB (Concrete Grey)</span></td>
+          <td>390 x 844 px (Standard iPhone viewport, 50px border-radius)</td>
+        </tr>
+        <tr>
+          <td><strong>Status Bar</strong></td>
+          <td>iOS System Bar</td>
+          <td><span class="spec-highlight" style="background:#202326; color:#FFF;">#202326 (Charcoal Black)</span></td>
+          <td>9:41 Time, Cellular signal, Wi-Fi 6, Battery indicator</td>
+        </tr>
+        <tr>
+          <td><strong>Header Bar</strong></td>
+          <td>Top Nav: Back + Title + Search</td>
+          <td><span class="spec-highlight" style="background:#202326; color:#FFF;">#202326 (Charcoal Black)</span></td>
+          <td>Left chevron arrow, Inter 20px Bold "Masons in Bengaluru", right search icon</td>
+        </tr>
+        <tr>
+          <td><strong>Filter Pills (4 Items)</strong></td>
+          <td>All, Nearby, Verified, Top Rated</td>
+          <td><span class="spec-highlight" style="background:#202326; color:#FFCC25;">#202326 + #FFCC25 Active</span> / <span class="spec-highlight" style="background:#FFF; color:#000;">#FFFFFF Inactive</span></td>
+          <td>Horizontal scroll pills (9999px radius), "All" active in #202326 with #FFCC25 text</td>
+        </tr>
+        <tr>
+          <td><strong>Worker Cards (4 Stacked)</strong></td>
+          <td>Ramesh, Shahid, Manoj, Suresh</td>
+          <td><span class="spec-highlight" style="background:#FFF; color:#000;">#FFFFFF (Pure White)</span></td>
+          <td>20px border radius, 14px padding, 12px gap, subtle elevation shadow</td>
+        </tr>
+        <tr>
+          <td><strong>Worker Portraits</strong></td>
+          <td>Left Square Avatars</td>
+          <td><span class="spec-highlight" style="background:#FFCC25; color:#000;">#FFCC25 (Hard Hats)</span></td>
+          <td>76 x 80 px container with 16px radius, worker wearing #FFCC25 safety hard hat</td>
+        </tr>
+        <tr>
+          <td><strong>Daily Rate & Badges</strong></td>
+          <td>Bold Pricing & Status Tag</td>
+          <td><span class="spec-highlight" style="background:#202326; color:#FFF;">#202326 Rate</span> / <span class="spec-highlight" style="background:#FFCC25; color:#000;">#FFCC25 Badge</span></td>
+          <td>Inter 15px Bold daily rate (e.g., ₹600/day), #FFCC25 pill badge "Available today"</td>
+        </tr>
+        <tr>
+          <td><strong>Favorite Action</strong></td>
+          <td>Top-Right Heart Icon</td>
+          <td><span class="spec-highlight" style="background:#202326; color:#FFF;">#202326 Outlined</span></td>
+          <td>20px heart button with active yellow fill toggle state</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <script>
+    function switchFilter(clickedPill) {
+      document.querySelectorAll('.filter-pill').forEach(pill => {
+        pill.classList.remove('active');
+        pill.classList.add('inactive');
+      });
+      clickedPill.classList.remove('inactive');
+      clickedPill.classList.add('active');
+    }
+
+    function toggleHeart(heartBtn) {
+      heartBtn.classList.toggle('favorited');
+    }
+  </script>
+
+</body>
+</html>

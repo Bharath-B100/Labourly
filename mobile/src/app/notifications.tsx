@@ -51,44 +51,44 @@ function getIconForType(type: string): {
     case 'QUOTE_RECEIVED':
       return {
         name: 'cash-outline',
-        color: '#D97706',
-        bgColor: '#FEF3C7',
+        color: '#202326',
+        bgColor: '#E5E7EB',
       };
     case 'QUOTE_ACCEPTED':
       return {
         name: 'checkmark-circle-outline',
-        color: '#059669',
-        bgColor: '#D1FAE5',
+        color: '#202326',
+        bgColor: '#E5E7EB',
       };
     case 'QUOTE_REJECTED':
       return {
         name: 'close-circle-outline',
-        color: '#64748B',
-        bgColor: '#F1F5F9',
+        color: '#202326',
+        bgColor: '#E5E7EB',
       };
     case 'BOOKING_CONFIRMED':
       return {
         name: 'calendar-outline',
-        color: '#145C58',
-        bgColor: '#CCFBF1',
+        color: '#202326',
+        bgColor: '#E5E7EB',
       };
     case 'BOOKING_CANCELLED':
       return {
         name: 'alert-circle-outline',
-        color: '#E11D48',
-        bgColor: '#FFE4E6',
+        color: '#202326',
+        bgColor: '#E5E7EB',
       };
     case 'WORK_AVAILABLE':
       return {
         name: 'briefcase-outline',
-        color: '#2563EB',
-        bgColor: '#DBEAFE',
+        color: '#202326',
+        bgColor: '#E5E7EB',
       };
     default:
       return {
         name: 'notifications-outline',
-        color: '#145C58',
-        bgColor: '#F0FDFA',
+        color: '#202326',
+        bgColor: '#FFFFFF',
       };
   }
 }
@@ -171,7 +171,7 @@ function AccountNotifications({ session }: { session: Session }) {
             onPress={() => router.back()}
             style={styles.backButton}
           >
-            <Ionicons name="arrow-back" size={24} color="#145C58" />
+            <Ionicons name="arrow-back" size={24} color="#202326" />
           </Pressable>
           <View>
             <Text style={styles.headerTitle}>Notifications</Text>
@@ -206,7 +206,7 @@ function AccountNotifications({ session }: { session: Session }) {
       {!!actionError && (
         <Text
           accessibilityRole="alert"
-          style={{ color: '#B42340', padding: 16 }}
+          style={{ color: '#202326', padding: 16 }}
         >
           {actionError}
         </Text>
@@ -232,7 +232,7 @@ function AccountNotifications({ session }: { session: Session }) {
           <ActivityIndicator
             accessibilityLabel="Loading notifications"
             size="large"
-            color="#145C58"
+            color="#202326"
           />
         </View>
       ) : notifications.length === 0 ? (
@@ -241,7 +241,7 @@ function AccountNotifications({ session }: { session: Session }) {
             <Ionicons
               name="notifications-off-outline"
               size={40}
-              color="#145C58"
+              color="#202326"
             />
           </View>
           <Text style={styles.emptyTitle}>All caught up!</Text>
@@ -259,78 +259,100 @@ function AccountNotifications({ session }: { session: Session }) {
             <RefreshControl
               refreshing={isFetching}
               onRefresh={refetch}
-              tintColor="#145C58"
+              tintColor="#202326"
             />
           }
-          renderItem={({ item }) => {
+          renderItem={({ item, index }) => {
             const isUnread = !item.readAt;
             const iconConfig = getIconForType(item.type);
 
+            const group =
+              new Date(item.createdAt).toDateString() ===
+              new Date().toDateString()
+                ? 'Today'
+                : 'Earlier';
+            const previousGroup =
+              index > 0 &&
+              new Date(
+                notifications[index - 1]?.createdAt ?? '',
+              ).toDateString() === new Date().toDateString()
+                ? 'Today'
+                : 'Earlier';
             return (
-              <Pressable
-                accessibilityRole="button"
-                accessibilityLabel={item.title}
-                disabled={
-                  openNotification.isPending || markAllMutation.isPending
-                }
-                onPress={() => {
-                  markReadMutation.reset();
-                  markAllMutation.reset();
-                  openNotification.mutate(item);
-                }}
-                style={({ pressed }) => [
-                  styles.cardWrapper,
-                  pressed && { opacity: 0.8 },
-                ]}
-              >
-                <GlassCard
-                  style={{
-                    padding: 16,
-                    borderWidth: isUnread ? 1.5 : 1,
-                    borderColor: isUnread
-                      ? 'rgba(20, 92, 88, 0.45)'
-                      : 'rgba(255, 255, 255, 0.4)',
-                    backgroundColor: isUnread
-                      ? 'rgba(255, 255, 255, 0.92)'
-                      : 'rgba(255, 255, 255, 0.7)',
+              <View>
+                {(index === 0 || group !== previousGroup) && (
+                  <Text
+                    accessibilityRole="header"
+                    style={{
+                      fontSize: 16,
+                      fontWeight: '700',
+                      color: palette.ink,
+                      marginVertical: 12,
+                    }}
+                  >
+                    {group}
+                  </Text>
+                )}
+                <Pressable
+                  accessibilityRole="button"
+                  accessibilityLabel={item.title}
+                  disabled={
+                    openNotification.isPending || markAllMutation.isPending
+                  }
+                  onPress={() => {
+                    markReadMutation.reset();
+                    markAllMutation.reset();
+                    openNotification.mutate(item);
                   }}
+                  style={({ pressed }) => [
+                    styles.cardWrapper,
+                    pressed && { opacity: 0.8 },
+                  ]}
                 >
-                  <View style={styles.cardHeader}>
-                    <View
-                      style={[
-                        styles.iconBadge,
-                        { backgroundColor: iconConfig.bgColor },
-                      ]}
-                    >
-                      <Ionicons
-                        name={iconConfig.name}
-                        size={20}
-                        color={iconConfig.color}
-                      />
-                    </View>
-
-                    <View style={styles.cardInfo}>
-                      <View style={styles.cardTitleRow}>
-                        <Text
-                          style={[
-                            styles.cardTitle,
-                            isUnread && styles.unreadTitle,
-                          ]}
-                          numberOfLines={1}
-                        >
-                          {item.title}
-                        </Text>
-                        {isUnread && <View style={styles.unreadDot} />}
+                  <GlassCard
+                    style={{
+                      padding: 16,
+                      borderWidth: 0,
+                      borderColor: isUnread ? '#E5E7EB' : '#FFFFFF',
+                      backgroundColor: isUnread ? '#E5E7EB' : '#FFFFFF',
+                    }}
+                  >
+                    <View style={styles.cardHeader}>
+                      <View
+                        style={[
+                          styles.iconBadge,
+                          { backgroundColor: iconConfig.bgColor },
+                        ]}
+                      >
+                        <Ionicons
+                          name={iconConfig.name}
+                          size={20}
+                          color={iconConfig.color}
+                        />
                       </View>
-                      <Text style={styles.timestamp}>
-                        {formatTime(item.createdAt)}
-                      </Text>
-                    </View>
-                  </View>
 
-                  <Text style={styles.messageText}>{item.message}</Text>
-                </GlassCard>
-              </Pressable>
+                      <View style={styles.cardInfo}>
+                        <View style={styles.cardTitleRow}>
+                          <Text
+                            style={[
+                              styles.cardTitle,
+                              isUnread && styles.unreadTitle,
+                            ]}
+                          >
+                            {item.title}
+                          </Text>
+                          {isUnread && <View style={styles.unreadDot} />}
+                        </View>
+                        <Text style={styles.timestamp}>
+                          {formatTime(item.createdAt)}
+                        </Text>
+                      </View>
+                    </View>
+
+                    <Text style={styles.messageText}>{item.message}</Text>
+                  </GlassCard>
+                </Pressable>
+              </View>
             );
           }}
         />
@@ -342,7 +364,7 @@ function AccountNotifications({ session }: { session: Session }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F7F9F5',
+    backgroundColor: '#FFFFFF',
   },
   header: {
     flexDirection: 'row',
@@ -351,7 +373,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingVertical: 14,
     borderBottomWidth: 1,
-    borderBottomColor: 'rgba(20, 92, 88, 0.08)',
+    borderBottomColor: '#E5E7EB',
   },
   headerLeft: {
     flexDirection: 'row',
@@ -359,9 +381,11 @@ const styles = StyleSheet.create({
     gap: 12,
   },
   backButton: {
-    padding: 6,
+    padding: 12,
+    minHeight: 48,
+    minWidth: 48,
     borderRadius: 20,
-    backgroundColor: 'rgba(255, 255, 255, 0.7)',
+    backgroundColor: '#FFFFFF',
   },
   headerTitle: {
     fontSize: 22,
@@ -371,20 +395,21 @@ const styles = StyleSheet.create({
   },
   headerSubtitle: {
     fontSize: 12,
-    color: '#D97706',
+    color: '#202326',
     fontWeight: '600',
     marginTop: 2,
   },
   markAllButton: {
-    paddingVertical: 6,
+    paddingVertical: 12,
+    minHeight: 48,
     paddingHorizontal: 12,
     borderRadius: 16,
-    backgroundColor: 'rgba(20, 92, 88, 0.1)',
+    backgroundColor: '#E5E7EB',
   },
   markAllText: {
     fontSize: 12,
     fontWeight: '700',
-    color: '#145C58',
+    color: '#202326',
   },
   centerContainer: {
     flex: 1,
@@ -396,7 +421,7 @@ const styles = StyleSheet.create({
     width: 80,
     height: 80,
     borderRadius: 40,
-    backgroundColor: 'rgba(20, 92, 88, 0.08)',
+    backgroundColor: '#E5E7EB',
     alignItems: 'center',
     justifyContent: 'center',
     marginBottom: 16,
@@ -451,13 +476,13 @@ const styles = StyleSheet.create({
   },
   unreadTitle: {
     fontWeight: '800',
-    color: '#145C58',
+    color: '#202326',
   },
   unreadDot: {
     width: 8,
     height: 8,
     borderRadius: 4,
-    backgroundColor: '#D97706',
+    backgroundColor: '#FFCC25',
   },
   timestamp: {
     fontSize: 12,
@@ -467,7 +492,7 @@ const styles = StyleSheet.create({
   messageText: {
     fontSize: 14,
     lineHeight: 20,
-    color: '#334155',
+    color: '#202326',
     marginLeft: 48,
   },
 });
