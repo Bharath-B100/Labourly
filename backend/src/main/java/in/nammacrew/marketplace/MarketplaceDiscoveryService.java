@@ -41,11 +41,38 @@ public class MarketplaceDiscoveryService {
       int page,
       int size,
       String cityId) {
+    return searchWorkers(tradeId, availability, lat, lng, radiusKm, page, size, cityId, false);
+  }
+
+  @Transactional(readOnly = true)
+  public Paginated<WorkerCard> searchWorkers(
+      UUID tradeId,
+      String availability,
+      Double lat,
+      Double lng,
+      Double radiusKm,
+      int page,
+      int size,
+      String cityId,
+      boolean nearby) {
     int limit = size > 0 && size <= 100 ? size : 20;
     int offset = page >= 0 ? page * limit : 0;
 
     List<Object> args = new java.util.ArrayList<>();
     StringBuilder where = new StringBuilder(" WHERE " + ServiceCoverage.profile("w", "u"));
+    if (availability != null
+        && !availability.isBlank()
+        && !List.of("ALL", "AVAILABLE", "BUSY", "UNAVAILABLE").contains(availability))
+      throw new in.nammacrew.auth.AuthFailure(400, "Invalid availability filter.");
+    if (nearby
+        && (lat == null
+            || lng == null
+            || radiusKm == null
+            || !Double.isFinite(radiusKm)
+            || radiusKm <= 0
+            || radiusKm > 500))
+      throw new in.nammacrew.auth.AuthFailure(
+          400, "Nearby search requires coordinates and a radius up to 500 km.");
 
     if (tradeId != null) {
       where.append(" AND w.primary_trade_id = ?");
@@ -89,8 +116,16 @@ public class MarketplaceDiscoveryService {
       args.add(cityId);
     }
 
+    String base =
+        "COALESCE((SELECT cr.center FROM worker_coverage_radii cr WHERE cr.worker_id=w.user_id),l.center)";
+    if (nearby) {
+      where.append(" AND ST_DWithin(" + base + ",ST_SetSRID(ST_MakePoint(?,?),4326)::geography,?)");
+      args.add(lng);
+      args.add(lat);
+      args.add(radiusKm * 1000);
+    }
     String countQuery =
-        "SELECT count(w.user_id) FROM worker_profiles w JOIN users u ON w.user_id = u.id LEFT JOIN worker_service_locations l ON w.user_id = l.worker_id"
+        "SELECT count(w.user_id) FROM worker_profiles w JOIN users u ON w.user_id = u.id LEFT JOIN LATERAL (SELECT * FROM worker_service_locations loc WHERE loc.worker_id=w.user_id ORDER BY loc.updated_at DESC,loc.id LIMIT 1) l ON true"
             + where;
     int total = sql.queryForObject(countQuery, Integer.class, args.toArray());
 
@@ -104,11 +139,19 @@ public class MarketplaceDiscoveryService {
             FROM worker_profiles w
             JOIN users u ON w.user_id = u.id
             JOIN labour_categories c ON w.primary_trade_id = c.id
-            LEFT JOIN worker_service_locations l ON w.user_id = l.worker_id
+            LEFT JOIN LATERAL (SELECT * FROM worker_service_locations loc WHERE loc.worker_id=w.user_id ORDER BY loc.updated_at DESC,loc.id LIMIT 1) l ON true
             """
             + where
-            + " ORDER BY w.created_at DESC LIMIT ? OFFSET ?";
+            + (nearby
+                ? " ORDER BY ST_Distance("
+                    + base
+                    + ",ST_SetSRID(ST_MakePoint(?,?),4326)::geography),w.user_id LIMIT ? OFFSET ?"
+                : " ORDER BY w.created_at DESC,w.user_id LIMIT ? OFFSET ?");
 
+    if (nearby) {
+      args.add(lng);
+      args.add(lat);
+    }
     args.add(limit);
     args.add(offset);
 
@@ -192,7 +235,32 @@ public class MarketplaceDiscoveryService {
   @Transactional(readOnly = true)
   public Paginated<in.nammacrew.marketplace.MarketplaceDTOs.RequirementView> getOpportunities(
       UUID workerId, int page, int size) {
-    // Simple matching logic: OPEN requirements matching trade and within radius
+    return getOpportunities(workerId, page, size, null, null, 30.0);
+  }
+
+  @Transactional(readOnly = true)
+  public Paginated<in.nammacrew.marketplace.MarketplaceDTOs.RequirementView> getOpportunities(
+      UUID workerId, int page, int size, Double lat, Double lng, double radiusKm) {
+    if ((lat == null) != (lng == null)
+        || (lat != null
+            && (!Double.isFinite(lat)
+                || !Double.isFinite(lng)
+                || Math.abs(lat) > 90
+                || Math.abs(lng) > 180))
+        || !Double.isFinite(radiusKm)
+        || radiusKm <= 0
+        || radiusKm > 100) {
+      throw new in.nammacrew.auth.AuthFailure(400, "Invalid job search coordinates or radius");
+    }
+    var arguments = new java.util.ArrayList<Object>();
+    arguments.add(workerId);
+    String area = "TRUE";
+    if (lat != null) {
+      area = "ST_DWithin(r.site_location, ST_SetSRID(ST_MakePoint(?, ?),4326)::geography, ?)";
+      arguments.add(lng);
+      arguments.add(lat);
+      arguments.add(radiusKm * 1000);
+    }
     int limit = size > 0 && size <= 100 ? size : 20;
     int offset = page >= 0 ? page * limit : 0;
 
@@ -211,19 +279,24 @@ public class MarketplaceDiscoveryService {
             JOIN users u ON u.id=w.user_id
             JOIN worker_profiles wp ON wp.user_id=w.user_id
             WHERE r.status = 'OPEN'
+              AND r.starts_at > CURRENT_TIMESTAMP
               AND r.category_id = w.primary_trade_id
               AND %s
               AND %s
               AND %s
               AND w.availability_status = 'AVAILABLE'
+              AND %s
             ORDER BY r.created_at DESC LIMIT ? OFFSET ?
         """
             .formatted(
                 ServiceCoverage.geographic(
                     "w.user_id", "r.site_location", "r.location_state_id", "r.location_city_id"),
                 ServiceCoverage.profile("wp", "u"),
-                ServiceCoverage.freeSchedule("w.user_id", "r.starts_at", "r.ends_at"));
+                ServiceCoverage.freeSchedule("w.user_id", "r.starts_at", "r.ends_at"),
+                area);
 
+    arguments.add(limit);
+    arguments.add(offset);
     var items =
         sql.query(
             query,
@@ -246,9 +319,7 @@ public class MarketplaceDiscoveryService {
                   rs.getString("status"),
                   rs.getTimestamp("created_at").toInstant());
             },
-            workerId,
-            limit,
-            offset);
+            arguments.toArray());
 
     // Count could be done similarly, but for simplicity skipping exact count
     return new Paginated<>(items, items.size(), page, limit);

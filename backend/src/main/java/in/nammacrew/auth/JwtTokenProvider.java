@@ -55,6 +55,48 @@ public class JwtTokenProvider {
         .compact();
   }
 
+  public record GoogleChallenge(String challenge, String nonce) {}
+
+  public GoogleChallenge googleChallenge() {
+    var nonce =
+        UUID.randomUUID().toString().replace("-", "")
+            + UUID.randomUUID().toString().replace("-", "");
+    var now = clock.instant();
+    var challenge =
+        Jwts.builder()
+            .issuer("nammacrew-google-challenge")
+            .id(UUID.randomUUID().toString())
+            .claim("nonce", nonce)
+            .issuedAt(Date.from(now))
+            .expiration(Date.from(now.plus(5, ChronoUnit.MINUTES)))
+            .signWith(key, Jwts.SIG.HS256)
+            .compact();
+    return new GoogleChallenge(challenge, nonce);
+  }
+
+  Claims verifyGoogleChallenge(String token) {
+    try {
+      if (token == null || token.length() > 2048) throw new IllegalArgumentException();
+      var signed =
+          Jwts.parser()
+              .verifyWith(key)
+              .requireIssuer("nammacrew-google-challenge")
+              .clock(() -> Date.from(clock.instant()))
+              .build()
+              .parseSignedClaims(token);
+      var claims = signed.getPayload();
+      UUID.fromString(claims.getId());
+      if (!"HS256".equals(signed.getHeader().getAlgorithm())
+          || claims.getExpiration() == null
+          || !claims.getExpiration().toInstant().isAfter(clock.instant())
+          || !claims.get("nonce", String.class).matches("[a-f0-9]{64}"))
+        throw new IllegalArgumentException();
+      return claims;
+    } catch (RuntimeException ex) {
+      throw new AuthFailure(401, "Google sign-in expired. Try again.");
+    }
+  }
+
   public Claims validateAndParseToken(String token) {
     try {
       var signed =

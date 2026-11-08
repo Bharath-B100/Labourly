@@ -48,6 +48,7 @@ export default function OpportunityDetailsScreen() {
   const [durationDays, setDurationDays] = useState('');
   const [note, setNote] = useState('');
   const [submitting, setSubmitting] = useState(false);
+  const [checkedAt, setCheckedAt] = useState(() => Date.now());
 
   useEffect(() => {
     let mounted = true;
@@ -58,7 +59,10 @@ export default function OpportunityDetailsScreen() {
           apiJson<RequirementView>(`/api/v1/requirements/${id}`),
           getMyQuotes(),
         ]);
-        if (mounted) setRequirement(req);
+        if (mounted) {
+          setRequirement(req);
+          setCheckedAt(Date.now());
+        }
         const existing = myQuotes.find((q) => q.requirementId === id);
         if (existing) {
           if (mounted) {
@@ -95,7 +99,26 @@ export default function OpportunityDetailsScreen() {
     };
   }, [id]);
 
+  const quoteBlockReason = (now: number) => {
+    if (!requirement)
+      return 'Job details are unavailable. Please reopen this job.';
+    if (requirement.status !== 'OPEN')
+      return 'This job is no longer open for quotations.';
+    const start = Date.parse(requirement.startsAt);
+    if (!Number.isFinite(start) || start <= now) {
+      return 'The scheduled start time has passed or is unavailable. The customer needs to publish a new requirement with future dates before you can quote for this work.';
+    }
+    return '';
+  };
+
   const handleSubmit = async () => {
+    const now = Date.now();
+    setCheckedAt(now);
+    const blocked = quoteBlockReason(now);
+    if (blocked) {
+      Alert.alert('Quotation unavailable', blocked);
+      return;
+    }
     const amt = Number(amount);
     const days = Number(durationDays);
     if (
@@ -121,7 +144,7 @@ export default function OpportunityDetailsScreen() {
       const payload = {
         amount: amt,
         pricingBasis: pricing,
-        startsAt: requirement?.startsAt ?? new Date().toISOString(),
+        startsAt: requirement!.startsAt,
         durationDays: days,
         workerNote: note.trim() || undefined,
       };
@@ -202,6 +225,8 @@ export default function OpportunityDetailsScreen() {
     year: 'numeric',
   });
 
+  const blockedReason = quoteBlockReason(checkedAt);
+
   const alreadyActioned =
     myQuoteStatus &&
     myQuoteStatus !== 'SUBMITTED' &&
@@ -280,8 +305,37 @@ export default function OpportunityDetailsScreen() {
           </View>
         )}
 
-        {/* Quote form (only if not yet submitted / can resubmit) */}
-        {!alreadyActioned && (
+        {!alreadyActioned && blockedReason ? (
+          <View className="bg-surface rounded-xl border border-outline p-4 mb-4">
+            <Text
+              accessibilityRole="header"
+              className="text-ink font-bold text-lg mb-2"
+            >
+              {requirement.status === 'OPEN'
+                ? 'Job dates need updating'
+                : 'Quotations closed'}
+            </Text>
+            <Text accessibilityRole="alert" className="text-ink mb-4">
+              {blockedReason}
+            </Text>
+            <Action
+              label="Back to jobs"
+              variant="secondary"
+              onPress={() => router.back()}
+            />
+            {myQuoteId && myQuoteStatus === 'SUBMITTED' && (
+              <Action
+                label="Withdraw"
+                variant="danger"
+                disabled={submitting}
+                onPress={handleWithdraw}
+              />
+            )}
+          </View>
+        ) : null}
+
+        {/* Quote form (only when the job can receive a future quotation) */}
+        {!alreadyActioned && !blockedReason && (
           <View className="bg-surface rounded-2xl border border-outline p-4 shadow-sm">
             <Text className="text-ink font-bold text-base mb-4">
               {myQuoteId ? 'Your Quote' : 'Submit Your Quote'}

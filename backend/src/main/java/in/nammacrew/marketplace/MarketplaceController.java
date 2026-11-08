@@ -23,10 +23,12 @@ public class MarketplaceController {
       @RequestParam(required = false) Double lat,
       @RequestParam(required = false) Double lng,
       @RequestParam(required = false) String cityId,
+      @RequestParam(defaultValue = "false") boolean nearby,
       @RequestParam(required = false, defaultValue = "15.0") Double radiusKm,
       @RequestParam(defaultValue = "0") int page,
       @RequestParam(defaultValue = "20") int size) {
-    return discovery.searchWorkers(tradeId, availability, lat, lng, radiusKm, page, size, cityId);
+    return discovery.searchWorkers(
+        tradeId, availability, lat, lng, radiusKm, page, size, cityId, nearby);
   }
 
   @org.springframework.web.bind.annotation.PatchMapping("/workers/me/availability")
@@ -53,7 +55,11 @@ public class MarketplaceController {
   public MarketplaceDTOs.Paginated<MarketplaceDTOs.RequirementView> getOpportunities(
       org.springframework.security.core.Authentication auth,
       @RequestParam(defaultValue = "0") int page,
-      @RequestParam(defaultValue = "20") int size) {
-    return discovery.getOpportunities(UUID.fromString(auth.getName()), page, size);
+      @RequestParam(defaultValue = "20") int size,
+      @RequestParam(required = false) Double lat,
+      @RequestParam(required = false) Double lng,
+      @RequestParam(defaultValue = "30") double radiusKm) {
+    return discovery.getOpportunities(
+        UUID.fromString(auth.getName()), page, size, lat, lng, radiusKm);
   }
 }

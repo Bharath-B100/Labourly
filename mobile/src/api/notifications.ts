@@ -11,6 +11,7 @@ export interface NotificationItem {
     | 'QUOTE_REJECTED'
     | 'BOOKING_CONFIRMED'
     | 'BOOKING_CANCELLED'
+    | 'BOOKING_UPDATED'
     | 'WORK_AVAILABLE'
     | string;
   referenceId: string | null;

@@ -1,11 +1,15 @@
 import {
+  cleanup,
   fireEvent,
   render,
   screen,
-  cleanup,
 } from '@testing-library/react-native';
 import { LabourlyWalletScreen } from '../components/LabourlyWalletScreen';
+import WalletScreen from '../app/(customer)/wallet';
 
+jest.mock('@expo/vector-icons', () => ({ Ionicons: 'Ionicons' }));
+const mockBack = jest.fn();
+jest.mock('expo-router', () => ({ useRouter: () => ({ back: mockBack }) }));
 jest.mock('react-native-safe-area-context', () => ({
   SafeAreaView:
     jest.requireActual<typeof import('react-native')>('react-native').View,
@@ -13,78 +17,43 @@ jest.mock('react-native-safe-area-context', () => ({
 
 afterEach(async () => {
   await cleanup();
+  jest.clearAllMocks();
 });
 
-describe('LabourlyWalletScreen', () => {
-  test('renders balance card, quick action buttons, transaction rows, and handles add money', async () => {
-    const handleAddMoney = jest.fn();
-    const handleSend = jest.fn();
-    const handleTransactionPress = jest.fn();
-    const handleBack = jest.fn();
+function expectUnavailableWallet() {
+  expect(
+    screen.getByText('Wallet and payments are not available yet'),
+  ).toBeTruthy();
+  expect(
+    screen.queryByText(
+      /₹|12,450|14,450|Available Balance|Recent Transactions|Payment to|Apr 2025/,
+    ),
+  ).toBeNull();
+  for (const name of [
+    'Add Money',
+    'Send',
+    'Request',
+    'Transactions',
+    'Invoice',
+    'See all transactions',
+  ]) {
+    expect(screen.queryByRole('button', { name })).toBeNull();
+  }
+  expect(screen.getAllByRole('button')).toHaveLength(1);
+}
 
-    await render(
-      <LabourlyWalletScreen
-        onBack={handleBack}
-        onAddMoney={handleAddMoney}
-        onSend={handleSend}
-        onTransactionPress={handleTransactionPress}
-      />,
-    );
+test('wallet component exposes only an honest unavailable state and back navigation', async () => {
+  const back = jest.fn();
+  await render(<LabourlyWalletScreen onBack={back} />);
+  expectUnavailableWallet();
+  await fireEvent.press(screen.getByRole('button', { name: 'Go back' }));
+  expect(back).toHaveBeenCalledTimes(1);
+  expectUnavailableWallet();
+});
 
-    // Verify header and balance
-    expect(screen.getByText('Wallet')).toBeTruthy();
-    expect(screen.getByText('Available Balance')).toBeTruthy();
-    expect(screen.getByText('₹ 12,450')).toBeTruthy();
-    expect(screen.getByText('Add Money +')).toBeTruthy();
-
-    // Verify back navigation
-    await fireEvent.press(screen.getByRole('button', { name: 'Go back' }));
-    expect(handleBack).toHaveBeenCalledTimes(1);
-
-    // Click Add Money +
-    await fireEvent.press(screen.getByRole('button', { name: 'Add Money' }));
-    expect(handleAddMoney).toHaveBeenCalledTimes(1);
-    expect(screen.getByText('₹ 14,450')).toBeTruthy();
-
-    // Verify Quick Actions
-    expect(screen.getByRole('button', { name: 'Send' })).toBeTruthy();
-    expect(screen.getByRole('button', { name: 'Request' })).toBeTruthy();
-    expect(screen.getByRole('button', { name: 'Transactions' })).toBeTruthy();
-    expect(screen.getByRole('button', { name: 'Invoice' })).toBeTruthy();
-
-    await fireEvent.press(screen.getByRole('button', { name: 'Send' }));
-    expect(handleSend).toHaveBeenCalledTimes(1);
-
-    // Verify Transactions
-    expect(screen.getByText('Recent Transactions')).toBeTruthy();
-    expect(screen.getByText('See all')).toBeTruthy();
-    expect(screen.getByText('Payment to Ramesh Kumar')).toBeTruthy();
-    expect(screen.getByText('12 Apr 2025')).toBeTruthy();
-    expect(screen.getByText('- ₹1,800')).toBeTruthy();
-
-    expect(screen.getByText('Add Money')).toBeTruthy();
-    expect(screen.getByText('10 Apr 2025')).toBeTruthy();
-    expect(screen.getByText('+ ₹5,000')).toBeTruthy();
-
-    expect(screen.getByText('Payment to Shahid Ansari')).toBeTruthy();
-    expect(screen.getByText('5 Apr 2025')).toBeTruthy();
-    expect(screen.getByText('- ₹2,200')).toBeTruthy();
-
-    expect(screen.getByText('Refund')).toBeTruthy();
-    expect(screen.getByText('2 Apr 2025')).toBeTruthy();
-    expect(screen.getByText('+ ₹800')).toBeTruthy();
-
-    // Click a transaction
-    await fireEvent.press(
-      screen.getByRole('button', {
-        name: 'Payment to Ramesh Kumar, 12 Apr 2025, - ₹1,800',
-      }),
-    );
-    expect(handleTransactionPress).toHaveBeenCalledWith(
-      expect.objectContaining({
-        title: 'Payment to Ramesh Kumar',
-        amount: '- ₹1,800',
-      }),
-    );
-  });
+test('direct wallet route cannot expose demo financial data or mutation actions', async () => {
+  await render(<WalletScreen />);
+  expectUnavailableWallet();
+  await fireEvent.press(screen.getByRole('button', { name: 'Go back' }));
+  expect(mockBack).toHaveBeenCalledTimes(1);
 });

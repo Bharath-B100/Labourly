@@ -6,7 +6,8 @@ import {
   palette,
 } from '../../components/theme';
 import { Action } from '../../components/ui';
-import { useState, useCallback } from 'react';
+import { useState } from 'react';
+import { useFocusedResource } from '../../hooks/useFocusedResource';
 import {
   View,
   Text,
@@ -16,7 +17,7 @@ import {
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
-import { useFocusEffect, useRouter } from 'expo-router';
+import { useRouter } from 'expo-router';
 import { getMyBookings, BookingView } from '../../api/quotations';
 
 const STATUS_COLOR: Record<string, string> = {
@@ -168,9 +169,13 @@ function BookingCard({ booking }: { booking: BookingView }) {
 }
 
 export default function BookingsScreen() {
-  const [bookings, setBookings] = useState<BookingView[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');
+  const {
+    data,
+    loading,
+    error,
+    refresh: loadData,
+  } = useFocusedResource(getMyBookings);
+  const bookings = data || [];
   const [statusTab, setStatusTab] = useState('Active');
   const visibleBookings = bookings.filter((booking) =>
     statusTab === 'Cancelled'
@@ -178,42 +183,6 @@ export default function BookingsScreen() {
       : statusTab === 'Completed'
         ? booking.status === 'COMPLETED'
         : !['CANCELLED', 'COMPLETED'].includes(booking.status),
-  );
-
-  const loadData = async () => {
-    try {
-      setLoading(true);
-      setError('');
-      setBookings(await getMyBookings());
-    } catch (e: any) {
-      setError(e.message ?? 'Failed to load bookings');
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useFocusEffect(
-    useCallback(() => {
-      let mounted = true;
-      const fetchData = async () => {
-        try {
-          if (mounted) {
-            setLoading(true);
-            setError('');
-          }
-          const data = await getMyBookings();
-          if (mounted) setBookings(data);
-        } catch (e: any) {
-          if (mounted) setError(e.message ?? 'Failed to load bookings');
-        } finally {
-          if (mounted) setLoading(false);
-        }
-      };
-      fetchData();
-      return () => {
-        mounted = false;
-      };
-    }, []),
   );
 
   return (
@@ -261,12 +230,18 @@ export default function BookingsScreen() {
             {bookings.length} bookings
           </Text>
         )}
+        <Action
+          label="Refresh bookings"
+          variant="secondary"
+          loading={loading}
+          onPress={() => void loadData()}
+        />
         {error ? (
           <View className="items-center mt-8">
             <Text className="text-ink text-center mb-4">{error}</Text>
             <Action label="Retry" variant="secondary" onPress={loadData} />
           </View>
-        ) : loading ? (
+        ) : loading && !data ? (
           <ActivityIndicator className="mt-8" size="large" color="#202326" />
         ) : bookings.length === 0 ? (
           <View className="items-center mt-8 p-6 bg-surface rounded-xl border border-outline">

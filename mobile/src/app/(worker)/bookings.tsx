@@ -1,6 +1,6 @@
 import { GlassBackdrop } from '../../components/theme';
 import { Action } from '../../components/ui';
-import { useState, useCallback } from 'react';
+import { useFocusedResource } from '../../hooks/useFocusedResource';
 import {
   View,
   Text,
@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
-import { useFocusEffect, useRouter } from 'expo-router';
+import { useRouter } from 'expo-router';
 import { getMyBookings, BookingView } from '../../api/quotations';
 
 const STATUS_COLOR: Record<string, string> = {
@@ -83,28 +83,14 @@ function BookingCard({ booking }: { booking: BookingView }) {
 }
 
 export default function BookingsScreen() {
-  const [bookings, setBookings] = useState<BookingView[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');
+  const {
+    data,
+    loading,
+    error,
+    refresh: fetch,
+  } = useFocusedResource(getMyBookings);
+  const bookings = data || [];
   const router = useRouter();
-
-  const fetch = async () => {
-    try {
-      setLoading(true);
-      setError('');
-      setBookings(await getMyBookings());
-    } catch (e: any) {
-      setError(e.message ?? 'Failed to load bookings');
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useFocusEffect(
-    useCallback(() => {
-      fetch();
-    }, []),
-  );
 
   return (
     <SafeAreaView className="flex-1 bg-canvas">
@@ -114,12 +100,18 @@ export default function BookingsScreen() {
       </View>
 
       <ScrollView className="flex-1 p-4">
+        <Action
+          label="Refresh bookings"
+          variant="secondary"
+          loading={loading}
+          onPress={() => void fetch()}
+        />
         {error ? (
           <View className="items-center mt-8">
             <Text className="text-ink text-center mb-4">{error}</Text>
             <Action label="Retry" variant="secondary" onPress={fetch} />
           </View>
-        ) : loading ? (
+        ) : loading && !data ? (
           <ActivityIndicator className="mt-8" size="large" color="#202326" />
         ) : bookings.length === 0 ? (
           <View className="items-center mt-8 p-6 bg-surface rounded-xl border border-outline">
@@ -135,6 +127,8 @@ export default function BookingsScreen() {
           bookings.map((b) => (
             <Pressable
               key={b.id}
+              accessibilityRole="button"
+              accessibilityLabel={`View booking: ${b.requirementTitle}`}
               onPress={() => router.push(`/(worker)/booking/${b.id}`)}
             >
               <BookingCard booking={b} />

@@ -20,5 +20,6 @@ public interface BookingDTOs {
       String cancelReason,
       String cancelledByName,
       String cancelledByRole,
-      Instant cancelledAt) {}
+      Instant cancelledAt,
+      UUID customerId) {}
 }

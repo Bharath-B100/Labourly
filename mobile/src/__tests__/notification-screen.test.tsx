@@ -106,7 +106,9 @@ test.each([
   ['QUOTE_REJECTED', 'WORKER', '/(worker)/schedule'],
   ['WORK_AVAILABLE', 'WORKER', `/(worker)/opportunity/${id}`],
   ['BOOKING_CANCELLED', 'CUSTOMER', `/(customer)/booking/${id}`],
+  ['BOOKING_UPDATED', 'CUSTOMER', `/(customer)/booking/${id}`],
   ['BOOKING_CANCELLED', 'WORKER', `/(worker)/booking/${id}`],
+  ['BOOKING_UPDATED', 'WORKER', `/(worker)/booking/${id}`],
   ['BOOKING_CONFIRMED', 'CUSTOMER', `/(customer)/booking/${id}`],
 ])('tap %s for %s opens authorized destination', async (type, role, route) => {
   useSession.setState({

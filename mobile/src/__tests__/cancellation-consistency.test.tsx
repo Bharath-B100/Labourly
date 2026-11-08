@@ -1,3 +1,4 @@
+import { AppState } from 'react-native';
 import {
   render,
   screen,
@@ -10,6 +11,7 @@ import WorkerDetails from '../app/(worker)/booking/[id]';
 import { getMyQuotes, getBookingDetails } from '../api/quotations';
 jest.mock('expo-router', () => ({
   useLocalSearchParams: () => ({ id: 'booking' }),
+  useRouter: () => ({ push: jest.fn() }),
   useFocusEffect: (cb: any) => jest.requireActual('react').useEffect(cb, [cb]),
 }));
 jest.mock('react-native-safe-area-context', () => ({
@@ -116,4 +118,12 @@ test('unaffected confirmed booking does not display cancellation information', a
   await render(<CustomerDetails />);
   await waitFor(() => expect(screen.getByText('Cancel Booking')).toBeTruthy());
   expect(screen.queryByText('Cancellation reason')).toBeNull();
+});
+
+const originalAppState = AppState.currentState;
+beforeAll(() => {
+  AppState.currentState = 'active';
+});
+afterAll(() => {
+  AppState.currentState = originalAppState;
 });

@@ -1,13 +1,12 @@
 import { Ionicons } from '@expo/vector-icons';
 import {
   GlassBackdrop,
-  PageHeading,
   GlassCard,
   glassSurface,
   palette,
 } from '../../components/theme';
 import { useState, useEffect, useRef, useCallback } from 'react';
-import { useLocalSearchParams } from 'expo-router';
+import { useLocalSearchParams, useRouter } from 'expo-router';
 import { currentSearchLocation } from '../../location/currentSearchLocation';
 import { indiaStates, citiesForState } from '../../location/indiaCities';
 import { View, Text, ScrollView, Pressable } from 'react-native';
@@ -16,7 +15,6 @@ import { useQuery } from '@tanstack/react-query';
 import { getTrades, searchWorkers } from '../../api/marketplace';
 import { WorkerCard } from '../../components/WorkerCard';
 import { Action, Select, Loading, EmptyState } from '../../components/ui';
-import { NotificationBell } from '../../components/NotificationBell';
 
 const initial = {
   tradeId: '',
@@ -24,25 +22,87 @@ const initial = {
   lng: '',
   radius: '15',
   cityId: '',
-  availability: '',
+  availability: 'ALL',
   page: 0,
 };
 export default function DiscoverScreen() {
-  const { tradeId: requestedTrade } = useLocalSearchParams<{
+  const {
+    lat: requestedLat,
+    lng: requestedLng,
+    tradeId: requestedTrade,
+    cityId: requestedCity,
+    stateCode: requestedState,
+  } = useLocalSearchParams<{
+    lat?: string;
+    lng?: string;
     tradeId?: string;
+    cityId?: string;
+    stateCode?: string;
   }>();
   const trade = typeof requestedTrade === 'string' ? requestedTrade : '';
-  return <DiscoverContent key={trade} initialTrade={trade} />;
+  const city =
+    typeof requestedState === 'string' && typeof requestedCity === 'string'
+      ? citiesForState(requestedState).find((item) => item.id === requestedCity)
+      : undefined;
+  const gps =
+    typeof requestedLat === 'string' &&
+    typeof requestedLng === 'string' &&
+    requestedLat.trim() &&
+    requestedLng.trim() &&
+    Number.isFinite(Number(requestedLat)) &&
+    Number.isFinite(Number(requestedLng)) &&
+    Math.abs(Number(requestedLat)) <= 90 &&
+    Math.abs(Number(requestedLng)) <= 180
+      ? { lat: requestedLat, lng: requestedLng }
+      : undefined;
+  return (
+    <DiscoverContent
+      key={`${trade}:${city?.id || ''}:${gps?.lat || ''}:${gps?.lng || ''}`}
+      initialGps={gps}
+      initialTrade={trade}
+      initialCity={city}
+    />
+  );
 }
-function DiscoverContent({ initialTrade }: { initialTrade: string }) {
-  const [draft, setDraft] = useState({ ...initial, tradeId: initialTrade });
-  const [applied, setApplied] = useState({ ...initial, tradeId: initialTrade });
+function DiscoverContent({
+  initialTrade,
+  initialCity,
+  initialGps,
+}: {
+  initialTrade: string;
+  initialGps?: { lat: string; lng: string };
+  initialCity?: ReturnType<typeof citiesForState>[number];
+}) {
+  const router = useRouter();
+  const [activeTab, setActiveTab] = useState<
+    'All' | 'Nearby' | 'Verified' | 'Top Rated'
+  >('All');
+  const starting = {
+    ...initial,
+    tradeId: initialTrade,
+    ...initialGps,
+    ...(initialCity
+      ? {
+          lat: String(initialCity.latitude),
+          lng: String(initialCity.longitude),
+          cityId: initialCity.id,
+        }
+      : {}),
+  };
+  const [draft, setDraft] = useState(starting);
+  const [applied, setApplied] = useState(starting);
   const [validation, setValidation] = useState('');
-  const [locating, setLocating] = useState(true);
+  const [locating, setLocating] = useState(!initialCity && !initialGps);
   const [locationError, setLocationError] = useState('');
-  const [locationSource, setLocationSource] = useState('');
-  const [stateCode, setStateCode] = useState('');
-  const [cityId, setCityId] = useState('');
+  const [locationSource, setLocationSource] = useState(
+    initialCity
+      ? `${initialCity.name} city centre`
+      : initialGps
+        ? 'Current phone location'
+        : '',
+  );
+  const [stateCode, setStateCode] = useState(initialCity?.stateCode || '');
+  const [cityId, setCityId] = useState(initialCity?.id || '');
   const cities = citiesForState(stateCode);
   const lookupVersion = useRef(0);
   const locate = useCallback(async () => {
@@ -52,6 +112,7 @@ function DiscoverContent({ initialTrade }: { initialTrade: string }) {
     try {
       const { latitude, longitude } = await currentSearchLocation();
       if (version !== lookupVersion.current) return;
+
       const coordinates = {
         lat: String(latitude),
         lng: String(longitude),
@@ -76,6 +137,7 @@ function DiscoverContent({ initialTrade }: { initialTrade: string }) {
     }
   }, []);
   useEffect(() => {
+    if (initialCity || initialGps) return;
     const invalidateLookup = () => {
       lookupVersion.current++;
     };
@@ -87,9 +149,9 @@ function DiscoverContent({ initialTrade }: { initialTrade: string }) {
       clearTimeout(timer);
       invalidateLookup();
     };
-  }, [locate]);
+  }, [locate, initialCity, initialGps]);
   const [locationOpen, setLocationOpen] = useState(false);
-  const [filtersOpen, setFiltersOpen] = useState(true);
+  const [filtersOpen, setFiltersOpen] = useState(false);
   const catalogue = useQuery({
     queryKey: ['discovery-trades'],
     queryFn: getTrades,
@@ -99,11 +161,12 @@ function DiscoverContent({ initialTrade }: { initialTrade: string }) {
     ? applied.tradeId
     : undefined;
   const workers = useQuery({
-    queryKey: ['discovery-workers', applied, tradeId],
+    queryKey: ['discovery-workers', applied, tradeId, activeTab],
     enabled: !!applied.lat && !!applied.lng && catalogue.isSuccess,
     queryFn: () =>
       searchWorkers({
         tradeId,
+        nearby: activeTab === 'Nearby',
         page: applied.page,
         availability: applied.availability || undefined,
         lat: Number(applied.lat),
@@ -139,6 +202,47 @@ function DiscoverContent({ initialTrade }: { initialTrade: string }) {
       void workers.refetch();
     else setApplied(next);
   };
+
+  const selectedTrade = catalogue.data?.find(
+    (t) => t.id === applied.tradeId || t.id === draft.tradeId,
+  );
+
+  const getPluralTrade = (name?: string) => {
+    if (!name) return 'Workers';
+    const clean = name.trim();
+    if (clean.toLowerCase().endsWith('man')) {
+      return clean.slice(0, -3) + 'men';
+    }
+    if (clean.toLowerCase().endsWith('s')) {
+      return clean;
+    }
+    return clean + 's';
+  };
+
+  const headerTradeTitle = selectedTrade
+    ? getPluralTrade(selectedTrade.name)
+    : 'Workers';
+
+  const selectedCityObj = applied.cityId
+    ? cities.find((c) => c.id === applied.cityId)
+    : undefined;
+
+  const headerDistrict =
+    selectedCityObj?.name ||
+    (locationSource
+      ? (locationSource.split(',')[0] || '')
+          .replace('📍', '')
+          .replace('(HQ)', '')
+          .replace('city centre', '')
+          .trim()
+      : 'your area');
+
+  const headerLocationTitle = `in ${headerDistrict || 'your area'}`;
+
+  const unsupportedFilter =
+    activeTab === 'Verified' || activeTab === 'Top Rated';
+  const displayedWorkers = workers.data?.items ?? [];
+
   return (
     <SafeAreaView className="flex-1 bg-canvas">
       <GlassBackdrop />
@@ -146,12 +250,120 @@ function DiscoverContent({ initialTrade }: { initialTrade: string }) {
         keyboardShouldPersistTaps="handled"
         contentContainerStyle={{ padding: 16, gap: 14, paddingBottom: 32 }}
       >
-        <PageHeading
-          inset={8}
-          title="Find workers"
-          subtitle="Skilled people for your next project"
-          right={<NotificationBell />}
-        />
+        {/* Target Header matching Labour Listing: Back + Trade in District + Search */}
+        <View
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            paddingVertical: 4,
+          }}
+        >
+          <Pressable
+            accessibilityRole="button"
+            accessibilityLabel="Go back"
+            onPress={() => {
+              if (router.canGoBack?.()) {
+                router.back();
+              } else {
+                router.replace('/(customer)/home');
+              }
+            }}
+            hitSlop={12}
+            style={({ pressed }) => ({
+              padding: 6,
+              opacity: pressed ? 0.7 : 1,
+            })}
+          >
+            <Ionicons name="chevron-back" size={26} color="#0F172A" />
+          </Pressable>
+
+          <View style={{ flex: 1, alignItems: 'center', marginHorizontal: 8 }}>
+            <Text
+              numberOfLines={1}
+              style={{
+                fontSize: 18,
+                fontWeight: '700',
+                color: '#0F172A',
+                letterSpacing: -0.3,
+              }}
+            >
+              {headerTradeTitle}
+            </Text>
+            <Text
+              numberOfLines={1}
+              style={{
+                fontSize: 13,
+                fontWeight: '600',
+                color: '#475569',
+                marginTop: 1,
+              }}
+            >
+              {headerLocationTitle}
+            </Text>
+          </View>
+
+          <Pressable
+            accessibilityRole="button"
+            accessibilityLabel="Search workers or change filters"
+            onPress={() => setFiltersOpen((prev) => !prev)}
+            hitSlop={12}
+            style={({ pressed }) => ({
+              padding: 6,
+              opacity: pressed ? 0.7 : 1,
+            })}
+          >
+            <Ionicons name="search" size={22} color="#0F172A" />
+          </Pressable>
+        </View>
+
+        {/* Target Filter Tabs: All, Nearby, Verified, Top Rated */}
+        <ScrollView
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          contentContainerStyle={{
+            gap: 8,
+            paddingVertical: 2,
+            alignItems: 'center',
+          }}
+        >
+          {(['All', 'Nearby', 'Verified', 'Top Rated'] as const).map((tab) => {
+            const isSelected = activeTab === tab;
+            return (
+              <Pressable
+                key={tab}
+                accessibilityRole="button"
+                accessibilityLabel={`Filter ${tab}`}
+                accessibilityState={{ selected: isSelected }}
+                onPress={() => {
+                  setActiveTab(tab);
+                  setApplied((old) => ({ ...old, page: 0 }));
+                  if (tab === 'Nearby' && !applied.lat) {
+                    void locate();
+                  }
+                }}
+                style={{
+                  paddingHorizontal: 20,
+                  paddingVertical: 8,
+                  borderRadius: 20,
+                  minHeight: 48,
+                  justifyContent: 'center',
+                  backgroundColor: isSelected ? palette.yellow : palette.grey,
+                }}
+              >
+                <Text
+                  style={{
+                    fontSize: 13,
+                    fontWeight: isSelected ? '700' : '600',
+                    color: palette.ink,
+                  }}
+                >
+                  {tab}
+                </Text>
+              </Pressable>
+            );
+          })}
+        </ScrollView>
         <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10 }}>
           <Pressable
             accessibilityRole="button"
@@ -207,6 +419,7 @@ function DiscoverContent({ initialTrade }: { initialTrade: string }) {
             </Text>
           </Pressable>
         </View>
+
         {!!locationError && (
           <Text accessibilityRole="alert" className="text-ink">
             {locationError}
@@ -285,7 +498,7 @@ function DiscoverContent({ initialTrade }: { initialTrade: string }) {
           </View>
         )}
         <View style={{ flexDirection: 'row', gap: 8, flexWrap: 'wrap' }}>
-          {['', 'AVAILABLE'].map((availability) => (
+          {['ALL', 'AVAILABLE', 'BUSY', 'UNAVAILABLE'].map((availability) => (
             <Pressable
               key={availability}
               accessibilityRole="button"
@@ -308,7 +521,14 @@ function DiscoverContent({ initialTrade }: { initialTrade: string }) {
               }}
             >
               <Text style={{ color: palette.ink }}>
-                {availability ? 'Available' : 'All workers'}
+                {
+                  {
+                    ALL: 'All workers',
+                    AVAILABLE: 'Available',
+                    BUSY: 'Busy',
+                    UNAVAILABLE: 'Unavailable',
+                  }[availability]
+                }
               </Text>
             </Pressable>
           ))}
@@ -332,7 +552,7 @@ function DiscoverContent({ initialTrade }: { initialTrade: string }) {
             <Text>Filters</Text>
           </Pressable>
         </View>
-        {filtersOpen && (
+        {(filtersOpen || locationOpen) && (
           <GlassCard style={{ gap: 16, padding: 16 }}>
             <View
               style={{
@@ -355,7 +575,7 @@ function DiscoverContent({ initialTrade }: { initialTrade: string }) {
                     ...old,
                     tradeId: '',
                     radius: '15',
-                    availability: '',
+                    availability: 'ALL',
                   }))
                 }
                 style={{
@@ -427,8 +647,11 @@ function DiscoverContent({ initialTrade }: { initialTrade: string }) {
               onPress={search}
             />
             <Text style={{ color: palette.ink, fontSize: 12, lineHeight: 18 }}>
-              Rates are agreed through quotations. Reviews and verified-identity
-              filters are not available yet.
+              Nearby uses the worker’s registered base, not live tracking.
+              Radius applies to Nearby searches. Availability is
+              worker-reported; booking dates are checked when hiring. Rates are
+              agreed through quotations. Reviews and verified-identity filters
+              are not available yet.
             </Text>
           </GlassCard>
         )}
@@ -438,7 +661,20 @@ function DiscoverContent({ initialTrade }: { initialTrade: string }) {
             include state, district and nationwide coverage.
           </Text>
         ) : null}
-        {!applied.lat || !applied.lng ? (
+        {unsupportedFilter ? (
+          <EmptyState
+            title={
+              activeTab === 'Top Rated'
+                ? 'Ratings are not available yet'
+                : 'Identity verification is not available yet'
+            }
+            description={
+              activeTab === 'Top Rated'
+                ? 'Worker reviews are not collected yet. Choose All or Nearby to compare real profiles and quotations.'
+                : 'Test review statuses are not identity checks. Choose All or Nearby to browse workers.'
+            }
+          />
+        ) : !applied.lat || !applied.lng ? (
           <EmptyState
             title={
               locating
@@ -482,7 +718,9 @@ function DiscoverContent({ initialTrade }: { initialTrade: string }) {
                 marginBottom: 10,
               }}
             >
-              Workers nearby
+              {activeTab === 'Nearby'
+                ? 'Workers based nearby'
+                : 'Workers serving this location'}
             </Text>
             <Text
               accessibilityLiveRegion="polite"
@@ -490,7 +728,7 @@ function DiscoverContent({ initialTrade }: { initialTrade: string }) {
             >
               {workers.data.total} workers found - Page {applied.page + 1}
             </Text>
-            {workers.data.items.map((worker) => (
+            {displayedWorkers.map((worker) => (
               <WorkerCard key={worker.id} worker={worker} />
             ))}
             <View style={{ gap: 12, marginTop: 16 }}>

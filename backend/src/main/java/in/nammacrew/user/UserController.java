@@ -20,6 +20,15 @@ public class UserController {
     return profiles.me(UUID.fromString(auth.getName()));
   }
 
+  public record ContactRequest(
+      @jakarta.validation.constraints.Pattern(regexp = "\\+[1-9][0-9]{7,14}") String phone) {}
+
+  @PutMapping("/me/contact")
+  public UserView contact(
+      Authentication auth, @jakarta.validation.Valid @RequestBody ContactRequest request) {
+    return profiles.contact(UUID.fromString(auth.getName()), request.phone());
+  }
+
   @PostMapping("/me/roles")
   public UserView select(Authentication auth, @RequestBody RoleRequest request) {
     return profiles.selectRole(UUID.fromString(auth.getName()), request.role());

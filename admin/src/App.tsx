@@ -1,3 +1,4 @@
+import { SupportQueue } from './SupportQueue';
 import { useState, useEffect, useCallback, useRef } from 'react';
 import {
   fetchHealth,
@@ -70,6 +71,7 @@ const NAV = [
   { id: 'workers', label: 'Workers', icon: '👷' },
   { id: 'jobs', label: 'Jobs', icon: '📋' },
   { id: 'trades', label: 'Trades', icon: '🔧' },
+  { id: 'support', label: 'Support', icon: '?' },
 ] as const;
 type Page = (typeof NAV)[number]['id'];
 
@@ -1672,6 +1674,7 @@ export default function App() {
           {page === 'workers' && <WorkersPage />}
           {page === 'jobs' && <JobsPage />}
           {page === 'trades' && <TradesPage />}
+          {page === 'support' && <SupportQueue />}
         </main>
       </div>
     </>

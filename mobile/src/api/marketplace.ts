@@ -81,6 +81,7 @@ export interface RequirementFormPayload {
 }
 
 export async function searchWorkers(params: {
+  nearby?: boolean;
   tradeId?: string;
   availability?: string;
   lat?: number;
@@ -91,6 +92,7 @@ export async function searchWorkers(params: {
   size?: number;
 }): Promise<Paginated<WorkerCard>> {
   const query = new URLSearchParams();
+  if (params.nearby) query.append('nearby', 'true');
   if (params.cityId) query.append('cityId', params.cityId);
   if (params.tradeId) query.append('tradeId', params.tradeId);
   if (params.availability) query.append('availability', params.availability);
@@ -166,9 +168,16 @@ export async function updateRequirementStatus(
 export async function getOpportunities(
   page = 0,
   size = 20,
+  location?: { lat: number; lng: number; radiusKm: number },
 ): Promise<Paginated<RequirementView>> {
+  const query = new URLSearchParams({ page: String(page), size: String(size) });
+  if (location) {
+    query.set('lat', String(location.lat));
+    query.set('lng', String(location.lng));
+    query.set('radiusKm', String(location.radiusKm));
+  }
   return apiJson<Paginated<RequirementView>>(
-    `/api/v1/marketplace/opportunities?page=${page}&size=${size}`,
+    `/api/v1/marketplace/opportunities?${query}`,
   );
 }
 

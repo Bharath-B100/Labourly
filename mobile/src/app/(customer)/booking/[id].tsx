@@ -1,5 +1,7 @@
+import { useSession } from '../../../auth/session';
 import { GlassBackdrop } from '../../../components/theme';
 import { Action } from '../../../components/ui';
+import { BookingLifecycleControls } from '../../../components/BookingLifecycleControls';
 import { useState, useCallback } from 'react';
 import {
   View,
@@ -11,12 +13,9 @@ import {
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
-import { useLocalSearchParams, useFocusEffect } from 'expo-router';
-import {
-  getBookingDetails,
-  cancelBooking,
-  BookingView,
-} from '../../../api/quotations';
+import { useLocalSearchParams, useRouter } from 'expo-router';
+import { useFocusedResource } from '../../../hooks/useFocusedResource';
+import { getBookingDetails, cancelBooking } from '../../../api/quotations';
 
 const STATUS_COLOR: Record<string, string> = {
   PENDING: '#FFCC25',
@@ -33,43 +32,20 @@ const PRICING_LABEL: Record<string, string> = {
 };
 
 export default function BookingDetailsScreen() {
+  const router = useRouter();
+  const userId = useSession((state) => state.session?.userId);
   const { id } = useLocalSearchParams<{ id: string }>();
-  const [booking, setBooking] = useState<BookingView | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');
+  const loader = useCallback(() => getBookingDetails(id), [id]);
+  const {
+    data: booking,
+    loading,
+    error,
+    refresh: fetchDetails,
+  } = useFocusedResource(loader);
 
   const [showCancel, setShowCancel] = useState(false);
   const [cancelReason, setCancelReason] = useState('');
   const [cancelling, setCancelling] = useState(false);
-
-  const fetchDetails = useCallback(
-    async (mounted: { current: boolean }) => {
-      try {
-        if (mounted.current) {
-          setLoading(true);
-          setError('');
-        }
-        const data = await getBookingDetails(id);
-        if (mounted.current) setBooking(data);
-      } catch (e: any) {
-        if (mounted.current)
-          setError(e.message ?? 'Failed to load booking details');
-      } finally {
-        if (mounted.current) setLoading(false);
-      }
-    },
-    [id],
-  );
-
-  useFocusEffect(
-    useCallback(() => {
-      const mounted = { current: true };
-      fetchDetails(mounted);
-      return () => {
-        mounted.current = false;
-      };
-    }, [fetchDetails]),
-  );
 
   const handleCancel = async () => {
     if (!cancelReason.trim()) {
@@ -89,7 +65,7 @@ export default function BookingDetailsScreen() {
               setCancelling(true);
               await cancelBooking(id, cancelReason);
               Alert.alert('Cancelled', 'Booking has been cancelled.');
-              fetchDetails({ current: true });
+              void fetchDetails();
               setShowCancel(false);
             } catch (e: any) {
               Alert.alert('Error', e.message ?? 'Failed to cancel booking');
@@ -114,6 +90,7 @@ export default function BookingDetailsScreen() {
     return (
       <SafeAreaView className="flex-1 bg-canvas items-center justify-center p-6">
         <Text className="text-ink text-center">{error || 'Not found'}</Text>
+        <Action label="Retry booking" onPress={() => void fetchDetails()} />
       </SafeAreaView>
     );
   }
@@ -146,6 +123,10 @@ export default function BookingDetailsScreen() {
       </View>
 
       <ScrollView className="flex-1 p-4" keyboardShouldPersistTaps="handled">
+        <BookingLifecycleControls
+          bookingId={id}
+          onChanged={() => void fetchDetails()}
+        />
         <View className="bg-surface rounded-2xl border border-outline p-4 mb-4 shadow-sm">
           <Text className="text-muted text-xs font-semibold mb-1">
             REQUIREMENT
@@ -213,6 +194,28 @@ export default function BookingDetailsScreen() {
                 ? new Date(booking.cancelledAt).toLocaleString('en-IN')
                 : 'Unavailable'}
             </Text>
+          </View>
+        )}
+
+        {booking.status !== 'CANCELLED' && (
+          <View style={{ marginBottom: 12 }}>
+            <Action
+              label={
+                booking.workerId === userId
+                  ? 'Chat with customer'
+                  : `Chat with ${booking.workerName}`
+              }
+              variant="primary"
+              onPress={() =>
+                router.push({
+                  pathname:
+                    booking.workerId === userId
+                      ? '/(worker)/chat'
+                      : '/(customer)/chat',
+                  params: { bookingId: booking.id },
+                })
+              }
+            />
           </View>
         )}
 

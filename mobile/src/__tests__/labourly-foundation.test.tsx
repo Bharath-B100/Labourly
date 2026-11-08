@@ -6,16 +6,21 @@ import {
   waitFor,
 } from '@testing-library/react-native';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { currentSearchLocation } from '../location/currentSearchLocation';
 import { IntroCarousel } from '../components/IntroCarousel';
 import { CustomerCategories } from '../onboarding/CustomerCategories';
 import { ProfileSettings } from '../components/ProfileSettings';
 import WorkerDetails from '../app/(customer)/worker/[id]';
-import ChatUnavailable from '../app/(customer)/chat';
+import { LabourlyChatScreen } from '../components/LabourlyChatScreen';
 import CustomerHome from '../app/(customer)/home';
 import { useSession, type Session } from '../auth/session';
 import { observeQueryAccount } from '../auth/queryIsolation';
 import { getWorkerDetails, getTrades } from '../api/marketplace';
 import { apiJson } from '../api/client';
+
+jest.mock('../location/currentSearchLocation', () => ({
+  currentSearchLocation: jest.fn(),
+}));
 
 const mockPush = jest.fn();
 jest.mock('../components/SaveWorkerButton', () => ({
@@ -214,8 +219,12 @@ test('worker details use real data and quotation CTA, never fabricated price or 
   expect(apiJson).not.toHaveBeenCalled();
 });
 
-test('chat is explicitly unavailable with a working marketplace route', async () => {
-  await render(<ChatUnavailable />);
+test('standalone unavailable message retains a working marketplace route', async () => {
+  await render(
+    <LabourlyChatScreen
+      onGoToJobs={() => mockPush('/(customer)/requirements')}
+    />,
+  );
   expect(screen.getByText('Messaging is not available yet')).toBeTruthy();
   await fireEvent.press(screen.getByRole('button', { name: 'Go to my jobs' }));
   expect(mockPush).toHaveBeenCalledWith('/(customer)/requirements');
@@ -249,4 +258,116 @@ test('Home catalogue failure provides a working retry', async () => {
     await screen.findByRole('button', { name: 'Retry trades' }),
   );
   expect(await screen.findByText('No trades are available yet.')).toBeTruthy();
+});
+
+test('Home search filters the server catalogue and clear restores all trades', async () => {
+  jest.mocked(getTrades).mockResolvedValue([
+    { id: 'mason', code: 'MASON', name: 'Mason', skills: [] },
+    { id: 'carpenter', code: 'CARPENTER', name: 'Carpenter', skills: [] },
+  ]);
+  await mount(<CustomerHome />);
+  await screen.findByRole('button', { name: 'Find Carpenter workers' });
+  await fireEvent.changeText(screen.getByLabelText('Search trades'), 'carp');
+  expect(
+    screen.queryByRole('button', { name: 'Find Mason workers' }),
+  ).toBeNull();
+  await fireEvent.press(
+    screen.getByRole('button', { name: 'Find Carpenter workers' }),
+  );
+  expect(mockPush).toHaveBeenLastCalledWith({
+    pathname: '/(customer)/discover',
+    params: { tradeId: 'carpenter' },
+  });
+  await fireEvent.press(screen.getByRole('button', { name: 'Clear search' }));
+  expect(
+    screen.getByRole('button', { name: 'Find Mason workers' }),
+  ).toBeTruthy();
+});
+
+test('Home location selection is passed with the trade to discovery', async () => {
+  jest
+    .mocked(getTrades)
+    .mockResolvedValue([
+      { id: 'carpenter', code: 'CARPENTER', name: 'Carpenter', skills: [] },
+    ]);
+  await mount(<CustomerHome />);
+  await screen.findByRole('button', { name: 'Find Carpenter workers' });
+  await fireEvent.press(
+    screen.getByRole('button', { name: 'Choose work location' }),
+  );
+  await fireEvent.press(
+    screen.getByRole('button', { name: /State \/ Union territory:/ }),
+  );
+  await fireEvent.changeText(
+    screen.getByLabelText('Search state / union territory'),
+    'Karnataka',
+  );
+  await fireEvent.press(screen.getByRole('radio', { name: 'Karnataka' }));
+  await fireEvent.press(screen.getByRole('button', { name: /City:/ }));
+  await fireEvent.changeText(screen.getByLabelText('Search city'), 'Bengaluru');
+  await fireEvent.press(screen.getByRole('radio', { name: 'Bengaluru' }));
+  await fireEvent.press(
+    screen.getByRole('button', { name: 'Find Carpenter workers' }),
+  );
+  expect(mockPush).toHaveBeenLastCalledWith({
+    pathname: '/(customer)/discover',
+    params: { tradeId: 'carpenter', stateCode: '19', cityId: '1277333' },
+  });
+});
+
+test('a delayed automatic GPS response cannot override a manually chosen city', async () => {
+  let finish!: (point: { latitude: number; longitude: number }) => void;
+  jest.mocked(currentSearchLocation).mockImplementationOnce(
+    () =>
+      new Promise((resolve) => {
+        finish = resolve;
+      }),
+  );
+  jest
+    .mocked(getTrades)
+    .mockResolvedValue([
+      { id: 'carpenter', code: 'CARPENTER', name: 'Carpenter', skills: [] },
+    ]);
+  await mount(<CustomerHome />);
+  await screen.findByRole('button', { name: 'Find Carpenter workers' });
+  await fireEvent.press(
+    screen.getByRole('button', { name: 'Choose work location' }),
+  );
+  await fireEvent.press(
+    screen.getByRole('button', { name: 'Search in Bengaluru' }),
+  );
+  finish({ latitude: 11, longitude: 78 });
+  await fireEvent.press(
+    screen.getByRole('button', { name: 'Find Carpenter workers' }),
+  );
+  expect(mockPush).toHaveBeenLastCalledWith({
+    pathname: '/(customer)/discover',
+    params: { tradeId: 'carpenter', stateCode: '19', cityId: '1277333' },
+  });
+});
+
+test('manual hub selection replaces existing GPS coordinates in trade navigation', async () => {
+  jest
+    .mocked(currentSearchLocation)
+    .mockResolvedValueOnce({ latitude: 11, longitude: 78 });
+  jest
+    .mocked(getTrades)
+    .mockResolvedValue([
+      { id: 'plumber', code: 'PLUMBER', name: 'Plumber', skills: [] },
+    ]);
+  await mount(<CustomerHome />);
+  await screen.findByText('Current phone location');
+  await fireEvent.press(
+    screen.getByRole('button', { name: 'Choose work location' }),
+  );
+  await fireEvent.press(
+    screen.getByRole('button', { name: 'Search in Bengaluru' }),
+  );
+  await fireEvent.press(
+    screen.getByRole('button', { name: 'Find Plumber workers' }),
+  );
+  expect(mockPush).toHaveBeenLastCalledWith({
+    pathname: '/(customer)/discover',
+    params: { tradeId: 'plumber', stateCode: '19', cityId: '1277333' },
+  });
 });

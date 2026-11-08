@@ -1,14 +1,16 @@
 import React from 'react';
-import { useRouter } from 'expo-router';
-import { LabourlyChatScreen } from '../../components/LabourlyChatScreen';
+import { useRouter, useLocalSearchParams } from 'expo-router';
+import { LabourlyLiveChat } from '../../components/LabourlyLiveChat';
 
-export default function ChatUnavailable() {
+export default function ChatScreen() {
   const router = useRouter();
+  const { bookingId } = useLocalSearchParams<{ bookingId?: string }>();
 
   return (
-    <LabourlyChatScreen
-      isUnavailable={true}
+    <LabourlyLiveChat
+      initialBookingId={bookingId}
       onGoToJobs={() => router.push('/(customer)/requirements')}
+      onGoToWorkers={() => router.push('/(customer)/discover')}
     />
   );
 }

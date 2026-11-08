@@ -83,6 +83,10 @@ export default function RootLayout() {
             </Stack.Protected>
             <Stack.Protected guard={!!completed}>
               <Stack.Screen
+                name="support"
+                options={{ title: 'Support & account requests' }}
+              />
+              <Stack.Screen
                 name="edit-profile"
                 options={{ title: 'Edit profile' }}
               />

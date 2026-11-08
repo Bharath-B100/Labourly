@@ -9,14 +9,16 @@ public record UserView(
     String fullName,
     List<String> roles,
     String onboardingState,
-    String onboardingStep) {
+    String onboardingStep,
+    String contactPhone) {
   public static UserView from(User user) {
     return new UserView(
         user.getId(),
-        user.getPhone(),
+        user.getPhone() == null ? "" : user.getPhone(),
         user.getDisplayName(),
         user.getRoles().stream().map(Role::getCode).sorted().toList(),
         user.getOnboardingState(),
-        user.getOnboardingStep());
+        user.getOnboardingStep(),
+        user.getContactPhone());
   }
 }

@@ -29,10 +29,8 @@ describe('LabourlySavedWorkersScreen', () => {
       />,
     );
 
-    // Verify Header
     expect(screen.getByText('Saved Workers')).toBeTruthy();
 
-    // Verify Back navigation
     await fireEvent.press(screen.getByRole('button', { name: 'Go back' }));
     expect(handleBack).toHaveBeenCalledTimes(1);
 

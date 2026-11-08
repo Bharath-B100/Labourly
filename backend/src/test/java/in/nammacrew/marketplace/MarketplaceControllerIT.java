@@ -47,7 +47,7 @@ class MarketplaceControllerIT {
     UUID reqId = UUID.randomUUID();
     sql.update(
         "INSERT INTO labour_requirements(id, customer_id, category_id, state_code, city, status, title, description, worker_count, site_location, starts_at, ends_at) "
-            + "VALUES (?, ?, ?, 'KA', 'Bengaluru', 'OPEN', 'Controller Test Carpenter Req', 'Desc', 1, ST_SetSRID(ST_MakePoint(77.5946, 12.9716), 4326), now(), now() + interval '2 days')",
+            + "VALUES (?, ?, ?, 'KA', 'Bengaluru', 'OPEN', 'Controller Test Carpenter Req', 'Desc', 1, ST_SetSRID(ST_MakePoint(77.5946, 12.9716), 4326), now() + interval '1 day', now() + interval '3 days')",
         reqId,
         customerId,
         tradeId);
@@ -114,6 +114,69 @@ class MarketplaceControllerIT {
         .andExpect(jsonPath("$.items", hasSize(1)))
         .andExpect(jsonPath("$.items[0].id").value(reqId.toString()));
 
+    // Expired OPEN records remain in history but must not be offered for quotation.
+    UUID expiredId = UUID.randomUUID();
+    sql.update(
+        "INSERT INTO labour_requirements(id, customer_id, category_id, state_code, city, status, title, description, worker_count, site_location, starts_at, ends_at) "
+            + "SELECT ?,customer_id,category_id,state_code,city,status,'Expired test job',description,worker_count,site_location,now()-interval '1 day',now()+interval '1 day' FROM labour_requirements WHERE id=?",
+        expiredId,
+        reqId);
+    mvc.perform(
+            get("/api/v1/marketplace/opportunities")
+                .param("size", "1")
+                .with(user(workerA.toString()).roles("WORKER")))
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$.items", hasSize(1)))
+        .andExpect(jsonPath("$.items[0].id").value(reqId.toString()));
+    org.junit.jupiter.api.Assertions.assertEquals(
+        "OPEN",
+        sql.queryForObject(
+            "SELECT status FROM labour_requirements WHERE id=?", String.class, expiredId));
+    // Equal-to-now is also not a future start (the test transaction has a stable clock).
+    sql.update("UPDATE labour_requirements SET starts_at=CURRENT_TIMESTAMP WHERE id=?", expiredId);
+    mvc.perform(
+            get("/api/v1/marketplace/opportunities").with(user(workerA.toString()).roles("WORKER")))
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$.items", hasSize(1)))
+        .andExpect(jsonPath("$.items[0].id").value(reqId.toString()));
+
+    // Search location narrows eligible jobs; it never replaces coverage checks.
+    mvc.perform(
+            get("/api/v1/marketplace/opportunities")
+                .param("lat", "12.9716")
+                .param("lng", "77.5946")
+                .param("radiusKm", "30")
+                .with(user(workerA.toString()).roles("WORKER")))
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$.items", hasSize(1)));
+    mvc.perform(
+            get("/api/v1/marketplace/opportunities")
+                .param("lat", "13.0827")
+                .param("lng", "80.2707")
+                .param("radiusKm", "30")
+                .with(user(workerA.toString()).roles("WORKER")))
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$.items", hasSize(0)));
+    mvc.perform(
+            get("/api/v1/marketplace/opportunities")
+                .param("lat", "12.9716")
+                .with(user(workerA.toString()).roles("WORKER")))
+        .andExpect(status().isBadRequest());
+    mvc.perform(
+            get("/api/v1/marketplace/opportunities")
+                .param("lat", "12.9716")
+                .param("lng", "77.5946")
+                .param("radiusKm", "0")
+                .with(user(workerA.toString()).roles("WORKER")))
+        .andExpect(status().isBadRequest());
+    mvc.perform(
+            get("/api/v1/marketplace/opportunities")
+                .param("lat", "12.9716")
+                .param("lng", "77.5946")
+                .with(user(workerC.toString()).roles("WORKER")))
+        .andExpect(status().isOk())
+        .andExpect(jsonPath("$.items", hasSize(0)));
+
     // Worker C (UNAVAILABLE) -> 200 OK, empty results
     mvc.perform(
             get("/api/v1/marketplace/opportunities").with(user(workerC.toString()).roles("WORKER")))
@@ -141,7 +204,7 @@ class MarketplaceControllerIT {
     UUID reqId = UUID.randomUUID();
     sql.update(
         "INSERT INTO labour_requirements(id, customer_id, category_id, state_code, city, status, title, description, worker_count, site_location, starts_at, ends_at) "
-            + "VALUES (?, ?, ?, 'KA', 'Bengaluru', 'OPEN', 'Update Test Req', 'Desc', 1, ST_SetSRID(ST_MakePoint(77.5946, 12.9716), 4326), now(), now() + interval '2 days')",
+            + "VALUES (?, ?, ?, 'KA', 'Bengaluru', 'OPEN', 'Update Test Req', 'Desc', 1, ST_SetSRID(ST_MakePoint(77.5946, 12.9716), 4326), now() + interval '1 day', now() + interval '3 days')",
         reqId,
         customerId,
         tradeId);
@@ -286,7 +349,7 @@ class MarketplaceControllerIT {
     UUID reqId = UUID.randomUUID();
     sql.update(
         "INSERT INTO labour_requirements(id, customer_id, category_id, state_code, city, status, title, description, worker_count, site_location, starts_at, ends_at) "
-            + "VALUES (?, ?, ?, 'KA', 'Bengaluru', 'DRAFT', 'Test', 'Desc', 1, ST_SetSRID(ST_MakePoint(77.5946, 12.9716), 4326), now(), now() + interval '2 days')",
+            + "VALUES (?, ?, ?, 'KA', 'Bengaluru', 'DRAFT', 'Test', 'Desc', 1, ST_SetSRID(ST_MakePoint(77.5946, 12.9716), 4326), now() + interval '1 day', now() + interval '3 days')",
         reqId,
         customer1,
         tradeId);

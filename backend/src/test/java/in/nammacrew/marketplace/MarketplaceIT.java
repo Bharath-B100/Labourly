@@ -295,4 +295,50 @@ class MarketplaceIT {
     var opps2 = discoveryService.getOpportunities(w2, 0, 10);
     assertEquals(0, opps2.total(), "Unavailable worker should NOT see opportunity");
   }
+
+  @Test
+  void nearbyFiltersBeforePaginationAndIncludesUnavailableWhenRequested() {
+    UUID trade = UUID.randomUUID();
+    sql.update(
+        "INSERT INTO labour_categories(id,code,name) VALUES (?,'NEARBY_TEST','Nearby test')",
+        trade);
+    UUID near = UUID.randomUUID(), far = UUID.randomUUID();
+    for (UUID worker : List.of(near, far)) {
+      sql.update(
+          "INSERT INTO users(id,phone,display_name,status,onboarding_state) VALUES (?,?,?,'ACTIVE','COMPLETED')",
+          worker,
+          worker.equals(near) ? "+919000007701" : "+919000007702",
+          "Fictional worker");
+      sql.update(
+          "INSERT INTO worker_profiles(user_id,primary_trade_id,visibility_enabled,availability_status) VALUES (?,?,true,?)",
+          worker,
+          trade,
+          worker.equals(near) ? "UNAVAILABLE" : "AVAILABLE");
+      sql.update(
+          "INSERT INTO worker_service_locations(worker_id,state_code,district,city,center,radius_km) VALUES (?,'KA','Test district','Test city',ST_SetSRID(ST_MakePoint(?,12.97),4326)::geography,100)",
+          worker,
+          worker.equals(near) ? 77.59 : 77.89);
+    }
+    var all = discoveryService.searchWorkers(trade, "ALL", 12.97, 77.59, 5.0, 0, 1, null, false);
+    assertEquals(2, all.total());
+    var nearby = discoveryService.searchWorkers(trade, "ALL", 12.97, 77.59, 5.0, 0, 1, null, true);
+    assertEquals(1, nearby.total());
+    assertEquals(near, nearby.items().get(0).id());
+    assertEquals("UNAVAILABLE", nearby.items().get(0).availability());
+    assertEquals(
+        0,
+        discoveryService
+            .searchWorkers(trade, "AVAILABLE", 12.97, 77.59, 5.0, 0, 20, null, true)
+            .total());
+    assertThrows(
+        in.nammacrew.auth.AuthFailure.class,
+        () ->
+            discoveryService.searchWorkers(
+                trade, "ALL", 12.97, 77.59, Double.NaN, 0, 20, null, true));
+    assertThrows(
+        in.nammacrew.auth.AuthFailure.class,
+        () ->
+            discoveryService.searchWorkers(
+                trade, "TOMORROW", 12.97, 77.59, 5.0, 0, 20, null, true));
+  }
 }

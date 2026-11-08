@@ -1,3 +1,4 @@
+import { AppState, Alert } from 'react-native';
 import {
   fireEvent,
   render,
@@ -12,7 +13,6 @@ import {
   getBookingDetails,
   cancelBooking,
 } from '../api/quotations';
-import { Alert } from 'react-native';
 
 jest.mock('expo-router', () => {
   return {
@@ -163,4 +163,12 @@ describe('Booking Details & Cancellation', () => {
       expect(cancelBooking).toHaveBeenCalledWith('booking-1', 'Plans changed'),
     );
   });
+});
+
+const originalAppState = AppState.currentState;
+beforeAll(() => {
+  AppState.currentState = 'active';
+});
+afterAll(() => {
+  AppState.currentState = originalAppState;
 });

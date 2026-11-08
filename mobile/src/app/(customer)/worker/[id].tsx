@@ -1,21 +1,25 @@
-import { Image, Text, View } from 'react-native';
+import { Alert, Image, Text, View } from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useQuery } from '@tanstack/react-query';
 import { getWorkerDetails } from '../../../api/marketplace';
+import { getMyBookings } from '../../../api/quotations';
 import { useSession } from '../../../auth/session';
 import { Action, EmptyState, Loading, Screen } from '../../../components/ui';
 import { GlassCard, palette } from '../../../components/theme';
 import { SaveWorkerButton } from '../../../components/SaveWorkerButton';
 import { getDefaultWorkerAvatar } from '../../../assets/defaultAvatars';
+
 export default function WorkerDetailsScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const userId = useSession((state) => state.session?.userId);
   const router = useRouter();
+
   const query = useQuery({
     queryKey: ['worker-profile', userId, id],
     queryFn: () => getWorkerDetails(id),
     enabled: !!id && !!userId,
   });
+
   if (!id)
     return (
       <Screen>
@@ -25,12 +29,14 @@ export default function WorkerDetailsScreen() {
         />
       </Screen>
     );
+
   if (query.isPending)
     return (
       <Screen>
         <Loading />
       </Screen>
     );
+
   if (query.isError)
     return (
       <Screen>
@@ -46,7 +52,43 @@ export default function WorkerDetailsScreen() {
         />
       </Screen>
     );
+
   const worker = query.data;
+
+  const handleMessageOrCall = async () => {
+    try {
+      const bookings = await getMyBookings();
+      const matching = bookings.find(
+        (b) => b.workerId === id && b.status !== 'CANCELLED',
+      );
+      if (matching) {
+        router.push({
+          pathname: '/(customer)/chat',
+          params: { bookingId: matching.id },
+        });
+        return;
+      }
+    } catch {
+      // handled
+    }
+
+    Alert.alert(
+      'Booking chat',
+      `Text messaging with ${worker.name} is available after a quotation is accepted. Voice and video calls are not available yet.\n\nPost your requirement to receive a tailored quotation!`,
+      [
+        { text: 'Cancel', style: 'cancel' },
+        {
+          text: 'Post Requirement',
+          onPress: () => router.push('/(customer)/post'),
+        },
+        {
+          text: 'Open Chat',
+          onPress: () => router.push('/(customer)/chat'),
+        },
+      ],
+    );
+  };
+
   return (
     <Screen branded={false}>
       <Image
@@ -81,6 +123,14 @@ export default function WorkerDetailsScreen() {
         </Text>
       </View>
       <SaveWorkerButton workerId={id} />
+
+      {/* Action: Direct Message & Call */}
+      <Action
+        label={`💬 Message ${worker.name}`}
+        variant="secondary"
+        onPress={handleMessageOrCall}
+      />
+
       <GlassCard style={{ gap: 8, backgroundColor: palette.grey }}>
         <Text style={{ fontSize: 18, fontWeight: '700', color: palette.ink }}>
           Rates agreed by quotation

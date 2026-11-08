@@ -45,3 +45,19 @@ test('invalid native coordinates are rejected', async () => {
   } as Location.LocationObject);
   await expect(currentSearchLocation()).rejects.toThrow('invalid location');
 });
+
+test('slow GPS times out with a manual city fallback and clears its timer', async () => {
+  jest.useFakeTimers();
+  try {
+    jest
+      .mocked(Location.getCurrentPositionAsync)
+      .mockReturnValue(new Promise(() => {}));
+    const result = currentSearchLocation();
+    const assertion = expect(result).rejects.toThrow('choose a city');
+    await jest.advanceTimersByTimeAsync(15000);
+    await assertion;
+    expect(jest.getTimerCount()).toBe(0);
+  } finally {
+    jest.useRealTimers();
+  }
+});

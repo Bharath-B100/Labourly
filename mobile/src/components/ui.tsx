@@ -73,7 +73,7 @@ export function Action({
   const foreground = '#202326';
   const showArrow = withArrow ?? false;
   return (
-    <Animated.View style={{ transform: [{ scale }] }}>
+    <Animated.View style={[{ transform: [{ scale }] }, { width: '100%' }]}>
       <Pressable
         accessibilityRole="button"
         accessibilityLabel={label}
@@ -85,6 +85,7 @@ export function Action({
         className="active:opacity-80"
         style={{
           ...glassSurface,
+          width: '100%',
           minHeight: variant === 'quiet' ? 44 : 52,
           borderRadius: 12,
           paddingHorizontal: 20,

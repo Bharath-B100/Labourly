@@ -1,13 +1,16 @@
+import { ContactPhoneField } from './ContactPhoneField';
 import { CustomerCategories } from './CustomerCategories';
 import { glassSurface, GlassRim } from '../components/theme';
 import ServiceAreas from '../location/ServiceAreas';
 import { useState } from 'react';
 import { Image, Pressable, Text, View } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { useRouter } from 'expo-router';
 import { apiJson } from '../api/client';
 import { useSession } from '../auth/session';
 import { Action, Input, Loading, Screen, Select } from '../components/ui';
+import { detectDeviceLocation } from '../location/deviceLocation';
 import {
   hydrateProfile,
   validateStep,
@@ -153,8 +156,12 @@ function ProfileForm({
   const isDirty = JSON.stringify(data) !== initialDataStr;
   const role = initial.role;
   const last = role === 'CUSTOMER' ? 2 : 3;
+  const locationStep = role === 'CUSTOMER' ? 1 : 2;
   const [step, setStep] = useState(editing ? last : initial.step);
   const [notice, setNotice] = useState<string | null>(null);
+  const [locatingGps, setLocatingGps] = useState(false);
+  const [gpsInfoNote, setGpsInfoNote] = useState<string | null>(null);
+
   function field<K extends keyof ProfileData>(key: K, value: ProfileData[K]) {
     setNotice(null);
     setData((old) => ({ ...old, [key]: value }));
@@ -220,7 +227,11 @@ function ProfileForm({
         >
           Let&apos;s build your profile.
         </Text>
-        <Text className="text-muted">Verified phone: {session?.phone}</Text>
+        <Text className="text-muted">
+          {session?.phone
+            ? `Verified phone: ${session.phone}`
+            : 'Signed in securely. Choose how you want to use Labourly.'}
+        </Text>
         <Action
           label="I'm here to hire talent"
           disabled={selection.isPending}
@@ -239,7 +250,6 @@ function ProfileForm({
       </Screen>
     );
   const trade = catalogue.trades.find((item) => item.id === data.tradeId);
-  const locationStep = role === 'CUSTOMER' ? 1 : 2;
   const titles =
     role === 'CUSTOMER'
       ? ['Your details', 'Your location', 'Review your profile']
@@ -250,7 +260,9 @@ function ProfileForm({
           'Review your profile',
         ];
 
-  const uiTitles = editing ? titles : ['Phone verified', ...titles];
+  const uiTitles = editing
+    ? titles
+    : [session?.phone ? 'Phone verified' : 'Signed in', ...titles];
   const uiStep = editing ? step : step + 1;
   const uiLast = editing ? last : last + 1;
   return (
@@ -311,10 +323,11 @@ function ProfileForm({
                 (role === 'CUSTOMER' ? 'Customer account' : 'Worker account')}
             </Text>
             <Text style={{ color: '#202326', fontSize: 14 }}>
-              {session?.phone}
+              {session?.phone || session?.contactPhone}
             </Text>
             <Text style={{ color: '#202326', fontSize: 12 }}>
-              ✓ Phone verified · {role === 'CUSTOMER' ? 'Customer' : 'Worker'}
+              {session?.phone ? 'Phone verified' : 'Signed in'} ·{' '}
+              {role === 'CUSTOMER' ? 'Customer' : 'Worker'}
             </Text>
           </View>
         </View>
@@ -410,6 +423,7 @@ function ProfileForm({
               onChange={(v) => field('fullName', v)}
               maxLength={120}
             />
+            <ContactPhoneField key={session?.userId} />
             {role === 'CUSTOMER' ? (
               <>
                 <CustomerCategories
@@ -515,6 +529,87 @@ function ProfileForm({
         )}
         {step === locationStep && (
           <View className="gap-4">
+            {/* Auto-detect Location Button */}
+            <Pressable
+              accessibilityRole="button"
+              accessibilityLabel="Auto-detect location with GPS"
+              disabled={locatingGps}
+              onPress={async () => {
+                setLocatingGps(true);
+                setGpsInfoNote(null);
+                try {
+                  const res = await detectDeviceLocation();
+                  if (res.granted && res.district) {
+                    field('state', (res.stateCode || '').toUpperCase());
+                    field('district', res.district);
+                    field('city', res.district); // Standardize on parent district name for worker matching
+                    if (res.postalCode) {
+                      field('postalCode', res.postalCode);
+                    }
+                    if (res.exactVillageOrLocality) {
+                      setGpsInfoNote(
+                        `Detected village/area: "${res.exactVillageOrLocality}". Registered under District: "${res.district}" for worker matching.`,
+                      );
+                    } else {
+                      setGpsInfoNote(
+                        `Detected location: ${res.district}, ${res.stateName || res.stateCode}`,
+                      );
+                    }
+                  } else if (res.error) {
+                    setNotice(res.error);
+                  }
+                } catch (err: any) {
+                  setNotice(
+                    err?.message || 'Could not detect device location.',
+                  );
+                } finally {
+                  setLocatingGps(false);
+                }
+              }}
+              style={({ pressed }) => ({
+                backgroundColor: '#FFCC25',
+                borderRadius: 14,
+                paddingVertical: 12,
+                paddingHorizontal: 16,
+                flexDirection: 'row',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: 8,
+                opacity: pressed ? 0.8 : 1,
+              })}
+            >
+              <Ionicons
+                name="navigate-circle-outline"
+                size={20}
+                color="#202326"
+              />
+              <Text
+                style={{ color: '#202326', fontWeight: '700', fontSize: 14 }}
+              >
+                {locatingGps
+                  ? 'Detecting GPS location…'
+                  : '📍 Auto-detect location (GPS)'}
+              </Text>
+            </Pressable>
+
+            {!!gpsInfoNote && (
+              <View
+                style={{
+                  backgroundColor: '#FEF9C3',
+                  padding: 10,
+                  borderRadius: 12,
+                  borderWidth: 1,
+                  borderColor: '#FDE047',
+                }}
+              >
+                <Text
+                  style={{ fontSize: 12, color: '#854D0E', fontWeight: '500' }}
+                >
+                  {gpsInfoNote}
+                </Text>
+              </View>
+            )}
+
             <Field
               label="State code (for example KA)"
               value={data.state}
@@ -566,7 +661,9 @@ function ProfileForm({
         {step === last && (
           <View className="gap-3">
             <Text className="text-xl font-bold text-ink">{data.fullName}</Text>
-            <Text className="text-muted">{session?.phone}</Text>
+            <Text className="text-muted">
+              {session?.phone || session?.contactPhone}
+            </Text>
             <Text className="text-muted">
               {role === 'CUSTOMER'
                 ? catalogue.customerTypes.find(

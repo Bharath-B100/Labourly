@@ -2,21 +2,29 @@ import { useState } from 'react';
 import { Text, View } from 'react-native';
 import { useRouter } from 'expo-router';
 import { useMutation } from '@tanstack/react-query';
-import { Action, Input, Screen } from '../../components/ui';
-import { GlassCard, palette } from '../../components/theme';
-import { publicJson } from '../../api/client';
-import { normalizePhone } from '../../auth/validation';
+import { Action, Screen } from '../../components/ui';
+import { palette } from '../../components/theme';
+import { googleCredentials } from '../../auth/google';
+import { useSession } from '../../auth/session';
+
 export default function LoginScreen() {
-  const [phone, setPhone] = useState('');
   const router = useRouter();
-  const mutation = useMutation({
+  const [cancelled, setCancelled] = useState(false);
+  const login = useMutation({
     mutationFn: async () => {
-      const normalized = normalizePhone(phone);
-      await publicJson('/api/v1/auth/otp/request', { phone: normalized });
-      return normalized;
+      setCancelled(false);
+      const tokens = await googleCredentials();
+      if (!tokens) {
+        setCancelled(true);
+        return;
+      }
+      await useSession.getState().signIn(tokens);
+      const state = useSession.getState();
+      if (!state.session)
+        throw new Error(
+          state.error ?? 'Unable to load your profile. Retry your connection.',
+        );
     },
-    onSuccess: (normalized) =>
-      router.push({ pathname: '/auth/verify', params: { phone: normalized } }),
   });
   return (
     <Screen>
@@ -32,61 +40,38 @@ export default function LoginScreen() {
         >
           Welcome to Labourly
         </Text>
-        <Text style={{ color: palette.ink, textAlign: 'center', fontSize: 16 }}>
-          Good people. Great work.
-        </Text>
+        <Text style={{ color: palette.ink }}>Good people. Great work.</Text>
       </View>
-      <View
-        style={{
-          paddingBottom: 12,
-          borderBottomWidth: 3,
-          borderColor: palette.yellow,
-        }}
-      >
-        <Text
-          style={{
-            textAlign: 'center',
-            color: palette.ink,
-            fontSize: 18,
-            fontWeight: '700',
-          }}
-        >
-          Sign in / Create account
-        </Text>
-      </View>
-      <Text style={{ color: palette.ink, lineHeight: 22 }}>
-        Enter your phone number. We’ll send a six-digit verification code. New
-        here? You can create your profile after verification.
+      <Text>
+        Sign in or create your account with Google. Add your contact number when
+        setting up your profile.
       </Text>
-      <Input
-        label="Phone number"
-        placeholder="+91 mobile number"
-        hint="Include your country code, for example +91 for India."
-        keyboardType="phone-pad"
-        autoComplete="tel"
-        value={phone}
-        onChangeText={setPhone}
-        editable={!mutation.isPending}
+      <Action
+        label={login.isPending ? 'Signing in...' : 'Continue with Google'}
+        disabled={login.isPending}
+        loading={login.isPending}
+        onPress={() => login.mutate()}
       />
-      {mutation.isError && (
-        <Text accessibilityRole="alert" style={{ color: palette.ink }}>
-          Unable to send code. {mutation.error.message}
+      {cancelled && (
+        <Text accessibilityRole="alert">
+          Sign-in cancelled. You can try again when ready.
+        </Text>
+      )}
+      {login.isError && (
+        <Text accessibilityRole="alert">
+          Unable to sign in. {login.error.message}
         </Text>
       )}
       <Action
-        label={mutation.isPending ? 'Sending code…' : 'Send code'}
-        loading={mutation.isPending}
-        onPress={() => mutation.mutate()}
+        label="Existing phone account"
+        variant="secondary"
+        disabled={login.isPending}
+        onPress={() => router.push('/auth/phone-login')}
       />
-      <GlassCard style={{ gap: 8 }}>
-        <Text style={{ color: palette.ink, fontWeight: '700' }}>
-          One account, your way of working
-        </Text>
-        <Text style={{ color: palette.ink, lineHeight: 22 }}>
-          Hire for a project or find work as an individual or team. Your saved
-          profile will be restored when you sign in.
-        </Text>
-      </GlassCard>
+      <Text>
+        Already used a phone account? Use that account to keep your existing
+        bookings. Google does not automatically merge accounts.
+      </Text>
     </Screen>
   );
 }

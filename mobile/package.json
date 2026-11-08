@@ -47,6 +47,8 @@
   },
   "scripts": {
     "start": "expo start",
+    "start:emulator": "node --dns-result-order=ipv4first --max-old-space-size=768 node_modules/expo/bin/cli start --localhost --port 8083 --max-workers 1",
+    "check:emulator": "node scripts/check-emulator-ready.cjs",
     "android": "expo run:android",
     "ios": "expo run:ios",
     "web": "expo start --web",

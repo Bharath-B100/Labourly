@@ -1,8 +1,10 @@
 import { create } from 'zustand';
+import { clearGoogleSession } from './google';
 import { z } from 'zod';
 import { apiJson, publicJson } from '../api/client';
 import {
   onCredentialsCleared,
+  credentialEpoch,
   readCredentials,
   storeCredentials,
   type Credentials,
@@ -10,7 +12,11 @@ import {
 export type Role = 'CUSTOMER' | 'WORKER' | 'ADMIN';
 const userSchema = z.object({
   id: z.string(),
-  phone: z.string(),
+  phone: z
+    .string()
+    .nullable()
+    .transform((value) => value ?? ''),
+  contactPhone: z.string().nullable().optional(),
   fullName: z.string().nullable(),
   roles: z.array(z.enum(['CUSTOMER', 'WORKER', 'ADMIN'])),
   onboardingState: z.enum(['NOT_STARTED', 'IN_PROGRESS', 'COMPLETED']),
@@ -19,6 +25,7 @@ const userSchema = z.object({
 export type Session = {
   userId: string;
   phone: string;
+  contactPhone?: string | null;
   fullName: string | null;
   roles: Role[];
   onboardingState: 'NOT_STARTED' | 'IN_PROGRESS' | 'COMPLETED';
@@ -63,17 +70,19 @@ export const useSession = create<SessionState>((set, get) => ({
     await get().loadSession();
   },
   logout: async () => {
+    const epoch = credentialEpoch();
     const credentials = await readCredentials().catch(() => null);
+    if (epoch !== credentialEpoch()) return;
     ++restoration;
-    try {
-      if (credentials)
-        await publicJson('/api/v1/auth/logout', {
-          refreshToken: credentials.refreshToken,
-        });
-    } finally {
-      await storeCredentials(null);
-      set({ session: null, isLoading: false, error: null });
-    }
+    // Clear locally before waiting for revocation. A late server response must
+    // never erase a subsequently signed-in account.
+    await storeCredentials(null);
+    // Provider cleanup must not prevent local logout or backend revocation.
+    await clearGoogleSession().catch(() => undefined);
+    if (credentials)
+      await publicJson('/api/v1/auth/logout', {
+        refreshToken: credentials.refreshToken,
+      });
   },
 }));
 onCredentialsCleared(() => {

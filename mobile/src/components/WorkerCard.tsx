@@ -1,114 +1,99 @@
-import { View, Text, Image, Pressable } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+import { View, Text, Image, Pressable, StyleSheet } from 'react-native';
 import { useRouter } from 'expo-router';
-import { glassSurface, GlassRim, palette } from './theme';
 import type { WorkerCard as WorkerCardType } from '../api/marketplace';
-import { getDefaultWorkerAvatar } from '../assets/defaultAvatars';
+import { palette } from './theme';
+import { SaveWorkerButton } from './SaveWorkerButton';
 
 export function WorkerCard({ worker }: { worker: WorkerCardType }) {
   const router = useRouter();
+  const availability =
+    {
+      AVAILABLE: 'Available — confirm dates when hiring',
+      BUSY: 'Currently busy',
+      UNAVAILABLE: 'Currently unavailable',
+    }[worker.availability] ?? 'Availability not provided';
   return (
-    <Pressable
-      accessibilityRole="button"
-      accessibilityLabel={`View ${worker.name}, ${worker.trade}`}
-      onPress={() => router.push(`/worker/${worker.id}`)}
-      className="active:opacity-80"
-      style={[
-        glassSurface,
-        {
-          padding: 12,
-          marginBottom: 10,
-          flexDirection: 'row',
-          alignItems: 'center',
-          gap: 12,
-        },
-      ]}
-    >
-      <GlassRim />
-      <View
-        style={{
-          width: 80,
-          height: 96,
-          borderRadius: 12,
-          overflow: 'hidden',
-          backgroundColor: '#FFCC25',
-          borderWidth: 1,
-          borderColor: 'white',
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}
+    <View style={styles.card}>
+      <Pressable
+        accessibilityRole="button"
+        accessibilityLabel={`View ${worker.name}, ${worker.trade}`}
+        onPress={() => router.push(`/(customer)/worker/${worker.id}`)}
+        style={styles.profile}
       >
-        <Image
-          source={
-            worker.profilePhotoUrl
-              ? { uri: worker.profilePhotoUrl }
-              : getDefaultWorkerAvatar(worker.trade)
-          }
-          style={{ width: 80, height: 96 }}
-          resizeMode="cover"
-        />
-      </View>
-      <View style={{ flex: 1, gap: 3 }}>
-        <Text style={{ fontSize: 16, fontWeight: '700', color: palette.ink }}>
-          {worker.name}
-        </Text>
-        <View
-          style={{
-            flexDirection: 'row',
-            gap: 6,
-            flexWrap: 'wrap',
-            alignItems: 'center',
-          }}
-        >
-          <Text style={{ color: palette.teal, fontSize: 14 }}>
-            {worker.trade}
-          </Text>
-          {worker.availability === 'AVAILABLE' && (
-            <Text
-              style={{
-                fontSize: 11,
-                color: palette.teal,
-                backgroundColor: '#E5E7EB',
-                paddingHorizontal: 8,
-                paddingVertical: 3,
-                borderRadius: 12,
-              }}
-            >
-              Open to work
+        {worker.profilePhotoUrl ? (
+          <Image
+            source={{ uri: worker.profilePhotoUrl }}
+            style={styles.avatar}
+          />
+        ) : (
+          <View style={[styles.avatar, styles.placeholder]}>
+            <Text style={styles.initial}>
+              {worker.name?.trim().charAt(0).toUpperCase() || '?'}
             </Text>
+          </View>
+        )}
+        <View style={styles.details}>
+          <Text style={styles.name}>{worker.name}</Text>
+          <Text style={styles.text}>
+            {worker.trade} · {worker.experienceYears} years experience
+          </Text>
+          <Text style={styles.text}>
+            {[worker.city, worker.state].filter(Boolean).join(', ')}
+          </Text>
+          <Text style={styles.text}>Price by quotation</Text>
+          <Text
+            style={[
+              styles.status,
+              worker.availability === 'AVAILABLE' && styles.available,
+            ]}
+          >
+            {availability}
+          </Text>
+          {worker.availability !== 'AVAILABLE' && (
+            <Text style={styles.text}>Next available date not provided</Text>
           )}
         </View>
-        <Text style={{ fontSize: 12, color: palette.muted }}>
-          {worker.skills?.length
-            ? worker.skills.slice(0, 2).join(' • ')
-            : `${worker.city}, ${worker.state}`}
-        </Text>
-        <Text style={{ fontSize: 13, color: palette.ink, fontWeight: '600' }}>
-          Price by quotation
-        </Text>
-        <Text style={{ fontSize: 12, color: palette.ink }}>
-          {worker.experienceYears} years experience
-        </Text>
-        {worker.workerType === 'TEAM' && (
-          <Text style={{ fontSize: 11, color: palette.teal }}>
-            Team: {worker.teamSize}
-          </Text>
-        )}
-      </View>
-      <View
-        style={[
-          glassSurface,
-          {
-            width: 38,
-            height: 38,
-            borderRadius: 19,
-            alignItems: 'center',
-            justifyContent: 'center',
-          },
-        ]}
-      >
-        <Ionicons name="chevron-forward" size={22} color={palette.teal} />
-      </View>
-    </Pressable>
+      </Pressable>
+      <SaveWorkerButton key={worker.id} workerId={worker.id} compact />
+    </View>
   );
 }
+const styles = StyleSheet.create({
+  card: {
+    backgroundColor: palette.white,
+    paddingVertical: 16,
+    borderBottomWidth: 1,
+    borderColor: palette.grey,
+    gap: 4,
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+  },
+  profile: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    gap: 12,
+    minHeight: 48,
+  },
+  avatar: { width: 64, height: 76, borderRadius: 12 },
+  placeholder: {
+    backgroundColor: palette.grey,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  initial: { fontSize: 26, fontWeight: '700', color: palette.ink },
+  details: { flex: 1, minWidth: 0, gap: 5 },
+  name: { fontSize: 16, fontWeight: '700', color: palette.ink },
+  text: { fontSize: 13, color: palette.ink },
+  status: {
+    color: palette.ink,
+    fontSize: 13,
+    fontWeight: '600',
+    paddingVertical: 4,
+  },
+  available: {
+    backgroundColor: palette.yellow,
+    borderRadius: 6,
+    paddingHorizontal: 6,
+  },
+});

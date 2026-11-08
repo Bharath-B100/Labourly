@@ -1,5 +1,5 @@
 import * as SecureStore from 'expo-secure-store';
-import { apiFetch } from '../api/client';
+import { apiFetch, apiJson } from '../api/client';
 import { readCredentials, storeCredentials } from '../auth/credentials';
 import { useSession } from '../auth/session';
 jest.mock('expo-secure-store', () => ({
@@ -192,4 +192,151 @@ test('offline restoration fails closed while preserving credentials for retry', 
   expect(useSession.getState().session).toBeNull();
   expect(useSession.getState().error).toContain('Unable to restore');
   expect(await readCredentials()).toEqual(previous);
+});
+
+test.each([429, 503])(
+  'temporary refresh HTTP %s preserves credentials for retry',
+  async (status) => {
+    global.fetch = jest.fn(async (url) =>
+      response(String(url).endsWith('/auth/refresh') ? status : 401),
+    );
+    await expect(apiFetch('/protected')).rejects.toThrow();
+    expect(await readCredentials()).toEqual(previous);
+  },
+);
+
+test('offline refresh preserves credentials and a later retry can restore the session', async () => {
+  global.fetch = jest.fn(async (url) => {
+    if (String(url).endsWith('/auth/refresh')) throw new Error('offline');
+    return response(401);
+  });
+  await expect(apiFetch('/protected')).rejects.toThrow('offline');
+  expect(await readCredentials()).toEqual(previous);
+  global.fetch = jest.fn(async (url, options) =>
+    String(url).endsWith('/auth/refresh')
+      ? response(200, next)
+      : response(
+          new Headers(options?.headers).get('Authorization') ===
+            'Bearer new-access'
+            ? 200
+            : 401,
+        ),
+  );
+  expect((await apiFetch('/protected')).status).toBe(200);
+  expect(await readCredentials()).toEqual(next);
+});
+
+test('a delayed successful response is rejected after an account change', async () => {
+  const late = deferred<Response>();
+  global.fetch = jest.fn(() => late.promise);
+  const result = expect(apiFetch('/private-profile')).rejects.toThrow(
+    'Session changed',
+  );
+  await tick();
+  await storeCredentials(next);
+  late.resolve(response(200, { privateData: 'previous account' }));
+  await result;
+  expect(await readCredentials()).toEqual(next);
+});
+
+test('a delayed retried response is rejected after logout', async () => {
+  const late = deferred<Response>();
+  global.fetch = jest.fn(async (url, options) => {
+    if (String(url).endsWith('/auth/refresh')) return response(200, next);
+    return new Headers(options?.headers).get('Authorization') ===
+      'Bearer old-access'
+      ? response(401)
+      : late.promise;
+  });
+  const result = expect(apiFetch('/private-profile')).rejects.toThrow(
+    'Session changed',
+  );
+  await tick();
+  await storeCredentials(null);
+  late.resolve(response(200));
+  await result;
+});
+
+test('logout clears local credentials before remote completion and cannot erase a new login', async () => {
+  const remote = deferred<Response>();
+  global.fetch = jest.fn(() => remote.promise);
+  const logout = useSession.getState().logout();
+  await tick();
+  expect(await readCredentials()).toBeNull();
+  await storeCredentials(next);
+  remote.resolve(response(204));
+  await logout;
+  expect(await readCredentials()).toEqual(next);
+});
+
+test('failed remote logout still clears local credentials and reports revocation failure', async () => {
+  global.fetch = jest.fn().mockRejectedValue(new Error('offline'));
+  await expect(useSession.getState().logout()).rejects.toThrow('offline');
+  expect(await readCredentials()).toBeNull();
+  expect(useSession.getState().session).toBeNull();
+});
+
+test('restoration with an expired refresh token ends signed out without retry loop', async () => {
+  global.fetch = jest.fn(async () => response(401));
+  await useSession.getState().loadSession();
+  expect(await readCredentials()).toBeNull();
+  expect(useSession.getState()).toMatchObject({
+    session: null,
+    isLoading: false,
+    error: null,
+  });
+  expect(global.fetch).toHaveBeenCalledTimes(2);
+});
+
+test('absent credentials restore signed out without an identity request', async () => {
+  await storeCredentials(null);
+  global.fetch = jest.fn();
+  await useSession.getState().loadSession();
+  expect(useSession.getState()).toMatchObject({
+    session: null,
+    isLoading: false,
+    error: null,
+  });
+  expect(global.fetch).not.toHaveBeenCalled();
+});
+
+test('forbidden resource does not rotate or destroy an otherwise valid session', async () => {
+  global.fetch = jest.fn(async () => response(403));
+  expect((await apiFetch('/forbidden')).status).toBe(403);
+  expect(global.fetch).toHaveBeenCalledTimes(1);
+  expect(await readCredentials()).toEqual(previous);
+});
+
+test('a response body finishing after account change cannot return private JSON', async () => {
+  const body = deferred<unknown>();
+  global.fetch = jest.fn(async () => ({
+    ...response(200),
+    json: () => body.promise,
+  }));
+  const result = expect(apiJson('/private-profile')).rejects.toThrow(
+    'Session changed',
+  );
+  await tick();
+  await storeCredentials(next);
+  body.resolve({ privateData: 'previous account' });
+  await result;
+});
+
+test('Google account without an authentication phone restores normally', async () => {
+  await storeCredentials(previous);
+  global.fetch = jest.fn().mockResolvedValue(
+    response(200, {
+      id: 'google-user',
+      phone: null,
+      contactPhone: null,
+      fullName: 'Fictional Google User',
+      roles: [],
+      onboardingState: 'NOT_STARTED',
+      onboardingStep: null,
+    }),
+  );
+  await useSession.getState().loadSession();
+  expect(useSession.getState().session?.userId).toBe('google-user');
+  expect(useSession.getState().session?.phone).toBe('');
+  expect(useSession.getState().error).toBeNull();
 });

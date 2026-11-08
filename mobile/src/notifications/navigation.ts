@@ -39,9 +39,12 @@ export async function notificationRoute(
       : `/(worker)/opportunity/${id}`;
   }
   if (
-    ['QUOTE_ACCEPTED', 'BOOKING_CONFIRMED', 'BOOKING_CANCELLED'].includes(
-      item.type,
-    ) &&
+    [
+      'QUOTE_ACCEPTED',
+      'BOOKING_CONFIRMED',
+      'BOOKING_CANCELLED',
+      'BOOKING_UPDATED',
+    ].includes(item.type) &&
     (worker || customer)
   ) {
     await apiJson(`/api/v1/bookings/${id}`);

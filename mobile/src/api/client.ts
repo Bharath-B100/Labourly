@@ -26,7 +26,10 @@ async function refresh(previous: Credentials): Promise<Credentials> {
         throw new ApiError(401, 'Session changed. Please sign in again.');
       return next;
     } catch (error) {
-      await storeCredentials(null, previous.refreshToken);
+      // Only an authoritative credential rejection ends the session. Network,
+      // throttling and server failures must remain retryable without signing out.
+      if (error instanceof ApiError && [400, 401, 403].includes(error.status))
+        await storeCredentials(null, previous.refreshToken);
       throw error;
     }
   })();
@@ -49,10 +52,12 @@ export async function apiFetch(
 ): Promise<Response> {
   const epoch = credentialEpoch();
   const previous = await readCredentials();
+  if (epoch !== credentialEpoch()) throw new ApiError(401, 'Session changed.');
   const response = await request(
     endpoint,
     authorized(options, previous?.accessToken),
   );
+  if (epoch !== credentialEpoch()) throw new ApiError(401, 'Session changed.');
   if (
     response.status !== 401 ||
     !previous ||
@@ -72,6 +77,7 @@ export async function apiFetch(
     endpoint,
     authorized(options, next.accessToken),
   );
+  if (epoch !== credentialEpoch()) throw new ApiError(401, 'Session changed.');
   if (retried.status === 401) await storeCredentials(null, next.refreshToken);
   return retried; // Exactly one retry; this does not call apiFetch recursively.
 }
@@ -79,7 +85,10 @@ export async function apiJson<T>(
   endpoint: string,
   options: RequestInit = {},
 ): Promise<T> {
-  return responseJson<T>(await apiFetch(endpoint, options));
+  const epoch = credentialEpoch();
+  const data = await responseJson<T>(await apiFetch(endpoint, options));
+  if (epoch !== credentialEpoch()) throw new ApiError(401, 'Session changed.');
+  return data;
 }
 export async function publicJson<T>(
   endpoint: string,

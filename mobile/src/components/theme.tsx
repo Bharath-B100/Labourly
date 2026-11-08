@@ -36,7 +36,11 @@ export function LabourlyLogo({ width = 200 }: { width?: number }) {
       accessibilityLabel="Labourly. Hire Local. Build Better."
       accessible
       resizeMode="contain"
-      style={{ width, maxWidth: '100%', aspectRatio: 3 }}
+      style={{
+        width,
+        height: Math.round(width / 3.4),
+        maxWidth: '100%',
+      }}
     />
   );
 }

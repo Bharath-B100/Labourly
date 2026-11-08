@@ -1,0 +1,26 @@
+# Template only: do not combine with the development compose file.
+# Supply a reviewed immutable image and secrets through the hosting secret manager.
+services:
+  api:
+    image: ${LABOURLY_API_IMAGE:?Set an approved image with sha256 digest}
+    environment:
+      SPRING_PROFILES_ACTIVE: production
+      DB_URL: ${DB_URL:?Set isolated production PostgreSQL TLS URL}
+      DB_USERNAME: ${DB_USERNAME:?Set production database user}
+      DB_PASSWORD: ${DB_PASSWORD:?Inject through secret manager}
+      JWT_SECRET: ${JWT_SECRET:?Inject random Base64 signing key through secret manager}
+      GOOGLE_WEB_CLIENT_ID: ${GOOGLE_WEB_CLIENT_ID:?Set approved public OAuth client ID}
+    ports:
+      - '127.0.0.1:8080:8080'
+    read_only: true
+    tmpfs:
+      - /tmp:size=64m,mode=1777
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    restart: unless-stopped
+    stop_grace_period: 30s
+    logging:
+      driver: json-file
+      options:
+        max-size: '10m'
+        max-file: '3'

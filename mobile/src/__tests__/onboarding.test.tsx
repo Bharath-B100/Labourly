@@ -6,7 +6,8 @@ import {
   cleanup,
 } from '@testing-library/react-native';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import LoginScreen from '../app/auth/login';
+import LoginScreen from '../app/auth/phone-login';
+import GoogleLoginScreen from '../app/auth/login';
 import VerifyScreen from '../app/auth/verify';
 import ProfileEditor from '../onboarding/ProfileEditor';
 import { apiJson, publicJson } from '../api/client';
@@ -334,4 +335,18 @@ test('dual-role editor requires an explicit authorized role before reading data'
   expect(apiJson).not.toHaveBeenCalledWith('/api/v1/onboarding');
   expect(apiJson).not.toHaveBeenCalledWith('/api/v1/profile/customer');
   expect(apiJson).not.toHaveBeenCalledWith('/api/v1/profile/worker');
+});
+
+test('primary login offers Google and preserves explicit existing-phone access', async () => {
+  await render(
+    <QueryClientProvider client={client}>
+      <GoogleLoginScreen />
+    </QueryClientProvider>,
+  );
+  expect(
+    screen.getByRole('button', { name: 'Continue with Google' }),
+  ).toBeTruthy();
+  expect(screen.queryByLabelText('Phone number')).toBeNull();
+  await press('Existing phone account');
+  expect(mockPush).toHaveBeenCalledWith('/auth/phone-login');
 });

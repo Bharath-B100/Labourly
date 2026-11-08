@@ -139,6 +139,42 @@ public class AuthService {
         .ifPresent(t -> sessions.lockById(t.getSession().getId()).ifPresent(AuthSession::revoke));
   }
 
+  // Called only after a trusted provider identity has been verified and resolved.
+  @Transactional
+  AuthTokens createProviderSession(User user) {
+    if (isDisabled(user)) throw new AuthFailure(403, "This account is unavailable.");
+    return tokens(sessions.save(new AuthSession(user, now(), now().plus(30, ChronoUnit.DAYS))));
+  }
+
+  void requireRecentSession(UUID userId, String accessToken) {
+    var c = jwt.validateAndParseToken(accessToken);
+    if (c == null
+        || !userId.toString().equals(c.getSubject())
+        || !Boolean.TRUE.equals(
+            sql.queryForObject(
+                "SELECT EXISTS(SELECT 1 FROM auth_sessions WHERE id=? AND user_id=? AND NOT revoked AND expires_at>now() AND created_at>now()-interval '5 minutes')",
+                Boolean.class,
+                UUID.fromString(c.get("sid", String.class)),
+                userId))) throw new AuthFailure(401, "Sign in again before linking Google.");
+  }
+
+  // Called inside the linking transaction, after provider I/O. Shares logout's
+  // session lock so revocation and identity attachment have a defined order.
+  void lockRecentSession(UUID userId, String accessToken) {
+    var claims = jwt.validateAndParseToken(accessToken);
+    if (claims == null) throw new AuthFailure(401, "Sign in again before linking Google.");
+    sessions
+        .lockById(UUID.fromString(claims.get("sid", String.class)))
+        .orElseThrow(() -> new AuthFailure(401, "Sign in again before linking Google."));
+    requireRecentSession(userId, accessToken);
+    var statuses =
+        sql.queryForList("SELECT status FROM users WHERE id=? FOR UPDATE", String.class, userId);
+    if (statuses.isEmpty()
+        || "SUSPENDED".equals(statuses.getFirst())
+        || "DEACTIVATED".equals(statuses.getFirst()))
+      throw new AuthFailure(403, "This account is unavailable.");
+  }
+
   private RefreshToken token(String raw) {
     if (raw == null || !raw.matches("[A-Za-z0-9_-]{43}"))
       throw new AuthFailure(401, "Invalid session credential.");

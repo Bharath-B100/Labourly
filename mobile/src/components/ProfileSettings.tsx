@@ -77,7 +77,7 @@ export function ProfileSettings({ role }: { role: 'CUSTOMER' | 'WORKER' }) {
             {role === 'CUSTOMER' ? 'Customer' : 'Worker'}
           </Text>
           <Text style={{ color: palette.ink }}>
-            Phone verified · {session?.phone}
+            {session?.phone ? `Phone verified · ${session.phone}` : 'Signed in'}
           </Text>
         </View>
       </View>

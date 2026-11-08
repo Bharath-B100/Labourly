@@ -8,16 +8,19 @@ const slides = [
     title: 'Reliable people.\nStronger projects.',
     copy: 'Find skilled workers for your next project, or find work that fits your trade.',
     caption: 'LOCAL SKILLS. SHARED AMBITION.',
+    image: require('../../assets/labourly/onboarding-screen-mockup.jpg'),
   },
   {
     title: 'Your project.\nYour requirements.',
     copy: 'Choose a location and schedule. Compare real quotations from eligible workers before you hire.',
     caption: 'A CLEAR PATH FROM JOB TO CREW',
+    image: require('../../assets/labourly/onboarding-project.png'),
   },
   {
     title: 'Build your\nnext opportunity.',
     copy: 'Work independently or as a team. Set your service areas and manage quotations and bookings in one place.',
     caption: 'FOR CUSTOMERS AND WORKERS',
+    image: require('../../assets/labourly/onboarding-team.png'),
   },
 ];
 
@@ -49,9 +52,9 @@ export function IntroCarousel({ onContinue }: { onContinue: () => void }) {
       >
         <View style={styles.imageClipper}>
           <Image
-            source={require('../../assets/labourly/onboarding-screen-mockup.jpg')}
+            source={slide.image}
             resizeMode="cover"
-            style={styles.heroImage}
+            style={page === 0 ? styles.heroImage : styles.sceneImage}
           />
         </View>
         <View style={styles.markBadge}>
@@ -145,6 +148,10 @@ const styles = StyleSheet.create({
     width: '125%',
     height: 310,
     transform: [{ translateY: -40 }],
+  },
+  sceneImage: {
+    width: '100%',
+    height: '100%',
   },
   markBadge: {
     position: 'absolute',

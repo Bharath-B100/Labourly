@@ -14,3 +14,6 @@ coverage/
 backend-starter.zip
 mobile/android/
 mobile/ios/
+mobile/modules/**/android/build/
+mobile/modules/**/android/.cxx/
+mobile/modules/**/android/.gradle/

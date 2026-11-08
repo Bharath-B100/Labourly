@@ -1,12 +1,20 @@
+import { Ionicons } from '@expo/vector-icons';
+import { palette } from './theme';
 import { useRef } from 'react';
 import { credentialEpoch } from '../auth/credentials';
-import { Text, View } from 'react-native';
+import { Text, View, Pressable, ActivityIndicator } from 'react-native';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { apiJson } from '../api/client';
 import { useSession } from '../auth/session';
 import { Action } from './ui';
 
-export function SaveWorkerButton({ workerId }: { workerId: string }) {
+export function SaveWorkerButton({
+  workerId,
+  compact = false,
+}: {
+  workerId: string;
+  compact?: boolean;
+}) {
   const session = useSession((state) => state.session);
   const cache = useQueryClient();
   const pending = useRef(false);
@@ -64,33 +72,66 @@ export function SaveWorkerButton({ workerId }: { workerId: string }) {
     },
   });
   if (!allowed) return null;
+  const label = query.isError
+    ? 'Retry saved status'
+    : query.data?.saved
+      ? 'Remove from saved workers'
+      : 'Save worker';
+  const loading = query.isPending || mutation.isPending;
+  const onPress = () => {
+    if (query.isError) {
+      void query.refetch();
+      return;
+    }
+    if (pending.current || loading) return;
+    pending.current = true;
+    mutation.mutate({
+      saved: query.data?.saved ?? false,
+      epoch: credentialEpoch(),
+      userId: session!.userId,
+      targetId: workerId,
+    });
+  };
   return (
-    <View style={{ gap: 8 }}>
-      <Action
-        label={
-          query.isError
-            ? 'Retry saved status'
-            : query.data?.saved
-              ? 'Remove from saved workers'
-              : 'Save worker'
-        }
-        variant="secondary"
-        loading={query.isPending || mutation.isPending}
-        onPress={() => {
-          if (query.isError) {
-            void query.refetch();
-            return;
-          }
-          if (pending.current || query.isPending || mutation.isPending) return;
-          pending.current = true;
-          mutation.mutate({
-            saved: query.data?.saved ?? false,
-            epoch: credentialEpoch(),
-            userId: session!.userId,
-            targetId: workerId,
-          });
-        }}
-      />
+    <View style={{ gap: 8, flexShrink: 1 }}>
+      {compact ? (
+        <Pressable
+          accessibilityRole="button"
+          accessibilityLabel={label}
+          accessibilityState={{ disabled: loading, busy: loading }}
+          disabled={loading}
+          onPress={onPress}
+          style={{
+            minWidth: 48,
+            minHeight: 48,
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+        >
+          {loading ? (
+            <ActivityIndicator color={palette.ink} />
+          ) : (
+            <Ionicons
+              name={
+                query.isError
+                  ? 'refresh'
+                  : query.data?.saved
+                    ? 'heart'
+                    : 'heart-outline'
+              }
+              size={24}
+              color={query.data?.saved ? palette.yellow : palette.ink}
+            />
+          )}
+        </Pressable>
+      ) : (
+        <Action
+          label={label}
+          variant="secondary"
+          loading={loading}
+          onPress={onPress}
+        />
+      )}
       {mutation.isError && (
         <Text accessibilityRole="alert">
           Could not update saved workers. Please try again.

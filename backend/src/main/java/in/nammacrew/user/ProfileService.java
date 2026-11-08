@@ -48,6 +48,16 @@ public class ProfileService {
     return UserView.from(user(id));
   }
 
+  @Transactional
+  public UserView contact(UUID id, String phone) {
+    if (phone != null && !phone.matches("\\+[1-9][0-9]{7,14}"))
+      throw new AuthFailure(400, "Enter a valid international contact number.");
+    lockUser(id);
+    var user = user(id);
+    user.setContactPhone(phone);
+    return UserView.from(user);
+  }
+
   private User user(UUID id) {
     return users.findById(id).orElseThrow(() -> new AuthFailure(401, "Account unavailable."));
   }
@@ -215,13 +225,31 @@ public class ProfileService {
             skill,
             data.tradeId());
       sql.update("DELETE FROM worker_service_locations WHERE worker_id=?", id);
-      sql.update(
-          "INSERT INTO worker_service_locations(worker_id,state_code,district,city,postal_code) VALUES (?,?,?,?,?)",
-          id,
-          data.state().trim(),
-          data.district().trim(),
-          data.city().trim(),
-          data.postalCode());
+      var cityMatch =
+          sql.queryForList(
+              "SELECT id, latitude, longitude, state_id FROM location_cities WHERE lower(trim(name))=lower(trim(?)) LIMIT 1",
+              data.city().trim());
+      if (!cityMatch.isEmpty()) {
+        double lat = ((Number) cityMatch.get(0).get("latitude")).doubleValue();
+        double lng = ((Number) cityMatch.get(0).get("longitude")).doubleValue();
+        sql.update(
+            "INSERT INTO worker_service_locations(worker_id,state_code,district,city,postal_code,center,radius_km) VALUES (?,?,?,?,?,ST_SetSRID(ST_MakePoint(?,?),4326)::geography,30.0)",
+            id,
+            data.state().trim(),
+            data.district().trim(),
+            data.city().trim(),
+            data.postalCode(),
+            lng,
+            lat);
+      } else {
+        sql.update(
+            "INSERT INTO worker_service_locations(worker_id,state_code,district,city,postal_code) VALUES (?,?,?,?,?)",
+            id,
+            data.state().trim(),
+            data.district().trim(),
+            data.city().trim(),
+            data.postalCode());
+      }
     }
     user.setDisplayName(data.fullName().trim());
     user.setStatus("ACTIVE");

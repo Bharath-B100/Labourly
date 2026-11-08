@@ -76,8 +76,9 @@ describe('Worker Quote Submission', () => {
       city: 'Bengaluru',
       district: 'Bengaluru',
       workerCount: 1,
-      startsAt: '2023-11-01T10:00:00Z',
-      endsAt: '2023-11-03T10:00:00Z',
+      status: 'OPEN',
+      startsAt: new Date(Date.now() + 86400000).toISOString(),
+      endsAt: new Date(Date.now() + 3 * 86400000).toISOString(),
     });
     (getMyQuotes as jest.Mock).mockResolvedValue([]);
     (submitQuote as jest.Mock).mockResolvedValue({});
@@ -125,8 +126,9 @@ describe('Worker Quote Submission', () => {
       id: 'req-1',
       title: 'Need Carpenter',
       trade: 'CARPENTER',
-      startsAt: '2023-11-01T10:00:00Z',
-      endsAt: '2023-11-03T10:00:00Z',
+      status: 'OPEN',
+      startsAt: new Date(Date.now() + 86400000).toISOString(),
+      endsAt: new Date(Date.now() + 3 * 86400000).toISOString(),
     });
     (getMyQuotes as jest.Mock).mockResolvedValue([
       {
@@ -275,6 +277,7 @@ test('a withdrawn quote can be submitted again without editing finalized history
   jest.mocked(apiJson).mockResolvedValue({
     id: 'req-1',
     title: 'Need Carpenter',
+    status: 'OPEN',
     startsAt: '2031-01-01T00:00:00Z',
     endsAt: '2031-01-03T00:00:00Z',
   });
@@ -301,4 +304,84 @@ test('a withdrawn quote can be submitted again without editing finalized history
     ),
   );
   expect(editQuote).not.toHaveBeenCalled();
+});
+
+describe('Expired opportunity protection', () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+    mockAlert.mockImplementation(() => {});
+    (getMyQuotes as jest.Mock).mockResolvedValue([]);
+  });
+  const job = (startsAt: string, status = 'OPEN') => ({
+    id: 'req-1',
+    title: 'Expired test job',
+    trade: 'Carpenter',
+    city: 'Test city',
+    district: 'Test district',
+    state: 'TN',
+    workerCount: 1,
+    status,
+    startsAt,
+    endsAt: new Date(Date.now() + 86400000).toISOString(),
+  });
+  test('past start explains the problem without a quote form or request', async () => {
+    (apiJson as jest.Mock).mockResolvedValue(job('2020-01-01T10:00:00Z'));
+    await render(<OpportunityDetailsScreen />);
+    await waitFor(() =>
+      expect(screen.getByText('Job dates need updating')).toBeTruthy(),
+    );
+    expect(screen.queryByText('Send Quote')).toBeNull();
+    expect(screen.queryByTestId('amount-input')).toBeNull();
+    expect(submitQuote).not.toHaveBeenCalled();
+    await fireEvent.press(screen.getByText('Back to jobs'));
+    expect(mockBack).toHaveBeenCalled();
+  });
+  test('an expired submitted quote retains withdrawal but blocks editing', async () => {
+    (apiJson as jest.Mock).mockResolvedValue(job('2020-01-01T10:00:00Z'));
+    (getMyQuotes as jest.Mock).mockResolvedValue([
+      {
+        id: 'quote-1',
+        requirementId: 'req-1',
+        status: 'SUBMITTED',
+        amount: 500,
+        pricingBasis: 'PER_DAY',
+        durationDays: 2,
+      },
+    ]);
+    await render(<OpportunityDetailsScreen />);
+    await waitFor(() => expect(screen.getByText('Withdraw')).toBeTruthy());
+    expect(screen.queryByText('Update Quote')).toBeNull();
+    expect(editQuote).not.toHaveBeenCalled();
+  });
+  test('a job that expires while being edited is checked again before sending', async () => {
+    const now = Date.now();
+    (apiJson as jest.Mock).mockResolvedValue(
+      job(new Date(now + 60000).toISOString()),
+    );
+    await render(<OpportunityDetailsScreen />);
+    await waitFor(() => expect(screen.getByText('Send Quote')).toBeTruthy());
+    await fireEvent.changeText(screen.getByTestId('amount-input'), '500');
+    const clock = jest.spyOn(Date, 'now').mockReturnValue(now + 120000);
+    try {
+      await fireEvent.press(screen.getByText('Send Quote'));
+      expect(submitQuote).not.toHaveBeenCalled();
+      expect(mockAlert).toHaveBeenCalledWith(
+        'Quotation unavailable',
+        expect.stringContaining('customer needs to publish'),
+      );
+      expect(screen.getByText('Job dates need updating')).toBeTruthy();
+    } finally {
+      clock.mockRestore();
+    }
+  });
+  test('closed jobs never offer submission even with future dates', async () => {
+    (apiJson as jest.Mock).mockResolvedValue(
+      job(new Date(Date.now() + 86400000).toISOString(), 'CLOSED'),
+    );
+    await render(<OpportunityDetailsScreen />);
+    await waitFor(() =>
+      expect(screen.getByText('Quotations closed')).toBeTruthy(),
+    );
+    expect(screen.queryByText('Send Quote')).toBeNull();
+  });
 });

@@ -12,8 +12,19 @@ public class User {
   @GeneratedValue(strategy = GenerationType.UUID)
   private UUID id;
 
-  @Column(nullable = false, unique = true, length = 16)
+  @Column(unique = true, length = 16)
   private String phone;
+
+  @Column(name = "contact_phone", length = 16)
+  private String contactPhone;
+
+  public String getContactPhone() {
+    return contactPhone;
+  }
+
+  public void setContactPhone(String value) {
+    contactPhone = value;
+  }
 
   @Column(name = "display_name", length = 120)
   private String displayName;
