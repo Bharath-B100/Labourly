@@ -1,11 +1,17 @@
 const assert = require('node:assert/strict');
 const { createRequire } = require('node:module');
 
-// xcode uses only the CommonJS uuid.v4() API. Keep this checked when updating
-// the narrowly scoped security override; iOS compilation is a separate gate.
 const xcode = require('xcode');
 const requireFromXcode = createRequire(require.resolve('xcode'));
-assert.equal(requireFromXcode('uuid/package.json').version, '11.1.1');
+const xcodePackage = requireFromXcode('xcode/package.json');
+
+// Xcode parser v3 depends on uuid. Keep the security override verified when
+// that dependency is present; v4 no longer depends on uuid.
+if (xcodePackage.dependencies?.uuid) {
+  assert.equal(requireFromXcode('uuid/package.json').version, '11.1.1');
+}
+
+// iOS compilation is a separate native acceptance gate.
 const project = xcode.project('synthetic.pbxproj');
 project.hash = { project: { objects: {} } };
 const ids = new Set();

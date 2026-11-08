@@ -10,7 +10,7 @@
     "expo-constants": "~57.0.20",
     "expo-font": "~57.0.4",
     "expo-linking": "~57.0.11",
-    "expo-location": "~57.0.20",
+    "expo-location": "~57.0.23",
     "expo-router": "~57.0.24",
     "expo-secure-store": "~57.0.4",
     "expo-status-bar": "~57.0.1",
@@ -68,11 +68,17 @@
     ],
     "testMatch": [
       "**/__tests__/**/*.test.ts?(x)"
+    ],
+    "transformIgnorePatterns": [
+      "/node_modules/(?!(.pnpm|react-native|@react-native|@react-native-community|expo|@expo|@expo-google-fonts|react-navigation|@react-navigation|@sentry/react-native|native-base|standard-navigation|decode-uri-component))",
+      "/node_modules/react-native-reanimated/plugin/",
+      "/node_modules/@react-native/babel-preset/"
     ]
   },
   "overrides": {
     "xcode@3.0.1": {
       "uuid": "11.1.1"
-    }
+    },
+    "decode-uri-component": "^0.5.1"
   }
 }
