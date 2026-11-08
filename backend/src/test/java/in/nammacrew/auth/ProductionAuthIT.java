@@ -25,7 +25,10 @@ import org.testcontainers.utility.DockerImageName;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-@ActiveProfiles({"prod", "dev"})
+// Exercise the real unconfigured production OTP provider against an isolated database.
+// Deployment profile rejection is covered by ProductionConfigurationGuardTest;
+// this fixture is not a production TLS/deployment acceptance test.
+@ActiveProfiles("otp-provider-it")
 @Testcontainers
 @ExtendWith(OutputCaptureExtension.class)
 class ProductionAuthIT {
@@ -53,6 +56,7 @@ class ProductionAuthIT {
   @Test
   void productionApiNeverReturnsOrLogsDevelopmentOtp(CapturedOutput output) throws Exception {
     assertTrue(context.getBeansOfType(DevelopmentOtpProvider.class).isEmpty());
+    assertInstanceOf(ProductionOtpProvider.class, context.getBean(OtpProvider.class));
     var response =
         mvc.perform(
                 post("/api/v1/auth/otp/request")

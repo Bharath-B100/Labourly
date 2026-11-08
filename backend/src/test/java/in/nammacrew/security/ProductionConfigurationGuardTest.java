@@ -44,9 +44,13 @@ class ProductionConfigurationGuardTest {
 
   @Test
   void rejectsMixedProfiles() {
-    var e = valid();
-    e.setActiveProfiles("production", "dev");
-    assertThrows(IllegalStateException.class, () -> new ProductionConfigurationGuard(e));
+    for (String production : new String[] {"prod", "production"}) {
+      for (String nonProduction : new String[] {"dev", "test"}) {
+        var e = valid();
+        e.setActiveProfiles(production, nonProduction);
+        assertThrows(IllegalStateException.class, () -> new ProductionConfigurationGuard(e));
+      }
+    }
   }
 
   @Test
