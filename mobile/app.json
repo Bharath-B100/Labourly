@@ -1,7 +1,8 @@
 {
   "expo": {
+    "owner": "labourly-app",
     "name": "LABOURLY",
-    "slug": "nammacrew",
+    "slug": "labourly",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/labourly/launcher-white.png",
@@ -37,6 +38,11 @@
       ],
       "./plugins/withLabourlyLaunch"
     ],
-    "scheme": "nammacrew"
+    "scheme": "nammacrew",
+    "extra": {
+      "eas": {
+        "projectId": "c8e48e7c-2c17-4bf7-93ab-708e3cfcbdae"
+      }
+    }
   }
 }

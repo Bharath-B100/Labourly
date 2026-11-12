@@ -1,7 +1,15 @@
 import { z } from 'zod';
-export const environment = z
-  .object({ apiUrl: z.url() })
-  .parse({ apiUrl: process.env.EXPO_PUBLIC_API_URL ?? 'http://10.0.2.2:8080' });
+const defaultApiUrl = __DEV__
+  ? 'http://10.0.2.2:8080'
+  : 'https://labourly-api.onrender.com';
+
+const apiUrl = process.env.EXPO_PUBLIC_API_URL ?? defaultApiUrl;
+
+if (!__DEV__ && !apiUrl.startsWith('https://')) {
+  throw new Error('Production API must use HTTPS');
+}
+
+export const environment = z.object({ apiUrl: z.url() }).parse({ apiUrl });
 export class ApiError extends Error {
   constructor(
     public readonly status: number,
@@ -13,6 +21,7 @@ export class ApiError extends Error {
 export async function request(
   endpoint: string,
   options: RequestInit = {},
+  timeoutMs = 10_000,
 ): Promise<Response> {
   if (!endpoint.startsWith('/') || endpoint.startsWith('//'))
     throw new Error('Invalid API endpoint');
@@ -20,7 +29,7 @@ export async function request(
   const abort = () => controller.abort();
   if (options.signal?.aborted) abort();
   else options.signal?.addEventListener('abort', abort, { once: true });
-  const timer = setTimeout(abort, 10_000);
+  const timer = setTimeout(abort, timeoutMs);
   try {
     return await fetch(`${environment.apiUrl}${endpoint}`, {
       ...options,

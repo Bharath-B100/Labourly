@@ -1,0 +1,85 @@
+{
+    "Id":  "a77971a03265037911dd2d05a0c0cb6bd19542bdee502a0bf758ed0ce7fe518f",
+    "Name":  "/labourly-otp-b2-20261028",
+    "Created":  "2026-10-28T05:52:12.4962629Z",
+    "Path":  "docker-entrypoint.sh",
+    "Args":  [
+                 "redis-server",
+                 "--save",
+                 "--appendonly",
+                 "no",
+                 "--maxmemory",
+                 "64mb",
+                 "--maxmemory-policy",
+                 "noeviction"
+             ],
+    "State":  {
+                  "Status":  "running",
+                  "Running":  true,
+                  "StartedAt":  "2026-10-28T05:52:12.695443586Z",
+                  "FinishedAt":  "0001-01-01T00:00:00Z",
+                  "ExitCode":  0
+              },
+    "Image":  "sha256:1cf73a2f04808e55a8bd2f5706c2aa0ebb0f71938f93deb7af79f48311cd5cb9",
+    "Config":  {
+                   "Image":  "redis@sha256:1cf73a2f04808e55a8bd2f5706c2aa0ebb0f71938f93deb7af79f48311cd5cb9",
+                   "Cmd":  [
+                               "redis-server",
+                               "--save",
+                               "--appendonly",
+                               "no",
+                               "--maxmemory",
+                               "64mb",
+                               "--maxmemory-policy",
+                               "noeviction"
+                           ],
+                   "Entrypoint":  [
+                                      "docker-entrypoint.sh"
+                                  ]
+               },
+    "HostConfig":  {
+                       "Memory":  268435456,
+                       "MemorySwap":  268435456,
+                       "PortBindings":  {
+                                            "6379/tcp":  [
+                                                             {
+                                                                 "HostIp":  "127.0.0.1",
+                                                                 "HostPort":  "56379"
+                                                             }
+                                                         ]
+                                        },
+                       "NetworkMode":  "labourly-redis-test-net"
+                   },
+    "NetworkSettings":  {
+                            "Networks":  {
+                                             "labourly-redis-test-net":  {
+                                                                             "IPAMConfig":  null,
+                                                                             "Links":  null,
+                                                                             "Aliases":  null,
+                                                                             "DriverOpts":  null,
+                                                                             "GwPriority":  0,
+                                                                             "NetworkID":  "69cb064a2778c9f691264646babdfa15a11c6d910840a56712d0883e52d48528",
+                                                                             "EndpointID":  "9f1a9603e5dac65c312dabcd0bf5ebcb93ecfade8f9d1ae9144be29b7ea5aa39",
+                                                                             "Gateway":  "172.29.0.1",
+                                                                             "IPAddress":  "172.29.0.2",
+                                                                             "MacAddress":  "06:3a:21:f1:c9:c0",
+                                                                             "IPPrefixLen":  24,
+                                                                             "IPv6Gateway":  "",
+                                                                             "GlobalIPv6Address":  "",
+                                                                             "GlobalIPv6PrefixLen":  0,
+                                                                             "DNSNames":  [
+                                                                                              "labourly-otp-b2-20261028",
+                                                                                              "a77971a03265"
+                                                                                          ]
+                                                                         }
+                                         },
+                            "Ports":  {
+                                          "6379/tcp":  [
+                                                           {
+                                                               "HostIp":  "127.0.0.1",
+                                                               "HostPort":  "56379"
+                                                           }
+                                                       ]
+                                      }
+                        }
+}

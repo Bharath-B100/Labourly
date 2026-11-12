@@ -1,0 +1,29 @@
+{
+    "Id":  "69cb064a2778c9f691264646babdfa15a11c6d910840a56712d0883e52d48528",
+    "Name":  "labourly-redis-test-net",
+    "Driver":  "bridge",
+    "Scope":  "local",
+    "EnableIPv6":  false,
+    "IPAM":  {
+                 "Driver":  "default",
+                 "Options":  {
+
+                             },
+                 "Config":  [
+                                {
+                                    "Subnet":  "172.29.0.0/24",
+                                    "Gateway":  "172.29.0.1"
+                                }
+                            ]
+             },
+    "Internal":  false,
+    "Containers":  {
+                       "a77971a03265037911dd2d05a0c0cb6bd19542bdee502a0bf758ed0ce7fe518f":  {
+                                                                                                "Name":  "labourly-otp-b2-20261028",
+                                                                                                "EndpointID":  "9f1a9603e5dac65c312dabcd0bf5ebcb93ecfade8f9d1ae9144be29b7ea5aa39",
+                                                                                                "MacAddress":  "06:3a:21:f1:c9:c0",
+                                                                                                "IPv4Address":  "172.29.0.2/24",
+                                                                                                "IPv6Address":  ""
+                                                                                            }
+                   }
+}

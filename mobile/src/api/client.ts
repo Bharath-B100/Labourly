@@ -93,13 +93,18 @@ export async function apiJson<T>(
 export async function publicJson<T>(
   endpoint: string,
   body: unknown,
+  timeoutMs?: number,
 ): Promise<T> {
   return responseJson<T>(
-    await request(endpoint, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(body),
-    }),
+    await request(
+      endpoint,
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body),
+      },
+      timeoutMs,
+    ),
   );
 }
 export async function getHealth(

@@ -1,0 +1,44 @@
+diff --git a/mobile/android/app/build.gradle b/mobile/android/app/build.gradle
+index 3922312..0fece60 100644
+--- a/mobile/android/app/build.gradle
++++ b/mobile/android/app/build.gradle
+@@ -33,6 +33,9 @@ react {
+     //   skip the bundling of the JS bundle and the assets. By default is just 'debug'.
+     //   If you add flavors like lite, prod, etc. you'll have to list your debuggableVariants.
+     // debuggableVariants = ["liteDebug", "prodDebug"]
++    if ((findProperty('standaloneTest') ?: "false").toBoolean()) {
++        debuggableVariants = []
++    }
+ 
+     /* Bundling */
+     //   A list containing the node command and its flags. Default is just 'node'.
+@@ -96,6 +99,7 @@ android {
+         versionName "1.0.0"
+ 
+         buildConfigField "String", "REACT_NATIVE_RELEASE_LEVEL", "\"${findProperty('reactNativeReleaseLevel') ?: 'stable'}\""
++        buildConfigField "boolean", "STANDALONE_TEST", "${(findProperty('standaloneTest') ?: 'false')}"
+     }
+     signingConfigs {
+         debug {
+diff --git a/mobile/android/app/src/main/java/in/nammacrew/mobile/MainApplication.kt b/mobile/android/app/src/main/java/in/nammacrew/mobile/MainApplication.kt
+index 7fc2cfc..e6b6cc3 100644
+--- a/mobile/android/app/src/main/java/in/nammacrew/mobile/MainApplication.kt
++++ b/mobile/android/app/src/main/java/in/nammacrew/mobile/MainApplication.kt
+@@ -9,6 +9,7 @@ import com.facebook.react.ReactNativeApplicationEntryPoint.loadReactNative
+ import com.facebook.react.ReactPackage
+ import com.facebook.react.ReactHost
+ import com.facebook.react.common.ReleaseLevel
++import com.facebook.react.common.build.ReactBuildConfig
+ import com.facebook.react.defaults.DefaultNewArchitectureEntryPoint
+ 
+ import expo.modules.ApplicationLifecycleDispatcher
+@@ -23,7 +24,8 @@ class MainApplication : Application(), ReactApplication {
+         PackageList(this).packages.apply {
+           // Packages that cannot be autolinked yet can be added manually here, for example:
+           // add(MyReactNativePackage())
+-        }
++        },
++      useDevSupport = !BuildConfig.STANDALONE_TEST && ReactBuildConfig.DEBUG
+     )
+   }
+ 

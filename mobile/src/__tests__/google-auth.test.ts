@@ -29,10 +29,20 @@ test('passes server nonce to Google and exchanges token through existing backend
     expect.stringMatching(/apps.googleusercontent.com$/),
     'a'.repeat(64),
   );
-  expect(publicJson).toHaveBeenLastCalledWith('/api/v1/auth/google', {
-    challenge: 'signed-challenge',
-    idToken: 'google-token',
-  });
+  expect(publicJson).toHaveBeenNthCalledWith(
+    1,
+    '/api/v1/auth/google/challenge',
+    {},
+    90_000,
+  );
+  expect(publicJson).toHaveBeenLastCalledWith(
+    '/api/v1/auth/google',
+    {
+      challenge: 'signed-challenge',
+      idToken: 'google-token',
+    },
+    90_000,
+  );
 });
 test('cancellation never exchanges a token', async () => {
   native.signIn.mockResolvedValue({ cancelled: true });
